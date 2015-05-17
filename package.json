@@ -1,0 +1,40 @@
+{
+  "name": "react-gridview",
+  "version": "0.1.0",
+  "description": "React.js sheets",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ogaya/react-sheets.git"
+  },
+  "keywords": [
+    "react"
+  ],
+  "author": "Naoya Ogawa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ogaya/react-sheets/issues"
+  },
+  "homepage": "https://github.com/ogaya/react-sheets",
+  "dependencies": {
+    "flux": "^2.0.1",
+    "immutable": "",
+    "object-assign": "^2.0.0",
+    "react": "^0.13.0",
+    "react-helix": "^1.0.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.10",
+    "gulp-uglify": "",
+    "gulp-webpack": "^1.1.2",
+    "jsx-loader": "0.12.2",
+    "babel-loader": "^4.1.0",
+    "css-loader": "^0.10.1",
+    "style-loader": "^0.10.2",
+    "stylus-loader": "^1.1.1",
+    "rimraf": "^2.2.8",
+    "url-loader": "^0.5.5",
+    "superagent": "^0.21.0",
+    "require-dir": "",
+    "eslint-plugin-react": "^2.0.2"
+  }
+}
