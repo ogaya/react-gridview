@@ -1,8 +1,5 @@
-import {drawLine} from "./canvas-lib";
-
-export default function drawColumnHeader(
-  context, width, height, columnHeader, rowHeader) {
-    console.log(context.width);
+export default function drawColumnHeader(canvas, columnHeader, rowHeader) {
+  const context = canvas.context;
   //const headerHaight = 18;
   //塗りスタイルに青色を指定する
   //context.fillStyle = "rgb(200, 200, 200)";
@@ -11,8 +8,8 @@ export default function drawColumnHeader(
   context.fillRect(rowHeader.width, 0, columnHeader.width, columnHeader.height);
   context.strokeStyle = "#999";
   let sumWidth = rowHeader.width;
-  columnHeader.cells.map((cell) =>{
-    sumWidth = sumWidth + cell.width;
-    drawLine(context, sumWidth + 0.5, 0, sumWidth + 0.5, columnHeader.height);
+  columnHeader.Items.map((item) =>{
+    sumWidth = sumWidth + item.width;
+    canvas.drawLine(sumWidth, 0, sumWidth, columnHeader.height);
   });
 }

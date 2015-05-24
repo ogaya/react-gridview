@@ -7,6 +7,7 @@ import drawCenterHeader from "./controls/center-header";
 import drawTable from "./controls/table";
 
 import GridViewModel from "../../model";
+import CanvasModel from "../../model/canvas";
 
 import "./cells.styl";
 const Cells = React.createClass({
@@ -18,20 +19,19 @@ const Cells = React.createClass({
   _canvasRender(props){
     const id = props.id;
     const model = props.model;
-    const canvas = document.getElementById(id);
-    const width = canvas.width = canvas.offsetWidth;
-    const height = canvas.height = canvas.offsetHeight;
-    const context = canvas.getContext("2d");
-    drawCenterHeader(context,
-        width, height, model.columnHeader, model.rowHeader);
+    const canvasElement = document.getElementById(id);
+    const width = canvasElement.width = canvasElement.offsetWidth;
+    const height = canvasElement.height = canvasElement.offsetHeight;
+    const context = canvasElement.getContext("2d");
+    const canvas = new CanvasModel(context, width, height);
 
-    drawColumnHeader(context,
-      width, height, model.columnHeader, model.rowHeader);
+    drawCenterHeader(canvas, model.columnHeader, model.rowHeader);
 
-    drawRowHeader(context,
-        width, height, model.columnHeader, model.rowHeader);
+    drawColumnHeader(canvas, model.columnHeader, model.rowHeader);
 
-    drawTable(context, width, height, model);
+    drawRowHeader(canvas, model.columnHeader, model.rowHeader);
+
+    drawTable(canvas, model);
 
     //drawRowHeader(context, width, height);
     //drawGrid(context, width, height);

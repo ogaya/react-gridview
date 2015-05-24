@@ -1,11 +1,11 @@
 import {Record, List, Range}from "immutable";
-import CellModel from "./cell";
+import RowHeaderItem from "./row-header-item";
 
 export default class ColumnHeader extends Record({
   background: "#DDD",
   width: 50,
-  cells: List(Range(0, 5).map(() => {
-    return new CellModel();
+  items: List(Range(0, 5).map(() => {
+    return new RowHeaderItem();
   }))
 }) {
 
@@ -16,8 +16,8 @@ export default class ColumnHeader extends Record({
 
   get height(){
     let sumHeight = 0;
-    this.cells.map((cell) => {
-      sumHeight = sumHeight + cell.height;
+    this.items.map((item) => {
+      sumHeight = sumHeight + item.height;
     });
     return sumHeight;
   }
