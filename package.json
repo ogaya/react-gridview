@@ -23,9 +23,13 @@
     "react-helix": "^1.0.0"
   },
   "devDependencies": {
+    "babel": "",
     "gulp": "^3.8.10",
     "gulp-uglify": "",
     "gulp-webpack": "^1.1.2",
+    "gulp-babel" :"",
+    "gulp-mocha" :"",
+    "gulp-util" :"",
     "jsx-loader": "0.12.2",
     "babel-loader": "^4.1.0",
     "css-loader": "^0.10.1",

@@ -1,6 +1,9 @@
 import {Record, List, Range}from "immutable";
 import ColumnHeaderItem from "./column-header-item";
 
+const abc = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
+  "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+
 export default class ColumnHeader extends Record({
   background: "#DDD",
   height: 18,
@@ -16,9 +19,16 @@ export default class ColumnHeader extends Record({
     });
     return sumWidth;
   }
-  //static get ACTIVE() {
-  //  return 1;
-  //}
+
+  static getId(x) {
+    const num = x - 1;
+    const quotient = num / abc.length;
+    const remainder = num % abc.length;
+    const quotientStr = (quotient === 0) ? "" : abc[quotient];
+    const remainderStr = abc[remainder];
+    return quotientStr + remainderStr;
+  }
+
   //withItems(mutator) {
   //  return this.set("items", mutator(this.items));
   //}
