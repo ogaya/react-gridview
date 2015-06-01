@@ -1,18 +1,23 @@
-import {Record, List, Range}from "immutable";
+import {Record, Map, OrderedMap}from "immutable";
 import RowHeaderItem from "./row-header-item";
 
-export default class ColumnHeader extends Record({
-  background: "#DDD",
+const defCell = new RowHeaderItem();
+const emptyCell = defCell.setBackground("#DDD");
+
+
+export default class RowHeader extends Record({
   width: 50,
-  items: List(Range(0, 5).map(() => {
-    return new RowHeaderItem();
-  }))
+  maxCount: 1000,
+  editItems: Map()
 }) {
 
   setBackground(background){
     return this.set("background", background);
   }
 
+  setWidth(width){
+    return this.set("width", width);
+  }
 
   get height(){
     let sumHeight = 0;
@@ -20,6 +25,36 @@ export default class ColumnHeader extends Record({
       sumHeight = sumHeight + item.height;
     });
     return sumHeight;
+  }
+
+  setItem(index, item){
+    const editItems = this.editItems.set(index, item);
+    return this.set("editItems", editItems);
+  }
+
+  setMaxCount(count){
+    return this.set("maxCount", count);
+  }
+
+  _rowNoToItem(rowNo){
+    if (this.editItems.has(rowNo)) {
+      return this.editItems.get(rowNo);
+    }
+    return emptyCell.setValue(rowNo);
+  }
+
+  get items(){
+    if(this._items){
+      return this._items;
+    }
+    this._items = OrderedMap().withMutations(map =>{
+      for(let i = 0; i < this.maxCount; i++){
+        const rowNo = i + 1;
+        const item = this._rowNoToItem(rowNo);
+        map.set(rowNo, item);
+      }
+    });
+    return this._items;
   }
 
 }

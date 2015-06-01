@@ -10,7 +10,7 @@ export default class CanvasModel extends Record({
     super({context: context, width: width, height: height});
   }
 
-
+  // 直線を引く
   drawLine(x1, y1, x2, y2) {
     const context = this.context;
     context.beginPath();
@@ -19,6 +19,7 @@ export default class CanvasModel extends Record({
     context.stroke();
   }
 
+  // 点線を引く
   drawDashedLine(x, y, x2, y2, dashArray) {
     const context = this.context;
     context.beginPath();
@@ -49,5 +50,16 @@ export default class CanvasModel extends Record({
       draw = !draw;
     }
     context.stroke();
+  }
+
+  drawRecine(rect) {
+    // 上ライン
+    this.drawLine(rect.left, rect.top, rect.right, rect.top);
+    // 右ライン
+    this.drawLine(rect.right, rect.top, rect.right, rect.bottom);
+    // 下ライン
+    this.drawLine(rect.left, rect.bottom, rect.right, rect.bottom);
+    // 左ライン
+    this.drawLine(rect.left, rect.top, rect.left, rect.bottom);
   }
 }

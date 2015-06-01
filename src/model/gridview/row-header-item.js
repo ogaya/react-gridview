@@ -9,4 +9,14 @@ export default class RowHeaderItem extends Record({
   setHeight(height) {
     return this.set("height", height);
   }
+
+  setValue(value) {
+    const cell = this.cell.setValue(value);
+    return this.set("cell", cell);
+  }
+
+  setBackground(background) {
+    const cell = this.cell.setBackground(background);
+    return this.set("cell", cell);
+  }
 }

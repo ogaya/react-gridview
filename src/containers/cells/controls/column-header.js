@@ -3,13 +3,19 @@ export default function drawColumnHeader(canvas, columnHeader, rowHeader) {
   //const headerHaight = 18;
   //塗りスタイルに青色を指定する
   //context.fillStyle = "rgb(200, 200, 200)";
-  context.fillStyle = columnHeader.background;
+  context.fillStyle = "#BDD";
   //左から20上から20の位置に幅50高さ50の塗りつぶしの四角形を描く
   context.fillRect(rowHeader.width, 0, columnHeader.width, columnHeader.height);
   context.strokeStyle = "#999";
+  context.lineWidth = 1;
   let sumWidth = rowHeader.width;
-  columnHeader.Items.map((item) =>{
+  const items = columnHeader.items.toArray();
+  for (let key in items) {
+    const item = items[key];
     sumWidth = sumWidth + item.width;
+    if(sumWidth > canvas.width){
+      break;
+    }
     canvas.drawLine(sumWidth, 0, sumWidth, columnHeader.height);
-  });
+  }
 }

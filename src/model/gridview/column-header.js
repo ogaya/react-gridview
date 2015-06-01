@@ -1,20 +1,21 @@
-import {Record, List, Range}from "immutable";
+import {Record, Map, OrderedMap}from "immutable";
 import ColumnHeaderItem from "./column-header-item";
 
-const abc = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
-  "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+const abc = ["A", "B", "C", "D", "E", "F",
+  "G", "H", "I", "J", "K", "L", "M", "N", "O",
+  "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+
+const defCell = new ColumnHeaderItem();
+const emptyCell = defCell.setBackground("#DDD");
 
 export default class ColumnHeader extends Record({
-  background: "#DDD",
   height: 18,
-  Items: List(Range(0, 5).map(() => {
-    return new ColumnHeaderItem();
-  }))
+  maxCount: 702,
+  editItems: Map()
 }) {
-
   get width(){
     let sumWidth = 0;
-    this.Items.map((item) => {
+    this.items.map((item) => {
       sumWidth = sumWidth + item.width;
     });
     return sumWidth;
@@ -22,14 +23,38 @@ export default class ColumnHeader extends Record({
 
   static getId(x) {
     const num = x - 1;
-    const quotient = num / abc.length;
+    const quotient = Math.floor(num / abc.length) - 1;
     const remainder = num % abc.length;
-    const quotientStr = (quotient === 0) ? "" : abc[quotient];
+    const quotientStr = (quotient < 0) ? "" : abc[quotient];
     const remainderStr = abc[remainder];
     return quotientStr + remainderStr;
   }
 
-  //withItems(mutator) {
-  //  return this.set("items", mutator(this.items));
-  //}
+  setItem(index, item){
+    const editItems = this.editItems.set(index, item);
+    return this.set("editItems", editItems);
+  }
+
+  setMaxCount(count){
+    return this.set("maxCount", count);
+  }
+
+  get items(){
+    if(this._items){
+      return this._items;
+    }
+    this._items = OrderedMap().withMutations(map =>{
+      for(let i = 0; i < this.maxCount; i++){
+        const columnNo = i + 1;
+        const value = ColumnHeader.getId(columnNo);
+        if (this.editItems.has(columnNo)) {
+          map.set(columnNo, this.editItems.get(columnNo));
+          continue;
+        }
+        map.set(columnNo, emptyCell.setValue(value));
+      }
+    });
+
+    return this._items;
+  }
 }

@@ -5,10 +5,12 @@ import drawColumnHeader from "./controls/column-header";
 import drawRowHeader from "./controls/row-header";
 import drawCenterHeader from "./controls/center-header";
 import drawTable from "./controls/table";
+import drawOperation from "./controls/operation";
 
 import GridViewModel from "../../model/gridview";
 import CanvasModel from "../../model/canvas";
 import OperationModel from "../../model/operation";
+import {targetToRect} from "./controls/lib";
 
 const style =  {
   width: "100%",
@@ -37,24 +39,30 @@ const Cells = React.createClass({
     drawColumnHeader(canvas, model.columnHeader, model.rowHeader);
     drawRowHeader(canvas, model.columnHeader, model.rowHeader);
     drawTable(canvas, model);
+    drawOperation(canvas, model, props.operation);
 
     return false;
   },
   _handleResize() {
     this._canvasRender(this.props);
   },
-  _keyDown(e){
-    console.log(e);
-    const input = this.props.operation.input.setIsInputing(true);
-    const ope = this.props.operation.setInput(input);
+  // キー王梶の処理
+  _keyDown(){
+
+    // inputエリアを表示させる
+    const opeModel = this.props.operation;
+    const target = opeModel.select.target;
+    const rect = targetToRect(this.props.model, target);
+    const input = opeModel.input
+      .setIsInputing(true)
+      .setRect(rect)
+      .setTarget(target);
+    const ope = opeModel.setInput(input);
     this.props.onOperationChange(ope);
   },
   componentDidMount(){
     window.addEventListener('resize', this._handleResize);
     this._canvasRender(this.props);
-
-    document.getElementById(this.props.id).onkeydown = this._keyDown;
-
   },
   componentWillUnmount() {
     window.removeEventListener('resize', this._handleResize);
@@ -65,13 +73,19 @@ const Cells = React.createClass({
     return false;
   },
   _onClick(e){
-    console.log(e);
-    console.log(e.clientX);
+    const model = this.props.model;
+    const operation = this.props.operation;
+
+    // クリックポイントから選択対象を算出する
+    const target = model.pointToTarget(e.clientX, e.clientY);
+    const select = operation.select.setTarget(target);
+    // 操作モデルを変更する
+    this.props.onOperationChange(operation.setSelect(select));
   },
   render: function () {
     return (
       <canvas contentEditable  id={this.props.id} style={style}
-        onClick={this._onClick}/>
+        onMouseDown={this._onClick} onKeyDown={this._keyDown}/>
     );
   }
 });

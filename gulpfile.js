@@ -7,8 +7,9 @@ var webpackSampleConfig = require("./webpack-sample.config.js");
 var uglify = require("gulp-uglify");
 
 var mocha = require('gulp-mocha');
-var gutil = require('gulp-util');
+//var gutil = require('gulp-util');
 var babel = require('gulp-babel');
+var espower = require('gulp-espower');
 
 gulp.task("cleanBuild", function(cb) {
   var rimraf = require("rimraf");
@@ -40,12 +41,15 @@ gulp.task("sample", function() {
 
 gulp.task('mocha', function() {
   require('babel/register');
+  //require('intelli-espower-loader');
 
   //return gulp.src(['./test/model/*.js'], { read: false })
   return gulp.src('./test/**/*.js')
     .pipe(babel())
-    .pipe(mocha({ reporter: 'list'}))
-    .on('error', gutil.log);
+    .pipe(espower())
+    .pipe(mocha({}));
+    //.pipe(mocha({ reporter: 'list'}));
+    //.on('error', gutil.log);
 });
 
 gulp.task('test', function() {

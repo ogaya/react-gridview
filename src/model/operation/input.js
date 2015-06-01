@@ -3,13 +3,19 @@ import {Record}from "immutable";
 
 export default class InputModel extends Record({
   isInputing: false,
-  top: 0,
-  left: 0,
-  width: 18,
-  height: 50
+  target: null,
+  rect: null
 }) {
 
   setIsInputing(isInputing){
     return this.set("isInputing", isInputing);
+  }
+
+  setRect(rect){
+    return this.set("rect", rect);
+  }
+
+  setTarget(target){
+    return this.set("target", target);
   }
 }
