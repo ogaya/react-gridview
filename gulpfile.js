@@ -11,6 +11,38 @@ var mocha = require('gulp-mocha');
 var babel = require('gulp-babel');
 var espower = require('gulp-espower');
 
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
+
+//gulp.task("brow", function() {
+  //gulp.src("src/react-gridview.jsx")
+  //  .pipe(browserify({
+  //    transform: ['babelify'],
+  //    extensions: [".js", ".jsx"]
+  //  }))
+  //  .on('prebundle', function(bundle) {
+  //    bundle.external('react');
+  //    bundle.external('immutable');
+  //  })
+  //  .pipe(gulp.dest("./dist"));
+
+
+//});
+
+gulp.task("brow", function() {
+
+
+    return browserify({
+      entries: ["./src/react-gridview.jsx"],
+      extensions: [".js", ".jsx"]
+    })
+    .external('react')
+    .external('immutable')
+    .bundle()
+    .pipe(source('bundle.js'))
+    .pipe(gulp.dest('./dist'));
+});
+
 gulp.task("cleanBuild", function(cb) {
   var rimraf = require("rimraf");
   rimraf("./dist/*", cb);

@@ -22,13 +22,21 @@
     "react": "^0.13.0",
     "react-helix": "^1.0.0"
   },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  },
   "devDependencies": {
     "babel": "",
     "babel-loader": "^4.1.0",
+    "babelify": "^6.1.2",
+    "browserify": "^10.2.3",
     "css-loader": "^0.10.1",
     "eslint-plugin-react": "^2.0.2",
     "gulp": "^3.8.10",
     "gulp-babel": "",
+    "gulp-browserify": "^0.5.1",
     "gulp-espower": "^0.10.1",
     "gulp-mocha": "",
     "gulp-uglify": "",
@@ -41,6 +49,7 @@
     "style-loader": "^0.10.2",
     "stylus-loader": "^1.1.1",
     "superagent": "^0.21.0",
-    "url-loader": "^0.5.5"
+    "url-loader": "^0.5.5",
+    "vinyl-source-stream": "^1.1.0"
   }
 }
