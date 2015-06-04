@@ -1,7 +1,11 @@
 module.exports = {
   entry: "./src/react-gridview.jsx",
   output: {
-    filename: "./dist/[name].js"
+    filename: "./dist/react-gridview.js",
+    libraryTarget: "commonjs"
+  },
+  externals: {
+    react: true
   },
 
   module: {

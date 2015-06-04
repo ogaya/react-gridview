@@ -1,6 +1,6 @@
 import React from "react";
-import GridView from "../src/react-gridview";
-
+import GridView from "../dist/react-gridview.js";
+//import {StageMixin} from "../dist/react-helix";
 const Main = React.createClass({
     render: function() {
         return (
