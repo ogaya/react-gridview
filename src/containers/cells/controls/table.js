@@ -1,7 +1,11 @@
-import {Rect, Target} from "../../../model/common";
+import {Rect, Target, VERTICAL_ALIGN} from "../../../model/common";
 
 // セルの描画
 function drawCell(canvas, model, rect, target){
+
+  //verticalAlign.top = 33;
+
+  console.log(VERTICAL_ALIGN.TOP);
 
   const item = model.getCell(target);
   canvas.context.fillStyle = item.background;

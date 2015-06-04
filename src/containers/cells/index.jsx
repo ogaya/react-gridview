@@ -46,7 +46,7 @@ const Cells = React.createClass({
   _handleResize() {
     this._canvasRender(this.props);
   },
-  // キー王梶の処理
+  // キー入力の処理
   _keyDown(){
 
     // inputエリアを表示させる

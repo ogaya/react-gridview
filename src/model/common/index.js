@@ -1,42 +1,21 @@
-import {Record} from "immutable";
-export class Rect extends Record({
-  left: 0,
-  top: 0,
-  width: 0,
-  height: 0
-}) {
+import {Rect} from "./rect";
+import {Target} from "./target";
 
-  constructor(left, top, width, height) {
-    super({
-      left: left,
-      top: top,
-      width: width,
-      height: height
-    });
-  }
+const VERTICAL_ALIGN = Object.freeze({
+  TOP: "TOP",
+  MIDDLE: "MIDDLE",
+  BOTTOM: "BOTTOM"
+});
 
-  get right(){
-    return this.left + this.width;
-  }
+const TEXT_ALIGN = Object.freeze({
+  LEFT: "LEFT",
+  CENTER: "CENTER",
+  RIGHT: "RIGHT"
+});
 
-  get bottom(){
-    return this.top + this.height;
-  }
-}
-
-export class Target extends Record({
-  columnNo: 0,
-  rowNo: 0
-}) {
-
-  constructor(columnNo, rowNo) {
-    super({
-      columnNo: Number(columnNo),
-      rowNo: Number(rowNo)
-    });
-  }
-
-  toId(){
-    return  this.columnNo + "-" + this.rowNo;
-  }
-}
+export {
+  Rect,
+  Target,
+  VERTICAL_ALIGN,
+  TEXT_ALIGN
+};
