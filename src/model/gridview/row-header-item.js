@@ -1,8 +1,14 @@
 import {Record} from "immutable";
 import CellModel from "./cell";
+import {VERTICAL_ALIGN, TEXT_ALIGN} from "../common";
+const emptyCell = new CellModel();
+const defCell = emptyCell
+  .setVerticalAlign(VERTICAL_ALIGN.MIDDLE)
+  .setTextAlign(TEXT_ALIGN.RIGHT);
+
 
 export default class RowHeaderItem extends Record({
-  cell: new CellModel(),
+  cell: defCell,
   height: 18
 }) {
 

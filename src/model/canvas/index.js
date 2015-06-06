@@ -1,5 +1,5 @@
 import {Record} from "immutable";
-
+import {drawFillText} from "./draw-text";
 export default class CanvasModel extends Record({
   context: null,
   width: 0,
@@ -8,6 +8,10 @@ export default class CanvasModel extends Record({
 
   constructor(context, width, height) {
     super({context: context, width: width, height: height});
+  }
+
+  drawText(value, rect, textAligin, verticalAlign){
+    drawFillText(this.context, value, rect, textAligin, verticalAlign);
   }
 
   // 直線を引く

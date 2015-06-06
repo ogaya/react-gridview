@@ -24,4 +24,12 @@ export class Rect extends Record({
   get bottom(){
     return this.top + this.height;
   }
+
+  get middle(){
+    return this.top + this.height / 2;
+  }
+
+  get center(){
+    return this.left + this.width / 2;
+  }
 }

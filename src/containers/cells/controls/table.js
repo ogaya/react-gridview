@@ -1,11 +1,7 @@
-import {Rect, Target, VERTICAL_ALIGN} from "../../../model/common";
+import {Rect, Target} from "../../../model/common";
 
 // セルの描画
 function drawCell(canvas, model, rect, target){
-
-  //verticalAlign.top = 33;
-
-  console.log(VERTICAL_ALIGN.TOP);
 
   const item = model.getCell(target);
   canvas.context.fillStyle = item.background;
@@ -14,7 +10,8 @@ function drawCell(canvas, model, rect, target){
   canvas.drawLine(rect.right, rect.top, rect.right, rect.bottom);
   canvas.drawLine(rect.left, rect.bottom, rect.right, rect.bottom);
   canvas.context.fillStyle = "#333";
-  canvas.context.fillText(item.value, rect.left, rect.top);
+  canvas.drawText(item.value, rect, item.textAlign, item.verticalAlign);
+  //canvas.context.fillText(item.value, rect.left, rect.top);
 }
 
 // 行内の列描画

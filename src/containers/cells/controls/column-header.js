@@ -1,3 +1,5 @@
+import {Rect} from "../../../model/common";
+
 export default function drawColumnHeader(canvas, columnHeader, rowHeader) {
   const context = canvas.context;
   //const headerHaight = 18;
@@ -12,10 +14,15 @@ export default function drawColumnHeader(canvas, columnHeader, rowHeader) {
   const items = columnHeader.items.toArray();
   for (let key in items) {
     const item = items[key];
+
+    const rect = new Rect(sumWidth, 0, item.width, columnHeader.height);
     sumWidth = sumWidth + item.width;
     if(sumWidth > canvas.width){
       break;
     }
     canvas.drawLine(sumWidth, 0, sumWidth, columnHeader.height);
+
+    canvas.context.fillStyle = "#333";
+    canvas.drawText(item.cell.value, rect, item.cell.textAlign, item.cell.verticalAlign);
   }
 }
