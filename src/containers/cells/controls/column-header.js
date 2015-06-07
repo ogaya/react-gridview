@@ -1,6 +1,6 @@
 import {Rect} from "../../../model/common";
 
-export default function drawColumnHeader(canvas, columnHeader, rowHeader) {
+export default function drawColumnHeader(canvas, columnHeader, rowHeader, opeModel) {
   const context = canvas.context;
   //const headerHaight = 18;
   //塗りスタイルに青色を指定する
@@ -10,8 +10,10 @@ export default function drawColumnHeader(canvas, columnHeader, rowHeader) {
   context.fillRect(rowHeader.width, 0, columnHeader.width, columnHeader.height);
   context.strokeStyle = "#999";
   context.lineWidth = 1;
+
+  const columnNo = opeModel.scroll.columnNo;
   let sumWidth = rowHeader.width;
-  const items = columnHeader.items.toArray();
+  const items = columnHeader.items.skip(columnNo - 1).toArray();
   for (let key in items) {
     const item = items[key];
 

@@ -15,10 +15,10 @@ function drawCell(canvas, model, rect, target){
 }
 
 // 行内の列描画
-function drawColumn(canvas, model, index, top, rowHeaderItem) {
-
+function drawColumn(canvas, model, index, top, rowHeaderItem, opeModel) {
+  const columnNo = opeModel.scroll.columnNo;
   let left = model.rowHeader.width;
-  const items = model.columnHeader.items.toArray();
+  const items = model.columnHeader.items.skip(columnNo - 1).toArray();
   for(let key in items){
     const item = items[key];
     const width = item.width;
@@ -29,19 +29,19 @@ function drawColumn(canvas, model, index, top, rowHeaderItem) {
       return;
     }
     const rect = new Rect(left, top, width, height);
-    const target = new Target(Number(key) + 1, Number(index) + 1);
+    const target = new Target(Number(key) + columnNo, Number(index) + 1);
     drawCell(canvas, model, rect, target);
     left = left + item.width;
   }
 }
 
 // 行毎の描画
-export default function drawTable(canvas, model) {
+export default function drawTable(canvas, model, opeModel) {
   let top = model.columnHeader.height;
   const items = model.rowHeader.items.toArray();
   for(let key in items){
     const item = items[key];
-    drawColumn(canvas, model, key, top, item);
+    drawColumn(canvas, model, key, top, item, opeModel);
     top = top + item.height;
 
     const heightOver = (canvas.height < top);

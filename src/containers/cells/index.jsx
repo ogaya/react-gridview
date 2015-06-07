@@ -21,25 +21,24 @@ const style =  {
 const Cells = React.createClass({
   displayName: "Gridview-Cells",
   propTypes: {
-    id: React.PropTypes.string,
     model: React.PropTypes.instanceOf(GridViewModel),
-    operation: React.PropTypes.instanceOf(OperationModel),
+    opeModel: React.PropTypes.instanceOf(OperationModel),
     onOperationChange: React.PropTypes.func
   },
   _canvasRender(props){
-    const id = props.id;
     const model = props.model;
-    const canvasElement = document.getElementById(id);
+    const opeModel = props.opeModel;
+    const canvasElement = this.refs.gwcells.getDOMNode();
     const width = canvasElement.width = canvasElement.offsetWidth;
     const height = canvasElement.height = canvasElement.offsetHeight;
     const context = canvasElement.getContext("2d");
     const canvas = new CanvasModel(context, width, height);
 
     drawCenterHeader(canvas, model.columnHeader, model.rowHeader);
-    drawColumnHeader(canvas, model.columnHeader, model.rowHeader);
+    drawColumnHeader(canvas, model.columnHeader, model.rowHeader, opeModel);
     drawRowHeader(canvas, model.columnHeader, model.rowHeader);
-    drawTable(canvas, model);
-    drawOperation(canvas, model, props.operation);
+    drawTable(canvas, model, opeModel);
+    drawOperation(canvas, model, props.opeModel);
 
     return false;
   },
@@ -50,7 +49,7 @@ const Cells = React.createClass({
   _keyDown(){
 
     // inputエリアを表示させる
-    const opeModel = this.props.operation;
+    const opeModel = this.props.opeModel;
     const target = opeModel.select.target;
     const rect = targetToRect(this.props.model, target);
     const input = opeModel.input
@@ -74,17 +73,17 @@ const Cells = React.createClass({
   },
   _onClick(e){
     const model = this.props.model;
-    const operation = this.props.operation;
+    const opeModel = this.props.opeModel;
 
     // クリックポイントから選択対象を算出する
     const target = model.pointToTarget(e.clientX, e.clientY);
-    const select = operation.select.setTarget(target);
+    const select = opeModel.select.setTarget(target);
     // 操作モデルを変更する
-    this.props.onOperationChange(operation.setSelect(select));
+    this.props.onOperationChange(opeModel.setSelect(select));
   },
   render: function () {
     return (
-      <canvas contentEditable  id={this.props.id} style={style}
+      <canvas contentEditable ref="gwcells" style={style}
         onMouseDown={this._onClick} onKeyDown={this._keyDown}/>
     );
   }

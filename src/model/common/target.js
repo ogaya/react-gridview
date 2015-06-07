@@ -13,6 +13,14 @@ export class Target extends Record({
     });
   }
 
+  setColumnNo(columnNo){
+    return this.set("columnNo", columnNo);
+  }
+
+  setRowNo(rowNo){
+    return this.set("rowNo", rowNo);
+  }
+
   toId(){
     return  this.columnNo + "-" + this.rowNo;
   }

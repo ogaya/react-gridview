@@ -8,6 +8,8 @@ import Inputer from "./containers/inputer";
 import GridViewModel from "./model/gridview";
 import OperationModel from "./model/operation";
 
+import {Horizontalbar} from "./containers/scrollbar";
+
 const style = {
   width: "100%",
   height: "100%",
@@ -19,12 +21,10 @@ const style = {
 const GridView = React.createClass({
   displayName: "gridview",
   propTypes: {
-    id: React.PropTypes.string,
     model: React.PropTypes.instanceOf(GridViewModel)
   },
   getDefaultProps() {
     return {
-      id: "gridview-canvas01",
       model: new GridViewModel()
     };
   },
@@ -53,9 +53,10 @@ const GridView = React.createClass({
         onOperationChange={this._onOperationChange} /> : null;
     return (
       <div style={style}>
-        <Cells id={this.props.id} onOperationChange={this._onOperationChange}
-          model={model} operation={operation} />
+        <Cells onOperationChange={this._onOperationChange}
+          model={model} opeModel={operation} />
         {inputer}
+        <Horizontalbar opeModel={operation} onOperationChange={this._onOperationChange}/>
       </div>
     );
   }
