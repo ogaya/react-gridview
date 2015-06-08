@@ -8,6 +8,6 @@ export default function drawOperation(canvas, viewModel, opeModel) {
   }
   canvas.context.strokeStyle = "#9AD";
   canvas.context.lineWidth = 5;
-  const rect = targetToRect(viewModel, target);
+  const rect = targetToRect(viewModel, target, opeModel.scroll);
   canvas.drawRecine(rect);
 }

@@ -34,14 +34,15 @@ export default class GridView extends Record({
     return this.set("table", table);
   }
 
-  pointToColumnNo(pointX){
+  pointToColumnNo(pointX, offsetColumn){
     let sumWidth = this.rowHeader.width;
+    const offset = (offsetColumn || 1) - 1;
     if (pointX < sumWidth){
       return 0;
     }
 
     let key = 0;
-    const target = this.columnHeader.items.find((item, index) => {
+    const target = this.columnHeader.items.skip(offset).find((item, index) => {
       const nextWidth = sumWidth + item.width;
       key = index;
       if ((sumWidth <= pointX) && (pointX < nextWidth)){
@@ -50,17 +51,19 @@ export default class GridView extends Record({
       sumWidth = nextWidth;
       return false;
     });
+    
     return (target) ? key : -1;
   }
 
-  pointToRowNo(pointY){
+  pointToRowNo(pointY, offsetRow){
     let sumHeight = this.columnHeader.height;
+    const offset = (offsetRow || 1) - 1;
     if (pointY < sumHeight){
       return 0;
     }
 
     let key = 0;
-    const target = this.rowHeader.items.find((item, index) => {
+    const target = this.rowHeader.items.skip(offset).find((item, index) => {
       const nextHeight = sumHeight + item.height;
       key = index;
       if ((sumHeight <= pointY) && (pointY < nextHeight)){
@@ -72,10 +75,12 @@ export default class GridView extends Record({
     return (target) ? key : -1;
   }
 
-  pointToTarget(pointX, pointY){
+  pointToTarget(pointX, pointY, scroll){
 
-    const columnNo = this.pointToColumnNo(pointX);
-    const rowNo = this.pointToRowNo(pointY);
+    const offsetColumnNo = (scroll && scroll.columnNo) || 1;
+    const offsetRowNo = (scroll && scroll.rowNo) || 1;
+    const columnNo = this.pointToColumnNo(pointX, offsetColumnNo);
+    const rowNo = this.pointToRowNo(pointY, offsetRowNo);
 
     return new Target(columnNo, rowNo);
   }

@@ -51,7 +51,7 @@ const Cells = React.createClass({
     // inputエリアを表示させる
     const opeModel = this.props.opeModel;
     const target = opeModel.select.target;
-    const rect = targetToRect(this.props.model, target);
+    const rect = targetToRect(this.props.model, target, opeModel.scroll);
     const input = opeModel.input
       .setIsInputing(true)
       .setRect(rect)
@@ -76,7 +76,7 @@ const Cells = React.createClass({
     const opeModel = this.props.opeModel;
 
     // クリックポイントから選択対象を算出する
-    const target = model.pointToTarget(e.clientX, e.clientY);
+    const target = model.pointToTarget(e.clientX, e.clientY, opeModel.scroll);
     const select = opeModel.select.setTarget(target);
     // 操作モデルを変更する
     this.props.onOperationChange(opeModel.setSelect(select));

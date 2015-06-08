@@ -23,9 +23,10 @@ const  Horizontalbar  = React.createClass({
     return style;
   },
   _onscroll(e){
+    const point = Math.floor(e.target.scrollLeft / 100);
     const opeModel = this.props.opeModel;
     const scroll = opeModel.scroll
-      .setColumnNo(e.target.scrollLeft + 1);
+      .setColumnNo(point + 1);
     this.props.onOperationChange(opeModel.setScroll(scroll));
   },
   render() {
