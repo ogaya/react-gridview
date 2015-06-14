@@ -51,10 +51,10 @@ export default class GridView extends Record({
       sumWidth = nextWidth;
       return false;
     });
-    
     return (target) ? key : -1;
   }
 
+  // Ｙ座標から、行番号を算出する
   pointToRowNo(pointY, offsetRow){
     let sumHeight = this.columnHeader.height;
     const offset = (offsetRow || 1) - 1;
@@ -75,6 +75,7 @@ export default class GridView extends Record({
     return (target) ? key : -1;
   }
 
+  // 座標からセル位置を取得する
   pointToTarget(pointX, pointY, scroll){
 
     const offsetColumnNo = (scroll && scroll.columnNo) || 1;

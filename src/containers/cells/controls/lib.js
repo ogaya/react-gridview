@@ -37,6 +37,7 @@ function targetToLeft(model, target, offset){
   return left;
 }
 
+// 対象セルの位置を取得する
 export function targetToRect(model, target, scroll) {
   const offsetColumnNo = (scroll && scroll.columnNo) || 1;
   const offsetX = offsetColumnNo - 1;

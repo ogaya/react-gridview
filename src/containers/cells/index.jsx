@@ -11,6 +11,7 @@ import GridViewModel from "../../model/gridview";
 import CanvasModel from "../../model/canvas";
 import OperationModel from "../../model/operation";
 import {targetToRect} from "./controls/lib";
+import {Point} from "../../model/common";
 
 const style =  {
   width: "100%",
@@ -59,12 +60,23 @@ const Cells = React.createClass({
     const ope = opeModel.setInput(input);
     this.props.onOperationChange(ope);
   },
+  _onMouseDown(){
+    //console.log(e);
+  },
+  _onMouseMove(e){
+    // テーブル上の座標を取得
+    const point = new Point(e.offsetX, e.offsetY);
+  },
   componentDidMount(){
     window.addEventListener('resize', this._handleResize);
+    window.addEventListener('mousedown', this._onMouseDown);
+    window.addEventListener('mousemove', this._onMouseMove);
     this._canvasRender(this.props);
   },
   componentWillUnmount() {
     window.removeEventListener('resize', this._handleResize);
+    window.removeEventListener('mousedown', this._onMouseDown);
+    window.removeEventListener('mousemove', this._onMouseMove);
   },
   //shouldComponentUpdate(nextProps, nextState){
   shouldComponentUpdate(nextProps) {

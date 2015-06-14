@@ -1,5 +1,6 @@
 import {Rect} from "./rect";
 import {Target} from "./target";
+import {Point} from "./point";
 
 const VERTICAL_ALIGN = Object.freeze({
   TOP: "TOP",
@@ -13,9 +14,13 @@ const TEXT_ALIGN = Object.freeze({
   RIGHT: "RIGHT"
 });
 
+const RESIZER_BORDER_WIDTH = 2;
+
 export {
   Rect,
   Target,
+  Point,
   VERTICAL_ALIGN,
-  TEXT_ALIGN
+  TEXT_ALIGN,
+  RESIZER_BORDER_WIDTH
 };

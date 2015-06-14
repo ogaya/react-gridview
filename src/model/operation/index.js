@@ -20,5 +20,4 @@ export default class Operation extends Record({
   setScroll(scroll){
     return this.set("scroll", scroll);
   }
-
 }
