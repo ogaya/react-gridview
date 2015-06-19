@@ -3,8 +3,13 @@ import ColumnHeaderModel from "./column-header";
 import RowHeaderModel from "./row-header";
 import {Target} from "../common";
 import CellModel from "./cell";
+import {OBJECT_TYPE} from "./object-type";
 
 const emptyCell = new CellModel();
+
+export {
+  OBJECT_TYPE
+};
 
 export default class GridView extends Record({
   columnHeader: new ColumnHeaderModel(),

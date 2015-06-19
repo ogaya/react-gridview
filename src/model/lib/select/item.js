@@ -4,13 +4,15 @@ import {Record} from "immutable";
 class SelectInfo extends Record({
   objectType: null,
   target: null,
+  point: null,
   rect: null
 }) {
 
-  constructor(objectType, target, rect) {
+  constructor(objectType, target, rect, point) {
     super({
       objectType: objectType,
       target: target,
+      point: point,
       rect: rect
     });
   }

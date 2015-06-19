@@ -1,6 +1,6 @@
 'use strict';
 
-import {pickColumnHeader} from "../../../src/model/lib/select";
+import {pickColumnHeader, pointToGridViewItem} from "../../../src/model/lib/select";
 import {pointToColumnInfo, ColumnInfo} from "../../../src/model/lib/select/scanColumn";
 import {pointToRowInfo, RowInfo} from "../../../src/model/lib/select/scanRow";
 import GridViewModel from "../../../src/model/gridview";
@@ -82,6 +82,20 @@ describe("pointToRowInfo", function() {
     // 高さ
     assert.equal(rowInfo.height, viewModel.rowHeader.items.get(2).height);
   });
+});
+describe("pointToGridViewItem", function() {
+  const viewModel = new GridViewModel();
+  const opeModel = new OperationModel();
+
+  it("CELL", function() {
+
+    const point = new Point(51, 20);
+
+    const item = pointToGridViewItem(viewModel, opeModel, point);
+    // 対象列番号
+    assert.equal(item.objectType, OBJECT_TYPE.CELL);
+  });
+
 });
 
 // 列情報検索のテスト

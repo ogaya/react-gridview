@@ -12,12 +12,16 @@ import CanvasModel from "../../model/canvas";
 import OperationModel from "../../model/operation";
 import {targetToRect} from "./controls/lib";
 import {Point} from "../../model/common";
+import {pointToGridViewItem} from "../../model/lib/select";
+
 
 const style =  {
   width: "100%",
   height: "100%",
   outline: "none"
 };
+
+const STYLE_STRING = "width:100%;height:100%;outline:none;";
 
 const Cells = React.createClass({
   displayName: "Gridview-Cells",
@@ -41,6 +45,9 @@ const Cells = React.createClass({
     drawTable(canvas, model, opeModel);
     drawOperation(canvas, model, props.opeModel);
 
+    // マウスカーソル変更
+    const styleStr = STYLE_STRING + "cursor:" + opeModel.HoverCursor;
+    canvasElement.setAttribute("style", styleStr);
     return false;
   },
   _handleResize() {
@@ -51,7 +58,10 @@ const Cells = React.createClass({
 
     // inputエリアを表示させる
     const opeModel = this.props.opeModel;
-    const target = opeModel.select.target;
+    const target = opeModel.selectItem && opeModel.selectItem.target;
+    if(!target){
+      return;
+    }
     const rect = targetToRect(this.props.model, target, opeModel.scroll);
     const input = opeModel.input
       .setIsInputing(true)
@@ -60,43 +70,56 @@ const Cells = React.createClass({
     const ope = opeModel.setInput(input);
     this.props.onOperationChange(ope);
   },
-  _onMouseDown(){
-    //console.log(e);
+  _onMouseUp(e){
+    const point = new Point(e.offsetX, e.offsetY);
+    
+    const opeModel = this.props.opeModel;
+    const ope = opeModel.setOpeItem(null);
+    this.props.onOperationChange(ope);
   },
-  _onMouseMove(e){
+  _onMouseDown(e){
+    const viewModel = this.props.model;
+    const opeModel = this.props.opeModel;
     // テーブル上の座標を取得
     const point = new Point(e.offsetX, e.offsetY);
+
+    const item = pointToGridViewItem(viewModel, opeModel, point);
+    const ope = opeModel.setSelectItem(item).setOpeItem(item);
+    this.props.onOperationChange(ope);
+  },
+  _onMouseMove(e){
+    const viewModel = this.props.model;
+    const opeModel = this.props.opeModel;
+    // テーブル上の座標を取得
+    const point = new Point(e.offsetX, e.offsetY);
+
+    const item = pointToGridViewItem(viewModel, opeModel, point);
+    const ope = opeModel.setHoverItem(item);
+
+    this.props.onOperationChange(ope);
+
   },
   componentDidMount(){
     window.addEventListener('resize', this._handleResize);
     window.addEventListener('mousedown', this._onMouseDown);
     window.addEventListener('mousemove', this._onMouseMove);
+    window.addEventListener('mouseup', this._onMouseUp);
     this._canvasRender(this.props);
   },
   componentWillUnmount() {
     window.removeEventListener('resize', this._handleResize);
     window.removeEventListener('mousedown', this._onMouseDown);
     window.removeEventListener('mousemove', this._onMouseMove);
+    window.removeEventListener('mouseup', this._onMouseUp);
   },
   //shouldComponentUpdate(nextProps, nextState){
   shouldComponentUpdate(nextProps) {
     this._canvasRender(nextProps);
     return false;
   },
-  _onClick(e){
-    const model = this.props.model;
-    const opeModel = this.props.opeModel;
-
-    // クリックポイントから選択対象を算出する
-    const target = model.pointToTarget(e.clientX, e.clientY, opeModel.scroll);
-    const select = opeModel.select.setTarget(target);
-    // 操作モデルを変更する
-    this.props.onOperationChange(opeModel.setSelect(select));
-  },
   render: function () {
     return (
-      <canvas contentEditable ref="gwcells" style={style}
-        onMouseDown={this._onClick} onKeyDown={this._keyDown}/>
+      <canvas contentEditable ref="gwcells" style={style} onKeyDown={this._keyDown}/>
     );
   }
 });

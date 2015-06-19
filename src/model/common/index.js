@@ -1,7 +1,7 @@
 import {Rect} from "./rect";
 import {Target} from "./target";
 import {Point} from "./point";
-
+import {COLOR} from "./color";
 const VERTICAL_ALIGN = Object.freeze({
   TOP: "TOP",
   MIDDLE: "MIDDLE",
@@ -14,7 +14,10 @@ const TEXT_ALIGN = Object.freeze({
   RIGHT: "RIGHT"
 });
 
-const RESIZER_BORDER_WIDTH = 2;
+// リサイザーの幅
+const RESIZER_BORDER_WIDTH = 4;
+
+
 
 export {
   Rect,
@@ -22,5 +25,6 @@ export {
   Point,
   VERTICAL_ALIGN,
   TEXT_ALIGN,
-  RESIZER_BORDER_WIDTH
+  RESIZER_BORDER_WIDTH,
+  COLOR
 };

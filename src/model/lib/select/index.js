@@ -10,7 +10,7 @@ import {pointToColumnInfo} from "./scanColumn";
 import {pointToRowInfo} from "./scanRow";
 
 // 列ヘッダーのピックアップ
-function pickColumnHeader(columnInfo, rowInfo){
+function pickColumnHeader(columnInfo, rowInfo, point){
   if (rowInfo.rowNo !== 0) {
     return null;
   }
@@ -19,13 +19,45 @@ function pickColumnHeader(columnInfo, rowInfo){
     const left = columnInfo.left + columnInfo.width - RESIZER_BORDER_WIDTH;
     const rect = new Rect(left, rowInfo.top, RESIZER_BORDER_WIDTH * 2, rowInfo.height);
     const objectType = OBJECT_TYPE.COLUMN_RESIZER;
-    return new SelectInfo(objectType, target, rect);
+    return new SelectInfo(objectType, target, rect, point);
   }
   else {
     const rect = new Rect(columnInfo.left, rowInfo.top, columnInfo.width, rowInfo.height);
     const objectType = OBJECT_TYPE.COLUMN_HEADER;
-    return new SelectInfo(objectType, target, rect);
+    return new SelectInfo(objectType, target, rect, point);
   }
+}
+
+function pickRowHeader(columnInfo, rowInfo, point){
+  if (columnInfo.columnNo !== 0) {
+    return null;
+  }
+  const target = new Target(columnInfo.columnNo, rowInfo.rowNo);
+  if (rowInfo.isBottomBorder) {
+    const top = rowInfo.top + rowInfo.height - RESIZER_BORDER_WIDTH;
+    const rect = new Rect(columnInfo.left, top, columnInfo.width, RESIZER_BORDER_WIDTH * 2);
+    const objectType = OBJECT_TYPE.ROW_RESIZER;
+    return new SelectInfo(objectType, target, rect, point);
+  }
+  else {
+    const rect = new Rect(columnInfo.left, rowInfo.top, columnInfo.width, rowInfo.height);
+    const objectType = OBJECT_TYPE.ROW_HEADER;
+    return new SelectInfo(objectType, target, rect, point);
+  }
+}
+
+function pickCell(columnInfo, rowInfo, point){
+  if (rowInfo.rowNo <= 0) {
+    return null;
+  }
+  if (columnInfo.rowNo <= 0) {
+    return null;
+  }
+  const target = new Target(columnInfo.columnNo, rowInfo.rowNo);
+  const rect = new Rect(columnInfo.left, rowInfo.top, columnInfo.width, rowInfo.height);
+  const objectType = OBJECT_TYPE.CELL;
+  return new SelectInfo(objectType, target, rect, point);
+
 }
 
 
@@ -34,17 +66,24 @@ function pointToGridViewItem(viewModel, opeModel, point){
   const columnInfo = pointToColumnInfo(viewModel, opeModel, point);
   const rowInfo = pointToRowInfo(viewModel, opeModel, point);
 
-  const columnHeader = pickColumnHeader(columnInfo, rowInfo);
+  const columnHeader = pickColumnHeader(columnInfo, rowInfo, point);
   if (columnHeader){
     return columnHeader;
   }
 
-  return new SelectInfo();
+  const rowHeader = pickRowHeader(columnInfo, rowInfo, point);
+  if (rowHeader){
+    return rowHeader;
+  }
+
+  const cell = pickCell(columnInfo, rowInfo, point);
+  if (cell){
+    return cell;
+  }
+  return  new SelectInfo(OBJECT_TYPE.NONE, null, null, point);
 }
 
-export default{
-  pointToGridViewItem
-};
 export {
+  pointToGridViewItem,
   pickColumnHeader
 };

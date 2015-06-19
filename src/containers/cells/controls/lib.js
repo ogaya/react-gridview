@@ -1,7 +1,9 @@
 import {Rect} from "../../../model/common";
 
 function targetToTop(model, target, offset){
-
+  if(!target){
+    return null;
+  }
   if(!target.rowNo){
     return null;
   }
@@ -19,7 +21,9 @@ function targetToTop(model, target, offset){
 
 // ターゲットの左座標を求める
 function targetToLeft(model, target, offset){
-
+  if(!target){
+    return null;
+  }
   if(!target.columnNo){
     return null;
   }
@@ -45,8 +49,16 @@ export function targetToRect(model, target, scroll) {
   const offsetY = offsetRowNo - 1;
   const top = targetToTop(model, target, offsetY);
   const left = targetToLeft(model, target, offsetX);
-  const width = model.columnHeader.items.get(target.columnNo).width;
-  const height = model.rowHeader.items.get(target.rowNo).height;
+  const columnItem = model.columnHeader.items.get(target.columnNo);
+  if (!columnItem){
+    return new Rect(0, 0, 0, 0);
+  }
+  const width = columnItem.width;
+  const rowItem = model.rowHeader.items.get(target.rowNo);
+  if (!rowItem){
+    return new Rect(0, 0, 0, 0);
+  }
+  const height = rowItem.height;
 
   return new Rect(left, top, width, height);
 }

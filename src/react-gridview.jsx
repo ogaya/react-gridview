@@ -47,7 +47,6 @@ const GridView = React.createClass({
   render: function () {
     const model = this.state.model;
     const operation = this.state.operation;
-
     const inputer = operation.input.isInputing ?
       <Inputer opeModel={operation} onValueChange={this._onValueChange}
         onOperationChange={this._onOperationChange} /> : null;
