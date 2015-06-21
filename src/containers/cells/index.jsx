@@ -13,7 +13,7 @@ import OperationModel from "../../model/operation";
 import {targetToRect} from "./controls/lib";
 import {Point} from "../../model/common";
 import {pointToGridViewItem} from "../../model/lib/select";
-
+import {operationResult} from "../../model/lib/change";
 
 const style =  {
   width: "100%",
@@ -28,6 +28,7 @@ const Cells = React.createClass({
   propTypes: {
     model: React.PropTypes.instanceOf(GridViewModel),
     opeModel: React.PropTypes.instanceOf(OperationModel),
+    onViewModelChange: React.PropTypes.func,
     onOperationChange: React.PropTypes.func
   },
   _canvasRender(props){
@@ -70,12 +71,18 @@ const Cells = React.createClass({
     const ope = opeModel.setInput(input);
     this.props.onOperationChange(ope);
   },
-  _onMouseUp(e){
-    const point = new Point(e.offsetX, e.offsetY);
-    
+  _onMouseUp(){
     const opeModel = this.props.opeModel;
+    const viewModel = this.props.model;
+    const newViewModel = operationResult(viewModel, opeModel);
+
+    if (viewModel !== newViewModel){
+      this.props.onViewModelChange(newViewModel);
+    }
     const ope = opeModel.setOpeItem(null);
     this.props.onOperationChange(ope);
+
+
   },
   _onMouseDown(e){
     const viewModel = this.props.model;

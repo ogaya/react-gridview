@@ -41,6 +41,9 @@ const GridView = React.createClass({
 
     this.setState({model: model});
   },
+  _onViewModelChange(viewModel){
+    this.setState({model: viewModel});
+  },
   _onOperationChange(ope){
     this.setState({operation: ope});
   },
@@ -53,7 +56,7 @@ const GridView = React.createClass({
     return (
       <div style={style}>
         <Cells onOperationChange={this._onOperationChange}
-          model={model} opeModel={operation} />
+          model={model} opeModel={operation} onViewModelChange={this._onViewModelChange} />
         {inputer}
         <Horizontalbar opeModel={operation} onOperationChange={this._onOperationChange}/>
       </div>

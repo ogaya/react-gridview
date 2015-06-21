@@ -15,17 +15,11 @@ function pickColumnHeader(columnInfo, rowInfo, point){
     return null;
   }
   const target = new Target(columnInfo.columnNo, rowInfo.rowNo);
-  if (columnInfo.isRightBorder) {
-    const left = columnInfo.left + columnInfo.width - RESIZER_BORDER_WIDTH;
-    const rect = new Rect(left, rowInfo.top, RESIZER_BORDER_WIDTH * 2, rowInfo.height);
-    const objectType = OBJECT_TYPE.COLUMN_RESIZER;
-    return new SelectInfo(objectType, target, rect, point);
-  }
-  else {
-    const rect = new Rect(columnInfo.left, rowInfo.top, columnInfo.width, rowInfo.height);
-    const objectType = OBJECT_TYPE.COLUMN_HEADER;
-    return new SelectInfo(objectType, target, rect, point);
-  }
+  const rect = new Rect(columnInfo.left, rowInfo.top, columnInfo.width, rowInfo.height);
+
+  const objectType = (columnInfo.isRightBorder) ?
+    OBJECT_TYPE.COLUMN_RESIZER : OBJECT_TYPE.COLUMN_HEADER;
+  return new SelectInfo(objectType, target, rect, point);
 }
 
 function pickRowHeader(columnInfo, rowInfo, point){
@@ -33,17 +27,22 @@ function pickRowHeader(columnInfo, rowInfo, point){
     return null;
   }
   const target = new Target(columnInfo.columnNo, rowInfo.rowNo);
-  if (rowInfo.isBottomBorder) {
-    const top = rowInfo.top + rowInfo.height - RESIZER_BORDER_WIDTH;
-    const rect = new Rect(columnInfo.left, top, columnInfo.width, RESIZER_BORDER_WIDTH * 2);
-    const objectType = OBJECT_TYPE.ROW_RESIZER;
-    return new SelectInfo(objectType, target, rect, point);
-  }
-  else {
-    const rect = new Rect(columnInfo.left, rowInfo.top, columnInfo.width, rowInfo.height);
-    const objectType = OBJECT_TYPE.ROW_HEADER;
-    return new SelectInfo(objectType, target, rect, point);
-  }
+  //if (rowInfo.isBottomBorder) {
+  //  const top = rowInfo.top + rowInfo.height - RESIZER_BORDER_WIDTH;
+  //  const rect = new Rect(columnInfo.left, top, columnInfo.width, RESIZER_BORDER_WIDTH * 2);
+  //  const objectType = OBJECT_TYPE.ROW_RESIZER;
+  //  return new SelectInfo(objectType, target, rect, point);
+  //}
+  //else {
+  //  const rect = new Rect(columnInfo.left, rowInfo.top, columnInfo.width, rowInfo.height);
+  //  const objectType = OBJECT_TYPE.ROW_HEADER;
+  //  return new SelectInfo(objectType, target, rect, point);
+  //}
+
+  const rect = new Rect(columnInfo.left, rowInfo.top, columnInfo.width, rowInfo.height);
+  const objectType = (rowInfo.isBottomBorder) ?
+    OBJECT_TYPE.ROW_RESIZER : OBJECT_TYPE.ROW_HEADER;
+  return new SelectInfo(objectType, target, rect, point);
 }
 
 function pickCell(columnInfo, rowInfo, point){
