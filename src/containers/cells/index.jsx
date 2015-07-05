@@ -10,7 +10,7 @@ import drawOperation from "./controls/operation";
 import GridViewModel from "../../model/gridview";
 import CanvasModel from "../../model/canvas";
 import OperationModel from "../../model/operation";
-import {targetToRect} from "./controls/lib";
+import {targetToRect} from "../../model/lib/target_to_rect";
 import {Point} from "../../model/common";
 import {pointToGridViewItem} from "../../model/lib/select";
 import {operationResult} from "../../model/lib/change";
@@ -56,20 +56,20 @@ const Cells = React.createClass({
   },
   // キー入力の処理
   _keyDown(){
-
-    // inputエリアを表示させる
-    const opeModel = this.props.opeModel;
-    const target = opeModel.selectItem && opeModel.selectItem.target;
-    if(!target){
-      return;
-    }
-    const rect = targetToRect(this.props.model, target, opeModel.scroll);
-    const input = opeModel.input
-      .setIsInputing(true)
-      .setRect(rect)
-      .setTarget(target);
-    const ope = opeModel.setInput(input);
-    this.props.onOperationChange(ope);
+    // 
+    // // inputエリアを表示させる
+    // const opeModel = this.props.opeModel;
+    // const target = opeModel.selectItem && opeModel.selectItem.target;
+    // if(!target){
+    //   return;
+    // }
+    // const rect = targetToRect(this.props.model, target, opeModel.scroll);
+    // const input = opeModel.input
+    //   .setIsInputing(true)
+    //   .setRect(rect)
+    //   .setTarget(target);
+    // const ope = opeModel.setInput(input);
+    // this.props.onOperationChange(ope);
   },
   _onMouseUp(){
     const opeModel = this.props.opeModel;
@@ -126,7 +126,7 @@ const Cells = React.createClass({
   },
   render: function () {
     return (
-      <canvas contentEditable ref="gwcells" style={style} onKeyDown={this._keyDown}/>
+      <canvas contentEditable ref="gwcells" style={style}/>
     );
   }
 });

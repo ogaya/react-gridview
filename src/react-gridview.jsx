@@ -21,42 +21,51 @@ const style = {
 const GridView = React.createClass({
   displayName: "gridview",
   propTypes: {
-    model: React.PropTypes.instanceOf(GridViewModel)
+    viewModel: React.PropTypes.instanceOf(GridViewModel)
   },
   getDefaultProps() {
     return {
-      model: new GridViewModel()
+      viewModel: new GridViewModel()
     };
   },
   getInitialState() {
     return {
-      model: this.props.model,
+      viewModel: this.props.viewModel,
       operation: new OperationModel()
     };
   },
   _onValueChange(target, value){
 
-    const model = this.state.model
+    const viewModel = this.state.viewModel
       .setValue(target, value);
 
-    this.setState({model: model});
+    this.setState({viewModel: viewModel});
   },
   _onViewModelChange(viewModel){
-    this.setState({model: viewModel});
+    this.setState({viewModel: viewModel});
   },
   _onOperationChange(ope){
     this.setState({operation: ope});
   },
+  _onStateChange(viewModel, operation){
+    this.setState({
+      viewModel: viewModel,
+      operation: operation
+    });
+  },
   render: function () {
-    const model = this.state.model;
+    const viewModel = this.state.viewModel;
     const operation = this.state.operation;
-    const inputer = operation.input.isInputing ?
-      <Inputer opeModel={operation} onValueChange={this._onValueChange}
-        onOperationChange={this._onOperationChange} /> : null;
+//    const inputer = operation.input.isInputing ?
+//      <Inputer opeModel={operation} onValueChange={this._onValueChange}
+//        onOperationChange={this._onOperationChange} /> : null;
+
+    const inputer = <Inputer opeModel={operation} viewModel={viewModel}
+      onValueChange={this._onValueChange} onStateChange={this._onStateChange}/>;
     return (
       <div style={style}>
         <Cells onOperationChange={this._onOperationChange}
-          model={model} opeModel={operation} onViewModelChange={this._onViewModelChange} />
+          model={viewModel} opeModel={operation} onViewModelChange={this._onViewModelChange} />
         {inputer}
         <Horizontalbar opeModel={operation} onOperationChange={this._onOperationChange}/>
       </div>

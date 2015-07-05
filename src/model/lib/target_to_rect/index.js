@@ -1,4 +1,5 @@
-import {Rect} from "../../../model/common";
+
+import {Rect} from "../../common";
 
 function targetToTop(model, target, offset){
   if(!target){
@@ -62,3 +63,8 @@ export function targetToRect(model, target, scroll) {
 
   return new Rect(left, top, width, height);
 }
+
+
+export {
+  targetToRect
+};

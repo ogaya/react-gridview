@@ -1,4 +1,4 @@
-import {targetToRect} from "./lib";
+import {targetToRect} from "../../../model/lib/target_to_rect";
 import {COLOR} from "../../../model/common";
 import {OBJECT_TYPE} from "../../../model/gridview";
 

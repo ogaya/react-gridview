@@ -84,5 +84,6 @@ function pointToGridViewItem(viewModel, opeModel, point){
 
 export {
   pointToGridViewItem,
-  pickColumnHeader
+  pickColumnHeader,
+  SelectInfo
 };

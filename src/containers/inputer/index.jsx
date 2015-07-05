@@ -1,27 +1,32 @@
 import React from "react";
 import OperationModel from "../../model/operation";
+import GridViewModel from "../../model/gridview";
 
-//import "./inputer.styl";
-
-//const style = {
-//  position: "absolute"
-//};
+import {createInputStyle} from "./create-style";
+import {inputKeyDown} from "./inputKeyDown";
 
 const Inputer = React.createClass({
   displayName: "Gridview-Cells",
   propTypes: {
     value: React.PropTypes.string,
+    viewModel: React.PropTypes.instanceOf(GridViewModel),
     opeModel: React.PropTypes.instanceOf(OperationModel),
     onValueChange: React.PropTypes.func,
-    onOperationChange: React.PropTypes.func
+    onStateChange: React.PropTypes.func
   },
-  componentDidMount: function(){
+  componentDidMount(){
+    this.refs.inputText.getDOMNode().onkeydown  = this._onKeyDown;
+  },
+  componentDidUpdate(prevProps, prevState){
     this.refs.inputText.getDOMNode().focus();
   },
   getInitialState() {
     return {
       textValue: ""
     };
+  },
+  _onKeyDown(e){
+    return inputKeyDown(e, this.props);
   },
   changeText(e) {
     const input = this.props.opeModel.input;
@@ -31,32 +36,15 @@ const Inputer = React.createClass({
   _onBlur(){
     const input = this.props.opeModel.input.setIsInputing(false);
     const ope = this.props.opeModel.setInput(input);
-    this.props.onOperationChange(ope);
-  },
-  // スタイルの生成
-  _createStyle(){
-    let style = {
-      position: "absolute"
-    };
-    const input = this.props.opeModel.input;
-
-    if (!input.rect){
-      return style;
-    }
-    style.top = input.rect.top;
-    style.left = input.rect.left;
-    style.width = input.rect.width;
-    style.height = input.rect.height;
-
-    return style;
+    this.props.onStateChange(this.props.viewModel, ope);
+    //console.log("blure");
   },
   render() {
-    const style = this._createStyle();
+    const style = createInputStyle(this.props.opeModel);
+
     return (
-      <div style={style}>
-        <input type="text" ref="inputText" value={this.state.textValue}
-          onChange={this.changeText} onBlur={this._onBlur} />
-      </div>
+      <input style={style} type="text" ref="inputText" value={this.state.textValue}
+        onChange={this.changeText} onBlur={this._onBlur} />
     );
   }
 });
