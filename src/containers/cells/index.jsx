@@ -12,12 +12,18 @@ import CanvasModel from "../../model/canvas";
 import OperationModel from "../../model/operation";
 import {targetToRect} from "../../model/lib/target_to_rect";
 import {Point} from "../../model/common";
+
+
+// ライブラリ
+import {drag} from "../../util/drag";
 import {pointToGridViewItem} from "../../model/lib/select";
 import {operationResult} from "../../model/lib/change";
+
 
 const style =  {
   width: "100%",
   height: "100%",
+  cursor: "pointer",
   outline: "none"
 };
 
@@ -54,23 +60,6 @@ const Cells = React.createClass({
   _handleResize() {
     this._canvasRender(this.props);
   },
-  // キー入力の処理
-  _keyDown(){
-    // 
-    // // inputエリアを表示させる
-    // const opeModel = this.props.opeModel;
-    // const target = opeModel.selectItem && opeModel.selectItem.target;
-    // if(!target){
-    //   return;
-    // }
-    // const rect = targetToRect(this.props.model, target, opeModel.scroll);
-    // const input = opeModel.input
-    //   .setIsInputing(true)
-    //   .setRect(rect)
-    //   .setTarget(target);
-    // const ope = opeModel.setInput(input);
-    // this.props.onOperationChange(ope);
-  },
   _onMouseUp(){
     const opeModel = this.props.opeModel;
     const viewModel = this.props.model;
@@ -81,12 +70,11 @@ const Cells = React.createClass({
     }
     const ope = opeModel.setOpeItem(null);
     this.props.onOperationChange(ope);
-
-
   },
   _onMouseDown(e){
     const viewModel = this.props.model;
     const opeModel = this.props.opeModel;
+
     // テーブル上の座標を取得
     const point = new Point(e.offsetX, e.offsetY);
 
@@ -95,11 +83,17 @@ const Cells = React.createClass({
     this.props.onOperationChange(ope);
   },
   _onMouseMove(e){
+
     const viewModel = this.props.model;
     const opeModel = this.props.opeModel;
-    // テーブル上の座標を取得
-    const point = new Point(e.offsetX, e.offsetY);
 
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    // テーブル上の座標を取得
+    const point = new Point(x, y);
+
+    //const point = new Point(e.offsetX, e.offsetY);
     const item = pointToGridViewItem(viewModel, opeModel, point);
     const ope = opeModel.setHoverItem(item);
 
@@ -107,17 +101,19 @@ const Cells = React.createClass({
 
   },
   componentDidMount(){
+    const node = this.refs.gwcells.getDOMNode();
+    drag(node, this._onMouseDown, this._onMouseMove, this._onMouseUp);
     window.addEventListener('resize', this._handleResize);
-    window.addEventListener('mousedown', this._onMouseDown);
-    window.addEventListener('mousemove', this._onMouseMove);
-    window.addEventListener('mouseup', this._onMouseUp);
+    // window.addEventListener('mousedown', this._onMouseDown);
+    // window.addEventListener('mousemove', this._onMouseMove);
+    // window.addEventListener('mouseup', this._onMouseUp);
     this._canvasRender(this.props);
   },
   componentWillUnmount() {
     window.removeEventListener('resize', this._handleResize);
-    window.removeEventListener('mousedown', this._onMouseDown);
-    window.removeEventListener('mousemove', this._onMouseMove);
-    window.removeEventListener('mouseup', this._onMouseUp);
+    // window.removeEventListener('mousedown', this._onMouseDown);
+    // window.removeEventListener('mousemove', this._onMouseMove);
+    // window.removeEventListener('mouseup', this._onMouseUp);
   },
   //shouldComponentUpdate(nextProps, nextState){
   shouldComponentUpdate(nextProps) {
@@ -126,7 +122,7 @@ const Cells = React.createClass({
   },
   render: function () {
     return (
-      <canvas contentEditable ref="gwcells" style={style}/>
+      <canvas onMouseMove={this._onMouseMove} ref="gwcells" style={style}/>
     );
   }
 });

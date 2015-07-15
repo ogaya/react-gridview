@@ -13,7 +13,7 @@ import {Horizontalbar} from "./containers/scrollbar";
 const style = {
   width: "100%",
   height: "100%",
-  cursor: "default",
+  cursor: "pointer",
   position: "relative"
 };
 
@@ -59,7 +59,8 @@ const GridView = React.createClass({
 //    const inputer = operation.input.isInputing ?
 //      <Inputer opeModel={operation} onValueChange={this._onValueChange}
 //        onOperationChange={this._onOperationChange} /> : null;
-
+    //console.log(operation.HoverCursor);
+    //style.cursor = operation.HoverCursor;
     const inputer = <Inputer opeModel={operation} viewModel={viewModel}
       onValueChange={this._onValueChange} onStateChange={this._onStateChange}/>;
     return (
