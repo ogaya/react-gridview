@@ -6,6 +6,7 @@ const defCell = emptyCell
   .setVerticalAlign(VERTICAL_ALIGN.MIDDLE)
   .setTextAlign(TEXT_ALIGN.CENTER);
 
+
 export default class ColumnHeaderItem extends Record({
   cell: defCell,
   width: 50

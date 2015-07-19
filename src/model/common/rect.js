@@ -17,6 +17,22 @@ export class Rect extends Record({
     });
   }
 
+  setLeft(left){
+    return this.set("left", left);
+  }
+
+  setTop(top){
+    return this.set("top", top);
+  }
+
+  setWidth(width){
+    return this.set("width", width);
+  }
+
+  setHeight(height){
+    return this.set("height", height);
+  }
+  
   get right(){
     return this.left + this.width;
   }
@@ -31,5 +47,14 @@ export class Rect extends Record({
 
   get center(){
     return this.left + this.width / 2;
+  }
+
+  get style(){
+    return {
+      left: this.left,
+      top: this.top,
+      width: this.width,
+      height: this.height
+    };
   }
 }

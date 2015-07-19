@@ -5,8 +5,9 @@ const defCell = new RowHeaderItem();
 const emptyCell = defCell.setBackground("#DDD");
 
 
+const HEADER_WIDTH = 50;
 export default class RowHeader extends Record({
-  width: 50,
+  width: HEADER_WIDTH,
   maxCount: 1000,
   editItems: Map()
 }) {
@@ -58,3 +59,7 @@ export default class RowHeader extends Record({
   }
 
 }
+
+export{
+  HEADER_WIDTH
+};

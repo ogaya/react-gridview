@@ -45,10 +45,10 @@ const Cells = React.createClass({
     const height = canvasElement.height = canvasElement.offsetHeight;
     const context = canvasElement.getContext("2d");
     const canvas = new CanvasModel(context, width, height);
-
+    //context.scale(2,2);
     drawCenterHeader(canvas, model.columnHeader, model.rowHeader);
     drawColumnHeader(canvas, model.columnHeader, model.rowHeader, opeModel);
-    drawRowHeader(canvas, model.columnHeader, model.rowHeader);
+    drawRowHeader(canvas, model.columnHeader, model.rowHeader, opeModel);
     drawTable(canvas, model, opeModel);
     drawOperation(canvas, model, props.opeModel);
 
@@ -79,6 +79,8 @@ const Cells = React.createClass({
     const point = new Point(e.offsetX, e.offsetY);
 
     const item = pointToGridViewItem(viewModel, opeModel, point);
+
+    //console.log(item);
     const ope = opeModel.setSelectItem(item).setOpeItem(item);
     this.props.onOperationChange(ope);
   },
@@ -94,6 +96,7 @@ const Cells = React.createClass({
     const point = new Point(x, y);
 
     //const point = new Point(e.offsetX, e.offsetY);
+
     const item = pointToGridViewItem(viewModel, opeModel, point);
     const ope = opeModel.setHoverItem(item);
 
@@ -104,16 +107,16 @@ const Cells = React.createClass({
     const node = this.refs.gwcells.getDOMNode();
     drag(node, this._onMouseDown, this._onMouseMove, this._onMouseUp);
     window.addEventListener('resize', this._handleResize);
-    // window.addEventListener('mousedown', this._onMouseDown);
-    // window.addEventListener('mousemove', this._onMouseMove);
-    // window.addEventListener('mouseup', this._onMouseUp);
+    //window.addEventListener('mousedown', this._onMouseDown);
+    //window.addEventListener('mousemove', this._onMouseMove);
+    //window.addEventListener('mouseup', this._onMouseUp);
     this._canvasRender(this.props);
   },
   componentWillUnmount() {
     window.removeEventListener('resize', this._handleResize);
-    // window.removeEventListener('mousedown', this._onMouseDown);
-    // window.removeEventListener('mousemove', this._onMouseMove);
-    // window.removeEventListener('mouseup', this._onMouseUp);
+    //window.removeEventListener('mousedown', this._onMouseDown);
+    //window.removeEventListener('mousemove', this._onMouseMove);
+    //window.removeEventListener('mouseup', this._onMouseUp);
   },
   //shouldComponentUpdate(nextProps, nextState){
   shouldComponentUpdate(nextProps) {

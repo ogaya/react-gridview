@@ -8,8 +8,10 @@ const abc = ["A", "B", "C", "D", "E", "F",
 const defCell = new ColumnHeaderItem();
 const emptyCell = defCell.setBackground("#DDD");
 
+const HEADER_HEIGHT = 18;
+
 export default class ColumnHeader extends Record({
-  height: 18,
+  height: HEADER_HEIGHT,
   maxCount: 702,
   editItems: Map()
 }) {
@@ -58,3 +60,7 @@ export default class ColumnHeader extends Record({
     return this._items;
   }
 }
+
+export{
+  HEADER_HEIGHT
+};

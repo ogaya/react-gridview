@@ -8,7 +8,7 @@ import Inputer from "./containers/inputer";
 import GridViewModel from "./model/gridview";
 import OperationModel from "./model/operation";
 
-import {Horizontalbar} from "./containers/scrollbar";
+import {GridViewBar} from "./containers/scrollbar";
 
 const style = {
   width: "100%",
@@ -53,6 +53,20 @@ const GridView = React.createClass({
       operation: operation
     });
   },
+  _onMouseWheel(e){
+    const opeModel = this.state.operation;
+    let value = opeModel.scroll.rowNo + Math.round(e.deltaY / 100)
+
+    if (value < 1) {
+      value = 1;
+    }
+
+    if (opeModel.scroll.rowNo !== value){
+      const scroll = opeModel.scroll.setRowNo(value);
+      this._onOperationChange(opeModel.setScroll(scroll));
+    }
+    e.preventDefault();
+  },
   render: function () {
     const viewModel = this.state.viewModel;
     const operation = this.state.operation;
@@ -64,11 +78,11 @@ const GridView = React.createClass({
     const inputer = <Inputer opeModel={operation} viewModel={viewModel}
       onValueChange={this._onValueChange} onStateChange={this._onStateChange}/>;
     return (
-      <div style={style}>
+      <div style={style} ref="gridview" onWheel={this._onMouseWheel}>
         <Cells onOperationChange={this._onOperationChange}
           model={viewModel} opeModel={operation} onViewModelChange={this._onViewModelChange} />
         {inputer}
-        <Horizontalbar opeModel={operation} onOperationChange={this._onOperationChange}/>
+        <GridViewBar opeModel={operation} onOperationChange={this._onOperationChange}/>
       </div>
     );
   }
