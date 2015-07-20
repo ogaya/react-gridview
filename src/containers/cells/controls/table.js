@@ -9,7 +9,7 @@ function drawCell(canvas, model, rect, target){
 
   canvas.drawLine(rect.right, rect.top, rect.right, rect.bottom);
   canvas.drawLine(rect.left, rect.bottom, rect.right, rect.bottom);
-  canvas.context.fillStyle = "#333";
+  canvas.context.fillStyle = "#000";
   canvas.drawText(item.value, rect, item.textAlign, item.verticalAlign);
   //canvas.context.fillText(item.value, rect.left, rect.top);
 }

@@ -25,6 +25,7 @@ export default class Operation extends Record({
   selectItem: null,
   opeItem: null,
   hoverItem: null,
+  rangeItem: null,
   scroll: new Target(1, 1)
 }) {
 
@@ -46,6 +47,10 @@ export default class Operation extends Record({
 
   setOpeItem(opeItem){
     return this.set("opeItem", opeItem);
+  }
+
+  setRangeItem(rangeItem){
+    return this.set("rangeItem", rangeItem);
   }
 
   opeCursor(){

@@ -15,6 +15,6 @@ css(`
   position: absolute;
   right: 0px;
   bottom: 0px;
-  background: #557;
+  background: #334;
 }
 `);

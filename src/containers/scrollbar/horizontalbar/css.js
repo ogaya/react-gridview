@@ -4,7 +4,7 @@ import css from "../../../util/css";
 css(`
 .rg-scroll-base{
   display: table;
-  background: #557;
+  background: #334;
   table-layout: fixed;
   height: 20px;
 }
@@ -21,7 +21,7 @@ css(`
 }
 
 .rg-scroll-thumb{
-  background: #88A;
+  background: #667;
   position: absolute;
   height: inherit;
   border-radius: 40px;

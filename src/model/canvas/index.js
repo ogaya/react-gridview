@@ -56,7 +56,7 @@ export default class CanvasModel extends Record({
     context.stroke();
   }
 
-  drawRecine(rect) {
+  drawRect(rect) {
     // 上ライン
     this.drawLine(rect.left, rect.top, rect.right, rect.top);
     // 右ライン

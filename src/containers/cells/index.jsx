@@ -18,7 +18,7 @@ import {Point} from "../../model/common";
 import {drag} from "../../util/drag";
 import {pointToGridViewItem} from "../../model/lib/select";
 import {operationResult} from "../../model/lib/change";
-
+import {opeModelToRangeItem} from "../../model/lib/range";
 
 const style =  {
   width: "100%",
@@ -46,12 +46,12 @@ const Cells = React.createClass({
     const context = canvasElement.getContext("2d");
     const canvas = new CanvasModel(context, width, height);
     //context.scale(2,2);
+
+    drawTable(canvas, model, opeModel);
+    drawOperation(canvas, model, props.opeModel);
     drawCenterHeader(canvas, model.columnHeader, model.rowHeader);
     drawColumnHeader(canvas, model.columnHeader, model.rowHeader, opeModel);
     drawRowHeader(canvas, model.columnHeader, model.rowHeader, opeModel);
-    drawTable(canvas, model, opeModel);
-    drawOperation(canvas, model, props.opeModel);
-
     // マウスカーソル変更
     const styleStr = STYLE_STRING + "cursor:" + opeModel.HoverCursor;
     canvasElement.setAttribute("style", styleStr);
@@ -81,7 +81,10 @@ const Cells = React.createClass({
     const item = pointToGridViewItem(viewModel, opeModel, point);
 
     //console.log(item);
-    const ope = opeModel.setSelectItem(item).setOpeItem(item);
+    const ope = opeModel
+      .setSelectItem(item)
+      .setOpeItem(item)
+      .setRangeItem(null);
     this.props.onOperationChange(ope);
   },
   _onMouseMove(e){
@@ -99,24 +102,21 @@ const Cells = React.createClass({
 
     const item = pointToGridViewItem(viewModel, opeModel, point);
     const ope = opeModel.setHoverItem(item);
+    const rangeItem = opeModelToRangeItem(ope);
 
-    this.props.onOperationChange(ope);
+    this.props.onOperationChange(ope.setRangeItem(rangeItem));
 
   },
   componentDidMount(){
     const node = this.refs.gwcells.getDOMNode();
     drag(node, this._onMouseDown, this._onMouseMove, this._onMouseUp);
     window.addEventListener('resize', this._handleResize);
-    //window.addEventListener('mousedown', this._onMouseDown);
-    //window.addEventListener('mousemove', this._onMouseMove);
-    //window.addEventListener('mouseup', this._onMouseUp);
+
     this._canvasRender(this.props);
   },
   componentWillUnmount() {
     window.removeEventListener('resize', this._handleResize);
-    //window.removeEventListener('mousedown', this._onMouseDown);
-    //window.removeEventListener('mousemove', this._onMouseMove);
-    //window.removeEventListener('mouseup', this._onMouseUp);
+
   },
   //shouldComponentUpdate(nextProps, nextState){
   shouldComponentUpdate(nextProps) {

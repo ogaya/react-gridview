@@ -6,6 +6,7 @@ import {SelectInfo} from "../../../model/lib/select";
 import {tabDown} from "./tab";
 import {enterDown} from "./enter";
 import {arrowDown} from "./arrow";
+import {deleteDown} from "./delete";
 
 // テキスト入力エリアを表示させる
 function viewInputer(e, props){
@@ -51,6 +52,10 @@ function inputKeyDown(e, props){
 
   if ((e.keyCode >= 37) && (e.keyCode <= 40) && (!props.opeModel.input.isInputing)){
     return arrowDown(e, props);
+  }
+
+  if(e.keyCode === 46){
+    return deleteDown(e, props);
   }
 
   viewInputer(e, props);

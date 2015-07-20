@@ -12,8 +12,8 @@ class SelectInfo extends Record({
     super({
       objectType: objectType,
       target: target,
-      point: point,
-      rect: rect
+      rect: rect,
+      point: point
     });
   }
 }

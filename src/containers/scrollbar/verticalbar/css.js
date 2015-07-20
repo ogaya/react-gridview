@@ -4,7 +4,7 @@ import css from "../../../util/css";
 css(`
 .rg-scroll-vertical-base{
   display: table;
-  background: #557;
+  background: #334;
   table-layout: fixed;
   width: 20px;
 }
@@ -18,7 +18,7 @@ css(`
 }
 
 .rg-scroll-vertical-thumb{
-  background: #88A;
+  background: #667;
   position: absolute;
   width: inherit;
   border-radius: 40px;
