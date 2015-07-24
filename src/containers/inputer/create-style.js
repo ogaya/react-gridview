@@ -15,8 +15,8 @@ function createInputStyle(opeModel){
   if (!input.rect){
     return style;
   }
-  style.top = input.rect.top;
-  style.left = input.rect.left;
+  style.top = input.rect.top - 1;
+  style.left = input.rect.left - 1;
   style.width = input.rect.width;
   style.height = input.rect.height;
 

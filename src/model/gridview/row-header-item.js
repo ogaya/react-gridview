@@ -12,6 +12,14 @@ export default class RowHeaderItem extends Record({
   height: 18
 }) {
 
+    // JSONから本クラスを生成
+    static fromJson(json){
+      const item = new RowHeaderItem();
+      return item
+        .set("cell", CellModel.fromJson(json.cell))
+        .setHeight(json.height);
+    }
+
   setHeight(height) {
     return this.set("height", height);
   }

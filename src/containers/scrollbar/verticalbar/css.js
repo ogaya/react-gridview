@@ -3,27 +3,25 @@ import css from "../../../util/css";
 
 css(`
 .rg-scroll-vertical-base{
-  display: table;
+
   background: #334;
   table-layout: fixed;
   width: 20px;
+  height: 100%;
 }
-.rg-scroll-vertical-base > div{
-  display: table-cell;
-}
+
 
 .rg-scroll-vertical-thumb-area{
   position: relative;
-  width: inherit;
+  width: 20px;
+  height: 100%;
 }
 
 .rg-scroll-vertical-thumb{
   background: #667;
   position: absolute;
-  width: inherit;
   border-radius: 40px;
   margin: 0px 3px;
-  height: 50px;
 }
 
 .rg-scroll-vertical-thumb:hover{

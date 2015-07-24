@@ -35,7 +35,8 @@ const Cells = React.createClass({
     model: React.PropTypes.instanceOf(GridViewModel),
     opeModel: React.PropTypes.instanceOf(OperationModel),
     onViewModelChange: React.PropTypes.func,
-    onOperationChange: React.PropTypes.func
+    onOperationChange: React.PropTypes.func,
+    setInputFocus: React.PropTypes.func
   },
   _canvasRender(props){
     const model = props.model;
@@ -79,7 +80,7 @@ const Cells = React.createClass({
     const point = new Point(e.offsetX, e.offsetY);
 
     const item = pointToGridViewItem(viewModel, opeModel, point);
-
+    this.props.setInputFocus();
     //console.log(item);
     const ope = opeModel
       .setSelectItem(item)

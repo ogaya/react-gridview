@@ -10,11 +10,38 @@ const emptyCell = defCell.setBackground("#DDD");
 
 const HEADER_HEIGHT = 18;
 
+// JSONからテーブル情報を生成
+function JsonToCell(json){
+  let table = Map();
+
+  if (!json){
+    return table;
+  }
+
+  for(var key in json){
+    const item = ColumnHeaderItem.fromJson(json[key]);
+    table = table.set(Number(key), item);
+  }
+
+  return table;
+}
+
+
 export default class ColumnHeader extends Record({
   height: HEADER_HEIGHT,
   maxCount: 702,
   editItems: Map()
 }) {
+
+  // JSONから本クラスを生成
+  static fromJson(json){
+    let cHeader = new ColumnHeader();
+    // アイテム情報を変換
+    cHeader = cHeader.set("editItems", JsonToCell(json.editItems));
+    return cHeader
+      .setMaxCount(json.maxCount);
+  }
+
   get width(){
     let sumWidth = 0;
     this.items.map((item) => {

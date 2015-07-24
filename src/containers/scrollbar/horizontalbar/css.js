@@ -23,7 +23,6 @@ css(`
 .rg-scroll-thumb{
   background: #667;
   position: absolute;
-  height: inherit;
   border-radius: 40px;
   margin: 3px 0px;
 }

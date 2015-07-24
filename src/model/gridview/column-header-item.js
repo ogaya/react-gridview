@@ -12,6 +12,14 @@ export default class ColumnHeaderItem extends Record({
   width: 50
 }) {
 
+  // JSONから本クラスを生成
+  static fromJson(json){
+    const item = new ColumnHeaderItem();
+    return item
+      .set("cell", CellModel.fromJson(json.cell))
+      .setWidth(json.width);
+  }
+
   setWidth(width) {
     return this.set("width", width);
   }

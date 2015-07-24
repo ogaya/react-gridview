@@ -54,7 +54,8 @@ function inputKeyDown(e, props){
     return arrowDown(e, props);
   }
 
-  if(e.keyCode === 46){
+  // backspaceキー、deleteキー
+  if((e.keyCode === 8) || (e.keyCode === 46)){
     return deleteDown(e, props);
   }
 

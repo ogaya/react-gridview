@@ -4,6 +4,23 @@ import RowHeaderItem from "./row-header-item";
 const defCell = new RowHeaderItem();
 const emptyCell = defCell.setBackground("#DDD");
 
+// JSONからテーブル情報を生成
+function JsonToCell(json){
+  let table = Map();
+
+  if (!json){
+    return table;
+  }
+
+  for(var key in json){
+    const item = RowHeaderItem.fromJson(json[key]);
+    table = table.set(Number(key), item);
+  }
+
+  return table;
+}
+
+
 
 const HEADER_WIDTH = 50;
 export default class RowHeader extends Record({
@@ -11,6 +28,15 @@ export default class RowHeader extends Record({
   maxCount: 1000,
   editItems: Map()
 }) {
+
+  // JSONから本クラスを生成
+  static fromJson(json){
+    let rHeader = new RowHeader();
+    // アイテム情報を変換
+    rHeader = rHeader.set("editItems", JsonToCell(json.editItems));
+    return rHeader
+      .setMaxCount(json.maxCount);
+  }
 
   setBackground(background){
     return this.set("background", background);

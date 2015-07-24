@@ -110,14 +110,29 @@ const Verticalbar  = React.createClass({
 
     return PADDING * 2 + subNum * this.props.smallChange * SCROLL_UNIT;
   },
+  _onMouseDown(e){
+    const thumbArea = this.refs.rgThumb.getDOMNode();
+    const areaRect = thumbArea.getBoundingClientRect();
+
+    if (areaRect.bottom < e.clientY){
+      const value = this.props.value + this.props.largeChange;
+      this.props.onChangeValue(Math.min(value, this.props.maxNum));
+    }
+
+    if (areaRect.top > e.clientY){
+      const value = this.props.value - this.props.largeChange;
+      this.props.onChangeValue(Math.max(value, this.props.minNum));
+    }
+
+  },
   render() {
     const style = this._createStyle();
     let thumbStyle = this.state.location.style;
     thumbStyle.height = "calc(100% - " + this._subNum() + "px)";
-    thumbStyle.width = "calc(100% - 6px)";
+    thumbStyle.width = "calc(20px - 6px)";
     return (
       <div className="rg-scroll-vertical-base" style={style}>
-        <div className="rg-scroll-vertical-thumb-area" ref="rgThumbArea">
+        <div className="rg-scroll-vertical-thumb-area" ref="rgThumbArea" onMouseDown={this._onMouseDown}>
           <div className="rg-scroll-vertical-thumb" ref="rgThumb" style={thumbStyle}></div>
         </div>
       </div>

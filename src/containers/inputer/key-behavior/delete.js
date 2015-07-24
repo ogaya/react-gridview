@@ -20,7 +20,15 @@ function deleteDown(e, props){
   const target = selectItem.target;
   const input = props.opeModel.input;
 
-  props.onValueChange(target, "");
+  //props.onValueChange(target, "");
+
+  // 新規操作オブジェクトを作る
+  const viewModel = props.viewModel
+    .setValue(target, "")
+    .setValueRange(opeModel.rangeItem, "");
+
+  props.onStateChange(viewModel, opeModel);
+
   return false;
 }
 

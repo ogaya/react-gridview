@@ -2,12 +2,36 @@ import {Record} from "immutable";
 import {VERTICAL_ALIGN, TEXT_ALIGN} from "../common";
 
 export default class Cell extends Record({
+  columnNo: 0,
+  rowNo: 0,
   value: "",
   verticalAlign: VERTICAL_ALIGN.CENTER,
   textAlign: TEXT_ALIGN.RIGHT,
   indent: 1,
-  background: null
+  background: null,
+  textColor: null
 }) {
+
+  static createCell(target) {
+    const cell = new Cell();
+    return cell
+      .set("columnNo", target.columnNo)
+      .set("rowNo", target.rowNo);
+  }
+
+  static fromJson(json){
+    let cell = new Cell();
+
+    return cell
+      .set("columnNo", json.columnNo)
+      .set("rowNo", json.rowNo)
+      .setBackground(json.background)
+      .setValue(json.value)
+      .setVerticalAlign(json.verticalAlign)
+      .setTextAlign(json.textAlign)
+      .setIndent(json.indent)
+      .setTextColor(json.textColor);
+  }
 
   setBackground(background) {
     return this.set("background", background);
@@ -23,5 +47,21 @@ export default class Cell extends Record({
 
   setTextAlign(textAlign){
     return this.set("textAlign", textAlign);
+  }
+
+  setIndent(indent){
+    return this.set("indent", indent);
+  }
+
+  setTextColor(textColor){
+    return this.set("textColor", textColor);
+  }
+
+  equal(cell){
+    const tmp = cell
+      .set("columnNo", this.columnNo)
+      .set("rowNo", this.rowNo);
+
+    return JSON.stringify(this.toJS()) === JSON.stringify(tmp.toJS());
   }
 }

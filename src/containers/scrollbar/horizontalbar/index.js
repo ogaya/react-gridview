@@ -15,7 +15,7 @@ const csStyle = Object.freeze({
 });
 
 const PADDING = 2;
-const SCROLL_UNIT = 10;
+const SCROLL_UNIT = 5;
 
 const Horizontalbar  = React.createClass({
   displayName: "Horizontalbar",
@@ -106,10 +106,7 @@ const Horizontalbar  = React.createClass({
   },
 
   _subNum(){
-    // const thumbArea = this.refs.rgThumbArea.getDOMNode();
-    // const areaRect = thumbArea.getBoundingClientRect();
 
-    // const baseWidth = areaRect.width - PADDING * 2;
     let subNum = (this.props.maxNum - this.props.minNum);
     if (subNum < 0) {
       subNum = 0;
@@ -117,15 +114,31 @@ const Horizontalbar  = React.createClass({
 
     return PADDING * 2 + subNum * this.props.smallChange * SCROLL_UNIT;
   },
+  _onMouseDown(e){
+    const thumbArea = this.refs.rgThumb.getDOMNode();
+    const areaRect = thumbArea.getBoundingClientRect();
+
+    if (areaRect.right < e.clientX){
+      const value = this.props.value + this.props.largeChange;
+      this.props.onChangeValue(Math.min(value, this.props.maxNum));
+    }
+
+    if (areaRect.left > e.clientX){
+      const value = this.props.value - this.props.largeChange;
+      this.props.onChangeValue(Math.max(value, this.props.minNum));
+    }
+
+  },
   render() {
     const style = this._createStyle();
     let thumbStyle = this.state.location.style;
-    thumbStyle.height = "calc(100% - 6px)";
+    thumbStyle.height = "calc(20px - 6px)";
     thumbStyle.width = "calc(100% - " + this._subNum() + "px)";
+    //thumbStyle.width = "calc(200px - " + this._subNum() + "px)";
     return (
       <div className="rg-scroll-base" style={style}>
         <div className="rg-scroll-arrow"></div>
-        <div className="rg-scroll-thumb-area" ref="rgThumbArea">
+        <div className="rg-scroll-thumb-area" ref="rgThumbArea" onMouseDown={this._onMouseDown}>
           <div className="rg-scroll-thumb" ref="rgThumb" style={thumbStyle}></div>
         </div>
         <div className="rg-scroll-arrow"></div>

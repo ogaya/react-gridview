@@ -18,27 +18,11 @@ const Inputer = React.createClass({
     this.refs.inputText.getDOMNode().onkeydown  = this._onKeyDown;
   },
   componentDidUpdate(prevProps, prevState){
+    //this.refs.inputText.getDOMNode().focus();
+  },
+  setInputFocus(){
     this.refs.inputText.getDOMNode().focus();
   },
-  // componentWillUpdate(nextProps, nextState){
-  //   const viewModel = nextProps.viewModel;
-  //   const opeModel = nextProps.opeModel;
-  //
-  //   if(!opeModel.selectItem){
-  //     return;
-  //   }
-  //   if(!opeModel.selectItem.target){
-  //     return;
-  //   }
-  //   const cell = viewModel.getCell(opeModel.selectItem.target);
-  //   console.log(cell.value);
-  //   this.setState({textValue: cell.value});
-  // },
-  // getInitialState() {
-  //   return {
-  //     textValue: ""
-  //   };
-  // },
   _onKeyDown(e){
     return inputKeyDown(e, this.props);
   },
