@@ -72,14 +72,58 @@ export default class GridView extends Record({
   setValue(target, value){
     const prevCell = this.getCell(target);
     const nextCell = this.getCell(target).setValue(value);
+
+    return this.setCell(target, nextCell);
+    // const cell = this.onChangeCell(prevCell, nextCell);
+    // if (cell === prevCell){
+    //   return this;
+    // }
+    // const table = emptyCell.equals(cell) ?
+    //   this.table.delete(target.toId()) :
+    //   this.table.set(target.toId(), cell);
+    // return this.set("table", table);
+  }
+
+  setCell(target, nextCell){
+    const prevCell = this.getCell(target);
     const cell = this.onChangeCell(prevCell, nextCell);
     if (cell === prevCell){
       return this;
     }
-    const table = emptyCell.equal(cell) ?
+    const table = emptyCell.equals(cell) ?
       this.table.delete(target.toId()) :
       this.table.set(target.toId(), cell);
     return this.set("table", table);
+  }
+
+  withCell(target, mutator){
+    const prevCell = this.getCell(target);
+    const nextCell = mutator(prevCell);
+    return this.setCell(target, nextCell);
+  }
+
+  // 範囲内のセルを変更する
+  withCells(range, mutator){
+    if(!range){
+      return this;
+    }
+    const left = Math.min(range.target1.columnNo, range.target2.columnNo);
+    const right = Math.max(range.target1.columnNo, range.target2.columnNo);
+    const top = Math.min(range.target1.rowNo, range.target2.rowNo);
+    const bottom = Math.max(range.target1.rowNo, range.target2.rowNo);
+
+    let model = this;
+    Range(left, right + 1).forEach((columnNo)=>{
+      Range(top, bottom + 1).forEach((rowNo)=>{
+        const target = new Target(columnNo, rowNo);
+        const prevCell = this.getCell(target);
+        const nextCell = mutator(prevCell);
+        model = model.setCell(target, nextCell);
+        //model = model.setValue(new Target(columnNo, rowNo), value);
+      })
+    })
+
+    return model;
   }
 
   // 範囲内のセルを取得する

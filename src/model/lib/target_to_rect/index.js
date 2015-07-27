@@ -8,7 +8,7 @@ function targetToTop(model, target, offset){
   if(!target.rowNo){
     return null;
   }
-  if (target.rowNo < offset){
+  if (target.rowNo <= offset){
     return -1000;
   }
   let top = model.columnHeader.height;
@@ -29,7 +29,7 @@ function targetToLeft(model, target, offset){
     return null;
   }
 
-  if ( target.columnNo < offset){
+  if ( target.columnNo <= offset){
     return -1000;
   }
 

@@ -56,7 +56,7 @@ export default class CanvasModel extends Record({
     context.stroke();
   }
 
-  drawRect(rect) {
+  drawRectLine(rect) {
     // 上ライン
     this.drawLine(rect.left, rect.top, rect.right, rect.top);
     // 右ライン
@@ -65,5 +65,10 @@ export default class CanvasModel extends Record({
     this.drawLine(rect.left, rect.bottom, rect.right, rect.bottom);
     // 左ライン
     this.drawLine(rect.left, rect.top, rect.left, rect.bottom);
+  }
+
+  drawRectFill(rect) {
+    const context = this.context;
+    context.fillRect(rect.left, rect.top, rect.width, rect.height);
   }
 }

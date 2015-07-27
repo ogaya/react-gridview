@@ -26,6 +26,7 @@ export default class Operation extends Record({
   opeItem: null,
   hoverItem: null,
   rangeItem: null,
+  canvasRect: null,
   scroll: new Target(1, 1)
 }) {
 
@@ -40,6 +41,10 @@ export default class Operation extends Record({
   setScroll(scroll){
     return this.set("scroll", scroll);
   }
+  
+  withScroll(mutator){
+    return this.set("scroll", mutator(this.scroll));
+  }
 
   setHoverItem(hoverItem){
     return this.set("hoverItem", hoverItem);
@@ -51,6 +56,10 @@ export default class Operation extends Record({
 
   setRangeItem(rangeItem){
     return this.set("rangeItem", rangeItem);
+  }
+
+  setCanvasRect(canvasRect){
+    return this.set("canvasRect", canvasRect);
   }
 
   opeCursor(){

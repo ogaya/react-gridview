@@ -27,17 +27,6 @@ function pickRowHeader(columnInfo, rowInfo, point){
     return null;
   }
   const target = new Target(columnInfo.columnNo, rowInfo.rowNo);
-  //if (rowInfo.isBottomBorder) {
-  //  const top = rowInfo.top + rowInfo.height - RESIZER_BORDER_WIDTH;
-  //  const rect = new Rect(columnInfo.left, top, columnInfo.width, RESIZER_BORDER_WIDTH * 2);
-  //  const objectType = OBJECT_TYPE.ROW_RESIZER;
-  //  return new SelectInfo(objectType, target, rect, point);
-  //}
-  //else {
-  //  const rect = new Rect(columnInfo.left, rowInfo.top, columnInfo.width, rowInfo.height);
-  //  const objectType = OBJECT_TYPE.ROW_HEADER;
-  //  return new SelectInfo(objectType, target, rect, point);
-  //}
 
   const rect = new Rect(columnInfo.left, rowInfo.top, columnInfo.width, rowInfo.height);
   const objectType = (rowInfo.isBottomBorder) ?
@@ -56,23 +45,28 @@ function pickCell(columnInfo, rowInfo, point){
   const rect = new Rect(columnInfo.left, rowInfo.top, columnInfo.width, rowInfo.height);
   const objectType = OBJECT_TYPE.CELL;
   return new SelectInfo(objectType, target, rect, point);
-
 }
 
-
-function pointToGridViewItem(viewModel, opeModel, point){
+function pointToGridViewItem(viewModel, opeModel, point, isDrag){
 
   const columnInfo = pointToColumnInfo(viewModel, opeModel, point);
   const rowInfo = pointToRowInfo(viewModel, opeModel, point);
 
-  const columnHeader = pickColumnHeader(columnInfo, rowInfo, point);
-  if (columnHeader){
-    return columnHeader;
-  }
+  const isCellDrag = (
+    (isDrag) &&
+    (opeModel.opeItem) &&
+    (opeModel.opeItem.objectType === OBJECT_TYPE.CELL));
 
-  const rowHeader = pickRowHeader(columnInfo, rowInfo, point);
-  if (rowHeader){
-    return rowHeader;
+  if (!isCellDrag){
+    const columnHeader = pickColumnHeader(columnInfo, rowInfo, point);
+    if (columnHeader){
+      return columnHeader;
+    }
+
+    const rowHeader = pickRowHeader(columnInfo, rowInfo, point);
+    if (rowHeader){
+      return rowHeader;
+    }
   }
 
   const cell = pickCell(columnInfo, rowInfo, point);

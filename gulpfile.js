@@ -41,6 +41,11 @@ gulp.task("watch", function() {
   gulp.watch("./src/**", ["sample"]);
 });
 
+
+gulp.task("auto", function() {
+  gulp.watch("./sample/**", ["sample"]);
+});
+
 gulp.task("sample", ["build"], function() {
   return gulp.src("")
   .pipe(webpack(webpackSampleConfig))

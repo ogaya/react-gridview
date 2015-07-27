@@ -1,6 +1,10 @@
 import React from "react";
-//import GridView from "../dist/react-gridview.js";
-import {GridView, GridViewModel} from "../dist/react-gridview.js";
+
+// gridviewモデル
+import {GridView, GridViewModel, OperationModel} from "../dist/react-gridview.js";
+
+// コンポーネント
+import Controller from "./controller";
 //import {StageMixin} from "../dist/react-helix";
 
 const mainStyle = {
@@ -43,19 +47,20 @@ const vStyle = {
 const Main = React.createClass({
   getInitialState() {
     let viewModel = new GridViewModel();
-    viewModel = viewModel.setOnChangeCell((prevCell, nextCell) =>{
-
-      if(nextCell.columnNo === 1){
-        return prevCell;
-      }
-      if(nextCell.columnNo === 2){
-        return nextCell;
-      }
-      return nextCell.setTextColor("#F00");
-    });
+    // viewModel = viewModel.setOnChangeCell((prevCell, nextCell) =>{
+    //
+    //   if(nextCell.columnNo === 1){
+    //     return prevCell;
+    //   }
+    //   if(nextCell.columnNo === 2){
+    //     return nextCell;
+    //   }
+    //   return nextCell.setTextColor("#F00");
+    // });
     return {
       viewModel: viewModel,
-      viewJson: viewModel.toJson()
+      viewJson: viewModel.toJson(),
+      operationModel: new OperationModel()
     };
   },
   _onChangeView(prevView, nextView){
@@ -66,28 +71,47 @@ const Main = React.createClass({
 
     return nextView;
   },
+  _onChangeOperation(prevOperation, nextOperation){
+    this.setState({
+      operationModel: nextOperation
+    })
+    return nextOperation;
+  },
+  _onControlView(view){
+    this.setState({
+      viewModel: view,
+      viewJson: view.toJson()
+    })
+  },
   render: function() {
     const convertStr = JSON.stringify(this.state.viewJson);
-    const view = GridViewModel.fromJson(this.state.viewJson);
+    const convertView = GridViewModel.fromJson(this.state.viewJson);
+    const operation = this.state.operationModel;
     return (
-      <div style={mainStyle}>
-        <div style={viewerStyle}>
-          <div style={vStyle}>
-            <GridView  onChangeView={this._onChangeView} />
-          </div>
-          <div>
-            変換後：
-          </div>
-          <div style={vStyle}>
-            <GridView viewModel={view}/>
-          </div>
+      <div>
+        <div>
+          <Controller operationModel={operation} viewModel={this.state.viewModel} onControlView={this._onControlView}/>
         </div>
-        <div style={spaceStyle} />
-        <div style={converStyle}>
-          <div style={pStyle}>
-            {convertStr}
+        <div style={mainStyle}>
+          <div style={viewerStyle}>
+            <div style={vStyle}>
+              <GridView viewModel={this.state.viewModel}
+                onChangeView={this._onChangeView} onChangeOperation={this._onChangeOperation}/>
+            </div>
+            <div>
+              変換後：
+            </div>
+            <div style={vStyle}>
+              <GridView viewModel={convertView}/>
+            </div>
           </div>
+          <div style={spaceStyle} />
+          <div style={converStyle}>
+            <div style={pStyle}>
+              {convertStr}
+            </div>
 
+          </div>
         </div>
       </div>
     );

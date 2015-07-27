@@ -8,8 +8,8 @@ export default class Cell extends Record({
   verticalAlign: VERTICAL_ALIGN.CENTER,
   textAlign: TEXT_ALIGN.RIGHT,
   indent: 1,
-  background: null,
-  textColor: null
+  background: "",
+  textColor: ""
 }) {
 
   static createCell(target) {
@@ -32,6 +32,12 @@ export default class Cell extends Record({
       .setIndent(json.indent)
       .setTextColor(json.textColor);
   }
+
+  // toJS(){
+  //   return {
+  //     value: this.value
+  //   };
+  // }
 
   setBackground(background) {
     return this.set("background", background);
@@ -57,7 +63,7 @@ export default class Cell extends Record({
     return this.set("textColor", textColor);
   }
 
-  equal(cell){
+  equals(cell){
     const tmp = cell
       .set("columnNo", this.columnNo)
       .set("rowNo", this.rowNo);

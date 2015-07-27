@@ -1,4 +1,5 @@
 import {targetToRect} from "../../../model/lib/target_to_rect";
+import {fitForTarget} from "../../../model/lib/fit-for-target";
 import {OBJECT_TYPE} from "../../../model/gridview/object-type";
 import {SelectInfo} from "../../../model/lib/select";
 
@@ -26,7 +27,7 @@ function nextRect(keyCode, target){
 }
 
 function arrowDown(e, props){
-  const opeModel = props.opeModel;
+  let opeModel = props.opeModel;
 
   // 選択ターゲットを取得
   const selectItem = opeModel.selectItem;
@@ -41,15 +42,20 @@ function arrowDown(e, props){
 
   // 選択セルを下へ移す
   const target = nextRect(e.keyCode, selectItem.target);
-  const rect = targetToRect(props.viewModel, target, opeModel.scroll);
-  const newSelectItem = new SelectInfo(selectItem.objectType, target, null, rect);
+  if (selectItem.target === target){
+    return true;
+  }
+
+  const fitScroll = fitForTarget(props.viewModel,opeModel , target);
+  const newSelectItem = new SelectInfo(selectItem.objectType, target, null, null);
 
   // 入力状態を解除する
   //const input = opeModel.input.setIsInputing(false);
 
   // 新規操作オブジェクトを作る
   const newOpeModel = opeModel
-    .setSelectItem(newSelectItem);
+    .setSelectItem(newSelectItem)
+    .setScroll(fitScroll);
 
   props.onStateChange(props.viewModel, newOpeModel);
   return false;

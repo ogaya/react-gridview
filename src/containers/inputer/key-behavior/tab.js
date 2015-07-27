@@ -1,4 +1,5 @@
 import {targetToRect} from "../../../model/lib/target_to_rect";
+import {fitForTarget} from "../../../model/lib/fit-for-target";
 import {OBJECT_TYPE} from "../../../model/gridview/object-type";
 import {SelectInfo} from "../../../model/lib/select";
 
@@ -19,8 +20,9 @@ function tabDown(e, props){
 
   // 選択セルを右へ移す
   const target = selectItem.target.setColumnNo(selectItem.target.columnNo + 1);
-  const rect = targetToRect(props.viewModel, target, opeModel.scroll);
-  const newSelectItem = new SelectInfo(selectItem.objectType, target, null, rect);
+  //const rect = targetToRect(props.viewModel, target, opeModel.scroll);
+  const fitScroll = fitForTarget(props.viewModel, opeModel , target);
+  const newSelectItem = new SelectInfo(selectItem.objectType, target, null, null);
 
   // 入力状態を解除する
   const input = opeModel.input.setIsInputing(false);
@@ -28,6 +30,7 @@ function tabDown(e, props){
   // 新規操作オブジェクトを作る
   const newOpeModel = opeModel
     .setSelectItem(newSelectItem)
+    .setScroll(fitScroll)
     .setInput(input);
 
   props.onStateChange(props.viewModel, newOpeModel);

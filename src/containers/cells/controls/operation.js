@@ -39,6 +39,11 @@ function drawRange(canvas, viewModel, opeModel){
   if (!rangeItem){
     return;
   }
+
+  if ((rangeItem.target1.columnNo === rangeItem.target2.columnNo) &&
+      (rangeItem.target1.rowNo === rangeItem.target2.rowNo)){
+    return;
+  }
   canvas.context.strokeStyle = "#35C";
   canvas.context.lineWidth = 1;
 
@@ -50,7 +55,7 @@ function drawRange(canvas, viewModel, opeModel){
   canvas.context.globalAlpha = 0.2;
   canvas.context.fillRect(rect.left, rect.top, rect.width, rect.height);
   canvas.context.globalAlpha = 1;
-  canvas.drawRect(rect);
+  canvas.drawRectLine(rect);
 
 
 }
@@ -74,5 +79,5 @@ export default function drawOperation(canvas, viewModel, opeModel) {
   canvas.context.strokeStyle = "#35C";
   canvas.context.lineWidth = 3;
   const rect = targetToRect(viewModel, target, opeModel.scroll);
-  canvas.drawRect(rect);
+  canvas.drawRectLine(rect);
 }

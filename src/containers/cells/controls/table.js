@@ -4,11 +4,17 @@ import {Rect, Target} from "../../../model/common";
 function drawCell(canvas, model, rect, target){
 
   const item = model.getCell(target);
-  canvas.context.fillStyle = item.background;
+
+  if (item.background){
+    canvas.context.fillStyle = item.background;
+    canvas.drawRectFill(rect);
+  }
+
   canvas.context.strokeStyle = "#999";
 
-  canvas.drawLine(rect.right, rect.top, rect.right, rect.bottom);
-  canvas.drawLine(rect.left, rect.bottom, rect.right, rect.bottom);
+  canvas.drawLine(rect.left, rect.top, rect.right, rect.top);
+  canvas.drawLine(rect.left, rect.top, rect.left, rect.bottom);
+
 
   if (item.textColor){
     canvas.context.fillStyle = item.textColor;

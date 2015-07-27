@@ -11,8 +11,10 @@ import GridViewModel from "../../model/gridview";
 import CanvasModel from "../../model/canvas";
 import OperationModel from "../../model/operation";
 import {targetToRect} from "../../model/lib/target_to_rect";
+import {fitForTarget} from "../../model/lib/fit-for-target";
 import {Point} from "../../model/common";
-
+import {Rect} from "../../model/common";
+import {OBJECT_TYPE} from "../../model/gridview/object-type";
 
 // ライブラリ
 import {drag} from "../../util/drag";
@@ -29,6 +31,22 @@ const style =  {
 
 const STYLE_STRING = "width:100%;height:100%;outline:none;";
 
+function dragScroll(viewModel, opeModel){
+  const opeItem = opeModel.opeItem;
+  const hoverItem = opeModel.hoverItem;
+
+  // 操作中オブジェクトがセルで無い場合、範囲選択しない
+  if ((!opeItem) || (opeItem.objectType !== OBJECT_TYPE.CELL)){
+    return opeModel.scroll;
+  }
+  // ホバーアイテムがセルで無い場合、前回の範囲選択情報のままとする。
+  if ((!hoverItem) || (hoverItem.objectType !== OBJECT_TYPE.CELL)){
+    return opeModel.scroll;
+  }
+
+  return fitForTarget(viewModel, opeModel , hoverItem.target);
+}
+
 const Cells = React.createClass({
   displayName: "Gridview-Cells",
   propTypes: {
@@ -42,8 +60,19 @@ const Cells = React.createClass({
     const model = props.model;
     const opeModel = props.opeModel;
     const canvasElement = this.refs.gwcells.getDOMNode();
-    const width = canvasElement.width = canvasElement.offsetWidth;
-    const height = canvasElement.height = canvasElement.offsetHeight;
+    const canvasWidth = canvasElement.offsetWidth;
+    const canvasHeigh = canvasElement.offsetHeight;
+
+    if ((!opeModel.canvasRect) ||
+        (opeModel.canvasRect.width !== canvasWidth) ||
+        (opeModel.canvasRect.height !== canvasHeigh)){
+      const cRect = new Rect(0, 0, canvasWidth, canvasHeigh);
+      props.onOperationChange(opeModel.setCanvasRect(cRect))
+      return;
+    }
+
+    const width = canvasElement.width = canvasWidth;
+    const height = canvasElement.height = canvasHeigh;
     const context = canvasElement.getContext("2d");
     const canvas = new CanvasModel(context, width, height);
     //context.scale(2,2);
@@ -81,19 +110,21 @@ const Cells = React.createClass({
 
     const item = pointToGridViewItem(viewModel, opeModel, point);
     this.props.setInputFocus();
-    //console.log(item);
+
     const ope = opeModel
       .setSelectItem(item)
       .setOpeItem(item)
       .setRangeItem(null);
-    this.props.onOperationChange(ope);
+
+    const rangeItem = opeModelToRangeItem(ope);
+    this.props.onOperationChange(ope.setRangeItem(rangeItem));
   },
   _onMouseMove(e){
-
+    const node = this.refs.gwcells.getDOMNode();
     const viewModel = this.props.model;
     const opeModel = this.props.opeModel;
 
-    const rect = e.target.getBoundingClientRect();
+    const rect = node.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     // テーブル上の座標を取得
@@ -101,11 +132,12 @@ const Cells = React.createClass({
 
     //const point = new Point(e.offsetX, e.offsetY);
 
-    const item = pointToGridViewItem(viewModel, opeModel, point);
+    const item = pointToGridViewItem(viewModel, opeModel, point, true);
     const ope = opeModel.setHoverItem(item);
+    const scroll = dragScroll(viewModel, ope);
     const rangeItem = opeModelToRangeItem(ope);
 
-    this.props.onOperationChange(ope.setRangeItem(rangeItem));
+    this.props.onOperationChange(ope.setRangeItem(rangeItem).setScroll(scroll));
 
   },
   componentDidMount(){

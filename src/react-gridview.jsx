@@ -22,26 +22,32 @@ const GridView = React.createClass({
   displayName: "gridview",
   propTypes: {
     viewModel: React.PropTypes.instanceOf(GridViewModel),
+    operationModel: React.PropTypes.instanceOf(OperationModel),
     onChangeView: React.PropTypes.func,
+    onChangeOperation: React.PropTypes.func
   },
   getDefaultProps() {
     return {
       viewModel: new GridViewModel(),
-      onChangeView: (prevView, nextView) =>{ return nextView; }
+      operationModel: new OperationModel(),
+      onChangeView: (prevView, nextView) =>{ return nextView; },
+      onChangeOperation: (prevVOperation, nextOperation) =>{ return nextOperation; }
     };
   },
   getInitialState() {
     return {
       viewModel: this.props.viewModel,
-      operation: new OperationModel(),
+      operation: this.props.operationModel,
       setInputFocus: () =>{}
     };
   },
   componentWillReceiveProps(nextProps){
-    if(this.props.viewModel === nextProps.viewModel){
-      return;
+    if(this.props.viewModel !== nextProps.viewModel){
+      this.setState({viewModel: nextProps.viewModel})
     }
-    this.setState({viewModel: nextProps.viewModel})
+    if(this.props.operationModel !== nextProps.operationModel){
+      this.setState({operation: nextProps.operationModel})
+    }
   },
   componentDidMount(){
     this.setState({setInputFocus: this.refs.inputer.setInputFocus})
@@ -54,23 +60,22 @@ const GridView = React.createClass({
     this._onViewModelChange(viewModel);
   },
   _onViewModelChange(viewModel){
-    const nextView = this.props.onChangeView(this.props.viewModel, viewModel);
-    if (this.props.viewModel === nextView){
+    const nextView = this.props.onChangeView(this.state.viewModel, viewModel);
+    if (this.state.viewModel === nextView){
       return;
     }
     this.setState({viewModel: nextView});
   },
   _onOperationChange(ope){
-    this.setState({operation: ope});
+    const nextOpe = this.props.onChangeOperation(this.state.operation, ope);
+    if (this.state.operation === nextOpe){
+      return;
+    }
+    this.setState({operation: nextOpe});
   },
   _onStateChange(viewModel, operation){
-
     this._onViewModelChange(viewModel);
     this._onOperationChange(operation);
-    // this.setState({
-    //   viewModel: viewModel,
-    //   operation: operation
-    // });
   },
   _onMouseWheel(e){
     const opeModel = this.state.operation;
@@ -85,6 +90,15 @@ const GridView = React.createClass({
       this._onOperationChange(opeModel.setScroll(scroll));
     }
     e.preventDefault();
+  },
+  // 再描画が必要か判定
+  shouldComponentUpdate: function(nextProps, nextState) {
+    const viewModel = this.state.viewModel;
+    const operation = this.state.operation;
+    const viewChanged = JSON.stringify(viewModel.toJson()) !== JSON.stringify(nextState.viewModel.toJson());
+    const opeChanged = JSON.stringify(operation.toJS()) !== JSON.stringify(nextState.operation.toJS());
+    //console.log("ope:" + (operation !== nextState.operation));
+    return viewChanged || opeChanged;
   },
   render: function () {
     const viewModel = this.state.viewModel;
@@ -106,5 +120,6 @@ const GridView = React.createClass({
 
 export{
   GridView,
-  GridViewModel
+  GridViewModel,
+  OperationModel
 };

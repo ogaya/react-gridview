@@ -27,13 +27,13 @@ function opeModelToRangeItem(opeModel){
 
   // ホバーアイテムがセルで無い場合、前回の範囲選択情報のままとする。
   if ((!hoverItem) || (hoverItem.objectType !== OBJECT_TYPE.CELL)){
-    return opeModel.rangeItem;
+    return new Range(opeItem.target, opeItem.target);;
   }
 
-  if((opeItem.target.columnNo === hoverItem.target.columnNo) &&
-     (opeItem.target.rowNo === hoverItem.target.rowNo)){
-    return null;
-  }
+  // if((opeItem.target.columnNo === hoverItem.target.columnNo) &&
+  //    (opeItem.target.rowNo === hoverItem.target.rowNo)){
+  //   return null;
+  // }
 
   return new Range(opeItem.target, hoverItem.target);
 }
