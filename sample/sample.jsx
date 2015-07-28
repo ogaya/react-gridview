@@ -42,7 +42,7 @@ const pStyle = {
 };
 
 const vStyle = {
-  height: "200px"
+  height: "400px"
 }
 const Main = React.createClass({
   getInitialState() {
@@ -98,12 +98,7 @@ const Main = React.createClass({
               <GridView viewModel={this.state.viewModel}
                 onChangeView={this._onChangeView} onChangeOperation={this._onChangeOperation}/>
             </div>
-            <div>
-              変換後：
-            </div>
-            <div style={vStyle}>
-              <GridView viewModel={convertView}/>
-            </div>
+
           </div>
           <div style={spaceStyle} />
           <div style={converStyle}>
@@ -118,7 +113,12 @@ const Main = React.createClass({
   }
 });
 
-
+// <div>
+//   変換後：
+// </div>
+// <div style={vStyle}>
+//   <GridView viewModel={convertView}/>
+// </div>
 React.render(
     <Main />,
     document.getElementById('main')

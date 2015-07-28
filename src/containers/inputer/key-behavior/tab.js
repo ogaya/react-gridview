@@ -30,6 +30,7 @@ function tabDown(e, props){
   // 新規操作オブジェクトを作る
   const newOpeModel = opeModel
     .setSelectItem(newSelectItem)
+    .resetRange()
     .setScroll(fitScroll)
     .setInput(input);
 

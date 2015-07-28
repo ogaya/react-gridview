@@ -14,11 +14,32 @@ const Inputer = React.createClass({
     onValueChange: React.PropTypes.func,
     onStateChange: React.PropTypes.func
   },
+  getInitialState() {
+    return {
+      inputText: ""
+    };
+  },
   componentDidMount(){
     this.refs.inputText.getDOMNode().onkeydown  = this._onKeyDown;
   },
   componentDidUpdate(prevProps, prevState){
     //this.refs.inputText.getDOMNode().focus();
+  },
+  componentWillReceiveProps(nextProps){
+    const prevInput = this.props.opeModel.input;
+
+    // 入力中　→　入力解除の場合は、変更値をセルに反映させる。
+    if ((prevInput.isInputing === true) &&
+        (nextProps.opeModel.input.isInputing === false)){
+      nextProps.onValueChange(prevInput.target, this.state.inputText);
+    }
+
+    // 入力解除　→　入力の場合は、セルの値を削除する
+    if ((prevInput.isInputing === false) &&
+        (nextProps.opeModel.input.isInputing === true)){
+      this.setState({inputText: ""});
+    }
+
   },
   setInputFocus(){
     this.refs.inputText.getDOMNode().focus();
@@ -27,36 +48,17 @@ const Inputer = React.createClass({
     return inputKeyDown(e, this.props);
   },
   changeText(e) {
-    const input = this.props.opeModel.input;
-    //this.setState({textValue: e.target.value});
-    this.props.onValueChange(input.target, e.target.value);
+    this.setState({inputText: e.target.value});
   },
   _onBlur(){
     const input = this.props.opeModel.input.setIsInputing(false);
     const ope = this.props.opeModel.setInput(input);
     this.props.onStateChange(this.props.viewModel, ope);
-    //console.log("blure");
-  },
-  _getValue(){
-    const opeModel = this.props.opeModel;
-    if(!opeModel.input){
-      return "";
-    }
-    if (!opeModel.input.isInputing){
-      return "";
-    }
-    if(!opeModel.selectItem){
-      return "";
-    }
-    if(!opeModel.selectItem.target){
-      return "";
-    }
-    const cell = this.props.viewModel.getCell(opeModel.selectItem.target);
-    return cell.value;
   },
   render() {
     const style = createInputStyle(this.props.opeModel);
-    const value = this._getValue();
+    //const value = this._getValue();
+    const value = this.state.inputText;
 
     return (
       <input style={style} type="text" ref="inputText" value={value}

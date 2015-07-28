@@ -2,6 +2,7 @@ import {Record}from "immutable";
 import InputModel from "./input";
 import {Target} from "../common/target";
 import {OBJECT_TYPE} from "../gridview/object-type";
+import {Range} from "../lib/range";
 
 function objectCursor(objectType){
   switch (objectType){
@@ -41,7 +42,7 @@ export default class Operation extends Record({
   setScroll(scroll){
     return this.set("scroll", scroll);
   }
-  
+
   withScroll(mutator){
     return this.set("scroll", mutator(this.scroll));
   }
@@ -60,6 +61,12 @@ export default class Operation extends Record({
 
   setCanvasRect(canvasRect){
     return this.set("canvasRect", canvasRect);
+  }
+
+  resetRange(){
+    const target = this.selectItem.target;
+    const range = new Range(target, target);
+    return this.setRangeItem(range);
   }
 
   opeCursor(){

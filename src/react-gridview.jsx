@@ -95,9 +95,10 @@ const GridView = React.createClass({
   shouldComponentUpdate: function(nextProps, nextState) {
     const viewModel = this.state.viewModel;
     const operation = this.state.operation;
-    const viewChanged = JSON.stringify(viewModel.toJson()) !== JSON.stringify(nextState.viewModel.toJson());
+    const viewChanged = (viewModel !== nextState.viewModel);
     const opeChanged = JSON.stringify(operation.toJS()) !== JSON.stringify(nextState.operation.toJS());
     //console.log("ope:" + (operation !== nextState.operation));
+
     return viewChanged || opeChanged;
   },
   render: function () {

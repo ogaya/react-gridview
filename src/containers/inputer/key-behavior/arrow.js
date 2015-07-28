@@ -3,7 +3,6 @@ import {fitForTarget} from "../../../model/lib/fit-for-target";
 import {OBJECT_TYPE} from "../../../model/gridview/object-type";
 import {SelectInfo} from "../../../model/lib/select";
 
-
 // キーコード入力後のセル位置
 function nextRect(keyCode, target){
   switch (keyCode) {
@@ -55,6 +54,7 @@ function arrowDown(e, props){
   // 新規操作オブジェクトを作る
   const newOpeModel = opeModel
     .setSelectItem(newSelectItem)
+    .resetRange()
     .setScroll(fitScroll);
 
   props.onStateChange(props.viewModel, newOpeModel);
