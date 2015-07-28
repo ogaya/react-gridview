@@ -13,19 +13,18 @@ export default function drawColumnHeader(canvas, columnHeader, rowHeader, opeMod
 
   const columnNo = opeModel.scroll.columnNo;
   let sumWidth = rowHeader.width;
-  const items = columnHeader.items.skip(columnNo - 1).toArray();
-  for (let key in items) {
-    const item = items[key];
+  columnHeader.items.skip(columnNo - 1)
+    .takeWhile((item) =>{
+      const rect = new Rect(sumWidth, 0, item.width, columnHeader.height);
+      sumWidth = sumWidth + item.width;
+      if(sumWidth > canvas.width){
+        return false;
+      }
+      canvas.drawLine(sumWidth, 0, sumWidth, columnHeader.height);
 
-    const rect = new Rect(sumWidth, 0, item.width, columnHeader.height);
-    sumWidth = sumWidth + item.width;
-    if(sumWidth > canvas.width){
-      break;
-    }
-    canvas.drawLine(sumWidth, 0, sumWidth, columnHeader.height);
-
-    canvas.context.fillStyle = "#FFF";
-    context.font = "11px 'Meiryo'";
-    canvas.drawText(item.cell.value, rect, item.cell.textAlign, item.cell.verticalAlign);
-  }
+      canvas.context.fillStyle = "#FFF";
+      context.font = "11px 'Meiryo'";
+      canvas.drawText(item.cell.value, rect, item.cell.textAlign, item.cell.verticalAlign);
+      return true;
+    });
 }

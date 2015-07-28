@@ -28,40 +28,36 @@ function drawCell(canvas, model, rect, target){
 }
 
 // 行内の列描画
-function drawColumn(canvas, model, index, top, rowHeaderItem, opeModel) {
-  const columnNo = opeModel.scroll.columnNo;
-  const rowNo = opeModel.scroll.rowNo;
+function drawColumn(canvas, model, rowNo, top, rowHeaderItem, opeModel) {
   let left = model.rowHeader.width;
-  const items = model.columnHeader.items.skip(columnNo - 1).toArray();
-  for(let key in items){
-    const item = items[key];
-    const width = item.width;
-    const height = rowHeaderItem.height;
-    const widthOver = (canvas.width < (left + width));
+  model.columnHeader.items.skip(opeModel.scroll.columnNo - 1)
+    .takeWhile((item, columnNo) =>{
 
-    if (widthOver){
-      return;
-    }
-    const rect = new Rect(left, top, width, height);
-    const target = new Target(Number(key) + columnNo, Number(index) + rowNo);
-    drawCell(canvas, model, rect, target);
-    left = left + item.width;
-  }
+      const width = item.width;
+      const height = rowHeaderItem.height;
+      const widthOver = (canvas.width < (left + width));
+
+      if (widthOver){
+        return false;
+      }
+      const rect = new Rect(left, top, width, height);
+      const target = new Target(columnNo, rowNo);
+      drawCell(canvas, model, rect, target);
+      left = left + item.width;
+
+      return true;
+    });
+
 }
 
 // 行毎の描画
 export default function drawTable(canvas, model, opeModel) {
   let top = model.columnHeader.height;
-  const rowNo = opeModel.scroll.rowNo;
-  const items = model.rowHeader.items.skip(rowNo - 1).toArray();
-  for(let key in items){
-    const item = items[key];
-    drawColumn(canvas, model, key, top, item, opeModel);
-    top = top + item.height;
+  model.rowHeader.items.skip(opeModel.scroll.rowNo - 1)
+    .takeWhile((item, rowNo) =>{
+      drawColumn(canvas, model, rowNo, top, item, opeModel);
+      top = top + item.height;
+      return (canvas.height >= top);
+    });
 
-    const heightOver = (canvas.height < top);
-    if (heightOver){
-      return;
-    }
-  }
 }
