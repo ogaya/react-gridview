@@ -1,5 +1,6 @@
 import React from "react";
 import OperationModel from "../../../model/operation";
+import GridViewModel  from "../../../model/gridview";
 
 // モデル
 import {Point, Rect} from "../../../model/common";
@@ -17,12 +18,15 @@ const csStyle = Object.freeze({
 const PADDING = 2;
 const SCROLL_UNIT = 5;
 
+// thumbの最小幅
+const THUMB_MIN_WIDTH = 30;
+
 const Horizontalbar  = React.createClass({
   displayName: "Horizontalbar",
   propTypes: {
     className: React.PropTypes.string,
-    maxNum: React.PropTypes.number,
-    minNum: React.PropTypes.number,
+    opeModel: React.PropTypes.instanceOf(OperationModel),
+    viewModel: React.PropTypes.instanceOf(GridViewModel),
     smallChange: React.PropTypes.number,
     largeChange: React.PropTypes.number,
     value: React.PropTypes.number,
@@ -30,8 +34,6 @@ const Horizontalbar  = React.createClass({
   },
   getDefaultProps() {
     return {
-      maxNum: 100,
-      minNum: 0,
       smallChange: 1,
       largeChange: 5,
       onChangeValue: (value)=>{}
@@ -39,12 +41,24 @@ const Horizontalbar  = React.createClass({
   },
   getInitialState() {
     return {
-      location: new Rect(PADDING, 0, 60, 0),
-      startPoint: null,
-      startRect: null,
+      thumbAreaRect: null,
     }
   },
-  // スタイルの生成
+  _handleResize(){
+    const thumbArea = this.refs.rgThumbArea.getDOMNode();
+    const areaRect = thumbArea.getBoundingClientRect();
+    this.setState({thumbAreaRect: areaRect});
+  },
+  componentDidMount(){
+    const node = this.refs.rgThumb.getDOMNode();
+    drag(node, this._dragStart, this._dragMove);
+    window.addEventListener('resize', this._handleResize);
+    this._handleResize();
+  },
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._handleResize);
+  },
+  // 全体のスタイルの生成
   _createStyle(){
     let style = {
       position: "absolute"
@@ -60,81 +74,135 @@ const Horizontalbar  = React.createClass({
     return style;
   },
   componentWillReceiveProps(nextProps){
-    const value = nextProps.value;
-    const left =  PADDING + (value - nextProps.minNum) * SCROLL_UNIT / nextProps.smallChange ;
-    const location = this.state.location.setLeft(left);
-
-    this.setState({location: location});
   },
   _dragStart(e){
+  },
+  _getScrollMaxValue(){
+    const viewModel = this.props.viewModel;
+    const opeModel = this.props.opeModel;
+    if ((!viewModel) || (!opeModel)) {
+      return 0;
+    }
 
-    this.setState({
-      startPoint: new Point(e.clientX, e.clientY),
-      startRect: this.state.location
+    const maxColumnCount = viewModel.columnHeader.maxCount;
+    const fullWidth = this.props.viewModel.columnHeader.width;
+
+    const canvasRect = opeModel.canvasRect;
+    if (!canvasRect){
+      return 0;
+    }
+    const tableWidth = canvasRect.width - viewModel.rowHeader.width;
+    let sumWidth = 0;
+    let columnNo = 1;
+    viewModel.columnHeader.items.reverse().forEach((item, key)=>{
+      sumWidth = sumWidth + item.width;
+
+      if (sumWidth > tableWidth){
+        return false;
+      }
+      columnNo = key;
     });
+
+    return columnNo;
   },
   // thumbバーを操作中の処理
   _dragMove(e){
 
-    // 移動量に応じてスクロールバーを移動させる
-    const point = new Point(e.clientX, e.clientY);
-    const nextLeft = this.state.startRect.left + (point.x - this.state.startPoint.x);
-
-
-    const thumbArea = this.refs.rgThumbArea.getDOMNode();
-    const areaRect = thumbArea.getBoundingClientRect();
-
-    const thumbWidth = areaRect.width - this._subNum();
-    let location = this.state.startRect.setLeft(nextLeft).setWidth(thumbWidth);
-
-    if (areaRect.width - PADDING < location.right){
-      location = location.setLeft(areaRect.width -PADDING - location.width);
+    if (!this.state.thumbAreaRect){
+      return;
     }
 
-    if (location.left < PADDING){
-      location = location.setLeft(PADDING);
+    const nextLeft = (e.clientX - this.state.thumbAreaRect.left);
+    // 移動可能領域の幅
+    const moveAreaWidth = this.state.thumbAreaRect.width - this._thumWidth();
+    const fullWidth = this.props.viewModel.columnHeader.width;
+
+    // １ピクセルあたりの倍率を求める
+    const magnification = fullWidth / moveAreaWidth;
+    // スクロールバー位置に対応するcanvas上のX座標を求める
+    const canvasX = nextLeft * magnification + 50;
+
+    let columnNo = this.props.viewModel.pointToColumnNo(canvasX);
+    let maxNo = this._getScrollMaxValue();
+
+    if (!columnNo){
+      columnNo = (nextLeft < PADDING) ?
+        1 :
+        maxNo;
     }
 
-    //this.setState({location: location});
-    const subValue = Math.round((location.left - PADDING) / SCROLL_UNIT);
-    const value = this.props.minNum + subValue * this.props.smallChange;
-    this.props.onChangeValue(value);
-  },
-  componentDidMount(){
-    const node = this.refs.rgThumb.getDOMNode();
-    drag(node, this._dragStart, this._dragMove);
-  },
-
-  _subNum(){
-
-    let subNum = (this.props.maxNum - this.props.minNum);
-    if (subNum < 0) {
-      subNum = 0;
+    if (columnNo > maxNo){
+      columnNo = maxNo;
     }
 
-    return PADDING * 2 + subNum * this.props.smallChange * SCROLL_UNIT;
+    this.props.onChangeValue(columnNo);
   },
+  // thumbの幅
+  _thumWidth(){
+    if(!this.state.thumbAreaRect){
+      return THUMB_MIN_WIDTH;
+    }
+    const areaWidth = this.state.thumbAreaRect.width;
+    const fullWidth = this.props.viewModel.columnHeader.width;
+
+    const magnification = fullWidth / areaWidth;
+    const thumbWidth = areaWidth / magnification;
+
+    if (thumbWidth < THUMB_MIN_WIDTH) {
+      return THUMB_MIN_WIDTH;
+    }
+
+    return thumbWidth;
+  },
+  // thumbの左側の位置
+  _thumLeft(){
+    if(!this.state.thumbAreaRect){
+      return PADDING;
+    }
+
+    const thumbWidth = this._thumWidth();
+    // 移動可能領域の幅
+    const moveAreaWidth = this.state.thumbAreaRect.width - thumbWidth;
+    const fullWidth = this.props.viewModel.columnHeader.width;
+
+    // １ピクセルあたりの倍率を求める
+    const magnification = fullWidth / moveAreaWidth;
+    const scrollNo = this.props.opeModel.scroll.columnNo;
+    const scrollCell = this.props.viewModel.columnHeader.items.get(scrollNo);
+
+    if (!scrollCell){
+      return PADDING;
+    }
+
+    const left = scrollCell.left / magnification;
+    return Math.round(left);
+  },
+  // スクロールエリアでマウスを押したときの処理
   _onMouseDown(e){
     const thumbArea = this.refs.rgThumb.getDOMNode();
     const areaRect = thumbArea.getBoundingClientRect();
 
     if (areaRect.right < e.clientX){
       const value = this.props.value + this.props.largeChange;
-      this.props.onChangeValue(Math.min(value, this.props.maxNum));
+      this.props.onChangeValue(Math.min(value, this._getScrollMaxValue()));
     }
 
     if (areaRect.left > e.clientX){
       const value = this.props.value - this.props.largeChange;
-      this.props.onChangeValue(Math.max(value, this.props.minNum));
+      this.props.onChangeValue(Math.max(value, 1));
     }
 
   },
   render() {
     const style = this._createStyle();
-    let thumbStyle = this.state.location.style;
-    thumbStyle.height = "calc(20px - 6px)";
-    thumbStyle.width = "calc(100% - " + this._subNum() + "px)";
-    //thumbStyle.width = "calc(200px - " + this._subNum() + "px)";
+
+    let thumbStyle = {
+      left: this._thumLeft() + "px",
+      top: "0",
+      height: "calc(20px - 6px)",
+      width: this._thumWidth() + "px"
+    };
+
     return (
       <div className="rg-scroll-base" style={style}>
         <div className="rg-scroll-arrow"></div>

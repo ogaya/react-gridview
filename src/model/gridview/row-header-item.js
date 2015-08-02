@@ -9,7 +9,8 @@ const defCell = emptyCell
 
 export default class RowHeaderItem extends Record({
   cell: defCell,
-  height: 18
+  height: 18,
+  top: 0
 }) {
 
     // JSONから本クラスを生成
@@ -22,6 +23,14 @@ export default class RowHeaderItem extends Record({
 
   setHeight(height) {
     return this.set("height", height);
+  }
+
+  setTop(top){
+    return this.set("top", top);
+  }
+
+  get bottom(){
+    return this.top + this.height;
   }
 
   setValue(value) {

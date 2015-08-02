@@ -3,6 +3,8 @@ import RowHeaderItem from "./row-header-item";
 
 const defCell = new RowHeaderItem();
 const emptyCell = defCell.setBackground("#DDD");
+import {HEADER_SIZE} from "./const";
+
 
 // JSONからテーブル情報を生成
 function JsonToCell(json){
@@ -74,11 +76,13 @@ export default class RowHeader extends Record({
     if(this._items){
       return this._items;
     }
+    let sumHeight = HEADER_SIZE.HEIGHT;
     this._items = OrderedMap().withMutations(map =>{
       for(let i = 0; i < this.maxCount; i++){
         const rowNo = i + 1;
         const item = this._rowNoToItem(rowNo);
-        map.set(rowNo, item);
+        map.set(rowNo, item.setTop(sumHeight));
+        sumHeight = sumHeight + item.height;
       }
     });
     return this._items;

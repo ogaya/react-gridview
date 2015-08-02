@@ -1,5 +1,6 @@
 import React from "react";
 import OperationModel from "../../model/operation";
+import GridViewModel from "../../model/gridview";
 
 // モデル
 import {Point, Rect} from "../../model/common";
@@ -43,6 +44,7 @@ const GridViewBar  = React.createClass({
   propTypes: {
     isVertical: React.PropTypes.bool,
     opeModel: React.PropTypes.instanceOf(OperationModel),
+    viewModel: React.PropTypes.instanceOf(GridViewModel),
     onOperationChange: React.PropTypes.func
   },
   getDefaultProps() {
@@ -76,11 +78,13 @@ const GridViewBar  = React.createClass({
     return (
       <div>
         <div className="gw-horizontal-position" style={hStyle}>
-          <Horizontalbar maxNum={50} minNum={1} onChangeValue={this._onHorizontalScroll} value={columnNo}/>
+          <Horizontalbar viewModel={this.props.viewModel} opeModel={this.props.opeModel}
+            onChangeValue={this._onHorizontalScroll} value={columnNo}/>
         </div>
 
         <div className="gw-vertical-position" style={vStyle}>
-          <Verticalbar maxNum={200} minNum={1} onChangeValue={this._onVerticalScroll} value={rowNo}/>
+          <Verticalbar viewModel={this.props.viewModel} opeModel={this.props.opeModel}
+            maxNum={200} minNum={1} onChangeValue={this._onVerticalScroll} value={rowNo}/>
         </div>
 
         <div className="gw-center-position" style={cStyle}/>

@@ -111,7 +111,7 @@ const GridView = React.createClass({
         <Cells onOperationChange={this._onOperationChange} setInputFocus={this.state.setInputFocus}
           model={viewModel} opeModel={operation} onViewModelChange={this._onViewModelChange} />
         {inputer}
-        <GridViewBar opeModel={operation} onOperationChange={this._onOperationChange}/>
+        <GridViewBar viewModel={viewModel} opeModel={operation} onOperationChange={this._onOperationChange}/>
       </div>
     );
   }

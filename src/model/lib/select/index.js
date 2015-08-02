@@ -5,7 +5,7 @@ import {Rect, Target, RESIZER_BORDER_WIDTH} from "../../common";
 import {SelectInfo} from "./item";
 
 // 列情報取得処理
-import {pointToColumnInfo} from "./scanColumn";
+import {clientPointToColumnInfo} from "./scanColumn";
 // 行情報取得処理
 import {pointToRowInfo} from "./scanRow";
 
@@ -49,7 +49,7 @@ function pickCell(columnInfo, rowInfo, point){
 
 function pointToGridViewItem(viewModel, opeModel, point, isDrag){
 
-  const columnInfo = pointToColumnInfo(viewModel, opeModel, point);
+  const columnInfo = clientPointToColumnInfo(viewModel, opeModel, point);
   const rowInfo = pointToRowInfo(viewModel, opeModel, point);
 
   const isCellDrag = (

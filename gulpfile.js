@@ -46,7 +46,7 @@ gulp.task("auto", function() {
   gulp.watch("./sample/**", ["sample"]);
 });
 
-gulp.task("sample", ["build"], function() {
+gulp.task("sample", ["build", "mocha"], function() {
   return gulp.src("")
   .pipe(webpack(webpackSampleConfig))
   .pipe(gulp.dest(""));

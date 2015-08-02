@@ -147,54 +147,103 @@ export default class GridView extends Record({
 
   }
 
-  pointToColumnNo(pointX, offsetColumn){
-    let sumWidth = this.rowHeader.width;
-    const offset = (offsetColumn || 1) - 1;
-    if (pointX < sumWidth){
+
+  // 絶対座標の列情報を探す(二分探索)
+  pointToColumnNo(pointX, firstIndex, lastIndex){
+
+    if ((!firstIndex) && (lastIndex !== 0)){
+      firstIndex = 1;
+    }
+
+    if ((!lastIndex) && (lastIndex !== 0)){
+      lastIndex = this.columnHeader.maxCount;
+    }
+
+    // 上限下限が逆転してしまったら、範囲外にはもう無い
+    if (firstIndex > lastIndex){
       return 0;
     }
 
-    let key = 0;
-    const target = this.columnHeader.items.skip(offset).find((item, index) => {
-      const nextWidth = sumWidth + item.width;
-      key = index;
-      if ((sumWidth <= pointX) && (pointX < nextWidth)){
-        return true;
-      }
-      sumWidth = nextWidth;
-      return false;
-    });
-    return (target) ? key : -1;
+    // 一区画あたりのセル数（切り上げ）
+    const targetIndex = Math.ceil((firstIndex + lastIndex) / 2);
+    const target = this.columnHeader.items.get(targetIndex);
+
+    // ターゲットがもっと左側にある
+    if (pointX < target.left){
+      return this.pointToColumnNo(pointX, firstIndex, targetIndex - 1);
+    }
+
+    // ターゲットがもっと右側にある
+    if (pointX >= target.right){
+      return this.pointToColumnNo(pointX, targetIndex + 1, lastIndex);
+    }
+
+    // 発見
+    return targetIndex;
   }
 
   // Ｙ座標から、行番号を算出する
-  pointToRowNo(pointY, offsetRow){
-    let sumHeight = this.columnHeader.height;
-    const offset = (offsetRow || 1) - 1;
-    if (pointY < sumHeight){
+  pointToRowNo(pointY, firstIndex, lastIndex){
+
+    if ((!firstIndex) && (lastIndex !== 0)){
+      firstIndex = 1;
+    }
+
+    if ((!lastIndex) && (lastIndex !== 0)){
+      lastIndex = this.rowHeader.maxCount;
+    }
+
+    // 左右が逆転してしまったら、範囲外にはもう無い
+    if (firstIndex > lastIndex){
       return 0;
     }
 
-    let key = 0;
-    const target = this.rowHeader.items.skip(offset).find((item, index) => {
-      const nextHeight = sumHeight + item.height;
-      key = index;
-      if ((sumHeight <= pointY) && (pointY < nextHeight)){
-        return true;
-      }
-      sumHeight = nextHeight;
-      return false;
-    });
-    return (target) ? key : -1;
+    // 一区画あたりのセル数（切り上げ）
+    const targetIndex = Math.ceil((firstIndex + lastIndex) / 2);
+    const target = this.rowHeader.items.get(targetIndex);
+
+    // ターゲットがもっと上側にある
+    if (pointY < target.top){
+      return this.pointToRowNo(pointY, firstIndex, targetIndex - 1);
+    }
+
+    // ターゲットがもっと下側にある
+    if (pointY >= target.bottom){
+      return this.pointToRowNo(pointY, targetIndex + 1, lastIndex);
+    }
+
+    // 発見
+    return targetIndex;
   }
 
-  // 座標からセル位置を取得する
-  pointToTarget(pointX, pointY, scroll){
+  // // Ｙ座標から、行番号を算出する
+  // pointToRowNo(pointY, offsetRow){
+  //   let sumHeight = this.columnHeader.height;
+  //   const offset = (offsetRow || 1) - 1;
+  //   if (pointY < sumHeight){
+  //     return 0;
+  //   }
+  //
+  //   let key = 0;
+  //   const target = this.rowHeader.items.skip(offset).find((item, index) => {
+  //     const nextHeight = sumHeight + item.height;
+  //     key = index;
+  //     if ((sumHeight <= pointY) && (pointY < nextHeight)){
+  //       return true;
+  //     }
+  //     sumHeight = nextHeight;
+  //     return false;
+  //   });
+  //   return (target) ? key : -1;
+  // }
 
-    const offsetColumnNo = (scroll && scroll.columnNo) || 1;
-    const offsetRowNo = (scroll && scroll.rowNo) || 1;
-    const columnNo = this.pointToColumnNo(pointX, offsetColumnNo);
-    const rowNo = this.pointToRowNo(pointY, offsetRowNo);
+  // 座標からセル位置を取得する
+  pointToTarget(pointX, pointY){
+
+    //const offsetColumnNo = (scroll && scroll.columnNo) || 1;
+    //const offsetRowNo = (scroll && scroll.rowNo) || 1;
+    const columnNo = this.pointToColumnNo(pointX);
+    const rowNo = this.pointToRowNo(pointY);
 
     return new Target(columnNo, rowNo);
   }

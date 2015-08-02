@@ -1,8 +1,8 @@
 'use strict';
 
-import {targetToRect} from "../../../../src/containers/cells/controls/lib";
-import GridViewModel from "../../../../src/model/gridview";
-import {Target} from "../../../../src/model/common";
+import {targetToRect} from "../../../src/model/lib/target_to_rect";
+import GridViewModel  from "../../../src/model/gridview";
+import {Target}       from "../../../src/model/common";
 
 //import ColumnHeaderItem from "../../src/model/gridview/column-header-item";
 var assert = require("power-assert");

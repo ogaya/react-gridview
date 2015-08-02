@@ -9,7 +9,8 @@ const defCell = emptyCell
 
 export default class ColumnHeaderItem extends Record({
   cell: defCell,
-  width: 50
+  width: 50,
+  left: 0
 }) {
 
   // JSONから本クラスを生成
@@ -27,6 +28,14 @@ export default class ColumnHeaderItem extends Record({
   setValue(value) {
     const cell = this.cell.setValue(value);
     return this.set("cell", cell);
+  }
+
+  setLeft(left){
+    return this.set("left", left);
+  }
+
+  get right(){
+    return this.left + this.width;
   }
 
   setBackground(background) {

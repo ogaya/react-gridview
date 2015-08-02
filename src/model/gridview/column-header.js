@@ -1,5 +1,6 @@
 import {Record, Map, OrderedMap}from "immutable";
 import ColumnHeaderItem from "./column-header-item";
+import {HEADER_SIZE} from "./const";
 
 const abc = ["A", "B", "C", "D", "E", "F",
   "G", "H", "I", "J", "K", "L", "M", "N", "O",
@@ -8,7 +9,7 @@ const abc = ["A", "B", "C", "D", "E", "F",
 const defCell = new ColumnHeaderItem();
 const emptyCell = defCell.setBackground("#DDD");
 
-const HEADER_HEIGHT = 18;
+const HEADER_HEIGHT = HEADER_SIZE.HEIGHT;
 
 // JSONからテーブル情報を生成
 function JsonToCell(json){
@@ -73,18 +74,30 @@ export default class ColumnHeader extends Record({
       return this._items;
     }
     this._items = OrderedMap().withMutations(map =>{
+      let sumWidth = HEADER_SIZE.WIDTH;
       for(let i = 0; i < this.maxCount; i++){
         const columnNo = i + 1;
         const value = ColumnHeader.getId(columnNo);
-        if (this.editItems.has(columnNo)) {
-          map.set(columnNo, this.editItems.get(columnNo));
-          continue;
-        }
-        map.set(columnNo, emptyCell.setValue(value));
+
+        const item = this.editItems.has(columnNo) ?
+          this.editItems.get(columnNo) :
+          emptyCell.setValue(value);
+
+        map.set(columnNo, item.setLeft(sumWidth));
+        sumWidth = sumWidth + item.width;
+        // if (this.editItems.has(columnNo)) {
+        //   map.set(columnNo, this.editItems.get(columnNo));
+        //   continue;
+        // }
+        // map.set(columnNo, emptyCell.setValue(value));
       }
     });
 
     return this._items;
+  }
+
+  get width(){
+    return this.items.last().right;
   }
 }
 
