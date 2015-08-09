@@ -19,7 +19,7 @@ function columnResize(viewModel, opeModel) {
   const width = (right <= left) ? 1 : right - left;
 
   // 列アイテムの更新
-  const columnNo = selectItem.target.columnNo;
+  const columnNo = selectItem.cellPoint.columnNo;
   const columnHeaderItem = viewModel.columnHeader.items.get(columnNo);
   const newItem = columnHeaderItem.setWidth(width);
   const newColumnHeader = viewModel.columnHeader.setItem(columnNo, newItem);
@@ -45,7 +45,7 @@ function rowResize(viewModel, opeModel){
   const height = (bottom <= top) ? 1 : bottom - top;
 
   // 行アイテムの更新
-  const rowNo = selectItem.target.rowNo;
+  const rowNo = selectItem.cellPoint.rowNo;
   const rowHeaderItem = viewModel.rowHeader.items.get(rowNo);
   const newItem = rowHeaderItem.setHeight(height);
   const newRowHeader = viewModel.rowHeader.setItem(rowNo, newItem);

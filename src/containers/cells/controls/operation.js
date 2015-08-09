@@ -1,4 +1,4 @@
-import {targetToRect} from "../../../model/lib/target_to_rect";
+import {targetToRect, cellRangeToRect} from "../../../model/lib/target_to_rect";
 import {COLOR} from "../../../model/common";
 import {OBJECT_TYPE} from "../../../model/gridview";
 import {Rect} from "../../../model/common/rect";
@@ -40,22 +40,57 @@ function drawRange(canvas, viewModel, opeModel){
     return;
   }
 
-  if ((rangeItem.target1.columnNo === rangeItem.target2.columnNo) &&
-      (rangeItem.target1.rowNo === rangeItem.target2.rowNo)){
+  if ((rangeItem.cellPoint1.columnNo === rangeItem.cellPoint2.columnNo) &&
+      (rangeItem.cellPoint1.rowNo === rangeItem.cellPoint2.rowNo)){
     return;
   }
+
+  const cellPoint = opeModel.selectItem && opeModel.selectItem.cellPoint;
+  //console.log(target);
+  if (!cellPoint){
+    return;
+  }
+  const cell = viewModel.getCell(cellPoint);
+
+  if (rangeItem.equals(cell.mergeRange)){
+    return;
+  }
+
   canvas.context.strokeStyle = "#35C";
   canvas.context.lineWidth = 1;
 
-  const rect1 = targetToRect(viewModel, rangeItem.target1, opeModel.scroll);
-  const rect2 = targetToRect(viewModel, rangeItem.target2, opeModel.scroll);
-  const rect = Rect.forRects(rect1, rect2);
+  // const rect1 = targetToRect(viewModel, rangeItem.cellPoint1, opeModel.scroll);
+  // const rect2 = targetToRect(viewModel, rangeItem.cellPoint2, opeModel.scroll);
+  // const rect = Rect.forRects(rect1, rect2);
+  const rect = cellRangeToRect(viewModel, rangeItem, opeModel.scroll);
 
   canvas.context.fillStyle = "#35C";
   canvas.context.globalAlpha = 0.2;
   canvas.context.fillRect(rect.left, rect.top, rect.width, rect.height);
   canvas.context.globalAlpha = 1;
   canvas.drawRectLine(rect);
+}
+
+function drawSelectCell(canvas, viewModel, opeModel){
+  // セル選択の描画
+  const cellPoint = opeModel.selectItem && opeModel.selectItem.cellPoint;
+  //console.log(target);
+  if (!cellPoint){
+    return;
+  }
+
+  const cell = viewModel.getCell(cellPoint);
+  canvas.context.strokeStyle = "#35C";
+  canvas.context.lineWidth = 3;
+  if (cell.mergeRange){
+    const rect = cellRangeToRect(viewModel, cell.mergeRange, opeModel.scroll);
+    canvas.drawRectLine(rect);
+  }
+  else{
+
+    const rect = targetToRect(viewModel, cellPoint, opeModel.scroll);
+    canvas.drawRectLine(rect);
+  }
 
 
 }
@@ -69,15 +104,7 @@ export default function drawOperation(canvas, viewModel, opeModel) {
 
   // 範囲選択の描画
   drawRange(canvas, viewModel, opeModel);
+  // 選択セルの描画
+  drawSelectCell(canvas, viewModel, opeModel);
 
-  // セル選択の描画
-  const target = opeModel.selectItem && opeModel.selectItem.target;
-  //console.log(target);
-  if (!target){
-    return;
-  }
-  canvas.context.strokeStyle = "#35C";
-  canvas.context.lineWidth = 3;
-  const rect = targetToRect(viewModel, target, opeModel.scroll);
-  canvas.drawRectLine(rect);
 }

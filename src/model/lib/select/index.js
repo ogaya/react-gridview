@@ -1,7 +1,7 @@
 
 import {OBJECT_TYPE} from "../../gridview/object-type";
 
-import {Rect, Target, RESIZER_BORDER_WIDTH} from "../../common";
+import {Rect, CellPoint, RESIZER_BORDER_WIDTH} from "../../common";
 import {SelectInfo} from "./item";
 
 // 列情報取得処理
@@ -14,7 +14,7 @@ function pickColumnHeader(columnInfo, rowInfo, point){
   if (rowInfo.rowNo !== 0) {
     return null;
   }
-  const target = new Target(columnInfo.columnNo, rowInfo.rowNo);
+  const target = new CellPoint(columnInfo.columnNo, rowInfo.rowNo);
   const rect = new Rect(columnInfo.left, rowInfo.top, columnInfo.width, rowInfo.height);
 
   const objectType = (columnInfo.isRightBorder) ?
@@ -26,7 +26,7 @@ function pickRowHeader(columnInfo, rowInfo, point){
   if (columnInfo.columnNo !== 0) {
     return null;
   }
-  const target = new Target(columnInfo.columnNo, rowInfo.rowNo);
+  const target = new CellPoint(columnInfo.columnNo, rowInfo.rowNo);
 
   const rect = new Rect(columnInfo.left, rowInfo.top, columnInfo.width, rowInfo.height);
   const objectType = (rowInfo.isBottomBorder) ?
@@ -41,7 +41,7 @@ function pickCell(columnInfo, rowInfo, point){
   if (columnInfo.rowNo <= 0) {
     return null;
   }
-  const target = new Target(columnInfo.columnNo, rowInfo.rowNo);
+  const target = new CellPoint(columnInfo.columnNo, rowInfo.rowNo);
   const rect = new Rect(columnInfo.left, rowInfo.top, columnInfo.width, rowInfo.height);
   const objectType = OBJECT_TYPE.CELL;
   return new SelectInfo(objectType, target, rect, point);

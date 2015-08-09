@@ -17,7 +17,7 @@ function deleteDown(e, props){
   }
 
   // 選択セルの内容を削除する
-  const target = selectItem.target;
+  const target = selectItem.cellPoint;
   const input = props.opeModel.input;
 
   //props.onValueChange(target, "");

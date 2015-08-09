@@ -52,10 +52,10 @@ const GridView = React.createClass({
   componentDidMount(){
     this.setState({setInputFocus: this.refs.inputer.setInputFocus})
   },
-  _onValueChange(target, value){
+  _onValueChange(cellPoint, value){
 
     const viewModel = this.state.viewModel
-      .setValue(target, value);
+      .setValue(cellPoint, value);
 
     this._onViewModelChange(viewModel);
   },

@@ -9,7 +9,8 @@ export default class Cell extends Record({
   textAlign: TEXT_ALIGN.RIGHT,
   indent: 1,
   background: "",
-  textColor: ""
+  textColor: "",
+  mergeRange: null
 }) {
 
   static createCell(target) {
@@ -61,6 +62,10 @@ export default class Cell extends Record({
 
   setTextColor(textColor){
     return this.set("textColor", textColor);
+  }
+
+  setMergeRange(mergeRange){
+    return this.set("mergeRange", mergeRange);
   }
 
   equals(cell){

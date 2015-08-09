@@ -20,7 +20,7 @@ import {OBJECT_TYPE} from "../../model/gridview/object-type";
 import {drag} from "../../util/drag";
 import {pointToGridViewItem} from "../../model/lib/select";
 import {operationResult} from "../../model/lib/change";
-import {opeModelToRangeItem} from "../../model/lib/range";
+import {modelToRangeItem} from "../../model/common/cellrange";
 
 const style =  {
   width: "100%",
@@ -44,7 +44,7 @@ function dragScroll(viewModel, opeModel){
     return opeModel.scroll;
   }
 
-  return fitForTarget(viewModel, opeModel , hoverItem.target);
+  return fitForTarget(viewModel, opeModel , hoverItem.cellPoint);
 }
 
 const Cells = React.createClass({
@@ -116,7 +116,7 @@ const Cells = React.createClass({
       .setOpeItem(item)
       .setRangeItem(null);
 
-    const rangeItem = opeModelToRangeItem(ope);
+    const rangeItem = modelToRangeItem(viewModel, ope);
     this.props.onOperationChange(ope.setRangeItem(rangeItem));
   },
   _onMouseMove(e){
@@ -135,7 +135,7 @@ const Cells = React.createClass({
     const item = pointToGridViewItem(viewModel, opeModel, point, true);
     const ope = opeModel.setHoverItem(item);
     const scroll = dragScroll(viewModel, ope);
-    const rangeItem = opeModelToRangeItem(ope);
+    const rangeItem = modelToRangeItem(viewModel, ope);
 
     this.props.onOperationChange(ope.setRangeItem(rangeItem).setScroll(scroll));
 

@@ -24,8 +24,8 @@ describe("pickColumnHeader", function() {
     const columnInfo = new ColumnInfo(1, 50, 50, false);
     const rowInfo = new RowInfo(0, 18, 18, false);
     const columnHeader = pickColumnHeader(columnInfo, rowInfo);
-    assert.equal(columnHeader.target.columnNo, 1);
-    assert.equal(columnHeader.target.rowNo, 0);
+    assert.equal(columnHeader.cellPoint.columnNo, 1);
+    assert.equal(columnHeader.cellPoint.rowNo, 0);
     assert.equal(columnHeader.rect.left, 50);
     assert.equal(columnHeader.rect.width, 50);
     assert.equal(columnHeader.rect.top, 18);
@@ -37,8 +37,8 @@ describe("pickColumnHeader", function() {
     const columnInfo = new ColumnInfo(1, 50, 50, true);
     const rowInfo = new RowInfo(0, 18, 18, false);
     const columnHeader = pickColumnHeader(columnInfo, rowInfo);
-    assert.equal(columnHeader.target.columnNo, 1);
-    assert.equal(columnHeader.target.rowNo, 0);
+    assert.equal(columnHeader.cellPoint.columnNo, 1);
+    assert.equal(columnHeader.cellPoint.rowNo, 0);
     assert.equal(columnHeader.rect.left, 50);
     assert.equal(columnHeader.rect.width, 50);
     assert.equal(columnHeader.rect.top, 18);

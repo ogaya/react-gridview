@@ -1,8 +1,8 @@
 import {Record}from "immutable";
 import InputModel from "./input";
-import {Target} from "../common/target";
+import {CellPoint} from "../common";
 import {OBJECT_TYPE} from "../gridview/object-type";
-import {Range} from "../lib/range";
+import {Range} from "../common/cellrange";
 
 function objectCursor(objectType){
   switch (objectType){
@@ -28,7 +28,7 @@ export default class Operation extends Record({
   hoverItem: null,
   rangeItem: null,
   canvasRect: null,
-  scroll: new Target(1, 1)
+  scroll: new CellPoint(1, 1)
 }) {
 
   setInput(input){
@@ -64,7 +64,7 @@ export default class Operation extends Record({
   }
 
   resetRange(){
-    const target = this.selectItem.target;
+    const target = this.selectItem.cellPoint;
     const range = new Range(target, target);
     return this.setRangeItem(range);
   }

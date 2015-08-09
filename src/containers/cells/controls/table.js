@@ -1,29 +1,59 @@
-import {Rect, Target} from "../../../model/common";
+import {Rect, CellPoint} from "../../../model/common";
+import {targetToRect, cellRangeToRect} from "../../../model/lib/target_to_rect";
 
 // セルの描画
-function drawCell(canvas, model, rect, target){
+function drawCell(canvas, model, opeModel, cellPoint ){
 
-  const item = model.getCell(target);
+  const cell = model.getCell(cellPoint);
 
-  if (item.background){
-    canvas.context.fillStyle = item.background;
+  if (cell.background){
+    canvas.context.fillStyle = cell.background;
     canvas.drawRectFill(rect);
+  }
+
+  let rect;
+  if (cell.mergeRange) {
+    rect = cellRangeToRect(model, cell.mergeRange, opeModel.scroll);
+  }else{
+    rect = targetToRect(model, cellPoint, opeModel.scroll);
   }
 
   canvas.context.strokeStyle = "#999";
 
-  canvas.drawLine(rect.left, rect.top, rect.right, rect.top);
-  canvas.drawLine(rect.left, rect.top, rect.left, rect.bottom);
+  // 上部分は結合されている
+  const isTopMerge =
+    (cell.mergeRange) &&
+    (cell.mergeRange.minRowNo !== cell.rowNo);
 
+  // 左部分は結合されている
+  const isLeftMerge =
+    (cell.mergeRange) &&
+    (cell.mergeRange.minColumnNo !== cell.columnNo);
 
-  if (item.textColor){
-    canvas.context.fillStyle = item.textColor;
+  if (!isTopMerge){
+    // 上のセルラインを描画
+    canvas.drawLine(rect.left, rect.top, rect.right, rect.top);
+  }
+
+  if (!isLeftMerge){
+    // 左のセルラインを描画
+    canvas.drawLine(rect.left, rect.top, rect.left, rect.bottom);
+  }
+
+  if (cell.textColor){
+    canvas.context.fillStyle = cell.textColor;
   }
   else{
     canvas.context.fillStyle = "#000";
   }
 
-  canvas.drawText(item.value, rect, item.textAlign, item.verticalAlign);
+  if (cell.mergeRange) {
+    if (cell.mergeRange.leftTopPoint.equals(cellPoint) === false){
+      return;
+    }
+  }
+
+  canvas.drawText(cell.value, rect, cell.textAlign, cell.verticalAlign);
   //canvas.context.fillText(item.value, rect.left, rect.top);
 }
 
@@ -40,9 +70,9 @@ function drawColumn(canvas, model, rowNo, top, rowHeaderItem, opeModel) {
       if (widthOver){
         return false;
       }
-      const rect = new Rect(left, top, width, height);
-      const target = new Target(columnNo, rowNo);
-      drawCell(canvas, model, rect, target);
+      // const rect = new Rect(left, top, width, height);
+      const cellPoint = new CellPoint(columnNo, rowNo);
+      drawCell(canvas, model, opeModel, cellPoint);
       left = left + item.width;
 
       return true;

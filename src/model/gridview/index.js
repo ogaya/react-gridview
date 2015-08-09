@@ -1,7 +1,7 @@
 import {Record, Map, Range}from "immutable";
 import ColumnHeaderModel from "./column-header";
 import RowHeaderModel from "./row-header";
-import {Target} from "../common";
+import {CellPoint} from "../common";
 import CellModel from "./cell";
 import {OBJECT_TYPE} from "./object-type";
 
@@ -107,19 +107,19 @@ export default class GridView extends Record({
     if(!range){
       return this;
     }
-    const left = Math.min(range.target1.columnNo, range.target2.columnNo);
-    const right = Math.max(range.target1.columnNo, range.target2.columnNo);
-    const top = Math.min(range.target1.rowNo, range.target2.rowNo);
-    const bottom = Math.max(range.target1.rowNo, range.target2.rowNo);
+    const left = Math.min(range.cellPoint1.columnNo, range.cellPoint2.columnNo);
+    const right = Math.max(range.cellPoint1.columnNo, range.cellPoint2.columnNo);
+    const top = Math.min(range.cellPoint1.rowNo, range.cellPoint2.rowNo);
+    const bottom = Math.max(range.cellPoint1.rowNo, range.cellPoint2.rowNo);
 
     let model = this;
     Range(left, right + 1).forEach((columnNo)=>{
       Range(top, bottom + 1).forEach((rowNo)=>{
-        const target = new Target(columnNo, rowNo);
+        const target = new CellPoint(columnNo, rowNo);
         const prevCell = this.getCell(target);
         const nextCell = mutator(prevCell);
         model = model.setCell(target, nextCell);
-        //model = model.setValue(new Target(columnNo, rowNo), value);
+        //model = model.setValue(new CellPoint(columnNo, rowNo), value);
       })
     })
 
@@ -131,15 +131,15 @@ export default class GridView extends Record({
     if(!range){
       return this;
     }
-    const left = Math.min(range.target1.columnNo, range.target2.columnNo);
-    const right = Math.max(range.target1.columnNo, range.target2.columnNo);
-    const top = Math.min(range.target1.rowNo, range.target2.rowNo);
-    const bottom = Math.max(range.target1.rowNo, range.target2.rowNo);
+    const left = Math.min(range.cellPoint1.columnNo, range.cellPoint2.columnNo);
+    const right = Math.max(range.cellPoint1.columnNo, range.cellPoint2.columnNo);
+    const top = Math.min(range.cellPoint1.rowNo, range.cellPoint2.rowNo);
+    const bottom = Math.max(range.cellPoint1.rowNo, range.cellPoint2.rowNo);
 
     let model = this;
     Range(left, right + 1).forEach((columnNo)=>{
       Range(top, bottom + 1).forEach((rowNo)=>{
-        model = model.setValue(new Target(columnNo, rowNo), value);
+        model = model.setValue(new CellPoint(columnNo, rowNo), value);
       })
     })
 
@@ -245,7 +245,7 @@ export default class GridView extends Record({
     const columnNo = this.pointToColumnNo(pointX);
     const rowNo = this.pointToRowNo(pointY);
 
-    return new Target(columnNo, rowNo);
+    return new CellPoint(columnNo, rowNo);
   }
 
 }

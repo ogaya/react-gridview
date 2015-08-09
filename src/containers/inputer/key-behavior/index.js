@@ -1,4 +1,4 @@
-import {targetToRect} from "../../../model/lib/target_to_rect";
+import {targetToRect, cellRangeToRect} from "../../../model/lib/target_to_rect";
 
 import {OBJECT_TYPE} from "../../../model/gridview/object-type";
 import {SelectInfo} from "../../../model/lib/select";
@@ -18,17 +18,31 @@ function viewInputer(e, props){
 
   // inputエリアを表示させる
   const opeModel = props.opeModel;
+  const viewModel = props.viewModel;
 
-  const target = opeModel.selectItem && opeModel.selectItem.target;
-  if(!target){
+  let cellPoint = opeModel.selectItem && opeModel.selectItem.cellPoint;
+  if(!cellPoint){
     return;
   }
 
-  const rect = targetToRect(props.viewModel, target, opeModel.scroll);
+  const cell = viewModel.getCell(cellPoint);
+  let rect;
+  // if (rangeItem.equals(cell.mergeRange)){
+  //   return;
+  // }
+
+  if (cell.mergeRange){
+    rect = cellRangeToRect(viewModel, cell.mergeRange, opeModel.scroll);
+    cellPoint = cell.mergeRange.leftTopPoint;
+  }
+  else {
+    rect = targetToRect(viewModel, cellPoint, opeModel.scroll);
+  }
+
   const input = opeModel.input
     .setIsInputing(true)
     .setRect(rect)
-    .setTarget(target);
+    .setTarget(cellPoint);
   const ope = opeModel.setInput(input);
   //props.onOperationChange(ope);
   props.onStateChange(props.viewModel, ope);

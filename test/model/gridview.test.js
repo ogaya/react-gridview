@@ -1,6 +1,6 @@
 'use strict';
 
-import {Target} from "../../src/model/common";
+import {CellPoint} from "../../src/model/common";
 import GridViewModel from "../../src/model/gridview";
 import ColumnHeaderItem from "../../src/model/gridview/column-header-item";
 var assert = require("power-assert");
@@ -12,9 +12,9 @@ describe("GridViewModel", function() {
 
     it("setValue", function() {
       const model = new GridViewModel();
-      const target11 = new Target(1, 1);
-      const target12 = new Target(1, 2);
-      const target21 = new Target(2, 1);
+      const target11 = new CellPoint(1, 1);
+      const target12 = new CellPoint(1, 2);
+      const target21 = new CellPoint(2, 1);
       const testModel = model
         .setValue(target11, "11")
         .setValue(target12, "12");

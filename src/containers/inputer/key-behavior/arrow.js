@@ -1,4 +1,4 @@
-import {targetToRect} from "../../../model/lib/target_to_rect";
+
 import {fitForTarget} from "../../../model/lib/fit-for-target";
 import {OBJECT_TYPE} from "../../../model/gridview/object-type";
 import {SelectInfo} from "../../../model/lib/select";
@@ -40,8 +40,8 @@ function arrowDown(e, props){
   }
 
   // 選択セルを下へ移す
-  const target = nextRect(e.keyCode, selectItem.target);
-  if (selectItem.target === target){
+  const target = nextRect(e.keyCode, selectItem.cellPoint);
+  if (selectItem.cellPoint === target){
     return true;
   }
 

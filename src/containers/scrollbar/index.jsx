@@ -84,7 +84,7 @@ const GridViewBar  = React.createClass({
 
         <div className="gw-vertical-position" style={vStyle}>
           <Verticalbar viewModel={this.props.viewModel} opeModel={this.props.opeModel}
-            maxNum={200} minNum={1} onChangeValue={this._onVerticalScroll} value={rowNo}/>
+            onChangeValue={this._onVerticalScroll} value={rowNo}/>
         </div>
 
         <div className="gw-center-position" style={cStyle}/>

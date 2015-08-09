@@ -18,7 +18,7 @@ function enterDown(e, props){
   }
 
   // 選択セルを下へ移す
-  const target = selectItem.target.setRowNo(selectItem.target.rowNo + 1);
+  const target = selectItem.cellPoint.setRowNo(selectItem.cellPoint.rowNo + 1);
   //const rect = targetToRect(props.viewModel, target, opeModel.scroll);
   const fitScroll = fitForTarget(props.viewModel, opeModel , target);
   const newSelectItem = new SelectInfo(selectItem.objectType, target, null, null);

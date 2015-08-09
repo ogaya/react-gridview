@@ -19,7 +19,7 @@ function tabDown(e, props){
   }
 
   // 選択セルを右へ移す
-  const target = selectItem.target.setColumnNo(selectItem.target.columnNo + 1);
+  const target = selectItem.cellPoint.setColumnNo(selectItem.cellPoint.columnNo + 1);
   //const rect = targetToRect(props.viewModel, target, opeModel.scroll);
   const fitScroll = fitForTarget(props.viewModel, opeModel , target);
   const newSelectItem = new SelectInfo(selectItem.objectType, target, null, null);
