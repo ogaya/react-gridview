@@ -14,6 +14,17 @@ const TEXT_ALIGN = Object.freeze({
   RIGHT: "RIGHT"
 });
 
+
+const LINE_STYLE = Object.freeze({
+  NORMAL: "NORMAL",
+  DOT: "DOT"
+});
+
+const BORDER_POSITION = Object.freeze({
+  TOP: "TOP",
+  LEFT: "LEFT"
+});
+
 // リサイザーの幅
 const RESIZER_BORDER_WIDTH = 4;
 
@@ -26,5 +37,7 @@ export {
   VERTICAL_ALIGN,
   TEXT_ALIGN,
   RESIZER_BORDER_WIDTH,
+  LINE_STYLE,
+  BORDER_POSITION,
   COLOR
 };

@@ -4,7 +4,7 @@ import {VERTICAL_ALIGN, TEXT_ALIGN} from "../common";
 export default class Cell extends Record({
   columnNo: 0,
   rowNo: 0,
-  value: "",
+  text: "",
   verticalAlign: VERTICAL_ALIGN.CENTER,
   textAlign: TEXT_ALIGN.RIGHT,
   indent: 1,
@@ -45,7 +45,10 @@ export default class Cell extends Record({
   }
 
   setValue(value) {
-    return this.set("value", value);
+    return this.set("text", value);
+  }
+  get value(){
+    return this.text;
   }
 
   setVerticalAlign(verticalAlign){

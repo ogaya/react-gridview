@@ -3,10 +3,11 @@ import ColumnHeaderModel from "./column-header";
 import RowHeaderModel from "./row-header";
 import {CellPoint} from "../common";
 import CellModel from "./cell";
+import Border from "./border";
 import {OBJECT_TYPE} from "./object-type";
 
 const emptyCell = new CellModel();
-
+const emptyBorder = new Border();
 export {
   OBJECT_TYPE
 };
@@ -30,6 +31,7 @@ export default class GridView extends Record({
   columnHeader: new ColumnHeaderModel(),
   rowHeader: new RowHeaderModel(),
   table: Map(),
+  borders: Map(),
   onChangeCell: (prevCell, nextCell) => {return nextCell;}
 }) {
 
@@ -56,12 +58,12 @@ export default class GridView extends Record({
     return this.set("rowHeader", rowHeader);
   }
 
-  getCell(target){
-    if (this.table.has(target.toId()) === false){
-      return CellModel.createCell(target);
+  getCell(cellPoint){
+    if (this.table.has(cellPoint.toId()) === false){
+      return CellModel.createCell(cellPoint);
     }
 
-    return this.table.get(target.toId());
+    return this.table.get(cellPoint.toId());
   }
 
   setOnChangeCell(onChangeCell){
@@ -69,37 +71,54 @@ export default class GridView extends Record({
   }
 
   // 値のセット
-  setValue(target, value){
-    const prevCell = this.getCell(target);
-    const nextCell = this.getCell(target).setValue(value);
+  setValue(cellPoint, value){
+    const prevCell = this.getCell(cellPoint);
+    const nextCell = this.getCell(cellPoint).setValue(value);
 
-    return this.setCell(target, nextCell);
-    // const cell = this.onChangeCell(prevCell, nextCell);
-    // if (cell === prevCell){
-    //   return this;
-    // }
-    // const table = emptyCell.equals(cell) ?
-    //   this.table.delete(target.toId()) :
-    //   this.table.set(target.toId(), cell);
-    // return this.set("table", table);
+    return this.setCell(cellPoint, nextCell);
   }
 
-  setCell(target, nextCell){
-    const prevCell = this.getCell(target);
+  setCell(cellPoint, nextCell){
+    const prevCell = this.getCell(cellPoint);
     const cell = this.onChangeCell(prevCell, nextCell);
     if (cell === prevCell){
       return this;
     }
     const table = emptyCell.equals(cell) ?
-      this.table.delete(target.toId()) :
-      this.table.set(target.toId(), cell);
+      this.table.delete(cellPoint.toId()) :
+      this.table.set(cellPoint.toId(), cell);
     return this.set("table", table);
   }
 
-  withCell(target, mutator){
-    const prevCell = this.getCell(target);
+  // 枠線取得
+  getBorder(cellPoint, borderPosition){
+    const id = cellPoint.toId() + "-" + borderPosition;
+    if (this.borders.has(id) === false){
+      return emptyBorder;
+    }
+
+    return this.table.get(id);
+  }
+
+  // 枠線設定
+  setBorder(cellPoint, borderPosition, border){
+    const id = cellPoint.toId() + "-" + borderPosition;
+    const prevBorder = this.getBorder(id);
+    if (prevBorder.equals(border)){
+      return this;
+    }
+
+    const borders = emptyCell.equals(prevBorder) ?
+      this.borders.delete(id) :
+      this.borders.set(id, border);
+
+      return this.set("borders", borders);
+  }
+
+  withCell(cellPoint, mutator){
+    const prevCell = this.getCell(cellPoint);
     const nextCell = mutator(prevCell);
-    return this.setCell(target, nextCell);
+    return this.setCell(cellPoint, nextCell);
   }
 
   // 範囲内のセルを変更する
@@ -115,10 +134,10 @@ export default class GridView extends Record({
     let model = this;
     Range(left, right + 1).forEach((columnNo)=>{
       Range(top, bottom + 1).forEach((rowNo)=>{
-        const target = new CellPoint(columnNo, rowNo);
-        const prevCell = this.getCell(target);
+        const cellPoint = new CellPoint(columnNo, rowNo);
+        const prevCell = this.getCell(cellPoint);
         const nextCell = mutator(prevCell);
-        model = model.setCell(target, nextCell);
+        model = model.setCell(cellPoint, nextCell);
         //model = model.setValue(new CellPoint(columnNo, rowNo), value);
       })
     })
@@ -166,15 +185,15 @@ export default class GridView extends Record({
 
     // 一区画あたりのセル数（切り上げ）
     const targetIndex = Math.ceil((firstIndex + lastIndex) / 2);
-    const target = this.columnHeader.items.get(targetIndex);
+    const cellPoint = this.columnHeader.items.get(targetIndex);
 
     // ターゲットがもっと左側にある
-    if (pointX < target.left){
+    if (pointX < cellPoint.left){
       return this.pointToColumnNo(pointX, firstIndex, targetIndex - 1);
     }
 
     // ターゲットがもっと右側にある
-    if (pointX >= target.right){
+    if (pointX >= cellPoint.right){
       return this.pointToColumnNo(pointX, targetIndex + 1, lastIndex);
     }
 
@@ -200,42 +219,21 @@ export default class GridView extends Record({
 
     // 一区画あたりのセル数（切り上げ）
     const targetIndex = Math.ceil((firstIndex + lastIndex) / 2);
-    const target = this.rowHeader.items.get(targetIndex);
+    const cellPoint = this.rowHeader.items.get(targetIndex);
 
     // ターゲットがもっと上側にある
-    if (pointY < target.top){
+    if (pointY < cellPoint.top){
       return this.pointToRowNo(pointY, firstIndex, targetIndex - 1);
     }
 
     // ターゲットがもっと下側にある
-    if (pointY >= target.bottom){
+    if (pointY >= cellPoint.bottom){
       return this.pointToRowNo(pointY, targetIndex + 1, lastIndex);
     }
 
     // 発見
     return targetIndex;
   }
-
-  // // Ｙ座標から、行番号を算出する
-  // pointToRowNo(pointY, offsetRow){
-  //   let sumHeight = this.columnHeader.height;
-  //   const offset = (offsetRow || 1) - 1;
-  //   if (pointY < sumHeight){
-  //     return 0;
-  //   }
-  //
-  //   let key = 0;
-  //   const target = this.rowHeader.items.skip(offset).find((item, index) => {
-  //     const nextHeight = sumHeight + item.height;
-  //     key = index;
-  //     if ((sumHeight <= pointY) && (pointY < nextHeight)){
-  //       return true;
-  //     }
-  //     sumHeight = nextHeight;
-  //     return false;
-  //   });
-  //   return (target) ? key : -1;
-  // }
 
   // 座標からセル位置を取得する
   pointToTarget(pointX, pointY){

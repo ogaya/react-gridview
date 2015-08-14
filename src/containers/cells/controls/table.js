@@ -1,25 +1,16 @@
-import {Rect, CellPoint} from "../../../model/common";
+import {Rect, CellPoint, BORDER_POSITION} from "../../../model/common";
 import {targetToRect, cellRangeToRect} from "../../../model/lib/target_to_rect";
 
-// セルの描画
-function drawCell(canvas, model, opeModel, cellPoint ){
+// セル枠の描画
+function drawBorder(canvas, viewModel, opeModel, cellPoint, rect){
 
-  const cell = model.getCell(cellPoint);
+  const cell = viewModel.getCell(cellPoint);
+  const topBorder = viewModel.getBorder(cellPoint, BORDER_POSITION.TOP);
+  const leftBorder = viewModel.getBorder(cellPoint, BORDER_POSITION.LEFT);
 
-  if (cell.background){
-    canvas.context.fillStyle = cell.background;
-    canvas.drawRectFill(rect);
-  }
-
-  let rect;
-  if (cell.mergeRange) {
-    rect = cellRangeToRect(model, cell.mergeRange, opeModel.scroll);
-  }else{
-    rect = targetToRect(model, cellPoint, opeModel.scroll);
-  }
-
-  canvas.context.strokeStyle = "#999";
-
+  const lineLength = topBorder.colors.length;
+  const offset = Math.floor(lineLength * topBorder.weight / 2);
+  canvas.context.strokeStyle = topBorder.colors[0];
   // 上部分は結合されている
   const isTopMerge =
     (cell.mergeRange) &&
@@ -31,14 +22,58 @@ function drawCell(canvas, model, opeModel, cellPoint ){
     (cell.mergeRange.minColumnNo !== cell.columnNo);
 
   if (!isTopMerge){
+    const hasDashTop = (topBorder.dash) && (topBorder.dash.length > 1);
     // 上のセルラインを描画
-    canvas.drawLine(rect.left, rect.top, rect.right, rect.top);
+    for(let topIndex in topBorder.colors){
+      const offsetTop = topBorder.weight * topIndex - offset;
+
+      canvas.context.strokeStyle = topBorder.colors[topIndex];
+      if (hasDashTop){
+        canvas.drawDashedLine(rect.left, rect.top + offsetTop, rect.right, rect.top + offsetTop, topBorder.dash);
+      }else {
+        canvas.drawLine(rect.left, rect.top + offsetTop, rect.right, rect.top + offsetTop);
+      }
+    }
   }
 
   if (!isLeftMerge){
     // 左のセルラインを描画
-    canvas.drawLine(rect.left, rect.top, rect.left, rect.bottom);
+    const hasDashLeft = (leftBorder.dash) && (leftBorder.dash.length > 1);
+
+    for(let leftIndex in leftBorder.colors){
+      const offsetTLeft = leftBorder.weight * leftIndex - offset;
+
+      canvas.context.strokeStyle = leftBorder.colors[leftIndex];
+      if (hasDashLeft){
+        canvas.drawDashedLine(rect.left + offsetTLeft, rect.top, rect.left + offsetTLeft, rect.bottom, leftBorder.dash);
+      }
+      else{
+        canvas.drawLine(rect.left + offsetTLeft, rect.top, rect.left + offsetTLeft, rect.bottom);
+      }
+    }
   }
+}
+
+// セルの描画
+function drawCell(canvas, model, opeModel, cellPoint ){
+
+  const cell = model.getCell(cellPoint);
+
+  let rect;
+  if (cell.mergeRange) {
+    rect = cellRangeToRect(model, cell.mergeRange, opeModel.scroll);
+  }else{
+    rect = targetToRect(model, cellPoint, opeModel.scroll);
+  }
+
+  const canCellView =  (!cell.mergeRange) || cellPoint.equals(cell.mergeRange.leftTopPoint);
+
+  if ((cell.background) && (canCellView)){
+    canvas.context.fillStyle = cell.background;
+    canvas.drawRectFill(rect);
+  }
+
+  drawBorder(canvas, model, opeModel, cellPoint, rect);
 
   if (cell.textColor){
     canvas.context.fillStyle = cell.textColor;
@@ -47,14 +82,9 @@ function drawCell(canvas, model, opeModel, cellPoint ){
     canvas.context.fillStyle = "#000";
   }
 
-  if (cell.mergeRange) {
-    if (cell.mergeRange.leftTopPoint.equals(cellPoint) === false){
-      return;
-    }
+  if (canCellView){
+    canvas.drawText(cell.value, rect, cell.textAlign, cell.verticalAlign, cell.indent);
   }
-
-  canvas.drawText(cell.value, rect, cell.textAlign, cell.verticalAlign);
-  //canvas.context.fillText(item.value, rect.left, rect.top);
 }
 
 // 行内の列描画

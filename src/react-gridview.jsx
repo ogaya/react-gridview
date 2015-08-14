@@ -9,6 +9,7 @@ import GridViewModel from "./model/gridview";
 import OperationModel from "./model/operation";
 
 import {GridViewBar} from "./containers/scrollbar";
+import {VERTICAL_ALIGN, TEXT_ALIGN} from "./model/common";
 
 const style = {
   width: "100%",
@@ -122,5 +123,7 @@ const GridView = React.createClass({
 export{
   GridView,
   GridViewModel,
-  OperationModel
+  OperationModel,
+  VERTICAL_ALIGN,
+  TEXT_ALIGN
 };

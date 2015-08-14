@@ -10,8 +10,8 @@ export default class CanvasModel extends Record({
     super({context: context, width: width, height: height});
   }
 
-  drawText(value, rect, textAligin, verticalAlign){
-    drawFillText(this.context, value, rect, textAligin, verticalAlign);
+  drawText(value, rect, textAligin, verticalAlign, indent){
+    drawFillText(this.context, value, rect, textAligin, verticalAlign, indent);
   }
 
   // 直線を引く
@@ -31,7 +31,7 @@ export default class CanvasModel extends Record({
       dashArray = [1, 1];
     }
     const dashCount = dashArray.length;
-    context.moveTo(x, y);
+    context.moveTo(x + 0.5, y + 0.5);
     var dx = (x2 - x),
       dy = (y2 - y);
     var slope = dx ? dy / dx : 1e15;
@@ -49,7 +49,7 @@ export default class CanvasModel extends Record({
       }
       x += xStep;
       y += slope * xStep;
-      context[draw ? 'lineTo' : 'moveTo'](x, y);
+      context[draw ? 'lineTo' : 'moveTo'](x + 0.5, y + 0.5);
       distRemaining -= dashLength;
       draw = !draw;
     }

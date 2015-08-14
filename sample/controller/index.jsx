@@ -1,7 +1,16 @@
 import React from "react";
 //import GridView from "../dist/react-gridview.js";
-import {GridView, GridViewModel, OperationModel} from "../../dist/react-gridview.js";
+import {GridView, GridViewModel, OperationModel,
+  VERTICAL_ALIGN, TEXT_ALIGN} from "../../dist/react-gridview.js";
+  
+const tableStyle ={
+  display: "table"
+};
 
+const tCellStyle={
+  display: "table-cell",
+  margin: "1px"
+};
 
 const Controller = React.createClass({
   displayName: "Controller",
@@ -16,6 +25,26 @@ const Controller = React.createClass({
     const view = this.props.viewModel.withCells(
       rangeItem, (cell)=>{
         return cell.setTextColor(e.target.value)
+      });
+    this.props.onControlView(view);
+  },
+  _onChangeTextAlign(e){
+    const rangeItem = this.props.operationModel.rangeItem;
+
+    const view = this.props.viewModel.withCells(
+      rangeItem, (cell)=>{
+        return cell.setTextAlign(e.target.value)
+      });
+
+    this.props.onControlView(view);
+
+  },
+  _onChangeVerticalAlign(e){
+    const rangeItem = this.props.operationModel.rangeItem;
+
+    const view = this.props.viewModel.withCells(
+      rangeItem, (cell)=>{
+        return cell.setVerticalAlign(e.target.value)
       });
 
     this.props.onControlView(view);
@@ -58,14 +87,31 @@ const Controller = React.createClass({
     return (
       <div>
         <div>文字色</div>
-        <div>
-          <select name="textcolor" onChange={this._onChangeTextColor}>
-            <option value="">なし</option>
-            <option value="#F00">赤</option>
-            <option value="#0F0">緑</option>
-            <option value="#00F">青</option>
-          </select>
+        <div style={tableStyle}>
+          <div style={tCellStyle}>
+            <select name="textcolor" onChange={this._onChangeTextColor}>
+              <option value="">なし</option>
+              <option value="#F00">赤</option>
+              <option value="#0F0">緑</option>
+              <option value="#00F">青</option>
+            </select>
+          </div>
+          <div style={tCellStyle} >
+            <select onChange={this._onChangeVerticalAlign}>
+              <option value={VERTICAL_ALIGN.MIDDLE}>中央</option>
+              <option value={VERTICAL_ALIGN.TOP}>上</option>
+              <option value={VERTICAL_ALIGN.BOTTOM}>下</option>
+            </select>
+          </div>
+          <div style={tCellStyle} >
+            <select onChange={this._onChangeTextAlign}>
+              <option value={TEXT_ALIGN.RIGHT}>右</option>
+              <option value={TEXT_ALIGN.LEFT}>左</option>
+              <option value={TEXT_ALIGN.CENTER}>中央</option>
+            </select>
+          </div>
         </div>
+
         <div>背景色：</div>
         <div>
           <select name="bgcolor" onChange={this._onChangeBgColor}>
