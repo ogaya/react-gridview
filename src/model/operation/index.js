@@ -2,7 +2,7 @@ import {Record}from "immutable";
 import InputModel from "./input";
 import {CellPoint} from "../common";
 import {OBJECT_TYPE} from "../gridview/object-type";
-import {Range} from "../common/cellrange";
+import {CellRange} from "../common/cellrange";
 
 function objectCursor(objectType){
   switch (objectType){
@@ -65,7 +65,7 @@ export default class Operation extends Record({
 
   resetRange(){
     const target = this.selectItem.cellPoint;
-    const range = new Range(target, target);
+    const range = new CellRange(target, target);
     return this.setRangeItem(range);
   }
 

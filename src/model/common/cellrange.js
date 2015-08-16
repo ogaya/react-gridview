@@ -3,7 +3,7 @@ import {OBJECT_TYPE} from "../gridview/object-type";
 import {CellPoint} from "./cellPoint";
 
 // セル選択モデル
-class Range extends Record({
+class CellRange extends Record({
   cellPoint1: null,
   cellPoint2: null
 }) {
@@ -48,7 +48,7 @@ class Range extends Record({
     const cellPoint1 = new CellPoint(left, top);
     const cellPoint2 = new CellPoint(right, bottom);
 
-    return new Range(cellPoint1, cellPoint2);
+    return new CellRange(cellPoint1, cellPoint2);
   }
 
   cellPoints(){
@@ -104,10 +104,10 @@ function opeModelToRangeItem(opeModel){
 
   // ホバーアイテムがセルで無い場合、前回の範囲選択情報のままとする。
   if ((!hoverItem) || (hoverItem.objectType !== OBJECT_TYPE.CELL)){
-    return new Range(opeItem.cellPoint, opeItem.cellPoint);;
+    return new CellRange(opeItem.cellPoint, opeItem.cellPoint);;
   }
 
-  return new Range(opeItem.cellPoint, hoverItem.cellPoint);
+  return new CellRange(opeItem.cellPoint, hoverItem.cellPoint);
 }
 
 // 範囲内に結合セルがある場合、選択範囲を広げる
@@ -201,7 +201,7 @@ function modelToRangeItem(viewModel, opeModel){
 }
 
 export default {
-  Range,
+  CellRange,
   modelToRangeItem,
   opeModelToRangeItem
 };

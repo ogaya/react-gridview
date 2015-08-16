@@ -1,4 +1,4 @@
-import {Record, Map, Range}from "immutable";
+import {Record, Map, Range, List}from "immutable";
 import ColumnHeaderModel from "./column-header";
 import RowHeaderModel from "./row-header";
 import {CellPoint} from "../common";
@@ -11,6 +11,28 @@ const emptyBorder = new Border();
 export {
   OBJECT_TYPE
 };
+
+// テーブルに参照ポイントの適用を行う
+function refsApply(table, prevCell, nextCell){
+  // 参照セルの値を更新
+
+  prevCell.refs.forEach((ref) =>{
+    if (table.has(ref)){
+      const cell = table.get(ref).deleteRefs(prevCell.toId());
+      table = table.set(ref, cell);
+    }
+  });
+
+  nextCell.refs.forEach((ref) =>{
+    if (table.has(ref)){
+      const cell = table.get(ref).addRefs(nextCell.toId());
+      table = table.set(ref, cell);
+    }
+  });
+
+  return table;
+
+}
 
 // JSONからテーブル情報を生成
 function JsonToTable(json){
@@ -58,6 +80,7 @@ export default class GridView extends Record({
     return this.set("rowHeader", rowHeader);
   }
 
+
   getCell(cellPoint){
     if (this.table.has(cellPoint.toId()) === false){
       return CellModel.createCell(cellPoint);
@@ -66,8 +89,16 @@ export default class GridView extends Record({
     return this.table.get(cellPoint.toId());
   }
 
+
   setOnChangeCell(onChangeCell){
     return this.set("onChangeCell", onChangeCell);
+  }
+
+  getValueForId(id){
+    if (this.table.has(id) === false){
+      return "";
+    }
+    return this.table.get(id).value;
   }
 
   // 値のセット
@@ -80,13 +111,18 @@ export default class GridView extends Record({
 
   setCell(cellPoint, nextCell){
     const prevCell = this.getCell(cellPoint);
-    const cell = this.onChangeCell(prevCell, nextCell);
+    nextCell = nextCell.solveCalc(this);
+    let cell = this.onChangeCell(prevCell, nextCell);
     if (cell === prevCell){
       return this;
     }
-    const table = emptyCell.equals(cell) ?
+    let table = emptyCell.equals(cell) ?
       this.table.delete(cellPoint.toId()) :
       this.table.set(cellPoint.toId(), cell);
+
+    // 参照セルの値を更新
+    table = refsApply(table, prevCell, cell);
+
     return this.set("table", table);
   }
 
@@ -143,6 +179,27 @@ export default class GridView extends Record({
     })
 
     return model;
+  }
+
+  getCells(range){
+    if(!range){
+      return this;
+    }
+    const left = Math.min(range.cellPoint1.columnNo, range.cellPoint2.columnNo);
+    const right = Math.max(range.cellPoint1.columnNo, range.cellPoint2.columnNo);
+    const top = Math.min(range.cellPoint1.rowNo, range.cellPoint2.rowNo);
+    const bottom = Math.max(range.cellPoint1.rowNo, range.cellPoint2.rowNo);
+
+    let cells = List();
+
+    Range(left, right + 1).forEach((columnNo)=>{
+      Range(top, bottom + 1).forEach((rowNo)=>{
+        const cellPoint = new CellPoint(columnNo, rowNo);
+        cells = cells.push(this.getCell(cellPoint));
+      })
+    });
+
+    return cells;
   }
 
   // 範囲内のセルを取得する
