@@ -3,6 +3,18 @@ import {VERTICAL_ALIGN, TEXT_ALIGN} from "../common";
 import {calc} from "../../calc";
 import {CellPoint} from "../common";
 
+function JsonToSet(json){
+  let result = Set();
+
+  if (!json){
+    return result;
+  }
+  for(var key in json){
+    result = result.add(json[key]);
+  }
+  return result;
+}
+
 export default class Cell extends Record({
   columnNo: 0,
   rowNo: 0,
@@ -38,6 +50,8 @@ export default class Cell extends Record({
       .setVerticalAlign(json.verticalAlign)
       .setTextAlign(json.textAlign)
       .setIndent(json.indent)
+      .set("childIds", JsonToSet(json.childIds))
+      .set("refs", JsonToSet(json.refs))
       .setTextColor(json.textColor);
   }
 
@@ -95,12 +109,12 @@ export default class Cell extends Record({
     return this.set("mergeRange", mergeRange);
   }
 
-  addRefs(ref){
-    return this.set("refs", this.refs.add(ref));
+  addChildId(childId){
+    return this.set("childIds", this.childIds.add(childId));
   }
 
-  deleteRefs(ref){
-    return this.set("refs", this.refs.delete(ref));
+  deleteChildId(childId){
+    return this.set("childIds", this.childIds.delete(childId));
   }
 
   equals(cell){

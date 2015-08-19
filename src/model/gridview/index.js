@@ -18,14 +18,14 @@ function refsApply(table, prevCell, nextCell){
 
   prevCell.refs.forEach((ref) =>{
     if (table.has(ref)){
-      const cell = table.get(ref).deleteRefs(prevCell.toId());
+      const cell = table.get(ref).deleteChildId(prevCell.toId());
       table = table.set(ref, cell);
     }
   });
 
   nextCell.refs.forEach((ref) =>{
     if (table.has(ref)){
-      const cell = table.get(ref).addRefs(nextCell.toId());
+      const cell = table.get(ref).addChildId(nextCell.toId());
       table = table.set(ref, cell);
     }
   });
@@ -123,7 +123,15 @@ export default class GridView extends Record({
     // 参照セルの値を更新
     table = refsApply(table, prevCell, cell);
 
-    return this.set("table", table);
+    let view = this.set("table", table);
+    if(cell.text !== prevCell){
+      cell.childIds.forEach(id=>{
+        const childCell = view.table.get(id);
+        view = view.set("table", view.table.set(id, childCell.solveCalc(view)));
+      });
+    }
+
+    return view;
   }
 
   // 枠線取得
