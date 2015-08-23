@@ -2,7 +2,7 @@ import React from "react";
 //import GridView from "../dist/react-gridview.js";
 import {GridView, GridViewModel, OperationModel,
   VERTICAL_ALIGN, TEXT_ALIGN} from "../../dist/react-gridview.js";
-  
+
 const tableStyle ={
   display: "table"
 };

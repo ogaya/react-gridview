@@ -23,6 +23,9 @@ import {operationResult} from "../../model/lib/change";
 import {modelToRangeItem} from "../../model/common/cellrange";
 
 const style =  {
+  position: "absolute",
+  top: "0px",
+  bottom: "0px",
   width: "100%",
   height: "100%",
   cursor: "pointer",
@@ -83,8 +86,8 @@ const Cells = React.createClass({
     drawColumnHeader(canvas, model.columnHeader, model.rowHeader, opeModel);
     drawRowHeader(canvas, model.columnHeader, model.rowHeader, opeModel);
     // マウスカーソル変更
-    const styleStr = STYLE_STRING + "cursor:" + opeModel.HoverCursor;
-    canvasElement.setAttribute("style", styleStr);
+    // const styleStr = STYLE_STRING + "cursor:" + opeModel.HoverCursor;
+    // canvasElement.setAttribute("style", styleStr);
     return false;
   },
   _handleResize() {

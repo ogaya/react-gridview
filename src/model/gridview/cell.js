@@ -29,6 +29,7 @@ export default class Cell extends Record({
   // このセルが参照しているセル
   refs: Set(),
   calcValue: null,
+  nodeName: "",
   mergeRange: null
 }) {
 
@@ -58,6 +59,10 @@ export default class Cell extends Record({
   toId(){
     const cellPoint = new CellPoint(this.columnNo, this.rowNo);
     return cellPoint.toId();
+  }
+
+  cellPoint(){
+    return new CellPoint(this.columnNo, this.rowNo);
   }
 
   // toJS(){
@@ -115,6 +120,10 @@ export default class Cell extends Record({
 
   deleteChildId(childId){
     return this.set("childIds", this.childIds.delete(childId));
+  }
+
+  setNodeName(nodeName){
+    return this.set("nodeName", nodeName);
   }
 
   equals(cell){

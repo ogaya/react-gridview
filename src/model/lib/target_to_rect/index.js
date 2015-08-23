@@ -56,11 +56,6 @@ function targetToLeft(model, target, offsetColumnNo){
     return -1000;
   }
 
-  // let left = model.rowHeader.width;
-  // const items = model.columnHeader.items.skip(offset).toArray();
-  // for(let i = 0; i < (target.columnNo - 1 - offset); i++){
-  //   left = left + items[i].width;
-  // }
   const scrollLeft = model.columnHeader.items.get(offsetColumnNo).left;
   const rowLeft = model.columnHeader.items.get(target.columnNo).left;
   const left = model.rowHeader.width + rowLeft - scrollLeft;

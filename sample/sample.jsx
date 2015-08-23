@@ -1,7 +1,12 @@
 import React from "react";
 
 // gridviewモデル
-import {GridView, GridViewModel, OperationModel} from "../dist/react-gridview.js";
+import {
+  GridView,
+  GridViewModel,
+  OperationModel,
+  ExtensionModel,
+  CellPoint} from "../dist/react-gridview.js";
 
 // コンポーネント
 import Controller from "./controller";
@@ -44,9 +49,26 @@ const pStyle = {
 const vStyle = {
   height: "400px"
 }
+const ExSample = React.createClass({
+  render: function() {
+    const sampleStyle={
+      background: "#0F0",
+      width: "100%",
+      height: "100%"
+    };
+    return (
+      <div style={sampleStyle}>
+        bbbbb
+      </div>
+    );
+  }
+});
 const Main = React.createClass({
   getInitialState() {
     let viewModel = new GridViewModel();
+    viewModel = viewModel.withCell(new CellPoint(2,5), cell =>{
+      return cell.setNodeName("sample");
+    });
     // viewModel = viewModel.setOnChangeCell((prevCell, nextCell) =>{
     //
     //   if(nextCell.columnNo === 1){
@@ -57,10 +79,14 @@ const Main = React.createClass({
     //   }
     //   return nextCell.setTextColor("#F00");
     // });
+
+    let extension = new ExtensionModel();
+    extension = extension.addNode("sample", ExSample)
     return {
       viewModel: viewModel,
       viewJson: viewModel.toJson(),
-      operationModel: new OperationModel()
+      operationModel: new OperationModel(),
+      extension: extension
     };
   },
   _onChangeView(prevView, nextView){
@@ -95,7 +121,7 @@ const Main = React.createClass({
         <div style={mainStyle}>
           <div style={viewerStyle}>
             <div style={vStyle}>
-              <GridView viewModel={this.state.viewModel}
+              <GridView viewModel={this.state.viewModel} extension={this.state.extension}
                 onChangeView={this._onChangeView} onChangeOperation={this._onChangeOperation}/>
             </div>
 
