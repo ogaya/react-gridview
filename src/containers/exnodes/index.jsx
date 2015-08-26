@@ -40,9 +40,15 @@ const ExNodes = React.createClass({
           width: rect.width + "px",
           height: rect.height +  "px"
         };
+        // 参照セルの取得
+        const refCells = cell.refs
+          .map(id=>{
+            return this.props.view.getCell(id);
+          })
+          .toList();
         return (
           <div key={key} style={userNodeStyle}>
-            <UserNode />
+            <UserNode cell={cell} refCells={refCells} />
           </div>);
       })
       .toArray();

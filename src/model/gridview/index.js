@@ -81,12 +81,15 @@ export default class GridView extends Record({
   }
 
 
-  getCell(cellPoint){
-    if (this.table.has(cellPoint.toId()) === false){
+  getCell(target){
+
+    const id = (typeof target === "string") ? target : target.toId();
+    const cellPoint = (typeof target === "string") ? CellPoint.createForId(id) : target;
+    if (this.table.has(id) === false){
       return CellModel.createCell(cellPoint);
     }
 
-    return this.table.get(cellPoint.toId());
+    return this.table.get(id);
   }
 
 

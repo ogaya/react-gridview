@@ -15,10 +15,16 @@ const avg = function(){
   return sumValue / args.length;
 }
 
+// 参照用関数
+const ref = function(){
+  return "";
+}
+
 
 const funcList = {
   "SUM": sum,
-  "AVG": avg
+  "AVG": avg,
+  "REF": ref
 };
 export{
   funcList

@@ -30,7 +30,7 @@ const spaceStyle ={
 };
 const converStyle = {
   display: "table-cell",
-  width: "500px",
+  width: "50px",
   height: "400px",
   border: "1px solid #999",
   verticalAlign: "top",
@@ -56,9 +56,16 @@ const ExSample = React.createClass({
       width: "100%",
       height: "100%"
     };
+    
+    const values = this.props.refCells
+      .map(cell=>{
+        return cell.value;
+      })
+      .join(":");
+
     return (
       <div style={sampleStyle}>
-        bbbbb
+        {values}
       </div>
     );
   }
@@ -90,9 +97,12 @@ const Main = React.createClass({
     };
   },
   _onChangeView(prevView, nextView){
+    // this.setState({
+    //   viewModel: nextView,
+    //   viewJson: nextView.toJson()
+    // })
     this.setState({
-      viewModel: nextView,
-      viewJson: nextView.toJson()
+      viewModel: nextView
     })
 
     return nextView;
@@ -105,9 +115,12 @@ const Main = React.createClass({
   },
   _onControlView(view){
     this.setState({
-      viewModel: view,
-      viewJson: view.toJson()
+      viewModel: view
     })
+    // this.setState({
+    //   viewModel: view,
+    //   viewJson: view.toJson()
+    // })
   },
   render: function() {
     const convertStr = JSON.stringify(this.state.viewJson);
