@@ -1,6 +1,6 @@
 import {Record, Set} from "immutable";
 import {VERTICAL_ALIGN, TEXT_ALIGN} from "../common";
-import {calc} from "../../calc";
+import {calc, isCalc} from "../../calc";
 import {CellPoint} from "../common";
 
 function JsonToSet(json){
@@ -91,7 +91,7 @@ export default class Cell extends Record({
   }
 
   get value(){
-    return this.calcValue || this.text;
+    return isCalc(this.text) ? this.calcValue : this.text;
   }
 
   setVerticalAlign(verticalAlign){

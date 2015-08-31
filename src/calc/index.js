@@ -15,7 +15,10 @@ import {Set} from "immutable";
 
 import SolverModel from "./solver";
 import {expr} from "./expr";
-
+const isCalc = function(text){
+  const tmp = text + "";
+  return (tmp.charAt(0) === "=");
+}
 const calc = function(text, view){
   if(!text){
     return {
@@ -25,7 +28,7 @@ const calc = function(text, view){
     };
   }
   text = text + "";
-  if(text.charAt(0) !== "="){
+  if(isCalc(text) === false){
     return {
       value: text,
       refs: Set(),
@@ -37,6 +40,7 @@ const calc = function(text, view){
     .setView(view);
 
   solver = expr(solver);
+
   return {
     value: solver.value,
     refs: solver.refIds,
@@ -46,5 +50,6 @@ const calc = function(text, view){
 };
 
 export{
-  calc
+  calc,
+  isCalc
 };

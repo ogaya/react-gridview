@@ -5,6 +5,7 @@ import {
   GridView,
   GridViewModel,
   OperationModel,
+  StickyModel,
   ExtensionModel,
   CellPoint} from "../dist/react-gridview.js";
 
@@ -56,7 +57,7 @@ const ExSample = React.createClass({
       width: "100%",
       height: "100%"
     };
-    
+
     const values = this.props.refCells
       .map(cell=>{
         return cell.value;
@@ -76,6 +77,8 @@ const Main = React.createClass({
     viewModel = viewModel.withCell(new CellPoint(2,5), cell =>{
       return cell.setNodeName("sample");
     });
+    let sticky = new StickyModel();
+    viewModel = viewModel.addSticky(sticky);
     // viewModel = viewModel.setOnChangeCell((prevCell, nextCell) =>{
     //
     //   if(nextCell.columnNo === 1){

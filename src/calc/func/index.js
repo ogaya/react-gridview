@@ -36,7 +36,7 @@ const params = function(solver, args){
 
     const cells = solver.view.getCells(cellRange);
     const values = cells
-      .map((cell)=>{return Number(cell.value);})
+      .map((cell)=>{return cell.value;})
       .toArray();
 
     cells.forEach(cell=>{

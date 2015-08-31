@@ -2,6 +2,7 @@ import React from "react";
 
 import Cells from "./containers/cells";
 import ExNodes from "./containers/exnodes";
+import Stickies from "./containers/stickies";
 import Inputer from "./containers/inputer";
 
 //import "./react-gridview.styl";
@@ -9,6 +10,7 @@ import Inputer from "./containers/inputer";
 import GridViewModel from "./model/gridview";
 import OperationModel from "./model/operation";
 import ExtensionModel from "./model/extension";
+import StickyModel from "./model/gridview/sticky";
 
 import {GridViewBar} from "./containers/scrollbar";
 import {VERTICAL_ALIGN, TEXT_ALIGN, CellPoint} from "./model/common";
@@ -199,6 +201,7 @@ const GridView = React.createClass({
             model={viewModel} opeModel={operation} onViewModelChange={this._onViewModelChange} />
 
           <ExNodes view={viewModel} operation={operation} extension={this.props.extension} />
+          <Stickies view={viewModel} operation={operation} extension={this.props.extension} />
         </div>
 
         {inputer}
@@ -215,6 +218,7 @@ export{
   GridViewModel,
   OperationModel,
   ExtensionModel,
+  StickyModel,
   VERTICAL_ALIGN,
   TEXT_ALIGN,
   CellPoint

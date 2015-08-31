@@ -56,6 +56,34 @@ export class Rect extends Record({
     return this.set("height", height);
   }
 
+  // 四角形同士が交差しているか判定
+  isIntersected(rect){
+    if (!rect){
+      return false;
+    }
+    // 自身より右側にある
+    if (rect.right <= this.left) {
+      return false;
+    }
+
+    // 自身より左側にある
+    if (rect.left >= this.right) {
+      return false;
+    }
+
+    // 自身より上にある
+    if (rect.bottom <= this.top) {
+      return false;
+    }
+
+    // 自身より下にある
+    if (rect.top >= this.bottom) {
+      return false;
+    }
+
+    return true;
+  }
+
   get right(){
     return this.left + this.width;
   }

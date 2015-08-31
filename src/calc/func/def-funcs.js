@@ -2,7 +2,7 @@ const sum = function(){
   const args = Array.prototype.concat.apply([], arguments);
   let value = 0;
   for(var id in args){
-    value = value + args[id];
+    value = value + Number(args[id]);
   }
 
   return value;

@@ -7,18 +7,22 @@ import {expr} from "./expr";
 // <factor> ::= <text>  | <number> | <id>  | <calc> | '(' <expr> ')'
 const factor = function(solver){
 
+  // エラーがある場合、処理を終了させる
   if (solver.isError){
     return solver;
   }
 
+  // 関数の書式と一致する
   if (isFunc(solver.pointSubstr())){
     return func(solver);
   }
 
+  // 数値の書式と一致する
   if (isNumber(solver.pointSubstr())){
     return number(solver);
   }
 
+  // IDの書式と一致する
   if (isId(solver.pointSubstr())){
     return id(solver);
   }
@@ -36,16 +40,6 @@ const factor = function(solver){
     }
 
   }
-
-  // const numberText = solver.text.match(/[0-9]+[\.]?[0-9]*/)[0];
-  // if(isNaN(numberText) === false){
-  //   solver = solver
-  //     .setValue(Number(numberText))
-  //     .setPointer(numberText.length);
-  // }
-  // else{
-  //   selver = solver.setIsError(true);
-  // }
 
   return solver;
 }

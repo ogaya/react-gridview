@@ -53,6 +53,7 @@ export default class GridView extends Record({
   columnHeader: new ColumnHeaderModel(),
   rowHeader: new RowHeaderModel(),
   table: Map(),
+  stickies: List(),
   borders: Map(),
   onChangeCell: (prevCell, nextCell) => {return nextCell;}
 }) {
@@ -211,6 +212,14 @@ export default class GridView extends Record({
     });
 
     return cells;
+  }
+
+  addSticky(sticky){
+    return this.set("stickies", this.stickies.push(sticky));
+  }
+
+  deleteSticky(index){
+    return this.set("stickies", this.stickies.delete(index));
   }
 
   // 範囲内のセルを取得する
