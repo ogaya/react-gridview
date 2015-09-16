@@ -3,13 +3,10 @@ import css from "../../../util/css";
 
 css(`
 .rg-scroll-base{
-  display: table;
-  background: #334;
+  background: #eef;
   table-layout: fixed;
   height: 20px;
-}
-.rg-scroll-base > div{
-  display: table-cell;
+  border-top: 1px solid #ccc;
 }
 
 .rg-scroll-arrow{
@@ -17,17 +14,18 @@ css(`
 }
 .rg-scroll-thumb-area{
   position: relative;
-  height: inherit;
+  height: 20px;
+  width: calc(100% - 6px);
+  margin: 3px;
 }
 
 .rg-scroll-thumb{
-  background: #667;
+  background: #bbc;
   position: absolute;
-  border-radius: 40px;
-  margin: 3px 0px;
+  border-radius: 5px;
 }
 
 .rg-scroll-thumb:hover{
-  background: #CCE;
+  background: #99a;
 }
 `);

@@ -71,22 +71,51 @@ const GridViewBar  = React.createClass({
     const scroll = opeModel.scroll.setRowNo(value);
     this.props.onOperationChange(opeModel.setScroll(scroll));
   },
+  _hSpaceStyle(){
+    const view = this.props.viewModel;
+    return {
+      left: "0px",
+      bottom: "0px",
+      position: "absolute",
+      background: view.rowHeader.background,
+      borderTop: "1px solid #999",
+      borderRight: "1px solid #999",
+      height: "20px",
+      width: (HEADER_WIDTH) + "px"
+    };
+  },
+  _vSpaceStyle(){
+    const view = this.props.viewModel;
+    return {
+      right: "0px",
+      top: "0px",
+      position: "absolute",
+      borderLeft: "1px solid #999",
+      borderBottom: "1px solid #999",
+      background: view.columnHeader.background,
+      height: (HEADER_HEIGHT) + "px",
+      width: "20px"
+    };
+  },
   render() {
     const scroll = this.props.opeModel.scroll;
     const rowNo = scroll.rowNo;
     const columnNo = scroll.columnNo;
+
+
     return (
       <div>
+
         <div className="gw-horizontal-position" style={hStyle}>
           <Horizontalbar viewModel={this.props.viewModel} opeModel={this.props.opeModel}
             onChangeValue={this._onHorizontalScroll} value={columnNo}/>
         </div>
-
+        <div style={this._hSpaceStyle()}></div>
         <div className="gw-vertical-position" style={vStyle}>
           <Verticalbar viewModel={this.props.viewModel} opeModel={this.props.opeModel}
             onChangeValue={this._onVerticalScroll} value={rowNo}/>
         </div>
-
+        <div style={this._vSpaceStyle()}></div>
         <div className="gw-center-position" style={cStyle}/>
 
       </div>

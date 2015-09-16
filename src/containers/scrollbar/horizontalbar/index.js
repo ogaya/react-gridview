@@ -1,3 +1,7 @@
+//
+// 横のスクロールバー
+//
+
 import React from "react";
 import OperationModel from "../../../model/operation";
 import GridViewModel  from "../../../model/gridview";
@@ -15,7 +19,7 @@ const csStyle = Object.freeze({
   background: "#F00"
 });
 
-const PADDING = 2;
+const PADDING = 0;
 const SCROLL_UNIT = 5;
 
 // thumbの最小幅
@@ -160,10 +164,14 @@ const Horizontalbar  = React.createClass({
       return PADDING;
     }
 
+    const view = this.props.viewModel;
+    const scrollMax = this._getScrollMaxValue();
+
     const thumbWidth = this._thumWidth();
     // 移動可能領域の幅
     const moveAreaWidth = this.state.thumbAreaRect.width - thumbWidth;
-    const fullWidth = this.props.viewModel.columnHeader.width;
+    //const fullWidth = this.props.viewModel.columnHeader.width;
+    const fullWidth = view.columnHeader.items.get(scrollMax).right - view.rowHeader.width;
 
     // １ピクセルあたりの倍率を求める
     const magnification = fullWidth / moveAreaWidth;
@@ -174,8 +182,8 @@ const Horizontalbar  = React.createClass({
       return PADDING;
     }
 
-    const left = scrollCell.left / magnification;
-    return Math.round(left);
+    const left = Math.round((scrollCell.left - view.rowHeader.width) / magnification);
+    return left;
   },
   // スクロールエリアでマウスを押したときの処理
   _onMouseDown(e){

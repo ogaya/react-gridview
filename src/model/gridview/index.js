@@ -3,6 +3,7 @@ import ColumnHeaderModel from "./column-header";
 import RowHeaderModel from "./row-header";
 import {CellPoint} from "../common";
 import CellModel from "./cell";
+import ScrollModel from "./scroll";
 import Border from "./border";
 import {OBJECT_TYPE} from "./object-type";
 
@@ -55,6 +56,7 @@ export default class GridView extends Record({
   table: Map(),
   stickies: List(),
   borders: Map(),
+  scroll: new ScrollModel(),
   onChangeCell: (prevCell, nextCell) => {return nextCell;}
 }) {
 

@@ -188,8 +188,8 @@ const GridView = React.createClass({
       onValueChange={this._onValueChange} onStateChange={this._onStateChange}/>;
 
     const cellStyle = {
-      width: "100%",
-      height: "100%",
+      width: "calc(100% - " + viewModel.scroll.horizontalHeight + "px)",
+      height: "calc(100% - " + viewModel.scroll.verticalWidth + "px)",
       position: "relative",
       cursor: operation.HoverCursor
     };

@@ -1,3 +1,7 @@
+//
+// 縦のスクロールバー
+//
+
 import React from "react";
 import OperationModel from "../../../model/operation";
 import GridViewModel  from "../../../model/gridview";
@@ -15,7 +19,7 @@ const csStyle = Object.freeze({
   background: "#F00"
 });
 
-const PADDING = 2;
+const PADDING = 0;
 const SCROLL_UNIT = 1;
 
 
@@ -113,7 +117,7 @@ const Verticalbar  = React.createClass({
     }
 
     const nextTop = (e.clientY - this.state.thumbAreaRect.top);
-    
+
     // 移動可能領域の幅
     const moveAreaHeight = this.state.thumbAreaRect.height - this._thumHeight();
     const fullHeight = this.props.viewModel.rowHeader.height;
@@ -160,23 +164,25 @@ const Verticalbar  = React.createClass({
     if(!this.state.thumbAreaRect){
       return PADDING;
     }
+    const view = this.props.viewModel;
+    const scrollMax = this._getScrollMaxValue();
 
     const thumbHeight = this._thumHeight();
     // 移動可能領域の幅
     const moveAreaHeight = this.state.thumbAreaRect.height - thumbHeight;
-    const fullHeight = this.props.viewModel.rowHeader.height;
+    const fullHeight = view.rowHeader.items.get(scrollMax).bottom - view.columnHeader.height;
 
     // １ピクセルあたりの倍率を求める
     const magnification = fullHeight / moveAreaHeight;
     const scrollNo = this.props.opeModel.scroll.rowNo;
-    const scrollCell = this.props.viewModel.rowHeader.items.get(scrollNo);
+    const scrollCell = view.rowHeader.items.get(scrollNo);
 
     if (!scrollCell){
       return PADDING;
     }
 
-    const top = scrollCell.top / magnification;
-    return Math.round(top);
+    const top = Math.round((scrollCell.top  - view.columnHeader.height) / magnification);
+    return top;
   },
   _onMouseDown(e){
     const thumbArea = this.refs.rgThumb.getDOMNode();

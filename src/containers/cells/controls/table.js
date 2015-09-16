@@ -95,7 +95,7 @@ function drawColumn(canvas, model, rowNo, top, rowHeaderItem, opeModel) {
 
       const width = item.width;
       const height = rowHeaderItem.height;
-      const widthOver = (canvas.width < (left + width));
+      const widthOver = (canvas.width < (left));
 
       if (widthOver){
         return false;

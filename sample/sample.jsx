@@ -15,8 +15,8 @@ import Controller from "./controller";
 
 const mainStyle = {
   display: "table",
-  width: "1000px",
-  height: "400px",
+  width: "100%",
+  height: "calc(100% - 95px)",
   tableLayout: "fixed",
 };
 const viewerStyle = {
@@ -77,8 +77,8 @@ const Main = React.createClass({
     viewModel = viewModel.withCell(new CellPoint(2,5), cell =>{
       return cell.setNodeName("sample");
     });
-    let sticky = new StickyModel();
-    viewModel = viewModel.addSticky(sticky);
+    // let sticky = new StickyModel();
+    // viewModel = viewModel.addSticky(sticky);
     // viewModel = viewModel.setOnChangeCell((prevCell, nextCell) =>{
     //
     //   if(nextCell.columnNo === 1){
@@ -135,23 +135,35 @@ const Main = React.createClass({
           <Controller operationModel={operation} viewModel={this.state.viewModel} onControlView={this._onControlView}/>
         </div>
         <div style={mainStyle}>
-          <div style={viewerStyle}>
-            <div style={vStyle}>
-              <GridView viewModel={this.state.viewModel} extension={this.state.extension}
-                onChangeView={this._onChangeView} onChangeOperation={this._onChangeOperation}/>
-            </div>
-
-          </div>
-          <div style={spaceStyle} />
-          <div style={converStyle}>
-            <div style={pStyle}>
-              {convertStr}
-            </div>
-
-          </div>
+          <GridView viewModel={this.state.viewModel} extension={this.state.extension}
+            onChangeView={this._onChangeView} onChangeOperation={this._onChangeOperation}/>
         </div>
       </div>
     );
+
+    // return (
+    //   <div>
+    //     <div>
+    //       <Controller operationModel={operation} viewModel={this.state.viewModel} onControlView={this._onControlView}/>
+    //     </div>
+    //     <div style={mainStyle}>
+    //       <div style={viewerStyle}>
+    //         <div style={vStyle}>
+    //           <GridView viewModel={this.state.viewModel} extension={this.state.extension}
+    //             onChangeView={this._onChangeView} onChangeOperation={this._onChangeOperation}/>
+    //         </div>
+    //
+    //       </div>
+    //       <div style={spaceStyle} />
+    //       <div style={converStyle}>
+    //         <div style={pStyle}>
+    //           {convertStr}
+    //         </div>
+    //
+    //       </div>
+    //     </div>
+    //   </div>
+    // );
   }
 });
 

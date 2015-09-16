@@ -28,6 +28,8 @@ const HEADER_WIDTH = 50;
 export default class RowHeader extends Record({
   width: HEADER_WIDTH,
   maxCount: 1000,
+  background: "#ddd",
+  color: "#333",
   editItems: Map()
 }) {
 
@@ -87,7 +89,6 @@ export default class RowHeader extends Record({
     });
     return this._items;
   }
-
 }
 
 export{
