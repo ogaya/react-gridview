@@ -15,7 +15,7 @@ import StickyModel from "./model/gridview/sticky";
 import {GridViewBar} from "./containers/scrollbar";
 import {VERTICAL_ALIGN, TEXT_ALIGN, CellPoint} from "./model/common";
 import {drag} from "./util/drag";
-import {Point, Rect} from "./model/common";
+import {Point} from "./model/common";
 import {operationResult} from "./model/lib/change";
 import {pointToGridViewItem} from "./model/lib/select";
 import {modelToRangeItem} from "./model/common/cellrange";
@@ -35,7 +35,7 @@ function dragScroll(viewModel, opeModel){
     return opeModel.scroll;
   }
 
-  return fitForTarget(viewModel, opeModel , hoverItem.cellPoint);
+  return fitForTarget(viewModel, opeModel, hoverItem.cellPoint);
 }
 
 
@@ -73,14 +73,14 @@ const GridView = React.createClass({
   },
   componentWillReceiveProps(nextProps){
     if(this.props.viewModel !== nextProps.viewModel){
-      this.setState({viewModel: nextProps.viewModel})
+      this.setState({viewModel: nextProps.viewModel});
     }
     if(this.props.operationModel !== nextProps.operationModel){
-      this.setState({operation: nextProps.operationModel})
+      this.setState({operation: nextProps.operationModel});
     }
   },
   componentDidMount(){
-    this.setState({setInputFocus: this.refs.inputer.setInputFocus})
+    this.setState({setInputFocus: this.refs.inputer.setInputFocus});
     const node = this.refs.gwcells.getDOMNode();
     drag(node, this._onMouseDown, this._onMouseMove, this._onMouseUp);
   },
@@ -111,7 +111,7 @@ const GridView = React.createClass({
   },
   _onMouseWheel(e){
     const opeModel = this.state.operation;
-    let value = opeModel.scroll.rowNo + Math.round(e.deltaY / 100)
+    let value = opeModel.scroll.rowNo + Math.round(e.deltaY / 100);
 
     if (value < 1) {
       value = 1;

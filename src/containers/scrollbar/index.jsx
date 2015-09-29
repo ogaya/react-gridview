@@ -3,7 +3,7 @@ import OperationModel from "../../model/operation";
 import GridViewModel from "../../model/gridview";
 
 // モデル
-import {Point, Rect} from "../../model/common";
+//import {Point, Rect} from "../../model/common";
 import {HEADER_WIDTH} from "../../model/gridview/row-header";
 import {HEADER_HEIGHT} from "../../model/gridview/column-header";
 
@@ -12,26 +12,27 @@ import {Horizontalbar} from "./horizontalbar";
 import {Verticalbar}  from "./verticalbar";
 
 // ライブラリ
-import {drag} from "../../util/drag";
+//import {drag} from "../../util/drag";
 
 // スタイルシート読み込み
 import "./css.js";
 
-const csStyle = Object.freeze({
-  background: "#F00"
-});
+// const csStyle = Object.freeze({
+//   background: "#F00"
+// });
+//
 
-const PADDING = 2;
-const SCROLL_UNIT = 10;
+// const PADDING = 2;
+// const SCROLL_UNIT = 10;
 
 const hStyle = Object.freeze({
   left: HEADER_WIDTH + "px",
-  width: "calc(100% - " + (HEADER_WIDTH + 20) +"px)"
+  width: "calc(100% - " + (HEADER_WIDTH + 20) + "px)"
 });
 
 const vStyle = Object.freeze({
   top: HEADER_HEIGHT + "px",
-  height: "calc(100% - " + (HEADER_HEIGHT + 20) +"px)"
+  height: "calc(100% - " + (HEADER_HEIGHT + 20) + "px)"
 });
 
 const cStyle = Object.freeze({

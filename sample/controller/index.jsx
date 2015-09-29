@@ -1,15 +1,29 @@
 import React from "react";
 //import GridView from "../dist/react-gridview.js";
-import {GridView, GridViewModel, OperationModel,
+import {GridViewModel, OperationModel,
   VERTICAL_ALIGN, TEXT_ALIGN} from "../../dist/react-gridview.js";
 
-const tableStyle ={
+import TextArea from"./text-area";
+
+const areaStyle = {
+  height: "90px",
+  position: "relative"
+};
+
+const tableStyle = {
   display: "table"
 };
 
-const tCellStyle={
+const tCellStyle = {
   display: "table-cell",
   margin: "1px"
+};
+
+const valueStyle = {
+  position: "absolute",
+  bottom: "0px",
+  height: "20px",
+  width: "100%"
 };
 
 const Controller = React.createClass({
@@ -21,10 +35,9 @@ const Controller = React.createClass({
   },
   _onChangeTextColor(e){
     const rangeItem = this.props.operationModel.rangeItem;
-
     const view = this.props.viewModel.withCells(
       rangeItem, (cell)=>{
-        return cell.setTextColor(e.target.value)
+        return cell.setTextColor(e.target.value);
       });
     this.props.onControlView(view);
   },
@@ -33,7 +46,7 @@ const Controller = React.createClass({
 
     const view = this.props.viewModel.withCells(
       rangeItem, (cell)=>{
-        return cell.setTextAlign(e.target.value)
+        return cell.setTextAlign(e.target.value);
       });
 
     this.props.onControlView(view);
@@ -41,32 +54,28 @@ const Controller = React.createClass({
   },
   _onChangeVerticalAlign(e){
     const rangeItem = this.props.operationModel.rangeItem;
-
     const view = this.props.viewModel.withCells(
       rangeItem, (cell)=>{
-        return cell.setVerticalAlign(e.target.value)
+        return cell.setVerticalAlign(e.target.value);
       });
 
     this.props.onControlView(view);
-
   },
   _onChangeBgColor(e){
     const rangeItem = this.props.operationModel.rangeItem;
-
     const view = this.props.viewModel.withCells(
       rangeItem, (cell)=>{
-        return cell.setBackground(e.target.value)
-      });
-
+        return cell.setBackground(e.target.value);
+      }
+    );
     this.props.onControlView(view);
-
   },
   _onClickMerge(){
     const rangeItem = this.props.operationModel.rangeItem;
 
     const view = this.props.viewModel.withCells(
       rangeItem, (cell)=>{
-        return cell.setMergeRange(rangeItem)
+        return cell.setMergeRange(rangeItem);
       });
 
     this.props.onControlView(view);
@@ -77,7 +86,7 @@ const Controller = React.createClass({
 
     const view = this.props.viewModel.withCells(
       rangeItem, (cell)=>{
-        return cell.setMergeRange(null)
+        return cell.setMergeRange(null);
       });
 
     this.props.onControlView(view);
@@ -85,7 +94,7 @@ const Controller = React.createClass({
   },
   render: function() {
     return (
-      <div>
+      <div style={areaStyle}>
         <div>文字色</div>
         <div style={tableStyle}>
           <div style={tCellStyle}>
@@ -124,6 +133,9 @@ const Controller = React.createClass({
         <div>
           <input type="button" value="結合" onClick={this._onClickMerge}></input>
           <input type="button" value="解除" onClick={this._onClickUnMerge}></input>
+        </div>
+        <div style={valueStyle}>
+          <TextArea/>
         </div>
       </div>
     );

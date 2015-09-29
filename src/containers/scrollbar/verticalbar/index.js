@@ -7,7 +7,7 @@ import OperationModel from "../../../model/operation";
 import GridViewModel  from "../../../model/gridview";
 
 // モデル
-import {Point, Rect} from "../../../model/common";
+//import {Point, Rect} from "../../../model/common";
 
 // ライブラリ
 import {drag} from "../../../util/drag";
@@ -15,9 +15,9 @@ import {drag} from "../../../util/drag";
 // スタイルシート読み込み
 import "./css.js";
 
-const csStyle = Object.freeze({
-  background: "#F00"
-});
+// const csStyle = Object.freeze({
+//   background: "#F00"
+// });
 
 const PADDING = 0;
 const SCROLL_UNIT = 1;
@@ -35,19 +35,19 @@ const Verticalbar  = React.createClass({
     smallChange: React.PropTypes.number,
     largeChange: React.PropTypes.number,
     value: React.PropTypes.number,
-    onChangeValue: React.PropTypes.func,
+    onChangeValue: React.PropTypes.func
   },
   getDefaultProps() {
     return {
       smallChange: 1,
       largeChange: 5,
-      onChangeValue: (value)=>{}
+      onChangeValue: ()=>{}
     };
   },
   getInitialState() {
     return {
       thumbAreaRect: null
-    }
+    };
   },
   _handleResize(){
     const thumbArea = this.refs.rgThumbArea.getDOMNode();

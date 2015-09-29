@@ -16,8 +16,8 @@ import Controller from "./controller";
 const mainStyle = {
   display: "table",
   width: "100%",
-  height: "calc(100% - 95px)",
-  tableLayout: "fixed",
+  height: "calc(100% - 91px)",
+  tableLayout: "fixed"
 };
 const viewerStyle = {
   width: "500px",
@@ -74,9 +74,10 @@ const ExSample = React.createClass({
 const Main = React.createClass({
   getInitialState() {
     let viewModel = new GridViewModel();
-    viewModel = viewModel.withCell(new CellPoint(2,5), cell =>{
-      return cell.setNodeName("sample");
-    });
+    // viewModel = viewModel.withCell(new CellPoint(2,5), cell =>{
+    //   return cell.setNodeName("sample");
+    // });
+
     // let sticky = new StickyModel();
     // viewModel = viewModel.addSticky(sticky);
     // viewModel = viewModel.setOnChangeCell((prevCell, nextCell) =>{
@@ -131,9 +132,8 @@ const Main = React.createClass({
     const operation = this.state.operationModel;
     return (
       <div>
-        <div>
-          <Controller operationModel={operation} viewModel={this.state.viewModel} onControlView={this._onControlView}/>
-        </div>
+        <Controller operationModel={operation} viewModel={this.state.viewModel} onControlView={this._onControlView}/>
+
         <div style={mainStyle}>
           <GridView viewModel={this.state.viewModel} extension={this.state.extension}
             onChangeView={this._onChangeView} onChangeOperation={this._onChangeOperation}/>
