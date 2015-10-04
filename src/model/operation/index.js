@@ -1,4 +1,4 @@
-import {Record}from "immutable";
+import {Record, List}from "immutable";
 import InputModel from "./input";
 import {CellPoint} from "../common";
 import {OBJECT_TYPE} from "../gridview/object-type";
@@ -27,10 +27,16 @@ export default class Operation extends Record({
   opeItem: null,
   hoverItem: null,
   rangeItem: null,
+  rangeItems: List(),
   canvasRect: null,
   scroll: new CellPoint(1, 1)
 }) {
 
+  /**
+   * 入力状態設定
+   * @param {InputModel} input 入力状態
+   * @return {Operation}        更新した自身
+   */
   setInput(input){
     return this.set("input", input);
   }
@@ -57,6 +63,23 @@ export default class Operation extends Record({
 
   setRangeItem(rangeItem){
     return this.set("rangeItem", rangeItem);
+  }
+
+  /**
+   * 選択範囲追加
+   * @param  {CellRange} rangeItem 選択範囲
+   * @return {Operation} 更新した自身
+   */
+  pushRangeItems(rangeItem){
+    return this.set("rangeItems", this.rangeItems.push(rangeItem));
+  }
+
+  /**
+   * 選択範囲のクリア
+   * @return {Operation} 更新した自身
+   */
+  clearRangeItems(){
+    return this.set("rangeItems", this.rangeItems.clear());
   }
 
   setCanvasRect(canvasRect){

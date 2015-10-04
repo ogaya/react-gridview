@@ -59,9 +59,6 @@ function drawRange(canvas, viewModel, opeModel){
   canvas.context.strokeStyle = "#35C";
   canvas.context.lineWidth = 1;
 
-  // const rect1 = targetToRect(viewModel, rangeItem.cellPoint1, opeModel.scroll);
-  // const rect2 = targetToRect(viewModel, rangeItem.cellPoint2, opeModel.scroll);
-  // const rect = Rect.forRects(rect1, rect2);
   const rect = cellRangeToRect(viewModel, rangeItem, opeModel.scroll);
 
   canvas.context.fillStyle = "#35C";

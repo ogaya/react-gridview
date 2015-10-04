@@ -5,9 +5,8 @@ import {
   GridView,
   GridViewModel,
   OperationModel,
-  StickyModel,
-  ExtensionModel,
-  CellPoint} from "../dist/react-gridview.js";
+//  StickyModel,
+  ExtensionModel} from "../dist/react-gridview.js";
 
 // コンポーネント
 import Controller from "./controller";
@@ -19,40 +18,40 @@ const mainStyle = {
   height: "calc(100% - 91px)",
   tableLayout: "fixed"
 };
-const viewerStyle = {
-  width: "500px",
-  height: "400px",
-  display: "table-cell"
-};
-
-const spaceStyle ={
-  display: "table-cell",
-  width: "10px"
-};
-const converStyle = {
-  display: "table-cell",
-  width: "50px",
-  height: "400px",
-  border: "1px solid #999",
-  verticalAlign: "top",
-  padding: "5px",
-  wordWrap: "break-word",
-  overflowX: "hidden",
-  overflowY: "scroll"
-};
-
-const pStyle = {
-  width: "490px",
-  height: "400px",
-  wordWrap: "break-word"
-};
-
-const vStyle = {
-  height: "400px"
-}
+// const viewerStyle = {
+//   width: "500px",
+//   height: "400px",
+//   display: "table-cell"
+// };
+//
+// const spaceStyle ={
+//   display: "table-cell",
+//   width: "10px"
+// };
+// const converStyle = {
+//   display: "table-cell",
+//   width: "50px",
+//   height: "400px",
+//   border: "1px solid #999",
+//   verticalAlign: "top",
+//   padding: "5px",
+//   wordWrap: "break-word",
+//   overflowX: "hidden",
+//   overflowY: "scroll"
+// };
+//
+// const pStyle = {
+//   width: "490px",
+//   height: "400px",
+//   wordWrap: "break-word"
+// };
+//
+// const vStyle = {
+//   height: "400px"
+// }
 const ExSample = React.createClass({
   render: function() {
-    const sampleStyle={
+    const sampleStyle = {
       background: "#0F0",
       width: "100%",
       height: "100%"
@@ -92,7 +91,7 @@ const Main = React.createClass({
     // });
 
     let extension = new ExtensionModel();
-    extension = extension.addNode("sample", ExSample)
+    extension = extension.addNode("sample", ExSample);
     return {
       viewModel: viewModel,
       viewJson: viewModel.toJson(),
@@ -107,28 +106,28 @@ const Main = React.createClass({
     // })
     this.setState({
       viewModel: nextView
-    })
+    });
 
     return nextView;
   },
   _onChangeOperation(prevOperation, nextOperation){
     this.setState({
       operationModel: nextOperation
-    })
+    });
     return nextOperation;
   },
   _onControlView(view){
     this.setState({
       viewModel: view
-    })
+    });
     // this.setState({
     //   viewModel: view,
     //   viewJson: view.toJson()
     // })
   },
   render: function() {
-    const convertStr = JSON.stringify(this.state.viewJson);
-    const convertView = GridViewModel.fromJson(this.state.viewJson);
+    //const convertStr = JSON.stringify(this.state.viewJson);
+    //const convertView = GridViewModel.fromJson(this.state.viewJson);
     const operation = this.state.operationModel;
     return (
       <div>

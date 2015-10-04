@@ -38,7 +38,7 @@ export class CellPoint extends Record({
       const s = id.charAt(i);
 
       if (s.match(/^[A-Z]/)){
-        columnNo = columnNo * abc.length + abc.indexOf(s) + 1
+        columnNo = columnNo * abc.length + abc.indexOf(s) + 1;
       }
       else if(s.match(/^[0-9]/)){
         rowNo = rowNo * 10 + Number(s);

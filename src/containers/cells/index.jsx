@@ -22,6 +22,9 @@ import {Rect} from "../../model/common";
 // import {operationResult} from "../../model/lib/change";
 // import {modelToRangeItem} from "../../model/common/cellrange";
 
+// スタイルシート読み込み
+import "./css.js";
+
 
 const style =  {
   position: "absolute",
@@ -94,7 +97,7 @@ const Cells = React.createClass({
   },
   render: function () {
     return (
-      <canvas ref="gwcells" style={style}/>
+      <canvas className="gw-cells" ref="gwcells" style={style}/>
     );
   }
 });

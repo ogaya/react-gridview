@@ -6,21 +6,15 @@ import React from "react";
 import OperationModel from "../../../model/operation";
 import GridViewModel  from "../../../model/gridview";
 
-// モデル
-import {Point, Rect} from "../../../model/common";
-
 // ライブラリ
 import {drag} from "../../../util/drag";
 
 // スタイルシート読み込み
 import "./css.js";
 
-const csStyle = Object.freeze({
-  background: "#F00"
-});
 
 const PADDING = 0;
-const SCROLL_UNIT = 5;
+//const SCROLL_UNIT = 5;
 
 // thumbの最小幅
 const THUMB_MIN_WIDTH = 30;
@@ -34,19 +28,19 @@ const Horizontalbar  = React.createClass({
     smallChange: React.PropTypes.number,
     largeChange: React.PropTypes.number,
     value: React.PropTypes.number,
-    onChangeValue: React.PropTypes.func,
+    onChangeValue: React.PropTypes.func
   },
   getDefaultProps() {
     return {
       smallChange: 1,
       largeChange: 5,
-      onChangeValue: (value)=>{}
+      onChangeValue: ()=>{}
     };
   },
   getInitialState() {
     return {
-      thumbAreaRect: null,
-    }
+      thumbAreaRect: null
+    };
   },
   _handleResize(){
     const thumbArea = this.refs.rgThumbArea.getDOMNode();
@@ -77,10 +71,6 @@ const Horizontalbar  = React.createClass({
     style.overflowY = "hidden";
     return style;
   },
-  componentWillReceiveProps(nextProps){
-  },
-  _dragStart(e){
-  },
   _getScrollMaxValue(){
     const viewModel = this.props.viewModel;
     const opeModel = this.props.opeModel;
@@ -88,8 +78,8 @@ const Horizontalbar  = React.createClass({
       return 0;
     }
 
-    const maxColumnCount = viewModel.columnHeader.maxCount;
-    const fullWidth = this.props.viewModel.columnHeader.width;
+    //const maxColumnCount = viewModel.columnHeader.maxCount;
+    //const fullWidth = this.props.viewModel.columnHeader.width;
 
     const canvasRect = opeModel.canvasRect;
     if (!canvasRect){
@@ -141,7 +131,10 @@ const Horizontalbar  = React.createClass({
 
     this.props.onChangeValue(columnNo);
   },
-  // thumbの幅
+  /**
+   * thumbの幅
+   * @return {[number]} [幅]
+   */
   _thumWidth(){
     if(!this.state.thumbAreaRect){
       return THUMB_MIN_WIDTH;

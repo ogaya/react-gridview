@@ -57,7 +57,9 @@ export default class GridView extends Record({
   stickies: List(),
   borders: Map(),
   scroll: new ScrollModel(),
-  onChangeCell: (prevCell, nextCell) => {return nextCell;}
+  onChangeCell: (prevCell, nextCell) => {
+    return nextCell;
+  }
 }) {
 
   // JSONから本クラスを生成
@@ -109,7 +111,7 @@ export default class GridView extends Record({
 
   // 値のセット
   setValue(cellPoint, value){
-    const prevCell = this.getCell(cellPoint);
+    //const prevCell = this.getCell(cellPoint);
     const nextCell = this.getCell(cellPoint).setValue(value);
 
     return this.setCell(cellPoint, nextCell);
@@ -189,8 +191,8 @@ export default class GridView extends Record({
         const nextCell = mutator(prevCell);
         model = model.setCell(cellPoint, nextCell);
         //model = model.setValue(new CellPoint(columnNo, rowNo), value);
-      })
-    })
+      });
+    });
 
     return model;
   }
