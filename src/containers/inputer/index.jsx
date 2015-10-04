@@ -22,19 +22,16 @@ const Inputer = React.createClass({
   componentDidMount(){
     this.refs.inputText.getDOMNode().onkeydown  = this._onKeyDown;
   },
-  componentDidUpdate(prevProps, prevState){
-    //this.refs.inputText.getDOMNode().focus();
-  },
   componentWillReceiveProps(nextProps){
     const prevInput = this.props.opeModel.input;
 
-    // 入力中　→　入力解除の場合は、変更値をセルに反映させる。
+    // 入力中→入力解除の場合は、変更値をセルに反映させる。
     if ((prevInput.isInputing === true) &&
         (nextProps.opeModel.input.isInputing === false)){
       nextProps.onValueChange(prevInput.target, this.state.inputText);
     }
 
-    // 入力解除　→　入力の場合は、セルの値を削除する
+    // 入力解除→入力の場合は、セルの値を削除する
     if ((prevInput.isInputing === false) &&
         (nextProps.opeModel.input.isInputing === true)){
       this.setState({inputText: ""});

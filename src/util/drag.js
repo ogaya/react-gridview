@@ -6,7 +6,9 @@
 // [戻値] true : 処理追加成功、false : 処理追加失敗
 const drag = function(taget, dragStartFnc, dragMoveFnc, dragEndFnc) {
   // 対象オブジェクトが存在しない場合はエラー
-  if (!taget) return false;
+  if (!taget) {
+    return false;
+  }
   // document.onselectの退避用
   var selectFnc = null;
   // ドラッグ開始処理
@@ -14,7 +16,7 @@ const drag = function(taget, dragStartFnc, dragMoveFnc, dragEndFnc) {
     //移動中の選択を無効化する
     selectFnc = document.onselect;
     document.onselect = function(){ return false; };
-    if (typeof dragStartFnc == 'function') {
+    if (typeof dragStartFnc === 'function') {
       // ドラッグ開始処理がfunctionの場合は実行する。
       dragStartFnc(e);
     }
@@ -38,21 +40,21 @@ const drag = function(taget, dragStartFnc, dragMoveFnc, dragEndFnc) {
     e.stopPropagation();
     //デフォルトの処理を抑制する
     e.preventDefault();
-  }
+  };
   // ドラッグ移動処理
   var dragMove = function (e) {
-    if (typeof dragMoveFnc == 'function') {
+    if (typeof dragMoveFnc === 'function') {
       // ドラッグ移動処理がfunctionの場合は実行する。
       dragMoveFnc(e);
     }
     //このイベントが終了したので、ほかの要素が処理しないようにする
     e.stopPropagation();
-  }
+  };
   // ドラッグ終了処理
   var dragEnd = function(e) {
     //移動中の選択無効化を解除
     document.onselect = selectFnc;
-    if (typeof dragEndFnc == 'function') {
+    if (typeof dragEndFnc === 'function') {
       // ドラッグ終了処理がfunctionの場合は実行する。
       dragEndFnc(e);
     }
@@ -70,11 +72,11 @@ const drag = function(taget, dragStartFnc, dragMoveFnc, dragEndFnc) {
     }
     //このイベントが終了したので、ほかの要素が処理しないようにする
     e.stopPropagation();
-  }
+  };
   //Handler.add(taget, 'mousedown', dragStart);
   taget.addEventListener('mousedown', dragStart);
   return true;
-}
+};
 
 export{
   drag

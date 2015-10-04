@@ -27,10 +27,17 @@ export default class Operation extends Record({
   opeItem: null,
   hoverItem: null,
   rangeItem: null,
-  rangeItems: List(),
+  clipRanges: List(),
   canvasRect: null,
   scroll: new CellPoint(1, 1)
 }) {
+
+  get rangeItems(){
+    if (!this.rangeItem){
+      return this.clipRanges;
+    }
+    return this.clipRanges.push(this.rangeItem);
+  }
 
   /**
    * 入力状態設定
@@ -66,20 +73,20 @@ export default class Operation extends Record({
   }
 
   /**
-   * 選択範囲追加
+   * 保持中の選択範囲を追加する
    * @param  {CellRange} rangeItem 選択範囲
    * @return {Operation} 更新した自身
    */
-  pushRangeItems(rangeItem){
-    return this.set("rangeItems", this.rangeItems.push(rangeItem));
+  pushClipRanges(rangeItem){
+    return this.set("clipRanges", this.clipRanges.push(rangeItem));
   }
 
   /**
-   * 選択範囲のクリア
+   * 保持中の選択範囲を削除する
    * @return {Operation} 更新した自身
    */
-  clearRangeItems(){
-    return this.set("rangeItems", this.rangeItems.clear());
+  clearClipRanges(){
+    return this.set("clipRanges", this.clipRanges.clear());
   }
 
   setCanvasRect(canvasRect){

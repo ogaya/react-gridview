@@ -1,7 +1,7 @@
 import {targetToRect, cellRangeToRect} from "../../../model/lib/target_to_rect";
 
-import {OBJECT_TYPE} from "../../../model/gridview/object-type";
-import {SelectInfo} from "../../../model/lib/select";
+//import {OBJECT_TYPE} from "../../../model/gridview/object-type";
+//import {SelectInfo} from "../../../model/lib/select";
 
 import {tabDown} from "./tab";
 import {enterDown} from "./enter";
@@ -27,9 +27,6 @@ function viewInputer(e, props){
 
   const cell = viewModel.getCell(cellPoint);
   let rect;
-  // if (rangeItem.equals(cell.mergeRange)){
-  //   return;
-  // }
 
   if (cell.mergeRange){
     rect = cellRangeToRect(viewModel, cell.mergeRange, opeModel.scroll);

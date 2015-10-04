@@ -32,11 +32,11 @@ class CellRange extends Record({
   }
 
   get leftTopPoint(){
-    return new CellPoint(this.minColumnNo, this.minRowNo)
+    return new CellPoint(this.minColumnNo, this.minRowNo);
   }
 
   get rightBottomPoint(){
-    return new CellPoint(this.maxColumnNo, this.maxRowNo)
+    return new CellPoint(this.maxColumnNo, this.maxRowNo);
   }
 
   merge(rangeItem){
@@ -55,7 +55,7 @@ class CellRange extends Record({
     const left = this.minColumnNo;
     const top = this.minRowNo;
     const right = this.maxColumnNo;
-    const bottom = this.maxRowNo;
+    //const bottom = this.maxRowNo;
 
     let points = List();
     for(var column = left; column <= right; column++){
@@ -104,7 +104,7 @@ function opeModelToRangeItem(opeModel){
 
   // ホバーアイテムがセルで無い場合、前回の範囲選択情報のままとする。
   if ((!hoverItem) || (hoverItem.objectType !== OBJECT_TYPE.CELL)){
-    return new CellRange(opeItem.cellPoint, opeItem.cellPoint);;
+    return new CellRange(opeItem.cellPoint, opeItem.cellPoint);
   }
 
   return new CellRange(opeItem.cellPoint, hoverItem.cellPoint);
