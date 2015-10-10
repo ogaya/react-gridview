@@ -8,6 +8,7 @@ import {enterDown} from "./enter";
 import {arrowDown} from "./arrow";
 import {deleteDown} from "./delete";
 
+
 // テキスト入力エリアを表示させる
 function viewInputer(e, props){
 
@@ -40,7 +41,10 @@ function viewInputer(e, props){
     .setIsInputing(true)
     .setRect(rect)
     .setTarget(cellPoint);
-  const ope = opeModel.setInput(input);
+  const ope = opeModel
+    .setInput(input)
+    .setCopyingRange(null);
+
   //props.onOperationChange(ope);
   props.onStateChange(props.viewModel, ope);
 }
@@ -49,7 +53,7 @@ function viewInputer(e, props){
 
 
 // キー入力処理
-function inputKeyDown(e, props){
+function inputKeyDown(e, props, keyPress){
 
   // tabを押したとき、右に選択セルを移動させる
   if(e.keyCode === 9){
@@ -70,7 +74,18 @@ function inputKeyDown(e, props){
     return deleteDown(e, props);
   }
 
-  viewInputer(e, props);
+  // ctrl + c
+  if((keyPress.ctrl === true) && (e.keyCode === 67)){
+    //return copyDown(e, props);
+  }
+  else if((keyPress.ctrl === true) && (e.keyCode === 86)){
+    //return copyDown(e, props);
+  }
+  else{
+    viewInputer(e, props);
+  }
+
+
 
   return true;
 }

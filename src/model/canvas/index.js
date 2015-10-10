@@ -67,6 +67,17 @@ export default class CanvasModel extends Record({
     this.drawLine(rect.left, rect.top, rect.left, rect.bottom);
   }
 
+  drawRectDashedLine(rect, dashArray) {
+    // 上ライン
+    this.drawDashedLine(rect.left, rect.top, rect.right, rect.top, dashArray);
+    // 右ライン
+    this.drawDashedLine(rect.right, rect.top, rect.right, rect.bottom, dashArray);
+    // 下ライン
+    this.drawDashedLine(rect.left, rect.bottom, rect.right, rect.bottom, dashArray);
+    // 左ライン
+    this.drawDashedLine(rect.left, rect.top, rect.left, rect.bottom, dashArray);
+  }
+
   drawRectFill(rect) {
     const context = this.context;
     context.fillRect(rect.left, rect.top, rect.width, rect.height);

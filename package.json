@@ -19,8 +19,8 @@
     "flux": "^2.0.1",
     "immutable": "",
     "object-assign": "^2.0.0",
-    "react": "^0.13.0",
-    "react-helix": "^1.0.0"
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0"
   },
   "browserify": {
     "transform": [

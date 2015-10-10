@@ -71,6 +71,29 @@ function drawRange(canvas, viewModel, opeModel){
 
 }
 
+/**
+ * コピー範囲の描画
+ * @param  {Object} canvas    canvasオブジェクト
+ * @param  {View} viewModel 表示情報
+ * @param  {Operation} opeModel  捜査情報
+ */
+function drawCopy(canvas, viewModel, opeModel){
+  const copyingRange = opeModel.copyingRange;
+
+  if(!copyingRange){
+    return;
+  }
+
+
+  canvas.context.strokeStyle = "#35C";
+  canvas.context.lineWidth = 2;
+
+  const rect = cellRangeToRect(viewModel, copyingRange, opeModel.scroll);
+
+  canvas.context.globalAlpha = 1;
+  canvas.drawRectDashedLine(rect, [8, 4]);
+}
+
 function drawSelectCell(canvas, viewModel, opeModel){
   // セル選択の描画
   const cellPoint = opeModel.selectItem && opeModel.selectItem.cellPoint;
@@ -106,5 +129,7 @@ export default function drawOperation(canvas, viewModel, opeModel) {
   drawRange(canvas, viewModel, opeModel);
   // 選択セルの描画
   drawSelectCell(canvas, viewModel, opeModel);
+
+  drawCopy(canvas, viewModel, opeModel);
 
 }

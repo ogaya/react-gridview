@@ -3,6 +3,8 @@
 //
 
 import React from "react";
+import ReactDOM from "react-dom";
+
 import OperationModel from "../../../model/operation";
 import GridViewModel  from "../../../model/gridview";
 
@@ -50,12 +52,12 @@ const Verticalbar  = React.createClass({
     };
   },
   _handleResize(){
-    const thumbArea = this.refs.rgThumbArea.getDOMNode();
+    const thumbArea = ReactDOM.findDOMNode(this.refs.rgThumbArea);
     const areaRect = thumbArea.getBoundingClientRect();
     this.setState({thumbAreaRect: areaRect});
   },
   componentDidMount(){
-    const node = this.refs.rgThumb.getDOMNode();
+    const node = ReactDOM.findDOMNode(this.refs.rgThumb);
     drag(node, this._dragStart, this._dragMove);
     window.addEventListener('resize', this._handleResize);
     this._handleResize();
@@ -185,7 +187,7 @@ const Verticalbar  = React.createClass({
     return top;
   },
   _onMouseDown(e){
-    const thumbArea = this.refs.rgThumb.getDOMNode();
+    const thumbArea = ReactDOM.findDOMNode(this.refs.rgThumb);
     const areaRect = thumbArea.getBoundingClientRect();
 
     if (areaRect.bottom < e.clientY){

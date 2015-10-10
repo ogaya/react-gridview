@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 
 import Cells from "./containers/cells";
 import ExNodes from "./containers/exnodes";
@@ -7,6 +8,7 @@ import Inputer from "./containers/inputer";
 
 //import "./react-gridview.styl";
 import {MouseEvent} from "./mouse-event";
+import {KeyPress} from "./mixins/key-press";
 
 import GridViewModel from "./model/gridview";
 import OperationModel from "./model/operation";
@@ -27,7 +29,7 @@ const style = {
 
 const GridView = React.createClass({
   displayName: "gridview",
-  mixins: [MouseEvent],
+  mixins: [KeyPress, MouseEvent],
   propTypes: {
     viewModel: React.PropTypes.instanceOf(GridViewModel),
     operationModel: React.PropTypes.instanceOf(OperationModel),
@@ -61,12 +63,12 @@ const GridView = React.createClass({
   },
   componentDidMount(){
     this.setState({setInputFocus: this.refs.inputer.setInputFocus});
-    const node = this.refs.gwcells.getDOMNode();
+    const node = ReactDOM.findDOMNode(this.refs.gwcells);
     drag(node, this._onMouseDown, this._onMouseMove, this._onMouseUp);
-    this._addEvent();
+    this._addKeyPressEvent();
   },
   componentWillUnmount(){
-    this._removeEvent();
+    this._removeKeyPressEvent();
   },
   _onValueChange(cellPoint, value){
 

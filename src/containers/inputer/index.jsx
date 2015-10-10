@@ -1,12 +1,20 @@
 import React from "react";
+import ReactDOM from "react-dom";
+
 import OperationModel from "../../model/operation";
 import GridViewModel from "../../model/gridview";
+
+import {KeyPress} from "../../mixins/key-press";
 
 import {createInputStyle} from "./create-style";
 import {inputKeyDown} from "./key-behavior";
 
+
+import {copy, paste} from "./copy-paste";
+
 const Inputer = React.createClass({
   displayName: "Gridview-Cells",
+  mixins: [KeyPress],
   propTypes: {
     value: React.PropTypes.string,
     viewModel: React.PropTypes.instanceOf(GridViewModel),
@@ -20,7 +28,11 @@ const Inputer = React.createClass({
     };
   },
   componentDidMount(){
-    this.refs.inputText.getDOMNode().onkeydown  = this._onKeyDown;
+    ReactDOM.findDOMNode(this.refs.inputText).onkeydown  = this._onKeyDown;
+    this._addKeyPressEvent();
+  },
+  componentWillUnmount(){
+    this._removeKeyPressEvent();
   },
   componentWillReceiveProps(nextProps){
     const prevInput = this.props.opeModel.input;
@@ -36,13 +48,12 @@ const Inputer = React.createClass({
         (nextProps.opeModel.input.isInputing === true)){
       this.setState({inputText: ""});
     }
-
   },
   setInputFocus(){
-    this.refs.inputText.getDOMNode().focus();
+    ReactDOM.findDOMNode(this.refs.inputText).focus();
   },
   _onKeyDown(e){
-    return inputKeyDown(e, this.props);
+    return inputKeyDown(e, this.props, this._keyPress);
   },
   changeText(e) {
     this.setState({inputText: e.target.value});
@@ -52,6 +63,15 @@ const Inputer = React.createClass({
     const ope = this.props.opeModel.setInput(input);
     this.props.onStateChange(this.props.viewModel, ope);
   },
+  _onCopy(e){
+    e.preventDefault();
+    copy(e, this.props);
+
+  },
+  _onPaste(e){
+    e.preventDefault();
+    paste(e, this.props);
+  },
   render() {
     const style = createInputStyle(this.props.opeModel);
     //const value = this._getValue();
@@ -59,7 +79,8 @@ const Inputer = React.createClass({
 
     return (
       <input style={style} type="text" ref="inputText" value={value}
-        onChange={this.changeText} onBlur={this._onBlur} />
+        onChange={this.changeText} onBlur={this._onBlur}
+        onCopy={this._onCopy} onPaste={this._onPaste}/>
     );
   }
 });

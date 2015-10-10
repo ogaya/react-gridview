@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 
 // gridviewモデル
 import {
@@ -172,7 +173,7 @@ const Main = React.createClass({
 // <div style={vStyle}>
 //   <GridView viewModel={convertView}/>
 // </div>
-React.render(
+ReactDOM.render(
     <Main />,
     document.getElementById('main')
 );

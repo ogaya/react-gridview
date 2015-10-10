@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 
 //import drawGrid from "./controls/grid";
 import drawColumnHeader from "./controls/column-header";
@@ -49,7 +50,7 @@ const Cells = React.createClass({
   _canvasRender(props){
     const model = props.model;
     const opeModel = props.opeModel;
-    const canvasElement = this.refs.gwcells.getDOMNode();
+    const canvasElement = ReactDOM.findDOMNode(this.refs.gwcells);
     const canvasWidth = canvasElement.offsetWidth;
     const canvasHeigh = canvasElement.offsetHeight;
 
@@ -81,10 +82,7 @@ const Cells = React.createClass({
     this._canvasRender(this.props);
   },
   componentDidMount(){
-    // const node = this.refs.gwcells.getDOMNode();
-    // drag(node, this._onMouseDown, this._onMouseMove, this._onMouseUp);
     window.addEventListener('resize', this._handleResize);
-
     this._canvasRender(this.props);
   },
   componentWillUnmount() {

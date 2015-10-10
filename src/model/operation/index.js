@@ -27,6 +27,7 @@ export default class Operation extends Record({
   opeItem: null,
   hoverItem: null,
   rangeItem: null,
+  copyingRange: null,
   clipRanges: List(),
   canvasRect: null,
   scroll: new CellPoint(1, 1)
@@ -91,6 +92,10 @@ export default class Operation extends Record({
 
   setCanvasRect(canvasRect){
     return this.set("canvasRect", canvasRect);
+  }
+
+  setCopyingRange(copyingRange){
+    return this.set("copyingRange", copyingRange);
   }
 
   resetRange(){

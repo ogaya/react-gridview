@@ -1,3 +1,5 @@
+//import React from "react";
+import ReactDOM from "react-dom";
 
 import {Point} from "./model/common";
 import {operationResult} from "./model/lib/change";
@@ -30,41 +32,9 @@ function dragScroll(viewModel, opeModel){
 
 /**
  * メインとなるマウスの書く処理を定義する
+ * 要：KeyPress
  */
 const MouseEvent = {
-  _keyPress: {
-    ctrl: false
-  },
-  _addEvent(){
-    if (document.addEventListener) { // DOMレベル2イベントモデル
-      //キャプチャリングイベントハンドラを登録する
-      document.addEventListener('keydown', this._onKeyDown, true);
-      document.addEventListener('keyup', this._onKeyUp, true);
-      document.addEventListener('blur', this._onBlur, true);
-    }
-  },
-  _removeEvent(){
-    if (document.removeEventListener) { // DOMレベル2イベントモデル
-      document.removeEventListener('mousemove', this._onKeyDown, true);
-      document.removeEventListener('mouseup', this._onKeyUp, true);
-      document.removeEventListener('blur', this._onBlur, true);
-    }
-  },
-  _onKeyDown(e){
-    // この処理は、あくまでマウスイベントをこなすためにある。
-    // つまり、キーボードの押しっぱなし状態でジェスチャーを変更させる。
-    if(e.keyCode === 17){
-      this._keyPress.ctrl = true;
-    }
-  },
-  _onKeyUp(e){
-    if(e.keyCode === 17){
-      this._keyPress.ctrl = false;
-    }
-  },
-  _onBlur(){
-    this._keyPress.ctrl = false;
-  },
   /**
    * マウスホイール処理
    * @param  {Object} e イベント引数
@@ -128,7 +98,7 @@ const MouseEvent = {
     this._onOperationChange(ope.setRangeItem(rangeItem));
   },
   _onMouseMove(e){
-    const node = this.refs.gwcells.getDOMNode();
+    const node = ReactDOM.findDOMNode(this.refs.gwcells);
     const viewModel = this.state.viewModel;
     const opeModel = this.state.operation;
 
