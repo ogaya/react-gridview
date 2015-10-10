@@ -1,4 +1,4 @@
-import {Rect, CellPoint, BORDER_POSITION} from "../../../model/common";
+import {CellPoint, BORDER_POSITION} from "../../../model/common";
 import {targetToRect, cellRangeToRect} from "../../../model/lib/target_to_rect";
 
 // セル枠の描画
@@ -57,6 +57,7 @@ function drawBorder(canvas, viewModel, opeModel, cellPoint, rect){
 // セルの描画
 function drawCell(canvas, model, opeModel, cellPoint ){
 
+
   const cell = model.getCell(cellPoint);
 
   let rect;
@@ -83,6 +84,7 @@ function drawCell(canvas, model, opeModel, cellPoint ){
   }
 
   if (canCellView){
+    canvas.context.font = "10pt Arial";
     canvas.drawText(cell.value, rect, cell.textAlign, cell.verticalAlign, cell.indent);
   }
 }
@@ -92,9 +94,6 @@ function drawColumn(canvas, model, rowNo, top, rowHeaderItem, opeModel) {
   let left = model.rowHeader.width;
   model.columnHeader.items.skip(opeModel.scroll.columnNo - 1)
     .takeWhile((item, columnNo) =>{
-
-      const width = item.width;
-      const height = rowHeaderItem.height;
       const widthOver = (canvas.width < (left));
 
       if (widthOver){

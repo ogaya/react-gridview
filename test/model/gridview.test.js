@@ -28,11 +28,11 @@ describe("GridViewModel", function() {
     it("pointToTarget", function() {
       const model = new GridViewModel();
 
-      const target1 = model.pointToTarget(50, 20);
+      const target1 = model.pointToTarget(100, 20);
       assert.equal(target1.columnNo, 1);
       assert.equal(target1.rowNo, 1);
 
-      const target2 = model.pointToTarget(100, 20);
+      const target2 = model.pointToTarget(200, 20);
 
       assert.equal(target2.columnNo, 2);
       assert.equal(target2.rowNo, 1);

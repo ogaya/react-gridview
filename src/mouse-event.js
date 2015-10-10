@@ -41,7 +41,7 @@ const MouseEvent = {
    */
   _onMouseWheel(e){
     const opeModel = this.state.operation;
-    let value = opeModel.scroll.rowNo + Math.round(e.deltaY / 100);
+    let value = opeModel.scroll.rowNo + Math.round(e.deltaY / 100) * 3;
 
     if (value < 1) {
       value = 1;

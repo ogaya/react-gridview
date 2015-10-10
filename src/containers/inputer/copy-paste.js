@@ -77,9 +77,6 @@ function pasteText(e, props){
         Number(columnNo) + rangeItem.minColumnNo,
         Number(rowNo) + rangeItem.minRowNo
       );
-      console.log(target);
-      console.log(rowNo);
-      console.log(rowNo + rangeItem.minRowNo);
       viewModel = viewModel.setValue(target, cellValue);
     }
   }
