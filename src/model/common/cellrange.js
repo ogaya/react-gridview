@@ -92,6 +92,54 @@ class CellRange extends Record({
   }
 }
 
+/**
+ * 列ヘッダーを選択したときの処理
+ * @param  {[type]} viewModel [description]
+ * @param  {[type]} opeModel  [description]
+ * @return {[type]}           [description]
+ */
+function pickRangeFromColumnHeader(viewModel, opeModel){
+
+  const opeItem = opeModel.opeItem;
+  const hoverItem = opeModel.hoverItem;
+
+
+  if ((!opeItem) || (opeItem.objectType !== OBJECT_TYPE.COLUMN_HEADER)){
+    return null;
+  }
+
+  if (!hoverItem){
+    return new CellRange(
+      new CellPoint(opeItem.cellPoint.columnNo, 1),
+      new CellPoint(opeItem.cellPoint.columnNo, viewModel.rowHeader.maxCount));
+  }
+
+  return new CellRange(
+    new CellPoint(opeItem.cellPoint.columnNo, 1),
+    new CellPoint(hoverItem.cellPoint.columnNo, viewModel.rowHeader.maxCount));
+}
+
+function pickRangeFromRowHeader(viewModel, opeModel){
+
+  const opeItem = opeModel.opeItem;
+  const hoverItem = opeModel.hoverItem;
+
+
+  if ((!opeItem) || (opeItem.objectType !== OBJECT_TYPE.ROW_HEADER)){
+    return null;
+  }
+
+  if (!hoverItem){
+    return new CellRange(
+      new CellPoint(1, opeItem.cellPoint.rowNo),
+      new CellPoint(viewModel.columnHeader.maxCount, opeItem.cellPoint.rowNo));
+  }
+
+  return new CellRange(
+    new CellPoint(1, opeItem.cellPoint.rowNo),
+    new CellPoint(viewModel.columnHeader.maxCount, hoverItem.cellPoint.rowNo));
+}
+
 function opeModelToRangeItem(opeModel){
 
   const opeItem = opeModel.opeItem;
@@ -187,17 +235,32 @@ function fitRange(viewModel, rangeItem){
   return rangeItem;
 }
 
+/**
+ * 操作状況から選択範囲を取得する
+ * @param  {[type]} viewModel [description]
+ * @param  {[type]} opeModel  [description]
+ * @return {[type]}           [description]
+ */
 function modelToRangeItem(viewModel, opeModel){
+
+  let opeRange = pickRangeFromColumnHeader(viewModel, opeModel);
+  if(opeRange){
+    return opeRange;
+  }
+  opeRange = pickRangeFromRowHeader(viewModel, opeModel);
+
+  if(opeRange){
+    return opeRange;
+  }
+
   // マウスドラッグ操作した範囲を求める
-  const opeRange = opeModelToRangeItem(opeModel);
+  opeRange = opeModelToRangeItem(opeModel);
 
   if(!opeRange){
     return opeRange;
   }
 
   return fitRange(viewModel, opeRange);
-
-
 }
 
 export default {

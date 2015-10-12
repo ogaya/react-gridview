@@ -4,7 +4,8 @@
  */
 const KeyPress = {
   _keyPress: {
-    ctrl: false
+    ctrl: false,
+    alt: false
   },
   _addKeyPressEvent(){
     if (document.addEventListener) { // DOMレベル2イベントモデル
@@ -25,14 +26,21 @@ const KeyPress = {
     if(e.keyCode === 17){
       this._keyPress.ctrl = true;
     }
+    if(e.keyCode === 18){
+      this._keyPress.alt = true;
+    }
   },
   _onKeyPressKeyUp(e){
     if(e.keyCode === 17){
       this._keyPress.ctrl = false;
     }
+    if(e.keyCode === 18){
+      this._keyPress.alt = false;
+    }
   },
   _onKeyPressBlur(){
     this._keyPress.ctrl = false;
+    this._keyPress.alt = false;
   }
 };
 

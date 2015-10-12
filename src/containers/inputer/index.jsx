@@ -53,7 +53,10 @@ const Inputer = React.createClass({
     ReactDOM.findDOMNode(this.refs.inputText).focus();
   },
   _onKeyDown(e){
-    return inputKeyDown(e, this.props, this._keyPress);
+    // const setText = (text) => {
+    //   this.setState({inputText: text});
+    // };
+    return inputKeyDown(e, this);
   },
   changeText(e) {
     this.setState({inputText: e.target.value});
@@ -78,7 +81,7 @@ const Inputer = React.createClass({
     const value = this.state.inputText;
 
     return (
-      <input style={style} type="text" ref="inputText" value={value}
+      <textarea style={style} type="text" ref="inputText" value={value}
         onChange={this.changeText} onBlur={this._onBlur}
         onCopy={this._onCopy} onPaste={this._onPaste}/>
     );

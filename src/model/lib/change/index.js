@@ -16,7 +16,7 @@ function columnResize(viewModel, opeModel) {
   // 新しい幅を計算酢る
   const left = selectItem.rect.left;
   const right = opeModel.hoverItem.point.x;
-  const width = (right <= left) ? 1 : right - left;
+  const width = ((right - left) < 3 ) ? 3 : right - left;
 
   // 列アイテムの更新
   const columnNo = selectItem.cellPoint.columnNo;
@@ -42,7 +42,7 @@ function rowResize(viewModel, opeModel){
   // 新しい高さを算出する
   const top = selectItem.rect.top;
   const bottom = opeModel.hoverItem.point.y;
-  const height = (bottom <= top) ? 1 : bottom - top;
+  const height = ((bottom - top) < 3) ? 3 : bottom - top;
 
   // 行アイテムの更新
   const rowNo = selectItem.cellPoint.rowNo;

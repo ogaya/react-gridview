@@ -1,0 +1,21 @@
+.sample-button{
+  height: 20px;
+  width: 22px;
+  border: 1px solid #999;
+  background: #FCFCFC;
+  cursor: pointer;
+}
+
+.sample-button:hover{
+  background: #EEE;
+}
+
+.sample-button:active{
+  background: #AAA;
+}
+
+.sample-button-img{
+  height: calc(100% - 6px);
+  width: calc(100% - 6px);
+  padding: 3px;
+}

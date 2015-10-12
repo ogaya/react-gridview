@@ -1,0 +1,9 @@
+.vertical-area{
+  background: #FFF;
+  display: table;
+}
+
+.vertical-area > div {
+  display: table-cell;
+  padding: 2px;
+}

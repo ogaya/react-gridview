@@ -1,8 +1,5 @@
 import {targetToRect, cellRangeToRect} from "../../../model/lib/target_to_rect";
 
-//import {OBJECT_TYPE} from "../../../model/gridview/object-type";
-//import {SelectInfo} from "../../../model/lib/select";
-
 import {tabDown} from "./tab";
 import {enterDown} from "./enter";
 import {arrowDown} from "./arrow";
@@ -49,11 +46,11 @@ function viewInputer(e, props){
   props.onStateChange(props.viewModel, ope);
 }
 
-
-
-
 // キー入力処理
-function inputKeyDown(e, props, keyPress){
+function inputKeyDown(e, inputer){
+
+  const props = inputer.props;
+  const keyPress = inputer._keyPress;
 
   // tabを押したとき、右に選択セルを移動させる
   if(e.keyCode === 9){
@@ -61,8 +58,9 @@ function inputKeyDown(e, props, keyPress){
     //return false;
   }
 
+  // 円ターキーを押したとき、洗濯セルを下へ移動させる
   if(e.keyCode === 13){
-    return enterDown(e, props);
+    return enterDown(e, props, keyPress, inputer);
   }
 
   if ((e.keyCode >= 37) && (e.keyCode <= 40) && (!props.opeModel.input.isInputing)){
@@ -70,15 +68,18 @@ function inputKeyDown(e, props, keyPress){
   }
 
   // backspaceキー、deleteキー
-  if((e.keyCode === 8) || (e.keyCode === 46)){
+  if((!props.opeModel.input.isInputing) &&
+     ((e.keyCode === 8) || (e.keyCode === 46))){
     return deleteDown(e, props);
   }
 
   // ctrl + c
-  if((keyPress.ctrl === true) && (e.keyCode === 67)){
+  if((!props.opeModel.input.isInputing) &&
+     (keyPress.ctrl === true) && (e.keyCode === 67)){
     //return copyDown(e, props);
   }
-  else if((keyPress.ctrl === true) && (e.keyCode === 86)){
+  else if((!props.opeModel.input.isInputing) &&
+          (keyPress.ctrl === true) && (e.keyCode === 86)){
     //return copyDown(e, props);
   }
   else{

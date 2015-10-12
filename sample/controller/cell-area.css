@@ -1,0 +1,12 @@
+
+.sample-cell-area{
+  padding-left: 50px;
+  width: 100%;
+  table-layout: fixed;
+}
+.sample-cell-table{
+  display: table;
+}
+.sample-cell-table > div{
+  display: table-cell;
+}

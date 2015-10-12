@@ -1,0 +1,9 @@
+.connect-area{
+  background: #FFF;
+  display: table;
+}
+
+.connect-area > div {
+  display: table-cell;
+  padding: 2px;
+}

@@ -69,6 +69,7 @@ const MouseEvent = {
   },
   /**
    * マウスダウン処理
+   *   マウスの下にあるオブジェクトを検出し、選択処理等を行う
    * @param  {Object} e イベント引数
    */
   _onMouseDown(e){

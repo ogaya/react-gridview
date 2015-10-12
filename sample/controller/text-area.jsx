@@ -2,7 +2,7 @@ import React from "react";
 
 import {GridViewModel, OperationModel} from "../../dist/react-gridview.js";
 
-import "./text-area-css";
+import "./text-area.css";
 
 /**
  * テキスト入力エリア

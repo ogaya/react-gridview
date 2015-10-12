@@ -1,0 +1,10 @@
+
+.color-area{
+  background: #FFF;
+  display: table;
+}
+
+.color-area > div {
+  display: table-cell;
+  padding: 2px;
+}

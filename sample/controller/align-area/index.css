@@ -1,0 +1,10 @@
+
+.align-area{
+  background: #FFF;
+  display: table;
+}
+
+.align-area > div {
+  display: table-cell;
+  padding: 2px;
+}
