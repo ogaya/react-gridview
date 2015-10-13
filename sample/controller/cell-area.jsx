@@ -14,7 +14,8 @@ const CellArea = React.createClass({
   propTypes: {
     viewModel: React.PropTypes.instanceOf(GridViewModel),
     operationModel: React.PropTypes.instanceOf(OperationModel),
-    onControlView: React.PropTypes.func
+    onControlView: React.PropTypes.func,
+    showSubWindow: React.PropTypes.func
   },
   render: function() {
     const viewModel = this.props.viewModel;
@@ -22,22 +23,15 @@ const CellArea = React.createClass({
     const onControlView = this.props.onControlView;
     return (
       <div className="sample-cell-area sample-cell-table">
-        <div>
-          <ColorArea viewModel={viewModel}
-            operationModel={operationModel} onControlView={onControlView}/>
-        </div>
-        <div>
-          <AlignArea viewModel={viewModel}
-            operationModel={operationModel} onControlView={onControlView}/>
-        </div>
-        <div>
-          <VerticalArea viewModel={viewModel}
-            operationModel={operationModel} onControlView={onControlView}/>
-        </div>
-        <div>
-          <ConnectArea viewModel={viewModel}
-            operationModel={operationModel} onControlView={onControlView}/>
-        </div>
+        <ColorArea viewModel={viewModel} operationModel={operationModel}
+          onControlView={onControlView} showSubWindow={this.props.showSubWindow}/>
+        <AlignArea viewModel={viewModel}
+          operationModel={operationModel} onControlView={onControlView}/>
+        <VerticalArea viewModel={viewModel}
+          operationModel={operationModel} onControlView={onControlView}/>
+        <ConnectArea viewModel={viewModel}
+          operationModel={operationModel} onControlView={onControlView}/>
+        <div></div>
       </div>
     );
   }

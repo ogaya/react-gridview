@@ -1,6 +1,7 @@
 import React from "react";
 
 import SimpleButton from "../common/simple-button";
+import ColorPanel from "./color-panel";
 
 import {GridViewModel, OperationModel} from "../../../dist/react-gridview.js";
 
@@ -16,49 +17,44 @@ const ColorArea = React.createClass({
   propTypes: {
     viewModel: React.PropTypes.instanceOf(GridViewModel),
     operationModel: React.PropTypes.instanceOf(OperationModel),
-    onControlView: React.PropTypes.func
+    onControlView: React.PropTypes.func,
+    showSubWindow: React.PropTypes.func
   },
-  _onChangeTextColor(e){
+  _onChangeTextColor(color){
     const rangeItem = this.props.operationModel.rangeItem;
     const view = this.props.viewModel.withCells(
       rangeItem, (cell)=>{
-        return cell.setTextColor(e.target.value);
+        return cell.setTextColor(color);
       });
     this.props.onControlView(view);
   },
-  _onChangeBgColor(e){
+  _onChangeBgColor(color){
     const rangeItem = this.props.operationModel.rangeItem;
     const view = this.props.viewModel.withCells(
       rangeItem, (cell)=>{
-        return cell.setBackground(e.target.value);
+        return cell.setBackground(color);
       }
     );
     this.props.onControlView(view);
+  },
+  _onClickTextColor(){
+    const subWindow = <ColorPanel
+      showSubWindow={this.props.showSubWindow} onSelectColor={this._onChangeTextColor} />;
+    this.props.showSubWindow(subWindow);
+  },
+  _onClickBgColor(){
+    const subWindow = <ColorPanel
+      showSubWindow={this.props.showSubWindow} onSelectColor={this._onChangeBgColor} />;
+    this.props.showSubWindow(subWindow);
   },
   render: function() {
     return (
       <div className="color-area">
         <div>
-          <SimpleButton icon={TextIcon}/>
+          <SimpleButton icon={TextIcon} onClick={this._onClickTextColor}/>
         </div>
         <div>
-          <SimpleButton icon={BgIcon}/>
-        </div>
-        <div>
-          <select name="textcolor" onChange={this._onChangeTextColor}>
-            <option value="">なし</option>
-            <option value="#F00">赤</option>
-            <option value="#0F0">緑</option>
-            <option value="#00F">青</option>
-          </select>
-        </div>
-        <div>
-          <select name="bgcolor" onChange={this._onChangeBgColor}>
-            <option value="">なし</option>
-            <option value="#F00">赤</option>
-            <option value="#0F0">緑</option>
-            <option value="#00F">青</option>
-          </select>
+          <SimpleButton icon={BgIcon} onClick={this._onClickBgColor}/>
         </div>
       </div>
     );

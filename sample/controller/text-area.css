@@ -5,14 +5,16 @@
   table-layout: fixed;
   border-top: 1px solid #999;
   border-bottom: 1px solid #999;
+  padding: 2px 0px;
 }
 .sample-text-area > div{
   display: table-cell;
 }
 .sample-text-area-id{
   font-family: arial;
-  width: 100px;
-  background: #ddd;
+  width: 75px;
+  background: #FFF;
+  border-right: 1px solid #BBB;
   font-size: 14px;
   text-align: center;
 }

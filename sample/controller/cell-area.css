@@ -1,8 +1,10 @@
 
 .sample-cell-area{
-  padding-left: 50px;
   width: 100%;
   table-layout: fixed;
+  padding: 2px;
+  padding-left: 50px;
+  background: #f5f5ff;
 }
 .sample-cell-table{
   display: table;

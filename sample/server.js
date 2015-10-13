@@ -26,7 +26,10 @@ http.createServer(function (req, res) {
       res.end("non file");
       return;
     }
-    res.writeHead(200, { 'Content-Type': mime});
+    res.writeHead(200, {
+      'Content-Type': mime,
+      'Cache-Control': 'no-cache'
+    });
     res.end(data);
   });
 

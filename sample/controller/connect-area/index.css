@@ -1,6 +1,7 @@
 .connect-area{
-  background: #FFF;
-  display: table;
+  width: 80px;
+  border-left: 1px solid #ccc;
+  padding-left: 5px;
 }
 
 .connect-area > div {

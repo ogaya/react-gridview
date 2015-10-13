@@ -16,7 +16,7 @@ import Controller from "./controller";
 const mainStyle = {
   display: "table",
   width: "100%",
-  height: "calc(100% - 51px)",
+  height: "calc(100% - 52px)",
   tableLayout: "fixed"
 };
 // const viewerStyle = {

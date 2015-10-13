@@ -1,13 +1,12 @@
 .sample-button{
   height: 20px;
   width: 22px;
-  border: 1px solid #999;
-  background: #FCFCFC;
+
   cursor: pointer;
 }
 
 .sample-button:hover{
-  background: #EEE;
+  background: #FFF;
 }
 
 .sample-button:active{
