@@ -31,7 +31,7 @@ function JsonToCell(json){
 export default class ColumnHeader extends Record({
   height: HEADER_HEIGHT,
   maxCount: 702,
-  background: "#ddd",
+  background: "#eaeaff",
   color: "#333",
   editItems: Map()
 }) {

@@ -28,6 +28,10 @@ export class CellPoint extends Record({
 
   // ID化
   toId(){
+    if ((!this.columnNo) || (!this.rowNo)){
+      return "";
+    }
+
     return  CellPoint.getColumnId(this.columnNo) + this.rowNo;
   }
 

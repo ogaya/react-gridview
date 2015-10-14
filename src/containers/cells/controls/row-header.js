@@ -19,7 +19,7 @@ export default function drawRowHeader(canvas, columnHeader, rowHeader, opeModel)
   const rowNo = opeModel.scroll.rowNo;
 
   canvas.drawLine(0, sumHeight, rowHeader.width, sumHeight);
-  
+
   rowHeader.items.skip(rowNo - 1)
     .takeWhile((item) =>{
       const rect = new Rect(0, sumHeight, rowHeader.width, item.height);
@@ -31,7 +31,7 @@ export default function drawRowHeader(canvas, columnHeader, rowHeader, opeModel)
       sumHeight = sumHeight + item.height;
       canvas.drawLine(0, sumHeight, rowHeader.width, sumHeight);
       canvas.context.fillStyle = rowHeader.color;
-      context.font = "11px 'Meiryo'";
+      context.font = "11px arial";
       canvas.drawText(item.cell.value, rect.setWidth(rect.width - 5), item.cell.textAlign, item.cell.verticalAlign);
       return true;
     });

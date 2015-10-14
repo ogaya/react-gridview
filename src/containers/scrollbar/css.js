@@ -15,7 +15,7 @@ css(`
   position: absolute;
   right: 0px;
   bottom: 0px;
-  background: #eef;
+  background: #f5f5ff;
   border-left: 1px solid #ccc;
   border-top: 1px solid #ccc;
 }

@@ -38,12 +38,14 @@ const ColorArea = React.createClass({
     this.props.onControlView(view);
   },
   _onClickTextColor(){
-    const subWindow = <ColorPanel
+    const subWindow =
+      <ColorPanel className="text-color-panel" defaultText="自動" defaultColor="#000"
       showSubWindow={this.props.showSubWindow} onSelectColor={this._onChangeTextColor} />;
     this.props.showSubWindow(subWindow);
   },
   _onClickBgColor(){
-    const subWindow = <ColorPanel
+    const subWindow =
+      <ColorPanel className="bg-color-panel" defaultText="塗りつぶしなし" defaultColor=""
       showSubWindow={this.props.showSubWindow} onSelectColor={this._onChangeBgColor} />;
     this.props.showSubWindow(subWindow);
   },

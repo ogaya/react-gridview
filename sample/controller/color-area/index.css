@@ -9,3 +9,13 @@
   display: table-cell;
   padding: 2px;
 }
+
+.text-color-panel{
+  top: 28px;
+  left: 58px;
+}
+
+.bg-color-panel{
+  top: 28px;
+  left: 84px;
+}
