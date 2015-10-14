@@ -9,7 +9,7 @@ const defCell = emptyCell
 
 export default class ColumnHeaderItem extends Record({
   cell: defCell,
-  width: 50,
+  width: 80,
   left: 0
 }) {
 

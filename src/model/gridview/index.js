@@ -57,7 +57,9 @@ export default class GridView extends Record({
   stickies: List(),
   borders: Map(),
   scroll: new ScrollModel(),
-  onChangeCell: (prevCell, nextCell) => {return nextCell;}
+  onChangeCell: (prevCell, nextCell) => {
+    return nextCell;
+  }
 }) {
 
   // JSONから本クラスを生成
@@ -109,7 +111,7 @@ export default class GridView extends Record({
 
   // 値のセット
   setValue(cellPoint, value){
-    const prevCell = this.getCell(cellPoint);
+    //const prevCell = this.getCell(cellPoint);
     const nextCell = this.getCell(cellPoint).setValue(value);
 
     return this.setCell(cellPoint, nextCell);
@@ -189,8 +191,8 @@ export default class GridView extends Record({
         const nextCell = mutator(prevCell);
         model = model.setCell(cellPoint, nextCell);
         //model = model.setValue(new CellPoint(columnNo, rowNo), value);
-      })
-    })
+      });
+    });
 
     return model;
   }
@@ -210,7 +212,7 @@ export default class GridView extends Record({
       Range(top, bottom + 1).forEach((rowNo)=>{
         const cellPoint = new CellPoint(columnNo, rowNo);
         cells = cells.push(this.getCell(cellPoint));
-      })
+      });
     });
 
     return cells;
@@ -238,11 +240,29 @@ export default class GridView extends Record({
     Range(left, right + 1).forEach((columnNo)=>{
       Range(top, bottom + 1).forEach((rowNo)=>{
         model = model.setValue(new CellPoint(columnNo, rowNo), value);
-      })
-    })
+      });
+    });
 
     return model;
 
+  }
+
+  /**
+   * 複数範囲の値を変更する
+   * @param {List} ranges 範囲リスト
+   * @param {string} value  変更値
+   */
+  setValueRanges(ranges, value){
+    if(!ranges){
+      return this;
+    }
+
+    let model = this;
+
+    ranges.forEach(range =>{
+      model = model.setValueRange(range, value);
+    });
+    return model;
   }
 
 

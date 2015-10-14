@@ -1,0 +1,10 @@
+.connect-area{
+  width: 80px;
+  border-left: 1px solid #ccc;
+  padding-left: 5px;
+}
+
+.connect-area > div {
+  display: table-cell;
+  padding: 2px;
+}

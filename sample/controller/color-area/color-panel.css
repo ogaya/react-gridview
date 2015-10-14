@@ -1,0 +1,48 @@
+
+.color-panel{
+  height: 230px;
+  width: 195px;
+  background: #FFF;
+  position: absolute;
+  left: 30px;
+  z-index: 300;
+  outline: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.6);
+}
+
+.color-panel:focus{
+  border: none;
+}
+
+.color-node{
+  height: 13px;
+  width: 13px;
+  border: 1px solid rgba(100, 100, 100, 0.3);
+  position: absolute;
+  cursor: pointer;
+}
+
+.color-node:hover{
+  border: 1px solid #FFb;
+}
+
+.color-def{
+  font-size: 12px;
+  padding-top: 3px;
+  text-align: center;
+  font-family: arial;
+  left: 10px;
+  top: 10px;
+  width: 174px;
+  height: 17px;
+  cursor: pointer;
+  position: absolute;
+  border: 1px solid rgba(100, 100, 100, 0.3);
+}
+
+.color-def:hover{
+  background: #FFF0AA;
+  border: 1px solid rgba(100, 100, 100, 0.7);
+}

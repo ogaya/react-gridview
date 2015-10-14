@@ -1,6 +1,6 @@
-import {targetToRect} from "../../../model/lib/target_to_rect";
+//import {targetToRect} from "../../../model/lib/target_to_rect";
 import {OBJECT_TYPE} from "../../../model/gridview/object-type";
-import {SelectInfo} from "../../../model/lib/select";
+//import {SelectInfo} from "../../../model/lib/select";
 
 function deleteDown(e, props){
   const opeModel = props.opeModel;
@@ -18,14 +18,14 @@ function deleteDown(e, props){
 
   // 選択セルの内容を削除する
   const target = selectItem.cellPoint;
-  const input = props.opeModel.input;
+  //const input = props.opeModel.input;
 
   //props.onValueChange(target, "");
 
   // 新規操作オブジェクトを作る
   const viewModel = props.viewModel
     .setValue(target, "")
-    .setValueRange(opeModel.rangeItem, "");
+    .setValueRanges(opeModel.rangeItems, "");
 
   props.onStateChange(viewModel, opeModel);
 

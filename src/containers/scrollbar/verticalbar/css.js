@@ -4,7 +4,7 @@ import css from "../../../util/css";
 css(`
 .rg-scroll-vertical-base{
 
-  background: #eef;
+  background: #f5f5ff;
   table-layout: fixed;
   width: 20px;
   height: 100%;

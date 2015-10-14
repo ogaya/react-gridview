@@ -1,7 +1,7 @@
 
 import {OBJECT_TYPE} from "../../gridview/object-type";
 
-import {Rect, CellPoint, RESIZER_BORDER_WIDTH} from "../../common";
+import {Rect, CellPoint} from "../../common";
 import {SelectInfo} from "./item";
 
 // 列情報取得処理
@@ -9,7 +9,13 @@ import {clientPointToColumnInfo} from "./scanColumn";
 // 行情報取得処理
 import {pointToRowInfo} from "./scanRow";
 
-// 列ヘッダーのピックアップ
+/**
+ * 列ヘッダーのピックアップ
+ * @param  {ColumnInfo} columnInfo  列情報
+ * @param  {RowInfo} rowInfo        行情報
+ * @param  {Point} point            座標
+ * @return {SelectInfo}       選択アイテムの情報
+ */
 function pickColumnHeader(columnInfo, rowInfo, point){
   if (rowInfo.rowNo !== 0) {
     return null;

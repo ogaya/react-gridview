@@ -26,7 +26,7 @@ export default function drawColumnHeader(canvas, columnHeader, rowHeader, opeMod
       canvas.drawLine(sumWidth, 0, sumWidth, columnHeader.height);
 
       canvas.context.fillStyle = columnHeader.color;
-      context.font = "11px 'Meiryo'";
+      context.font = "11px arial";
       canvas.drawText(item.cell.value, rect, item.cell.textAlign, item.cell.verticalAlign);
       return true;
     });

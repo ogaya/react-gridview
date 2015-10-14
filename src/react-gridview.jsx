@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 
 import Cells from "./containers/cells";
 import ExNodes from "./containers/exnodes";
@@ -6,6 +7,8 @@ import Stickies from "./containers/stickies";
 import Inputer from "./containers/inputer";
 
 //import "./react-gridview.styl";
+import {MouseEvent} from "./mouse-event";
+import {KeyPress} from "./mixins/key-press";
 
 import GridViewModel from "./model/gridview";
 import OperationModel from "./model/operation";
@@ -15,28 +18,6 @@ import StickyModel from "./model/gridview/sticky";
 import {GridViewBar} from "./containers/scrollbar";
 import {VERTICAL_ALIGN, TEXT_ALIGN, CellPoint} from "./model/common";
 import {drag} from "./util/drag";
-import {Point} from "./model/common";
-import {operationResult} from "./model/lib/change";
-import {pointToGridViewItem} from "./model/lib/select";
-import {modelToRangeItem} from "./model/common/cellrange";
-import {fitForTarget} from "./model/lib/fit-for-target";
-import {OBJECT_TYPE} from "./model/gridview/object-type";
-
-function dragScroll(viewModel, opeModel){
-  const opeItem = opeModel.opeItem;
-  const hoverItem = opeModel.hoverItem;
-
-  // 操作中オブジェクトがセルで無い場合、範囲選択しない
-  if ((!opeItem) || (opeItem.objectType !== OBJECT_TYPE.CELL)){
-    return opeModel.scroll;
-  }
-  // ホバーアイテムがセルで無い場合、前回の範囲選択情報のままとする。
-  if ((!hoverItem) || (hoverItem.objectType !== OBJECT_TYPE.CELL)){
-    return opeModel.scroll;
-  }
-
-  return fitForTarget(viewModel, opeModel, hoverItem.cellPoint);
-}
 
 
 const style = {
@@ -48,6 +29,7 @@ const style = {
 
 const GridView = React.createClass({
   displayName: "gridview",
+  mixins: [KeyPress, MouseEvent],
   propTypes: {
     viewModel: React.PropTypes.instanceOf(GridViewModel),
     operationModel: React.PropTypes.instanceOf(OperationModel),
@@ -81,8 +63,12 @@ const GridView = React.createClass({
   },
   componentDidMount(){
     this.setState({setInputFocus: this.refs.inputer.setInputFocus});
-    const node = this.refs.gwcells.getDOMNode();
+    const node = ReactDOM.findDOMNode(this.refs.gwcells);
     drag(node, this._onMouseDown, this._onMouseMove, this._onMouseUp);
+    this._addKeyPressEvent();
+  },
+  componentWillUnmount(){
+    this._removeKeyPressEvent();
   },
   _onValueChange(cellPoint, value){
 
@@ -109,20 +95,6 @@ const GridView = React.createClass({
     this._onViewModelChange(viewModel);
     this._onOperationChange(operation);
   },
-  _onMouseWheel(e){
-    const opeModel = this.state.operation;
-    let value = opeModel.scroll.rowNo + Math.round(e.deltaY / 100);
-
-    if (value < 1) {
-      value = 1;
-    }
-
-    if (opeModel.scroll.rowNo !== value){
-      const scroll = opeModel.scroll.setRowNo(value);
-      this._onOperationChange(opeModel.setScroll(scroll));
-    }
-    e.preventDefault();
-  },
   // 再描画が必要か判定
   shouldComponentUpdate: function(nextProps, nextState) {
     const viewModel = this.state.viewModel;
@@ -132,54 +104,6 @@ const GridView = React.createClass({
     //console.log("ope:" + (operation !== nextState.operation));
 
     return viewChanged || opeChanged;
-  },
-  _onMouseUp(){
-    const opeModel = this.state.operation;
-    const viewModel = this.state.viewModel;
-    const newViewModel = operationResult(viewModel, opeModel);
-
-    if (viewModel !== newViewModel){
-      this._onViewModelChange(newViewModel);
-    }
-    const ope = opeModel.setOpeItem(null);
-    this._onOperationChange(ope);
-  },
-  _onMouseDown(e){
-    const viewModel = this.state.viewModel;
-    const opeModel = this.state.operation;
-
-    // テーブル上の座標を取得
-    const point = new Point(e.offsetX, e.offsetY);
-
-    const item = pointToGridViewItem(viewModel, opeModel, point);
-    this.state.setInputFocus();
-
-    const ope = opeModel
-      .setSelectItem(item)
-      .setOpeItem(item)
-      .setRangeItem(null);
-
-    const rangeItem = modelToRangeItem(viewModel, ope);
-    this._onOperationChange(ope.setRangeItem(rangeItem));
-  },
-  _onMouseMove(e){
-    const node = this.refs.gwcells.getDOMNode();
-    const viewModel = this.state.viewModel;
-    const opeModel = this.state.operation;
-
-    const rect = node.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    // テーブル上の座標を取得
-    const point = new Point(x, y);
-
-    const item = pointToGridViewItem(viewModel, opeModel, point, true);
-    const ope = opeModel.setHoverItem(item);
-    const scroll = dragScroll(viewModel, ope);
-    const rangeItem = modelToRangeItem(viewModel, ope);
-
-    this._onOperationChange(ope.setRangeItem(rangeItem).setScroll(scroll));
-
   },
   render: function () {
     const viewModel = this.state.viewModel;
@@ -197,7 +121,8 @@ const GridView = React.createClass({
     return (
       <div style={style} ref="gridview" onWheel={this._onMouseWheel}>
         <div style={cellStyle} ref="gwcells"  onMouseMove={this._onMouseMove}>
-          <Cells onOperationChange={this._onOperationChange} setInputFocus={this.state.setInputFocus}
+          <Cells onOperationChange={this._onOperationChange}
+            setInputFocus={this.state.setInputFocus}
             model={viewModel} opeModel={operation} onViewModelChange={this._onViewModelChange} />
 
           <ExNodes view={viewModel} operation={operation} extension={this.props.extension} />

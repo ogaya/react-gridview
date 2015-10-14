@@ -75,6 +75,9 @@ export default class Cell extends Record({
     return this.set("background", background);
   }
 
+  setText(value) {
+    return this.set("text", value);
+  }
   setValue(value) {
     return this.set("text", value);
   }

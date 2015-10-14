@@ -1,5 +1,5 @@
 
-import {term} from "./term"
+import {term} from "./term";
 
 import SolverModel from "./solver";
 
@@ -54,7 +54,7 @@ const expr = function(solver){
   }
 
   return solver;
-}
+};
 
 export{
   expr

@@ -3,7 +3,7 @@ import css from "../../../util/css";
 
 css(`
 .rg-scroll-base{
-  background: #eef;
+  background: #f5f5ff;
   table-layout: fixed;
   height: 20px;
   border-top: 1px solid #ccc;

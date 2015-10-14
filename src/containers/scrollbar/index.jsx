@@ -17,14 +17,6 @@ import {Verticalbar}  from "./verticalbar";
 // スタイルシート読み込み
 import "./css.js";
 
-// const csStyle = Object.freeze({
-//   background: "#F00"
-// });
-//
-
-// const PADDING = 2;
-// const SCROLL_UNIT = 10;
-
 const hStyle = Object.freeze({
   left: HEADER_WIDTH + "px",
   width: "calc(100% - " + (HEADER_WIDTH + 20) + "px)"

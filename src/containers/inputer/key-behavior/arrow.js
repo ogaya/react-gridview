@@ -45,7 +45,7 @@ function arrowDown(e, props){
     return true;
   }
 
-  const fitScroll = fitForTarget(props.viewModel,opeModel , target);
+  const fitScroll = fitForTarget(props.viewModel, opeModel, target);
   const newSelectItem = new SelectInfo(selectItem.objectType, target, null, null);
 
   // 入力状態を解除する

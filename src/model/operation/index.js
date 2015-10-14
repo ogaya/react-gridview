@@ -1,4 +1,4 @@
-import {Record}from "immutable";
+import {Record, List}from "immutable";
 import InputModel from "./input";
 import {CellPoint} from "../common";
 import {OBJECT_TYPE} from "../gridview/object-type";
@@ -27,10 +27,24 @@ export default class Operation extends Record({
   opeItem: null,
   hoverItem: null,
   rangeItem: null,
+  copyingRange: null,
+  clipRanges: List(),
   canvasRect: null,
   scroll: new CellPoint(1, 1)
 }) {
 
+  get rangeItems(){
+    if (!this.rangeItem){
+      return this.clipRanges;
+    }
+    return this.clipRanges.push(this.rangeItem);
+  }
+
+  /**
+   * 入力状態設定
+   * @param {InputModel} input 入力状態
+   * @return {Operation}        更新した自身
+   */
   setInput(input){
     return this.set("input", input);
   }
@@ -59,8 +73,29 @@ export default class Operation extends Record({
     return this.set("rangeItem", rangeItem);
   }
 
+  /**
+   * 保持中の選択範囲を追加する
+   * @param  {CellRange} rangeItem 選択範囲
+   * @return {Operation} 更新した自身
+   */
+  pushClipRanges(rangeItem){
+    return this.set("clipRanges", this.clipRanges.push(rangeItem));
+  }
+
+  /**
+   * 保持中の選択範囲を削除する
+   * @return {Operation} 更新した自身
+   */
+  clearClipRanges(){
+    return this.set("clipRanges", this.clipRanges.clear());
+  }
+
   setCanvasRect(canvasRect){
     return this.set("canvasRect", canvasRect);
+  }
+
+  setCopyingRange(copyingRange){
+    return this.set("copyingRange", copyingRange);
   }
 
   resetRange(){
