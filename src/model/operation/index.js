@@ -3,6 +3,7 @@ import InputModel from "./input";
 import {CellPoint} from "../common";
 import {OBJECT_TYPE} from "../gridview/object-type";
 import {CellRange} from "../common/cellrange";
+import {SelectInfo} from "../lib/select";
 
 function objectCursor(objectType){
   switch (objectType){
@@ -80,6 +81,17 @@ export default class Operation extends Record({
    */
   pushClipRanges(rangeItem){
     return this.set("clipRanges", this.clipRanges.push(rangeItem));
+  }
+
+  downSelect(){
+    if(!this.selectItem){
+      return this;
+    }
+    // 選択セルを下へ移す
+    const target = this.selectItem.cellPoint.setRowNo(this.selectItem.cellPoint.rowNo + 1);
+
+    const selectItem = new SelectInfo(this.selectItem.objectType, target, null, null);
+    return this.setSelectItem(selectItem).resetRange();
   }
 
   /**

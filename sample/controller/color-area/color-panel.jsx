@@ -68,7 +68,7 @@ const ColorPanel = React.createClass({
 
     return (
       <div className={className} tabIndex="0" ref="me" onBlur={this._onblur}>
-        <div className="color-def" onClick={this._onClickDefault}>{this.props.defaultText}</div>
+        <div className="color-def" onMouseDown={this._onClickDefault}>{this.props.defaultText}</div>
         {colorNodes}
       </div>
     );
