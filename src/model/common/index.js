@@ -22,7 +22,9 @@ const LINE_STYLE = Object.freeze({
 
 const BORDER_POSITION = Object.freeze({
   TOP: "TOP",
-  LEFT: "LEFT"
+  LEFT: "LEFT",
+  RIGHT: "RIGHT",
+  BOTTOM: "BOTTOM"
 });
 
 // リサイザーの幅

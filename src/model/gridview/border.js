@@ -9,6 +9,10 @@ export default class Border extends Record({
   dash: []
 }) {
 
+  static createClass(){
+    return new Border();
+  };
+
   setWeight(weight){
     return this.set("weight", weight);
   }

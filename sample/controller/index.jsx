@@ -7,12 +7,12 @@ import CellArea from"./cell-area";
 import "./index.css";
 
 
-const valueStyle = {
-  position: "absolute",
-  bottom: "0px",
-  height: "24px",
-  width: "100%"
-};
+// const valueStyle = {
+//   position: "absolute",
+//   bottom: "0px",
+//   height: "24px",
+//   width: "100%"
+// };
 
 const Controller = React.createClass({
   displayName: "Controller",

@@ -142,29 +142,32 @@ export default class GridView extends Record({
     return view;
   }
 
+  get defaultBorder(){
+    return emptyBorder;
+  }
   // 枠線取得
   getBorder(cellPoint, borderPosition){
     const id = cellPoint.toId() + "-" + borderPosition;
     if (this.borders.has(id) === false){
-      return emptyBorder;
+      return this.defaultBorder;
     }
 
-    return this.table.get(id);
+    return this.borders.get(id);
   }
 
   // 枠線設定
   setBorder(cellPoint, borderPosition, border){
     const id = cellPoint.toId() + "-" + borderPosition;
-    const prevBorder = this.getBorder(id);
+    const prevBorder = this.getBorder(cellPoint, borderPosition);
     if (prevBorder.equals(border)){
       return this;
     }
 
-    const borders = emptyCell.equals(prevBorder) ?
-      this.borders.delete(id) :
-      this.borders.set(id, border);
+    if((!border) && this.borders.has(id)){
+      return this.set("borders", this.borders.delete(id));
+    }
 
-      return this.set("borders", borders);
+    return this.set("borders", this.borders.set(id, border));
   }
 
   withCell(cellPoint, mutator){

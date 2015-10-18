@@ -101,12 +101,7 @@ const Main = React.createClass({
   }
 });
 
-// <div>
-//   変換後：
-// </div>
-// <div style={vStyle}>
-//   <GridView viewModel={convertView}/>
-// </div>
+
 ReactDOM.render(
     <Main />,
     document.getElementById('main')

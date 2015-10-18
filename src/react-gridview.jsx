@@ -14,9 +14,10 @@ import GridViewModel from "./model/gridview";
 import OperationModel from "./model/operation";
 import ExtensionModel from "./model/extension";
 import StickyModel from "./model/gridview/sticky";
+import Border from "./model/gridview/border";
 
 import {GridViewBar} from "./containers/scrollbar";
-import {VERTICAL_ALIGN, TEXT_ALIGN, CellPoint} from "./model/common";
+import {VERTICAL_ALIGN, TEXT_ALIGN, BORDER_POSITION, CellPoint} from "./model/common";
 import {drag} from "./util/drag";
 
 
@@ -145,7 +146,9 @@ export{
   OperationModel,
   ExtensionModel,
   StickyModel,
+  Border,
   VERTICAL_ALIGN,
   TEXT_ALIGN,
+  BORDER_POSITION,
   CellPoint
 };
