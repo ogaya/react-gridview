@@ -49,6 +49,7 @@ gulp.task("auto", function() {
 gulp.task("sample", ["build", "mocha"], function() {
   return gulp.src("")
   .pipe(webpack(webpackSampleConfig))
+  .pipe(uglify())
   .pipe(gulp.dest(""));
 });
 
