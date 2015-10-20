@@ -8,6 +8,7 @@ const SimpleButton = React.createClass({
   displayName: "SimpleButton",
   propTypes: {
     className: React.PropTypes.string,
+    style: React.PropTypes.object,
     icon: React.PropTypes.string,
     onClick: React.PropTypes.func,
     pressed: React.PropTypes.bool
@@ -26,9 +27,13 @@ const SimpleButton = React.createClass({
     if (this.props.className){
       className = className + " " + this.props.className;
     }
+    let style = {};
+    if (this.props.style){
+      style = this.props.style;
+    }
     return (
-      <div className={className} onClick={this.props.onClick}>
-        <img className="sample-button-img" src={this.props.icon} />
+      <div unselectable="on" className={className} style={style} onClick={this.props.onClick}>
+        <img  unselectable="on" className="sample-button-img" src={this.props.icon} />
 
       </div>
     );

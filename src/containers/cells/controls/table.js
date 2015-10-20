@@ -3,13 +3,12 @@ import {targetToRect, cellRangeToRect} from "../../../model/lib/target_to_rect";
 
 // セル枠の描画
 function drawBorder(canvas, viewModel, opeModel, cellPoint, rect){
-
+  let offset;
   const cell = viewModel.getCell(cellPoint);
   const topBorder = viewModel.getBorder(cellPoint, BORDER_POSITION.TOP);
   const leftBorder = viewModel.getBorder(cellPoint, BORDER_POSITION.LEFT);
 
-  const lineLength = topBorder.colors.length;
-  const offset = Math.floor(lineLength * topBorder.weight / 2);
+
   canvas.context.strokeStyle = topBorder.colors[0];
   // 上部分は結合されている
   const isTopMerge =
@@ -22,7 +21,11 @@ function drawBorder(canvas, viewModel, opeModel, cellPoint, rect){
     (cell.mergeRange.minColumnNo !== cell.columnNo);
 
   if (!isTopMerge){
+    const lineLength = topBorder.colors.length;
+    offset = Math.floor(lineLength * topBorder.weight / 2);
+
     const hasDashTop = (topBorder.dash) && (topBorder.dash.length > 1);
+    canvas.context.lineWidth = topBorder.weight;
     // 上のセルラインを描画
     for(let topIndex in topBorder.colors){
       const offsetTop = topBorder.weight * topIndex - offset;
@@ -37,9 +40,12 @@ function drawBorder(canvas, viewModel, opeModel, cellPoint, rect){
   }
 
   if (!isLeftMerge){
+    const lineLength = topBorder.colors.length;
+    offset = Math.floor(lineLength * leftBorder.weight / 2);
+
     // 左のセルラインを描画
     const hasDashLeft = (leftBorder.dash) && (leftBorder.dash.length > 1);
-
+    canvas.context.lineWidth = leftBorder.weight;
     for(let leftIndex in leftBorder.colors){
       const offsetTLeft = leftBorder.weight * leftIndex - offset;
 

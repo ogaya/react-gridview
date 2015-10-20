@@ -1,6 +1,6 @@
 .line-panel{
-  height: 230px;
-  width: 195px;
+  height: 80px;
+  width: 135px;
   background: #FFF;
   position: absolute;
   top: 28px;
@@ -22,5 +22,9 @@
 }
 
 .line-node {
+  position: absolute;
+}
 
+.line-node:hover{
+  background: #DDD;
 }

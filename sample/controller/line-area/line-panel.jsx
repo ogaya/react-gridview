@@ -18,8 +18,34 @@ import NoneIcon from "./none.png";
 
 import "./line-panel.css";
 const LINE_TYPE = {
-  FULL: "full"
+  FULL: "FULL",
+  CROSS: "CROSS",
+  MIDDLE: "MIDDLE",
+  CENTER: "CENTER",
+  GRID: "GRID",
+  TOP: "TOP",
+  LEFT: "LEFT",
+  RIGHT: "RIGHT",
+  BOTTOM: "BOTTOM",
+  NONE: "NONE"
 };
+
+const lines = [
+  [
+    {icon: FullIcon, lineType: LINE_TYPE.FULL},
+    {icon: CrossIcon, lineType: LINE_TYPE.CROSS},
+    {icon: MiddleIcon, lineType: LINE_TYPE.MIDDLE},
+    {icon: CenterIcon, lineType: LINE_TYPE.CENTER},
+    {icon: GridIcon, lineType: LINE_TYPE.GRID}
+  ],
+  [
+    {icon: TopIcon, lineType: LINE_TYPE.TOP},
+    {icon: LeftIcon, lineType: LINE_TYPE.LEFT},
+    {icon: RightIcon, lineType: LINE_TYPE.RIGHT},
+    {icon: BottomIcon, lineType: LINE_TYPE.BOTTOM},
+    {icon: NoneIcon, lineType: LINE_TYPE.NONE}
+  ]
+];
 
 const LinePanel = React.createClass({
   displayName: "LinePanel",
@@ -34,22 +60,27 @@ const LinePanel = React.createClass({
   _onblur(){
     this.props.showSubWindow(null);
   },
-  _onClickFull(){
-    const boder = Border.createClass().setColors(["#F00"]);
-    this.props.onSelectBorder(boder, LINE_TYPE.FULL);
+  _onClickLine(lineType){
+    let border = Border.createClass()
+      .setColors(["#000"])
+      .setWeight(2);
+    this.props.onSelectBorder(border, lineType);
+    this.props.showSubWindow(null);
   },
   _createLineNodes(){
     let nodes = [];
-    nodes.push(<SimpleButton className="line-node" icon={FullIcon} onClick={this._onClickFull}/>);
-    nodes.push(<SimpleButton className="line-node" icon={CrossIcon}/>);
-    nodes.push(<SimpleButton className="line-node" icon={MiddleIcon}/>);
-    nodes.push(<SimpleButton className="line-node" icon={CenterIcon}/>);
-    nodes.push(<SimpleButton className="line-node" icon={GridIcon}/>);
-    nodes.push(<SimpleButton className="line-node" icon={TopIcon}/>);
-    nodes.push(<SimpleButton className="line-node" icon={LeftIcon}/>);
-    nodes.push(<SimpleButton className="line-node" icon={RightIcon}/>);
-    nodes.push(<SimpleButton className="line-node" icon={BottomIcon}/>);
-    nodes.push(<SimpleButton className="line-node" icon={NoneIcon}/>);
+
+    for (let lineNo in lines){
+      for (let itemNo in lines[lineNo]){
+        const line = lines[lineNo][itemNo];
+        const style = {
+          top: (lineNo * 25 + 15) + "px",
+          left: (itemNo * 25 + 5) + "px"
+        };
+        nodes.push(<SimpleButton key={line.lineType} className="line-node" style={style}
+          icon={line.icon} onClick={this._onClickLine.bind(this, line.lineType)}/>);
+      }
+    }
 
     return nodes;
   },

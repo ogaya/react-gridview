@@ -4,7 +4,7 @@ import {LINE_STYLE} from "../common";
 export default class Border extends Record({
   // 線幅
   weight: 1,
-  colors: ["#AAA"],
+  colors: ["#BBB"],
   lineStyle: LINE_STYLE.NORMAL,
   dash: []
 }) {
