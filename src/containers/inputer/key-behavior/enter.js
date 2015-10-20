@@ -20,7 +20,7 @@ function enterDown(e, props, keyPress, inputer){
   if((props.opeModel.input.isInputing) &&
      (keyPress.alt)){
 
-    const text = inputer.state.inputText + "\n";
+    const text = props.opeModel.input.text + "\n";
     inputer.setState({inputText: text});
     return false;
   }
@@ -44,6 +44,7 @@ function enterDown(e, props, keyPress, inputer){
   props.onStateChange(props.viewModel, newOpeModel);
   return false;
 }
+
 
 export{
   enterDown

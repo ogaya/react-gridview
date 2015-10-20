@@ -4,6 +4,7 @@ import AlignArea from "./align-area";
 import VerticalArea from "./vertical-area";
 import ConnectArea from "./connect-area";
 import ColorArea from "./color-area";
+import LineArea from "./line-area";
 
 import {GridViewModel, OperationModel} from "../../dist/react-gridview.js";
 
@@ -31,6 +32,8 @@ const CellArea = React.createClass({
           operationModel={operationModel} onControlView={onControlView}/>
         <ConnectArea viewModel={viewModel}
           operationModel={operationModel} onControlView={onControlView}/>
+        <LineArea viewModel={viewModel} operationModel={operationModel}
+          onControlView={onControlView} showSubWindow={this.props.showSubWindow}/>
         <div></div>
       </div>
     );

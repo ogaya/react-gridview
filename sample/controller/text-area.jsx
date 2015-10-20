@@ -4,6 +4,7 @@ import {GridViewModel, OperationModel} from "../../dist/react-gridview.js";
 
 import "./text-area.css";
 
+
 /**
  * テキスト入力エリア
  */
@@ -12,14 +13,11 @@ const TextArea = React.createClass({
   propTypes: {
     viewModel: React.PropTypes.instanceOf(GridViewModel),
     operationModel: React.PropTypes.instanceOf(OperationModel),
-    onControlView: React.PropTypes.func
+    onControlView: React.PropTypes.func,
+    onChangeOperation: React.PropTypes.func,
+    setInputFocus: React.PropTypes.func
   },
-  /**
-   * セルのテキスト変更処理
-   * @param  {object} e inputイベントデータ
-   * @return {null}   なし
-   */
-  _onChangeText(e){
+  _onChangeSave(){
     const opeModel = this.props.operationModel;
     const viewModel = this.props.viewModel;
     // セル選択の描画
@@ -31,27 +29,76 @@ const TextArea = React.createClass({
 
     const view = viewModel.withCell(
       cellPoint, (cell)=>{
-        return cell.setText(e.target.value);
+        return cell.setText(opeModel.input.text);
       });
 
     this.props.onControlView(view);
   },
   /**
-   * 描画処理
+   * セルのテキスト変更処理
+   * @param  {object} e inputイベントデータ
+   * @return {null}   なし
    */
-  render: function() {
+  _onChangeText(e){
+    const opeModel = this.props.operationModel;
+    const input = opeModel.input;
+
+    if(input.isInputing === false){
+      return;
+    }
+
+    this.props.onChangeOperation(opeModel, opeModel.setInput(
+      input.setText(e.target.value)));
+
+  },
+  _onKeyDown(e){
+    const opeModel = this.props.operationModel;
+    const input = opeModel.input;
+
+    // 円ターキーを押したとき、入力状態を解除する
+    if(e.keyCode === 13){
+      this.props.onChangeOperation(opeModel, opeModel
+          .setInput(input.setIsInputing(false))
+          .downSelect());
+      this.props.setInputFocus();
+      return;
+    }
+
+    if(input.isInputing){
+      return;
+    }
+
+    this.props.onChangeOperation(opeModel, opeModel.setInput(
+      input.setIsInputing(true).setText(this._pickText())));
+
+  },
+  _pickText(){
     const opeModel = this.props.operationModel;
     const viewModel = this.props.viewModel;
+
+    if (!opeModel){
+      return "";
+    }
+    if (!opeModel.input.isInputing){
+      const cellPoint = opeModel.selectItem && opeModel.selectItem.cellPoint;
+      return (cellPoint) ? viewModel.getCell(cellPoint).text : "";
+    }
+    return opeModel.input.text;
+  },
+  render: function() {
+    const opeModel = this.props.operationModel;
+    //const viewModel = this.props.viewModel;
+
     // セル選択の描画
     const cellPoint = opeModel && opeModel.selectItem && opeModel.selectItem.cellPoint;
-    const text = (cellPoint) ? viewModel.getCell(cellPoint).text : "";
+    const text = this._pickText();
     const id = (cellPoint) ? cellPoint.toId() : "";
 
     return (
       <div className="sample-text-area">
         <div className="sample-text-area-id">{id}</div>
         <div className="sample-text-area-box">
-          <input type="text" value={text} onChange={this._onChangeText} />
+          <input type="text" value={text} onKeyDown={this._onKeyDown} onChange={this._onChangeText} />
         </div>
       </div>
     );

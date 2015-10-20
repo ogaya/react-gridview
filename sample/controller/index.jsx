@@ -4,25 +4,24 @@ import {GridViewModel, OperationModel} from "../../dist/react-gridview.js";
 
 import TextArea from"./text-area";
 import CellArea from"./cell-area";
+import "./index.css";
 
-const areaStyle = {
-  height: "53px",
-  position: "relative",
-  zIndex: "100"
-};
-const valueStyle = {
-  position: "absolute",
-  bottom: "0px",
-  height: "24px",
-  width: "100%"
-};
+
+// const valueStyle = {
+//   position: "absolute",
+//   bottom: "0px",
+//   height: "24px",
+//   width: "100%"
+// };
 
 const Controller = React.createClass({
   displayName: "Controller",
   propTypes: {
     viewModel: React.PropTypes.instanceOf(GridViewModel),
     operationModel: React.PropTypes.instanceOf(OperationModel),
-    onControlView: React.PropTypes.func
+    onControlView: React.PropTypes.func,
+    onChangeOperation: React.PropTypes.func,
+    setInputFocus: React.PropTypes.func
   },
   getInitialState() {
     return {
@@ -36,12 +35,13 @@ const Controller = React.createClass({
     const subWindow = this.state.subWindow;
 
     return (
-      <div style={areaStyle}>
+      <div className="controller">
         <CellArea viewModel={this.props.viewModel} operationModel={this.props.operationModel}
           onControlView={this.props.onControlView} showSubWindow={this._showSubWindow}/>
-        <div style={valueStyle}>
-          <TextArea viewModel={this.props.viewModel}
-            operationModel={this.props.operationModel} onControlView={this.props.onControlView}/>
+        <div className="value-area">
+          <TextArea viewModel={this.props.viewModel} onChangeOperation={this.props.onChangeOperation}
+            operationModel={this.props.operationModel} onControlView={this.props.onControlView}
+            setInputFocus={this.props.setInputFocus}/>
         </div>
         {subWindow}
       </div>

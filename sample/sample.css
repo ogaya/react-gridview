@@ -1,0 +1,7 @@
+
+.viewer-area {
+  display: table;
+  width: 100%;
+  height: calc(100% - 52px);
+  table-layout: fixed;
+}

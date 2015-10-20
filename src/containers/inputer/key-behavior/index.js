@@ -1,4 +1,4 @@
-import {targetToRect, cellRangeToRect} from "../../../model/lib/target_to_rect";
+//import {targetToRect, cellRangeToRect} from "../../../model/lib/target_to_rect";
 
 import {tabDown} from "./tab";
 import {enterDown} from "./enter";
@@ -24,20 +24,20 @@ function viewInputer(e, props){
   }
 
   const cell = viewModel.getCell(cellPoint);
-  let rect;
+  //let rect;
 
   if (cell.mergeRange){
-    rect = cellRangeToRect(viewModel, cell.mergeRange, opeModel.scroll);
+    //rect = cellRangeToRect(viewModel, cell.mergeRange, opeModel.scroll);
     cellPoint = cell.mergeRange.leftTopPoint;
   }
-  else {
-    rect = targetToRect(viewModel, cellPoint, opeModel.scroll);
-  }
+  // else {
+  //   rect = targetToRect(viewModel, cellPoint, opeModel.scroll);
+  // }
 
   const input = opeModel.input
-    .setIsInputing(true)
-    .setRect(rect)
-    .setTarget(cellPoint);
+    .setIsInputing(true);
+    //.setRect(rect)
+    //.setTarget(cellPoint);
   const ope = opeModel
     .setInput(input)
     .setCopyingRange(null);

@@ -40,7 +40,9 @@ const Inputer = React.createClass({
     // 入力中→入力解除の場合は、変更値をセルに反映させる。
     if ((prevInput.isInputing === true) &&
         (nextProps.opeModel.input.isInputing === false)){
-      nextProps.onValueChange(prevInput.target, this.state.inputText);
+      const opeModel = this.props.opeModel;
+      const cellPoint = opeModel.selectItem && opeModel.selectItem.cellPoint;
+      nextProps.onValueChange(cellPoint, this.props.opeModel.input.text);
     }
 
     // 入力解除→入力の場合は、セルの値を削除する
@@ -59,7 +61,10 @@ const Inputer = React.createClass({
     return inputKeyDown(e, this);
   },
   changeText(e) {
-    this.setState({inputText: e.target.value});
+    //this.setState({inputText: e.target.value});
+    const input = this.props.opeModel.input.setText(e.target.value);
+    const ope = this.props.opeModel.setInput(input);
+    this.props.onStateChange(this.props.viewModel, ope);
   },
   _onBlur(){
     const input = this.props.opeModel.input.setIsInputing(false);
@@ -76,9 +81,10 @@ const Inputer = React.createClass({
     paste(e, this.props);
   },
   render() {
-    const style = createInputStyle(this.props.opeModel);
+    const style = createInputStyle(this.props.viewModel, this.props.opeModel);
     //const value = this._getValue();
-    const value = this.state.inputText;
+    //const value = this.state.inputText;
+    const value = this.props.opeModel.input.text;
 
     return (
       <textarea style={style} type="text" ref="inputText" value={value}

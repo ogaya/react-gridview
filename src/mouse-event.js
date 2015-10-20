@@ -8,6 +8,9 @@ import {modelToRangeItem} from "./model/common/cellrange";
 import {fitForTarget} from "./model/lib/fit-for-target";
 import {OBJECT_TYPE} from "./model/gridview/object-type";
 
+//import {targetToRect, cellRangeToRect} from "./model/lib/target_to_rect";
+
+
 /**
  * ドラッグ時にスクロールする処理
  * @param  {View} viewModel 表示情報
@@ -80,7 +83,7 @@ const MouseEvent = {
     const point = new Point(e.offsetX, e.offsetY);
 
     const item = pointToGridViewItem(viewModel, opeModel, point);
-    this.state.setInputFocus();
+    this.setInputFocus();
 
     let ope = opeModel
       .setSelectItem(item)
@@ -96,7 +99,8 @@ const MouseEvent = {
     ope = ope.setRangeItem(null);
 
     const rangeItem = modelToRangeItem(viewModel, ope);
-    this._onOperationChange(ope.setRangeItem(rangeItem));
+    const input = ope.input.setIsInputing(false);
+    this._onOperationChange(ope.setRangeItem(rangeItem).setInput(input));
   },
   _onMouseMove(e){
     const node = ReactDOM.findDOMNode(this.refs.gwcells);

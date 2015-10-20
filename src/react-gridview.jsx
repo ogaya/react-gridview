@@ -14,9 +14,10 @@ import GridViewModel from "./model/gridview";
 import OperationModel from "./model/operation";
 import ExtensionModel from "./model/extension";
 import StickyModel from "./model/gridview/sticky";
+import Border from "./model/gridview/border";
 
 import {GridViewBar} from "./containers/scrollbar";
-import {VERTICAL_ALIGN, TEXT_ALIGN, CellPoint} from "./model/common";
+import {VERTICAL_ALIGN, TEXT_ALIGN, BORDER_POSITION, CellPoint} from "./model/common";
 import {drag} from "./util/drag";
 
 
@@ -49,8 +50,7 @@ const GridView = React.createClass({
   getInitialState() {
     return {
       viewModel: this.props.viewModel,
-      operation: this.props.operationModel,
-      setInputFocus: () =>{}
+      operation: this.props.operationModel
     };
   },
   componentWillReceiveProps(nextProps){
@@ -62,13 +62,15 @@ const GridView = React.createClass({
     }
   },
   componentDidMount(){
-    this.setState({setInputFocus: this.refs.inputer.setInputFocus});
     const node = ReactDOM.findDOMNode(this.refs.gwcells);
     drag(node, this._onMouseDown, this._onMouseMove, this._onMouseUp);
     this._addKeyPressEvent();
   },
   componentWillUnmount(){
     this._removeKeyPressEvent();
+  },
+  setInputFocus(){
+    this.refs.inputer.setInputFocus();
   },
   _onValueChange(cellPoint, value){
 
@@ -108,8 +110,8 @@ const GridView = React.createClass({
   render: function () {
     const viewModel = this.state.viewModel;
     const operation = this.state.operation;
-    const inputer = <Inputer ref="inputer" opeModel={operation} viewModel={viewModel}
-      onValueChange={this._onValueChange} onStateChange={this._onStateChange}/>;
+    // const inputer = <Inputer ref="inputer" opeModel={operation} viewModel={viewModel}
+    //   onValueChange={this._onValueChange} onStateChange={this._onStateChange}/>;
 
     const cellStyle = {
       width: "calc(100% - " + viewModel.scroll.horizontalHeight + "px)",
@@ -122,14 +124,14 @@ const GridView = React.createClass({
       <div style={style} ref="gridview" onWheel={this._onMouseWheel}>
         <div style={cellStyle} ref="gwcells"  onMouseMove={this._onMouseMove}>
           <Cells onOperationChange={this._onOperationChange}
-            setInputFocus={this.state.setInputFocus}
             model={viewModel} opeModel={operation} onViewModelChange={this._onViewModelChange} />
 
           <ExNodes view={viewModel} operation={operation} extension={this.props.extension} />
           <Stickies view={viewModel} operation={operation} extension={this.props.extension} />
         </div>
 
-        {inputer}
+        <Inputer ref="inputer" opeModel={operation} viewModel={viewModel}
+          onValueChange={this._onValueChange} onStateChange={this._onStateChange}/>
         <GridViewBar viewModel={viewModel} opeModel={operation} onOperationChange={this._onOperationChange}/>
       </div>
     );
@@ -144,7 +146,9 @@ export{
   OperationModel,
   ExtensionModel,
   StickyModel,
+  Border,
   VERTICAL_ALIGN,
   TEXT_ALIGN,
+  BORDER_POSITION,
   CellPoint
 };

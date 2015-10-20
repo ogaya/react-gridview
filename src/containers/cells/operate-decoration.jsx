@@ -27,8 +27,7 @@ const OperateDecoration = React.createClass({
     view: React.PropTypes.instanceOf(GridViewModel),
     opeModel: React.PropTypes.instanceOf(OperationModel),
     onViewModelChange: React.PropTypes.func,
-    onOperationChange: React.PropTypes.func,
-    setInputFocus: React.PropTypes.func
+    onOperationChange: React.PropTypes.func
   },
   _canvasRender(props){
     const view = props.view;

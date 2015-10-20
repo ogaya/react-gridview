@@ -1,7 +1,7 @@
 import {Record, Map, Range, List}from "immutable";
 import ColumnHeaderModel from "./column-header";
 import RowHeaderModel from "./row-header";
-import {CellPoint} from "../common";
+import {CellPoint, BORDER_POSITION} from "../common";
 import CellModel from "./cell";
 import ScrollModel from "./scroll";
 import Border from "./border";
@@ -142,29 +142,51 @@ export default class GridView extends Record({
     return view;
   }
 
+  get defaultBorder(){
+    return emptyBorder;
+  }
   // 枠線取得
   getBorder(cellPoint, borderPosition){
     const id = cellPoint.toId() + "-" + borderPosition;
     if (this.borders.has(id) === false){
-      return emptyBorder;
+      return this.defaultBorder;
     }
 
-    return this.table.get(id);
+    return this.borders.get(id);
   }
 
   // 枠線設定
   setBorder(cellPoint, borderPosition, border){
+    if(!cellPoint){
+      return this;
+    }
+
+    if(borderPosition === BORDER_POSITION.RIGHT){
+      cellPoint = cellPoint.setColumnNo(cellPoint.columnNo + 1);
+      borderPosition = BORDER_POSITION.LEFT;
+    }
+
+    if(borderPosition === BORDER_POSITION.BOTTOM){
+      cellPoint = cellPoint.setRowNo(cellPoint.rowNo + 1);
+      borderPosition = BORDER_POSITION.TOP;
+    }
+
     const id = cellPoint.toId() + "-" + borderPosition;
-    const prevBorder = this.getBorder(id);
+    if(!border){
+      if (this.borders.has(id)){
+        return this.set("borders", this.borders.delete(id));
+      }
+      else{
+        return this;
+      }
+    }
+
+    const prevBorder = this.getBorder(cellPoint, borderPosition);
     if (prevBorder.equals(border)){
       return this;
     }
 
-    const borders = emptyCell.equals(prevBorder) ?
-      this.borders.delete(id) :
-      this.borders.set(id, border);
-
-      return this.set("borders", borders);
+    return this.set("borders", this.borders.set(id, border));
   }
 
   withCell(cellPoint, mutator){

@@ -11,7 +11,7 @@
   display: table-cell;
 }
 .sample-text-area-id{
-  font-family: arial;
+  font-family: Verdana, "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
   width: 75px;
   background: #FFF;
   border-right: 1px solid #BBB;

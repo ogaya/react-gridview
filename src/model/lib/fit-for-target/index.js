@@ -1,5 +1,5 @@
 
-import {Rect} from "../../common";
+//import {Rect} from "../../common";
 
 import {targetToRect} from "../target_to_rect";
 
@@ -73,7 +73,7 @@ export function fitForTarget(viewModel, opeModel, target) {
 
   let fitScroll = opeModel.scroll;
 
-  fitScroll = fitRight(viewModel,opeModel , target, fitScroll);
+  fitScroll = fitRight(viewModel, opeModel, target, fitScroll);
   fitScroll = fitLeft(viewModel, opeModel, target, fitScroll);
   fitScroll = fitBottom(viewModel, opeModel, target, fitScroll);
   fitScroll = fitTop(viewModel, opeModel, target, fitScroll);

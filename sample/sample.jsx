@@ -13,43 +13,15 @@ import {
 import Controller from "./controller";
 //import {StageMixin} from "../dist/react-helix";
 
-const mainStyle = {
-  display: "table",
-  width: "100%",
-  height: "calc(100% - 52px)",
-  tableLayout: "fixed"
-};
-// const viewerStyle = {
-//   width: "500px",
-//   height: "400px",
-//   display: "table-cell"
+import "./sample.css";
+
+// const mainStyle = {
+//   display: "table",
+//   width: "100%",
+//   height: "calc(100% - 52px)",
+//   tableLayout: "fixed"
 // };
-//
-// const spaceStyle ={
-//   display: "table-cell",
-//   width: "10px"
-// };
-// const converStyle = {
-//   display: "table-cell",
-//   width: "50px",
-//   height: "400px",
-//   border: "1px solid #999",
-//   verticalAlign: "top",
-//   padding: "5px",
-//   wordWrap: "break-word",
-//   overflowX: "hidden",
-//   overflowY: "scroll"
-// };
-//
-// const pStyle = {
-//   width: "490px",
-//   height: "400px",
-//   wordWrap: "break-word"
-// };
-//
-// const vStyle = {
-//   height: "400px"
-// }
+
 const ExSample = React.createClass({
   render: function() {
     const sampleStyle = {
@@ -74,31 +46,16 @@ const ExSample = React.createClass({
 const Main = React.createClass({
   getInitialState() {
     let viewModel = new GridViewModel();
-    // viewModel = viewModel.withCell(new CellPoint(2,5), cell =>{
-    //   return cell.setNodeName("sample");
-    // });
-
-    // let sticky = new StickyModel();
-    // viewModel = viewModel.addSticky(sticky);
-    // viewModel = viewModel.setOnChangeCell((prevCell, nextCell) =>{
-    //
-    //   if(nextCell.columnNo === 1){
-    //     return prevCell;
-    //   }
-    //   if(nextCell.columnNo === 2){
-    //     return nextCell;
-    //   }
-    //   return nextCell.setTextColor("#F00");
-    // });
-
     let extension = new ExtensionModel();
     extension = extension.addNode("sample", ExSample);
     return {
       viewModel: viewModel,
-      viewJson: viewModel.toJson(),
       operationModel: new OperationModel(),
       extension: extension
     };
+  },
+  setInputFocus(){
+      this.refs.viewer.setInputFocus();
   },
   _onChangeView(prevView, nextView){
     // this.setState({
@@ -112,6 +69,9 @@ const Main = React.createClass({
     return nextView;
   },
   _onChangeOperation(prevOperation, nextOperation){
+    //console.log(prevOperation);
+    //console.log(nextOperation);
+
     this.setState({
       operationModel: nextOperation
     });
@@ -127,52 +87,21 @@ const Main = React.createClass({
     // })
   },
   render: function() {
-    //const convertStr = JSON.stringify(this.state.viewJson);
-    //const convertView = GridViewModel.fromJson(this.state.viewJson);
     const operation = this.state.operationModel;
     return (
       <div>
-        <Controller operationModel={operation} viewModel={this.state.viewModel} onControlView={this._onControlView}/>
-
-        <div style={mainStyle}>
-          <GridView viewModel={this.state.viewModel} extension={this.state.extension}
-            onChangeView={this._onChangeView} onChangeOperation={this._onChangeOperation}/>
+        <Controller operationModel={operation} viewModel={this.state.viewModel} setInputFocus={this.setInputFocus}
+          onControlView={this._onControlView} onChangeOperation={this._onChangeOperation}/>
+        <div className="viewer-area">
+          <GridView viewModel={this.state.viewModel} operationModel={operation} ref="viewer"
+            extension={this.state.extension} onChangeView={this._onChangeView} onChangeOperation={this._onChangeOperation}/>
         </div>
       </div>
     );
-
-    // return (
-    //   <div>
-    //     <div>
-    //       <Controller operationModel={operation} viewModel={this.state.viewModel} onControlView={this._onControlView}/>
-    //     </div>
-    //     <div style={mainStyle}>
-    //       <div style={viewerStyle}>
-    //         <div style={vStyle}>
-    //           <GridView viewModel={this.state.viewModel} extension={this.state.extension}
-    //             onChangeView={this._onChangeView} onChangeOperation={this._onChangeOperation}/>
-    //         </div>
-    //
-    //       </div>
-    //       <div style={spaceStyle} />
-    //       <div style={converStyle}>
-    //         <div style={pStyle}>
-    //           {convertStr}
-    //         </div>
-    //
-    //       </div>
-    //     </div>
-    //   </div>
-    // );
   }
 });
 
-// <div>
-//   変換後：
-// </div>
-// <div style={vStyle}>
-//   <GridView viewModel={convertView}/>
-// </div>
+
 ReactDOM.render(
     <Main />,
     document.getElementById('main')
