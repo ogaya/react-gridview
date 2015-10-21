@@ -22,7 +22,8 @@ const Inputer = React.createClass({
   },
   getInitialState() {
     return {
-      inputText: ""
+      inputText: "",
+      controlCellPoint: null
     };
   },
   componentDidMount(){
@@ -64,6 +65,16 @@ const Inputer = React.createClass({
         (nextProps.opeModel.input.isInputing === true)){
       this.setState({inputText: ""});
     }
+
+    const prevSelectItem = this.props.opeModel.selectItem;
+    const nextSelectItem = nextProps.opeModel.selectItem;
+
+    if ((!prevSelectItem) ||
+        (!prevSelectItem) ||
+        (!prevSelectItem.cellPoint.equals(nextSelectItem.cellPoint))){
+      this.setState({controlCellPoint: null});
+    }
+
   },
   setInputFocus(){
     ReactDOM.findDOMNode(this.refs.inputText).focus();

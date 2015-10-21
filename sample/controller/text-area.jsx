@@ -1,6 +1,6 @@
 import React from "react";
 
-import {GridViewModel, OperationModel} from "../../dist/react-gridview.js";
+import {GridViewModel, OperationModel, OBJECT_TYPE} from "../../dist/react-gridview.js";
 
 import "./text-area.css";
 
@@ -55,6 +55,11 @@ const TextArea = React.createClass({
     const opeModel = this.props.operationModel;
     const input = opeModel.input;
 
+    const selectItem = opeModel.selectItem;
+    if ((!selectItem) || (selectItem.objectType !== OBJECT_TYPE.CELL)){
+      return;
+    }
+
     // 円ターキーを押したとき、入力状態を解除する
     if(e.keyCode === 13){
       this.props.onChangeOperation(opeModel, opeModel
@@ -79,11 +84,25 @@ const TextArea = React.createClass({
     if (!opeModel){
       return "";
     }
-    if (!opeModel.input.isInputing){
-      const cellPoint = opeModel.selectItem && opeModel.selectItem.cellPoint;
-      return (cellPoint) ? viewModel.getCell(cellPoint).text : "";
+
+    const selectItem = opeModel.selectItem;
+    if ((!selectItem) || (selectItem.objectType !== OBJECT_TYPE.CELL)){
+      return "";
     }
-    return opeModel.input.text;
+
+    if (opeModel.input.isInputing){
+      return opeModel.input.text;
+    }
+
+    const selectCell = viewModel.getCell(selectItem.cellPoint);
+    let cellPoint;
+    if(selectCell.mergeRange){
+      cellPoint = selectCell.mergeRange.leftTopPoint;
+    }
+    else{
+      cellPoint = selectItem.cellPoint;
+    }
+    return (cellPoint) ? viewModel.getCell(cellPoint).text : "";
   },
   render: function() {
     const opeModel = this.props.operationModel;

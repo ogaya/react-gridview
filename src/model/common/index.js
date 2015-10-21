@@ -1,5 +1,6 @@
 import {Rect} from "./rect";
 import {CellPoint} from "./cellPoint";
+import {CellRange} from "./cellrange";
 import {Point} from "./point";
 import {COLOR} from "./color";
 const VERTICAL_ALIGN = Object.freeze({
@@ -35,6 +36,7 @@ const RESIZER_BORDER_WIDTH = 4;
 export {
   Rect,
   CellPoint,
+  CellRange,
   Point,
   VERTICAL_ALIGN,
   TEXT_ALIGN,

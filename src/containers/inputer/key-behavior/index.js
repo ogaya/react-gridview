@@ -64,7 +64,7 @@ function inputKeyDown(e, inputer){
   }
 
   if ((e.keyCode >= 37) && (e.keyCode <= 40) && (!props.opeModel.input.isInputing)){
-    return arrowDown(e, props);
+    return arrowDown(e, props, keyPress, inputer);
   }
 
   // backspaceキー、deleteキー

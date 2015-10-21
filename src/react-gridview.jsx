@@ -16,6 +16,7 @@ import ExtensionModel from "./model/extension";
 import StickyModel from "./model/gridview/sticky";
 import Border from "./model/gridview/border";
 
+import {OBJECT_TYPE} from "./model/gridview/object-type";
 import {GridViewBar} from "./containers/scrollbar";
 import {VERTICAL_ALIGN, TEXT_ALIGN, BORDER_POSITION, CellPoint} from "./model/common";
 import {drag} from "./util/drag";
@@ -97,22 +98,9 @@ const GridView = React.createClass({
     this._onViewModelChange(viewModel);
     this._onOperationChange(operation);
   },
-  // 再描画が必要か判定
-  shouldComponentUpdate: function(nextProps, nextState) {
-    const viewModel = this.state.viewModel;
-    const operation = this.state.operation;
-    const viewChanged = (viewModel !== nextState.viewModel);
-    const opeChanged = JSON.stringify(operation.toJS()) !== JSON.stringify(nextState.operation.toJS());
-    //console.log("ope:" + (operation !== nextState.operation));
-
-    return viewChanged || opeChanged;
-  },
   render: function () {
     const viewModel = this.state.viewModel;
     const operation = this.state.operation;
-    // const inputer = <Inputer ref="inputer" opeModel={operation} viewModel={viewModel}
-    //   onValueChange={this._onValueChange} onStateChange={this._onStateChange}/>;
-
     const cellStyle = {
       width: "calc(100% - " + viewModel.scroll.horizontalHeight + "px)",
       height: "calc(100% - " + viewModel.scroll.verticalWidth + "px)",
@@ -138,8 +126,6 @@ const GridView = React.createClass({
   }
 });
 
-//module.exports = GridView;
-
 export{
   GridView,
   GridViewModel,
@@ -150,5 +136,6 @@ export{
   VERTICAL_ALIGN,
   TEXT_ALIGN,
   BORDER_POSITION,
+  OBJECT_TYPE,
   CellPoint
 };
