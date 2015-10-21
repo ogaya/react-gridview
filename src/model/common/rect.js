@@ -40,6 +40,14 @@ export class Rect extends Record({
     return new Rect(left, top, width, height);
   }
 
+  reduce(value){
+    return new Rect(
+      this.left + value,
+      this.top + value,
+      this.width - value * 2,
+      this.height - value * 2);
+  }
+
   setLeft(left){
     return this.set("left", left);
   }

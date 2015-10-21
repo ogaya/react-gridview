@@ -41,7 +41,8 @@ const Horizontalbar  = React.createClass({
   },
   getInitialState() {
     return {
-      thumbAreaRect: null
+      thumbAreaRect: null,
+      offsetX: 0
     };
   },
   _handleResize(){
@@ -67,8 +68,6 @@ const Horizontalbar  = React.createClass({
     style.bottom = "0px";
     style.left = "0px";
     style.width = "100%";
-    //style.height = "25px";
-    //style.background = "#0FF";
     style.overflowX = "hidden";
     style.overflowY = "hidden";
     return style;
@@ -79,9 +78,6 @@ const Horizontalbar  = React.createClass({
     if ((!viewModel) || (!opeModel)) {
       return 0;
     }
-
-    //const maxColumnCount = viewModel.columnHeader.maxCount;
-    //const fullWidth = this.props.viewModel.columnHeader.width;
 
     const canvasRect = opeModel.canvasRect;
     if (!canvasRect){
@@ -101,22 +97,30 @@ const Horizontalbar  = React.createClass({
 
     return columnNo;
   },
+  _dragStart(e){
+    if (!this.state.thumbAreaRect){
+      return;
+    }
+    this.setState({offsetX: e.offsetX});
+  },
   // thumbバーを操作中の処理
   _dragMove(e){
 
     if (!this.state.thumbAreaRect){
       return;
     }
+    const  view = this.props.viewModel;
+    const nextLeft = (e.clientX - this.state.thumbAreaRect.left - this.state.offsetX);
 
-    const nextLeft = (e.clientX - this.state.thumbAreaRect.left);
+    const scrollMax = this._getScrollMaxValue();
     // 移動可能領域の幅
     const moveAreaWidth = this.state.thumbAreaRect.width - this._thumWidth();
-    const fullWidth = this.props.viewModel.columnHeader.width;
+    const fullWidth = view.columnHeader.items.get(scrollMax).right;
 
     // １ピクセルあたりの倍率を求める
     const magnification = fullWidth / moveAreaWidth;
     // スクロールバー位置に対応するcanvas上のX座標を求める
-    const canvasX = nextLeft * magnification + 50;
+    const canvasX = nextLeft * magnification + view.rowHeader.width;
 
     let columnNo = this.props.viewModel.pointToColumnNo(canvasX);
     let maxNo = this._getScrollMaxValue();

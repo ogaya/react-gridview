@@ -66,11 +66,11 @@ function drawCell(canvas, model, opeModel, cellPoint ){
 
   const cell = model.getCell(cellPoint);
 
-  let rect;
+  const cellRect = targetToRect(model, cellPoint, opeModel.scroll);
+  let rect = cellRect;
+
   if (cell.mergeRange) {
     rect = cellRangeToRect(model, cell.mergeRange, opeModel.scroll);
-  }else{
-    rect = targetToRect(model, cellPoint, opeModel.scroll);
   }
 
   const canCellView =  (!cell.mergeRange) || cellPoint.equals(cell.mergeRange.leftTopPoint);
@@ -80,10 +80,13 @@ function drawCell(canvas, model, opeModel, cellPoint ){
     canvas.drawRectFill(rect);
   }
 
-  drawBorder(canvas, model, opeModel, cellPoint, rect);
+  drawBorder(canvas, model, opeModel, cellPoint, cellRect);
 
+  if (!cell.value){
+    return;
+  }
   if (cell.textColor){
-    canvas.context.fillStyle = cell.textColor;
+    canvas.context.fillStyle =  cell.textColor;
   }
   else{
     canvas.context.fillStyle = "#000";
@@ -91,7 +94,7 @@ function drawCell(canvas, model, opeModel, cellPoint ){
 
   if (canCellView){
     canvas.context.font = "10pt Arial";
-    canvas.drawText(cell.value, rect, cell.textAlign, cell.verticalAlign, cell.indent);
+    canvas.drawText(cell.value, rect.reduce(2), cell.textAlign, cell.verticalAlign, cell.indent);
   }
 }
 

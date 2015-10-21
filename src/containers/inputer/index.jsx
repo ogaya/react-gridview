@@ -1,16 +1,14 @@
-import React from "react";
+import React    from "react";
 import ReactDOM from "react-dom";
 
 import OperationModel from "../../model/operation";
-import GridViewModel from "../../model/gridview";
+import GridViewModel  from "../../model/gridview";
 
 import {KeyPress} from "../../mixins/key-press";
 
 import {createInputStyle} from "./create-style";
-import {inputKeyDown} from "./key-behavior";
-
-
-import {copy, paste} from "./copy-paste";
+import {inputKeyDown}     from "./key-behavior";
+import {copy, paste}      from "./copy-paste";
 
 const Inputer = React.createClass({
   displayName: "Gridview-Cells",
@@ -24,7 +22,8 @@ const Inputer = React.createClass({
   },
   getInitialState() {
     return {
-      inputText: ""
+      inputText: "",
+      controlCellPoint: null
     };
   },
   componentDidMount(){
@@ -34,15 +33,31 @@ const Inputer = React.createClass({
   componentWillUnmount(){
     this._removeKeyPressEvent();
   },
+  _setValue(nextProps){
+    const selectItem = this.props.opeModel.selectItem;
+
+    if(!selectItem){
+      return;
+    }
+
+    const selectCell = nextProps.viewModel.getCell(selectItem.cellPoint);
+    let cellPoint;
+    if(selectCell.mergeRange){
+      cellPoint = selectCell.mergeRange.leftTopPoint;
+    }
+    else{
+      cellPoint = selectItem.cellPoint;
+    }
+
+    nextProps.onValueChange(cellPoint, this.props.opeModel.input.text);
+  },
   componentWillReceiveProps(nextProps){
     const prevInput = this.props.opeModel.input;
 
     // 入力中→入力解除の場合は、変更値をセルに反映させる。
     if ((prevInput.isInputing === true) &&
         (nextProps.opeModel.input.isInputing === false)){
-      const opeModel = this.props.opeModel;
-      const cellPoint = opeModel.selectItem && opeModel.selectItem.cellPoint;
-      nextProps.onValueChange(cellPoint, this.props.opeModel.input.text);
+      this._setValue(nextProps);
     }
 
     // 入力解除→入力の場合は、セルの値を削除する
@@ -50,18 +65,24 @@ const Inputer = React.createClass({
         (nextProps.opeModel.input.isInputing === true)){
       this.setState({inputText: ""});
     }
+
+    const prevSelectItem = this.props.opeModel.selectItem;
+    const nextSelectItem = nextProps.opeModel.selectItem;
+
+    if ((!prevSelectItem) ||
+        (!prevSelectItem) ||
+        (!prevSelectItem.cellPoint.equals(nextSelectItem.cellPoint))){
+      this.setState({controlCellPoint: null});
+    }
+
   },
   setInputFocus(){
     ReactDOM.findDOMNode(this.refs.inputText).focus();
   },
   _onKeyDown(e){
-    // const setText = (text) => {
-    //   this.setState({inputText: text});
-    // };
     return inputKeyDown(e, this);
   },
   changeText(e) {
-    //this.setState({inputText: e.target.value});
     const input = this.props.opeModel.input.setText(e.target.value);
     const ope = this.props.opeModel.setInput(input);
     this.props.onStateChange(this.props.viewModel, ope);
@@ -82,8 +103,6 @@ const Inputer = React.createClass({
   },
   render() {
     const style = createInputStyle(this.props.viewModel, this.props.opeModel);
-    //const value = this._getValue();
-    //const value = this.state.inputText;
     const value = this.props.opeModel.input.text;
 
     return (

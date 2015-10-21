@@ -1,5 +1,5 @@
 import {targetToRect, cellRangeToRect} from "../../model/lib/target_to_rect";
-
+import {OBJECT_TYPE} from "../../model/gridview/object-type";
 function createInputStyle(viewModel, opeModel){
 
 
@@ -19,12 +19,14 @@ function createInputStyle(viewModel, opeModel){
     return style;
   }
 
-  // if (!input.rect){
-  //   return style;
-  // }
-
-
-  let cellPoint = opeModel.selectItem && opeModel.selectItem.cellPoint;
+  const selectItem = opeModel.selectItem;
+  if (!selectItem){
+    return style;
+  }
+  if (selectItem.objectType !== OBJECT_TYPE.CELL){
+    return style;
+  }
+  let cellPoint = selectItem.cellPoint;
   if(!cellPoint){
     return style;
   }

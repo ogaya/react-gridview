@@ -5,7 +5,8 @@
 const KeyPress = {
   _keyPress: {
     ctrl: false,
-    alt: false
+    alt: false,
+    shift: false
   },
   _addKeyPressEvent(){
     if (document.addEventListener) { // DOMレベル2イベントモデル
@@ -23,6 +24,9 @@ const KeyPress = {
     }
   },
   _onKeyPressKeyDown(e){
+    if(e.keyCode === 16){
+      this._keyPress.shift = true;
+    }
     if(e.keyCode === 17){
       this._keyPress.ctrl = true;
     }
@@ -31,6 +35,9 @@ const KeyPress = {
     }
   },
   _onKeyPressKeyUp(e){
+    if(e.keyCode === 16){
+      this._keyPress.shift = false;
+    }
     if(e.keyCode === 17){
       this._keyPress.ctrl = false;
     }
@@ -41,6 +48,7 @@ const KeyPress = {
   _onKeyPressBlur(){
     this._keyPress.ctrl = false;
     this._keyPress.alt = false;
+    this._keyPress.shift = false;
   }
 };
 
