@@ -17,13 +17,7 @@ import {drag} from "../../../util/drag";
 // スタイルシート読み込み
 import "./css.js";
 
-// const csStyle = Object.freeze({
-//   background: "#F00"
-// });
-
 const PADDING = 0;
-const SCROLL_UNIT = 1;
-
 
 // thumbの最小高さ
 const THUMB_MIN_HEIGHT = 30;
@@ -48,7 +42,8 @@ const Verticalbar  = React.createClass({
   },
   getInitialState() {
     return {
-      thumbAreaRect: null
+      thumbAreaRect: null,
+      offsetY: 0
     };
   },
   _handleResize(){
@@ -74,15 +69,15 @@ const Verticalbar  = React.createClass({
     style.top = "0px";
     style.right = "0px";
     style.height = "100%";
-    //style.height = "25px";
-    //style.background = "#0FF";
     style.overflowX = "hidden";
     style.overflowY = "hidden";
     return style;
   },
-  componentWillReceiveProps(nextProps){
-  },
   _dragStart(e){
+    if (!this.state.thumbAreaRect){
+      return;
+    }
+    this.setState({offsetY: e.offsetY});
   },
   _getScrollMaxValue(){
     const viewModel = this.props.viewModel;
@@ -90,9 +85,6 @@ const Verticalbar  = React.createClass({
     if ((!viewModel) || (!opeModel)) {
       return 0;
     }
-
-    const maxRowCount = viewModel.rowHeader.maxCount;
-    const fullHeight = this.props.viewModel.rowHeader.height;
 
     const canvasRect = opeModel.canvasRect;
     if (!canvasRect){
@@ -118,11 +110,14 @@ const Verticalbar  = React.createClass({
       return;
     }
 
-    const nextTop = (e.clientY - this.state.thumbAreaRect.top);
+    const nextTop = (e.clientY - this.state.thumbAreaRect.top - this.state.offsetY);
+
+    const view = this.props.viewModel;
+    const scrollMax = this._getScrollMaxValue();
 
     // 移動可能領域の幅
     const moveAreaHeight = this.state.thumbAreaRect.height - this._thumHeight();
-    const fullHeight = this.props.viewModel.rowHeader.height;
+    const fullHeight = view.rowHeader.items.get(scrollMax).bottom;
 
     // １ピクセルあたりの倍率を求める
     const magnification = fullHeight / moveAreaHeight;

@@ -87,11 +87,6 @@ export default class ColumnHeader extends Record({
 
         map.set(columnNo, item.setLeft(sumWidth));
         sumWidth = sumWidth + item.width;
-        // if (this.editItems.has(columnNo)) {
-        //   map.set(columnNo, this.editItems.get(columnNo));
-        //   continue;
-        // }
-        // map.set(columnNo, emptyCell.setValue(value));
       }
     });
 
