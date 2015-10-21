@@ -66,11 +66,11 @@ function drawCell(canvas, model, opeModel, cellPoint ){
 
   const cell = model.getCell(cellPoint);
 
-  let rect;
+  const cellRect = targetToRect(model, cellPoint, opeModel.scroll);
+  let rect = cellRect;
+
   if (cell.mergeRange) {
     rect = cellRangeToRect(model, cell.mergeRange, opeModel.scroll);
-  }else{
-    rect = targetToRect(model, cellPoint, opeModel.scroll);
   }
 
   const canCellView =  (!cell.mergeRange) || cellPoint.equals(cell.mergeRange.leftTopPoint);
@@ -80,7 +80,7 @@ function drawCell(canvas, model, opeModel, cellPoint ){
     canvas.drawRectFill(rect);
   }
 
-  drawBorder(canvas, model, opeModel, cellPoint, rect);
+  drawBorder(canvas, model, opeModel, cellPoint, cellRect);
 
   if (cell.textColor){
     canvas.context.fillStyle = cell.textColor;
