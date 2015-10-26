@@ -5,6 +5,7 @@ import Cells from "./containers/cells";
 import ExNodes from "./containers/exnodes";
 import Stickies from "./containers/stickies";
 import Inputer from "./containers/inputer";
+import ContextMenu from "./containers/context-menu";
 
 //import "./react-gridview.styl";
 import {MouseEvent} from "./mouse-event";
@@ -21,6 +22,8 @@ import {GridViewBar} from "./containers/scrollbar";
 import {VERTICAL_ALIGN, TEXT_ALIGN, BORDER_POSITION, CellPoint} from "./model/common";
 import {drag} from "./util/drag";
 
+// スタイルシート読み込み
+import "./css.js";
 
 const style = {
   width: "100%",
@@ -109,7 +112,8 @@ const GridView = React.createClass({
     };
 
     return (
-      <div style={style} ref="gridview" onWheel={this._onMouseWheel}>
+      <div className="react-sheet" style={style} ref="gridview"
+        onWheel={this._onMouseWheel} onContextMenu={this._onContextMenu}>
         <div style={cellStyle} ref="gwcells"  onMouseMove={this._onMouseMove}>
           <Cells onOperationChange={this._onOperationChange}
             model={viewModel} opeModel={operation} onViewModelChange={this._onViewModelChange} />

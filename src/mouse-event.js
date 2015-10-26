@@ -56,6 +56,15 @@ const MouseEvent = {
     }
     e.preventDefault();
   },
+  _onContextMenu(e){
+    console.log(e);
+    console.log(e.offsetX + ":" + e.offsetY);
+    console.log(e.clientX + ":" + e.clientY);
+    console.log(e.cancelable);
+
+
+    e.preventDefault();
+  },
   /**
    * マウスアップ処理
    */
@@ -76,6 +85,11 @@ const MouseEvent = {
    * @param  {Object} e イベント引数
    */
   _onMouseDown(e){
+
+    // 右クリック時、何もしない
+    if (e.button === 2){
+      return;
+    }
     const viewModel = this.state.viewModel;
     const opeModel = this.state.operation;
 
