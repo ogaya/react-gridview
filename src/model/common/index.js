@@ -1,42 +1,47 @@
-import {Record} from "immutable";
-export class Rect extends Record({
-  left: 0,
-  top: 0,
-  width: 0,
-  height: 0
-}) {
+import {Rect} from "./rect";
+import {CellPoint} from "./cellPoint";
+import {CellRange} from "./cellrange";
+import {Point} from "./point";
+import {COLOR} from "./color";
+const VERTICAL_ALIGN = Object.freeze({
+  TOP: "TOP",
+  MIDDLE: "MIDDLE",
+  BOTTOM: "BOTTOM"
+});
 
-  constructor(left, top, width, height) {
-    super({
-      left: left,
-      top: top,
-      width: width,
-      height: height
-    });
-  }
+const TEXT_ALIGN = Object.freeze({
+  LEFT: "LEFT",
+  CENTER: "CENTER",
+  RIGHT: "RIGHT"
+});
 
-  get right(){
-    return this.left + this.width;
-  }
 
-  get bottom(){
-    return this.top + this.height;
-  }
-}
+const LINE_STYLE = Object.freeze({
+  NORMAL: "NORMAL",
+  DOT: "DOT"
+});
 
-export class Target extends Record({
-  columnNo: 0,
-  rowNo: 0
-}) {
+const BORDER_POSITION = Object.freeze({
+  TOP: "TOP",
+  LEFT: "LEFT",
+  RIGHT: "RIGHT",
+  BOTTOM: "BOTTOM"
+});
 
-  constructor(columnNo, rowNo) {
-    super({
-      columnNo: Number(columnNo),
-      rowNo: Number(rowNo)
-    });
-  }
+// リサイザーの幅
+const RESIZER_BORDER_WIDTH = 4;
 
-  toId(){
-    return  this.columnNo + "-" + this.rowNo;
-  }
-}
+
+
+export {
+  Rect,
+  CellPoint,
+  CellRange,
+  Point,
+  VERTICAL_ALIGN,
+  TEXT_ALIGN,
+  RESIZER_BORDER_WIDTH,
+  LINE_STYLE,
+  BORDER_POSITION,
+  COLOR
+};

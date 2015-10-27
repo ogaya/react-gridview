@@ -1,0 +1,20 @@
+.sample-button{
+  height: 20px;
+  width: 22px;
+
+  cursor: pointer;
+}
+
+.sample-button:hover{
+  background: #FFF;
+}
+
+.sample-button:active{
+  background: #AAA;
+}
+
+.sample-button-img{
+  height: calc(100% - 6px);
+  width: calc(100% - 6px);
+  padding: 3px;
+}

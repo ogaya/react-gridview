@@ -1,6 +1,6 @@
 'use strict';
 
-import {Target} from "../../src/model/common";
+import {CellPoint} from "../../src/model/common";
 import GridViewModel from "../../src/model/gridview";
 import ColumnHeaderItem from "../../src/model/gridview/column-header-item";
 var assert = require("power-assert");
@@ -9,11 +9,12 @@ var assert = require("power-assert");
 describe("GridViewModel", function() {
   describe("Methods", function() {
 
+
     it("setValue", function() {
       const model = new GridViewModel();
-      const target11 = new Target(1, 1);
-      const target12 = new Target(1, 2);
-      const target21 = new Target(2, 1);
+      const target11 = new CellPoint(1, 1);
+      const target12 = new CellPoint(1, 2);
+      const target21 = new CellPoint(2, 1);
       const testModel = model
         .setValue(target11, "11")
         .setValue(target12, "12");
@@ -27,11 +28,11 @@ describe("GridViewModel", function() {
     it("pointToTarget", function() {
       const model = new GridViewModel();
 
-      const target1 = model.pointToTarget(50, 20);
+      const target1 = model.pointToTarget(100, 20);
       assert.equal(target1.columnNo, 1);
       assert.equal(target1.rowNo, 1);
 
-      const target2 = model.pointToTarget(100, 20);
+      const target2 = model.pointToTarget(200, 20);
 
       assert.equal(target2.columnNo, 2);
       assert.equal(target2.rowNo, 1);
@@ -56,23 +57,23 @@ describe("GridViewModel", function() {
 
       // ヘッダ
       assert.equal(testModel.pointToColumnNo(0), 0);
-      assert.equal(testModel.pointToColumnNo(9), 0);
+      assert.equal(testModel.pointToColumnNo(49), 0);
 
       // 1列目
-      assert.equal(testModel.pointToColumnNo(10), 1);
-      assert.equal(testModel.pointToColumnNo(29), 1);
+      assert.equal(testModel.pointToColumnNo(50), 1);
+      assert.equal(testModel.pointToColumnNo(69), 1);
 
       // 2列目
-      assert.equal(testModel.pointToColumnNo(30), 2);
-      assert.equal(testModel.pointToColumnNo(39), 2);
+      assert.equal(testModel.pointToColumnNo(70), 2);
+      assert.equal(testModel.pointToColumnNo(79), 2);
 
       // 3列目
-      assert.equal(testModel.pointToColumnNo(40), 3);
-      assert.equal(testModel.pointToColumnNo(69), 3);
+      assert.equal(testModel.pointToColumnNo(80), 3);
+      assert.equal(testModel.pointToColumnNo(109), 3);
 
       // エラー
-      assert.equal(testModel.pointToColumnNo(70), -1);
-      assert.equal(testModel.pointToColumnNo(1000), -1);
+      assert.equal(testModel.pointToColumnNo(110), 0);
+      assert.equal(testModel.pointToColumnNo(1000), 0);
     });
 
   });

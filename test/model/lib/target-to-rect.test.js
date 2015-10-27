@@ -1,8 +1,8 @@
 'use strict';
 
-import {targetToRect} from "../../../../src/containers/cells/controls/lib";
-import GridViewModel from "../../../../src/model/gridview";
-import {Target} from "../../../../src/model/common";
+import {targetToRect} from "../../../src/model/lib/target_to_rect";
+import GridViewModel  from "../../../src/model/gridview";
+import {CellPoint}       from "../../../src/model/common";
 
 //import ColumnHeaderItem from "../../src/model/gridview/column-header-item";
 var assert = require("power-assert");
@@ -11,7 +11,7 @@ describe("Cell Lib", function() {
   describe("targetToLeft", function() {
     it("cell(1,1)", function() {
       const viewModel = new GridViewModel();
-      const target = new Target(1, 1);
+      const target = new CellPoint(1, 1);
       const rect = targetToRect(viewModel, target);
       const left = viewModel.rowHeader.width;
       const top = viewModel.columnHeader.height;
@@ -26,7 +26,7 @@ describe("Cell Lib", function() {
 
     it("cell(2,1)", function() {
       const viewModel = new GridViewModel();
-      const target = new Target(2, 1);
+      const target = new CellPoint(2, 1);
       const rect = targetToRect(viewModel, target);
       const left = viewModel.rowHeader.width + viewModel.columnHeader.items.get(1).width;
       const top = viewModel.columnHeader.height;
@@ -42,7 +42,7 @@ describe("Cell Lib", function() {
 
     it("cell(1,2)", function() {
       const viewModel = new GridViewModel();
-      const target = new Target(1, 2);
+      const target = new CellPoint(1, 2);
       const rect = targetToRect(viewModel, target);
       const left = viewModel.rowHeader.width;
       const top = viewModel.columnHeader.height + viewModel.rowHeader.items.get(1).height;

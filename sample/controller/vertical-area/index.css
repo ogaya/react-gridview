@@ -1,0 +1,10 @@
+.vertical-area{
+  width: 82px;
+  border-left: 1px solid #ccc;
+  padding-left: 5px;
+}
+
+.vertical-area > div {
+  display: table-cell;
+  padding: 2px;
+}

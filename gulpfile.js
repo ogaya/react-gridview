@@ -1,6 +1,6 @@
 var gulp = require("gulp");
 var webpack = require("gulp-webpack");
-var webpackConfig = require("./webpack.config.js");
+//var webpackConfig = require("./webpack.config.js");
 var webpackSampleConfig = require("./webpack-sample.config.js");
 
 //var requireDir = require("require-dir");
@@ -16,24 +16,37 @@ gulp.task("cleanBuild", function(cb) {
   rimraf("./dist/*", cb);
 });
 
+//gulp.task("build", ["cleanBuild"], function() {
+//  return gulp.src("")
+//  .pipe(webpack(webpackConfig))
+//  .pipe(uglify())
+//  .pipe(gulp.dest(""));
+//});
+
+//gulp.task("debug", ["cleanBuild"], function() {
+//  return gulp.src("")
+//  .pipe(webpack(webpackConfig))
+//  .pipe(gulp.dest(""));
+//});
+
+
 gulp.task("build", ["cleanBuild"], function() {
-  return gulp.src("")
-  .pipe(webpack(webpackConfig))
-  .pipe(uglify())
-  .pipe(gulp.dest(""));
+  return gulp.src('./src/**')
+    .pipe(babel())
+    .pipe(gulp.dest("./dist"));
 });
 
-gulp.task("debug", ["cleanBuild"], function() {
-  return gulp.src("")
-  .pipe(webpack(webpackConfig))
-  .pipe(gulp.dest(""));
-});
 
 gulp.task("watch", function() {
   gulp.watch("./src/**", ["sample"]);
 });
 
-gulp.task("sample", function() {
+
+gulp.task("auto", function() {
+  gulp.watch("./sample/**", ["sample"]);
+});
+
+gulp.task("sample", ["build", "mocha"], function() {
   return gulp.src("")
   .pipe(webpack(webpackSampleConfig))
   .pipe(gulp.dest(""));
