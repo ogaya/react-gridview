@@ -6,7 +6,7 @@ import ConnectArea from "./connect-area";
 import ColorArea from "./color-area";
 import LineArea from "./line-area";
 
-import {GridViewModel, OperationModel} from "../../dist/react-gridview.js";
+import {GridViewModel, OperationModel} from "../../dist";
 
 import "./cell-area.css";
 

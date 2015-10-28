@@ -5,7 +5,7 @@ import Cells from "./containers/cells";
 import ExNodes from "./containers/exnodes";
 import Stickies from "./containers/stickies";
 import Inputer from "./containers/inputer";
-import ContextMenu from "./containers/context-menu";
+//import ContextMenu from "./containers/context-menu";
 
 //import "./react-gridview.styl";
 import {MouseEvent} from "./mouse-event";

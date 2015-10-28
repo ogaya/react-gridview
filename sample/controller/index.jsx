@@ -1,6 +1,6 @@
 import React from "react";
-//import GridView from "../dist/react-gridview.js";
-import {GridViewModel, OperationModel} from "../../dist/react-gridview.js";
+//import GridView from "../dist";
+import {GridViewModel, OperationModel} from "../../dist";
 
 import TextArea from"./text-area";
 import CellArea from"./cell-area";

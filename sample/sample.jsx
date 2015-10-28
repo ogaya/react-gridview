@@ -7,7 +7,7 @@ import {
   GridViewModel,
   OperationModel,
 //  StickyModel,
-  ExtensionModel} from "../dist/react-gridview.js";
+  ExtensionModel} from "../dist";
 
 // コンポーネント
 import Controller from "./controller";

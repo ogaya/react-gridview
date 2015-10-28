@@ -1,6 +1,6 @@
 import React from "react";
 
-import {GridViewModel, OperationModel, OBJECT_TYPE} from "../../dist/react-gridview.js";
+import {GridViewModel, OperationModel, OBJECT_TYPE} from "../../dist";
 
 import "./text-area.css";
 

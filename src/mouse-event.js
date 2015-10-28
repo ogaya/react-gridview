@@ -57,12 +57,6 @@ const MouseEvent = {
     e.preventDefault();
   },
   _onContextMenu(e){
-    console.log(e);
-    console.log(e.offsetX + ":" + e.offsetY);
-    console.log(e.clientX + ":" + e.clientY);
-    console.log(e.cancelable);
-
-
     e.preventDefault();
   },
   /**

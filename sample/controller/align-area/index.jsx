@@ -2,7 +2,7 @@ import React from "react";
 
 import SimpleButton from "../common/simple-button";
 
-import {GridViewModel, OperationModel, TEXT_ALIGN} from "../../../dist/react-gridview.js";
+import {GridViewModel, OperationModel, TEXT_ALIGN} from "../../../dist";
 
 import "./index.css";
 
