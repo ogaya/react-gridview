@@ -3,7 +3,7 @@ import React from "react";
 import SimpleButton from "../common/simple-button";
 import ColorPanel from "./color-panel";
 
-import {GridViewModel, OperationModel} from "../../../dist";
+import {Sheet, Operation} from "../../../dist";
 
 import "./index.css";
 
@@ -15,8 +15,8 @@ import BgIcon from "./bg.png";
 const ColorArea = React.createClass({
   displayName: "ColorArea",
   propTypes: {
-    viewModel: React.PropTypes.instanceOf(GridViewModel),
-    operationModel: React.PropTypes.instanceOf(OperationModel),
+    viewModel: React.PropTypes.instanceOf(Sheet),
+    operationModel: React.PropTypes.instanceOf(Operation),
     onControlView: React.PropTypes.func,
     showSubWindow: React.PropTypes.func
   },

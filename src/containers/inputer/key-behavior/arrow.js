@@ -1,6 +1,6 @@
 
 import {fitForTarget} from "../../../model/lib/fit-for-target";
-import {OBJECT_TYPE}  from "../../../model/gridview/object-type";
+import {OBJECT_TYPE}  from "../../../model/sheet/object-type";
 import {SelectInfo}   from "../../../model/lib/select";
 import {CellRange}    from "../../../model/common";
 

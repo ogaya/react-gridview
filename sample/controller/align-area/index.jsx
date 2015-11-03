@@ -2,7 +2,7 @@ import React from "react";
 
 import SimpleButton from "../common/simple-button";
 
-import {GridViewModel, OperationModel, TEXT_ALIGN} from "../../../dist";
+import {Sheet, Operation, TEXT_ALIGN} from "../../../dist";
 
 import "./index.css";
 
@@ -13,8 +13,8 @@ import AlignRightIcon from "./align-right.png";
 const AlignArea = React.createClass({
   displayName: "AlignArea",
   propTypes: {
-    viewModel: React.PropTypes.instanceOf(GridViewModel),
-    operationModel: React.PropTypes.instanceOf(OperationModel),
+    viewModel: React.PropTypes.instanceOf(Sheet),
+    operationModel: React.PropTypes.instanceOf(Operation),
     onControlView: React.PropTypes.func
   },
   _onChangeTextAlign(textAlign){

@@ -2,7 +2,7 @@ import React from "react";
 
 import SimpleButton from "../common/simple-button";
 
-import {GridViewModel, OperationModel} from "../../../dist";
+import {Sheet, Operation} from "../../../dist";
 
 //import LinePanel from "./line-panel";
 import {LinePanel, LINE_TYPE} from "./line-panel";
@@ -26,8 +26,8 @@ import "./index.css";
 const LineArea = React.createClass({
   displayName: "LineArea",
   propTypes: {
-    viewModel: React.PropTypes.instanceOf(GridViewModel),
-    operationModel: React.PropTypes.instanceOf(OperationModel),
+    viewModel: React.PropTypes.instanceOf(Sheet),
+    operationModel: React.PropTypes.instanceOf(Operation),
     onControlView: React.PropTypes.func,
     showSubWindow: React.PropTypes.func
   },

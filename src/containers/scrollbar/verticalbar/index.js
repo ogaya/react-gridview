@@ -6,7 +6,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import OperationModel from "../../../model/operation";
-import GridViewModel  from "../../../model/gridview";
+import GridViewModel  from "../../../model/sheet";
 
 // モデル
 //import {Point, Rect} from "../../../model/common";

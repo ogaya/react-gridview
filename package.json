@@ -1,10 +1,10 @@
 {
   "name": "react-gridview",
-  "version": "0.1.2",
-  "description": "React.js sheets",
+  "version": "0.1.4",
+  "description": "React.js gridview",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ogaya/react-sheets.git"
+    "url": "https://github.com/ogaya/react-gridview.git"
   },
   "main": "dist/index.js",
   "files": [
@@ -17,9 +17,9 @@
   "author": "Naoya Ogawa",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ogaya/react-sheets/issues"
+    "url": "https://github.com/ogaya/react-gridview/issues"
   },
-  "homepage": "https://github.com/ogaya/react-sheets",
+  "homepage": "https://github.com/ogaya/react-gridview",
   "peerDependencies": {
     "immutable": "",
     "react": "^0.14.0",

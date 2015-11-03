@@ -1,5 +1,5 @@
 import {targetToRect, cellRangeToRect} from "../../model/lib/target_to_rect";
-import {OBJECT_TYPE} from "../../model/gridview/object-type";
+import {OBJECT_TYPE} from "../../model/sheet/object-type";
 function createInputStyle(viewModel, opeModel){
 
 

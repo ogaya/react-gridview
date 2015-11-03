@@ -17,7 +17,7 @@ const id = function(solver){
     .setValue(Number(value))
     .addRefId(idText)
     .addPointer(idText.length);
-}
+};
 
 export{
   isId,

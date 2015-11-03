@@ -1,5 +1,5 @@
 
-import {OBJECT_TYPE} from "../../gridview/object-type";
+import {OBJECT_TYPE} from "../../sheet/object-type";
 
 // 列幅のリサイズ処理
 function columnResize(viewModel, opeModel) {

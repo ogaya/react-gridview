@@ -1,10 +1,10 @@
 'use strict';
 
 import {calc} from "../../src/calc";
-import GridViewModel from "../../src/model/gridview";
+import GridViewModel from "../../src/model/sheet";
 import {CellPoint} from "../../src/model/common";
 
-//import ColumnHeaderItem from "../../src/model/gridview/column-header-item";
+//import ColumnHeaderItem from "../../src/model/sheet/column-header-item";
 var assert = require("power-assert");
 
 describe("calc", function() {

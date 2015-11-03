@@ -1,6 +1,6 @@
 import React from "react";
 
-import {GridViewModel, OperationModel, OBJECT_TYPE} from "../../dist";
+import {Sheet, Operation, OBJECT_TYPE} from "../../dist";
 
 import "./text-area.css";
 
@@ -11,8 +11,8 @@ import "./text-area.css";
 const TextArea = React.createClass({
   displayName: "TextArea",
   propTypes: {
-    viewModel: React.PropTypes.instanceOf(GridViewModel),
-    operationModel: React.PropTypes.instanceOf(OperationModel),
+    viewModel: React.PropTypes.instanceOf(Sheet),
+    operationModel: React.PropTypes.instanceOf(Operation),
     onControlView: React.PropTypes.func,
     onChangeOperation: React.PropTypes.func,
     setInputFocus: React.PropTypes.func

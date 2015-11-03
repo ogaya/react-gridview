@@ -2,7 +2,7 @@ import React    from "react";
 import ReactDOM from "react-dom";
 
 import OperationModel from "../../model/operation";
-import GridViewModel  from "../../model/gridview";
+import GridViewModel  from "../../model/sheet";
 
 import {KeyPress} from "../../mixins/key-press";
 

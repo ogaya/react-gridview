@@ -6,7 +6,7 @@ import {operationResult} from "./model/lib/change";
 import {pointToGridViewItem} from "./model/lib/select";
 import {modelToRangeItem} from "./model/common/cellrange";
 import {fitForTarget} from "./model/lib/fit-for-target";
-import {OBJECT_TYPE} from "./model/gridview/object-type";
+import {OBJECT_TYPE} from "./model/sheet/object-type";
 
 //import {targetToRect, cellRangeToRect} from "./model/lib/target_to_rect";
 

@@ -1,6 +1,6 @@
 //import {targetToRect} from "../../../model/lib/target_to_rect";
 import {fitForTarget} from "../../../model/lib/fit-for-target";
-import {OBJECT_TYPE} from "../../../model/gridview/object-type";
+import {OBJECT_TYPE} from "../../../model/sheet/object-type";
 import {SelectInfo} from "../../../model/lib/select";
 
 function enterDown(e, props, keyPress, inputer){

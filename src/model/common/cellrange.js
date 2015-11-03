@@ -1,5 +1,5 @@
 import {Record, List} from "immutable";
-import {OBJECT_TYPE} from "../gridview/object-type";
+import {OBJECT_TYPE} from "../sheet/object-type";
 import {CellPoint} from "./cellPoint";
 
 // セル選択モデル

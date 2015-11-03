@@ -1,5 +1,5 @@
 //import {targetToRect} from "../../../model/lib/target_to_rect";
-import {OBJECT_TYPE} from "../../../model/gridview/object-type";
+import {OBJECT_TYPE} from "../../../model/sheet/object-type";
 //import {SelectInfo} from "../../../model/lib/select";
 
 function deleteDown(e, props){

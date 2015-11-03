@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 
 import drawTable from "./controls/table";
 
-import GridViewModel from "../../model/gridview";
+import GridViewModel from "../../model/sheet";
 import CanvasModel from "../../model/canvas";
 import OperationModel from "../../model/operation";
 import {Rect} from "../../model/common";

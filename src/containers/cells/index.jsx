@@ -1,6 +1,6 @@
 import React from "react";
 
-import GridViewModel from "../../model/gridview";
+import GridViewModel from "../../model/sheet";
 import OperationModel from "../../model/operation";
 
 

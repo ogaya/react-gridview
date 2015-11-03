@@ -1,11 +1,11 @@
 import React from "react";
 import OperationModel from "../../model/operation";
-import GridViewModel from "../../model/gridview";
+import GridViewModel from "../../model/sheet";
 
 // モデル
 //import {Point, Rect} from "../../model/common";
-import {HEADER_WIDTH} from "../../model/gridview/row-header";
-import {HEADER_HEIGHT} from "../../model/gridview/column-header";
+import {HEADER_WIDTH} from "../../model/sheet/row-header";
+import {HEADER_HEIGHT} from "../../model/sheet/column-header";
 
 // コンポーネント
 import {Horizontalbar} from "./horizontalbar";

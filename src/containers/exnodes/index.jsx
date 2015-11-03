@@ -2,7 +2,7 @@ import React from "react";
 
 // モデル情報
 import OperationModel from "../../model/operation";
-import GridViewModel from "../../model/gridview";
+import GridViewModel from "../../model/sheet";
 import ExtensionModel from "../../model/extension";
 
 // 共通ライブラリ

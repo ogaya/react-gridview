@@ -6,7 +6,7 @@ import drawColumnHeader from "./controls/column-header";
 import drawRowHeader from "./controls/row-header";
 import drawCenterHeader from "./controls/center-header";
 
-import GridViewModel from "../../model/gridview";
+import GridViewModel from "../../model/sheet";
 import CanvasModel from "../../model/canvas";
 import OperationModel from "../../model/operation";
 

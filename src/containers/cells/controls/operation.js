@@ -1,6 +1,6 @@
 import {targetToRect, cellRangeToRect} from "../../../model/lib/target_to_rect";
 import {COLOR} from "../../../model/common";
-import {OBJECT_TYPE} from "../../../model/gridview";
+import {OBJECT_TYPE} from "../../../model/sheet";
 //import {Rect} from "../../../model/common/rect";
 
 // 列のリサイズ処理を描画

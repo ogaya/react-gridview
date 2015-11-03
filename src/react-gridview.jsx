@@ -11,13 +11,13 @@ import Inputer from "./containers/inputer";
 import {MouseEvent} from "./mouse-event";
 import {KeyPress} from "./mixins/key-press";
 
-import GridViewModel from "./model/gridview";
+import GridViewModel from "./model/sheet";
 import OperationModel from "./model/operation";
 import ExtensionModel from "./model/extension";
-import StickyModel from "./model/gridview/sticky";
-import Border from "./model/gridview/border";
+import StickyModel from "./model/sheet/sticky";
+import Border from "./model/sheet/border";
 
-import {OBJECT_TYPE} from "./model/gridview/object-type";
+import {OBJECT_TYPE} from "./model/sheet/object-type";
 import {GridViewBar} from "./containers/scrollbar";
 import {VERTICAL_ALIGN, TEXT_ALIGN, BORDER_POSITION, CellPoint} from "./model/common";
 import {drag} from "./util/drag";
@@ -36,30 +36,30 @@ const GridView = React.createClass({
   displayName: "gridview",
   mixins: [KeyPress, MouseEvent],
   propTypes: {
-    viewModel: React.PropTypes.instanceOf(GridViewModel),
+    sheet: React.PropTypes.instanceOf(GridViewModel),
     operationModel: React.PropTypes.instanceOf(OperationModel),
     extension: React.PropTypes.instanceOf(ExtensionModel),
-    onChangeView: React.PropTypes.func,
+    onChangeSheet: React.PropTypes.func,
     onChangeOperation: React.PropTypes.func
   },
   getDefaultProps() {
     return {
-      viewModel: new GridViewModel(),
+      sheet: new GridViewModel(),
       operationModel: new OperationModel(),
       extension: new ExtensionModel(),
-      onChangeView: (prevView, nextView) =>{ return nextView; },
+      onChangeSheet: (prevView, nextView) =>{ return nextView; },
       onChangeOperation: (prevVOperation, nextOperation) =>{ return nextOperation; }
     };
   },
   getInitialState() {
     return {
-      viewModel: this.props.viewModel,
+      viewModel: this.props.sheet,
       operation: this.props.operationModel
     };
   },
   componentWillReceiveProps(nextProps){
-    if(this.props.viewModel !== nextProps.viewModel){
-      this.setState({viewModel: nextProps.viewModel});
+    if(this.props.sheet !== nextProps.sheet){
+      this.setState({viewModel: nextProps.sheet});
     }
     if(this.props.operationModel !== nextProps.operationModel){
       this.setState({operation: nextProps.operationModel});
@@ -84,7 +84,7 @@ const GridView = React.createClass({
     this._onViewModelChange(viewModel);
   },
   _onViewModelChange(viewModel){
-    const nextView = this.props.onChangeView(this.state.viewModel, viewModel);
+    const nextView = this.props.onChangeSheet(this.state.viewModel, viewModel);
     if (this.state.viewModel === nextView){
       return;
     }
