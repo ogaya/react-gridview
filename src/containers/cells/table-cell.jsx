@@ -52,12 +52,8 @@ const TableCell = React.createClass({
        (this.props.opeModel.scroll.rowNo === props.opeModel.scroll.rowNo) &&
        (this.props.opeModel.scroll.columnNo === props.opeModel.scroll.columnNo) &&
        (this.props.view === props.view)){
-
       return false;
     }
-
-    //console.log("aaaa");
-
     const width = this._prev.width = canvasElement.width = canvasWidth;
     const height = this._prev.height = canvasElement.height = canvasHeigh;
     const context = canvasElement.getContext("2d");
@@ -70,16 +66,13 @@ const TableCell = React.createClass({
     this._canvasRender(this.props);
   },
   componentDidMount(){
-    window.addEventListener('resize', this._handleResize);
+    window.addEventListener("resize", this._handleResize);
     this._canvasRender(this.props);
   },
   componentWillUnmount() {
-    window.removeEventListener('resize', this._handleResize);
+    window.removeEventListener("resize", this._handleResize);
   },
   shouldComponentUpdate(nextProps) {
-    // if(nextProps.view === this.props.view){
-    //   return false;
-    // }
     this._canvasRender(nextProps);
     return false;
   },

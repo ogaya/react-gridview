@@ -53,10 +53,10 @@ function pickCell(columnInfo, rowInfo, point){
   return new SelectInfo(objectType, target, rect, point);
 }
 
-function pointToGridViewItem(viewModel, opeModel, point, isDrag){
+function pointToGridViewItem(sheet, opeModel, point, isDrag){
 
-  const columnInfo = clientPointToColumnInfo(viewModel, opeModel, point);
-  const rowInfo = pointToRowInfo(viewModel, opeModel, point);
+  const columnInfo = clientPointToColumnInfo(sheet, opeModel, point);
+  const rowInfo = pointToRowInfo(sheet, opeModel, point);
 
   const isCellDrag = (
     (isDrag) &&

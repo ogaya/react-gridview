@@ -2,11 +2,11 @@ import {CellPoint, BORDER_POSITION} from "../../../model/common";
 import {targetToRect, cellRangeToRect} from "../../../model/lib/target_to_rect";
 
 // セル枠の描画
-function drawBorder(canvas, viewModel, opeModel, cellPoint, rect){
+function drawBorder(canvas, sheet, opeModel, cellPoint, rect){
   let offset;
-  const cell = viewModel.getCell(cellPoint);
-  const topBorder = viewModel.getBorder(cellPoint, BORDER_POSITION.TOP);
-  const leftBorder = viewModel.getBorder(cellPoint, BORDER_POSITION.LEFT);
+  const cell = sheet.getCell(cellPoint);
+  const topBorder = sheet.getBorder(cellPoint, BORDER_POSITION.TOP);
+  const leftBorder = sheet.getBorder(cellPoint, BORDER_POSITION.LEFT);
 
 
   canvas.context.strokeStyle = topBorder.colors[0];

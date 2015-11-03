@@ -27,8 +27,8 @@ function enterDown(e, props, keyPress, inputer){
 
   // 選択セルを下へ移す
   const target = selectItem.cellPoint.setRowNo(selectItem.cellPoint.rowNo + 1);
-  //const rect = targetToRect(props.viewModel, target, opeModel.scroll);
-  const fitScroll = fitForTarget(props.viewModel, opeModel, target);
+  //const rect = targetToRect(props.sheet, target, opeModel.scroll);
+  const fitScroll = fitForTarget(props.sheet, opeModel, target);
   const newSelectItem = new SelectInfo(selectItem.objectType, target, null, null);
 
   // 入力状態を解除する
@@ -41,7 +41,7 @@ function enterDown(e, props, keyPress, inputer){
     .setScroll(fitScroll)
     .setInput(input);
 
-  props.onStateChange(props.viewModel, newOpeModel);
+  props.onStateChange(props.sheet, newOpeModel);
   return false;
 }
 

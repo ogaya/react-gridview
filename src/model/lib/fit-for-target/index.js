@@ -4,11 +4,11 @@
 import {targetToRect} from "../target_to_rect";
 
 // 右側にはみ出ていた場合の補正
-function fitRight(viewModel, opeModel, target, scroll){
+function fitRight(sheet, opeModel, target, scroll){
 
   let fitScroll = scroll;
-  for(var i = target.columnNo; i < viewModel.columnHeader.maxCount; i++){
-    const targetRect = targetToRect(viewModel, target, fitScroll);
+  for(var i = target.columnNo; i < sheet.columnHeader.maxCount; i++){
+    const targetRect = targetToRect(sheet, target, fitScroll);
     if (opeModel.canvasRect.width > targetRect.right){
       return fitScroll;
     }
@@ -20,11 +20,11 @@ function fitRight(viewModel, opeModel, target, scroll){
 }
 
 // 左側にはみ出ていた場合の補正
-function fitLeft(viewModel, opeModel, target, scroll){
+function fitLeft(sheet, opeModel, target, scroll){
 
   let fitScroll = scroll;
   for(var i = target.columnNo; i >= 0; i--){
-    const targetRect = targetToRect(viewModel, target, fitScroll);
+    const targetRect = targetToRect(sheet, target, fitScroll);
     if (targetRect.left > 0){
       return fitScroll;
     }
@@ -37,11 +37,11 @@ function fitLeft(viewModel, opeModel, target, scroll){
 
 
 // 下側にはみ出ていた場合の補正
-function fitBottom(viewModel, opeModel, target, scroll){
+function fitBottom(sheet, opeModel, target, scroll){
 
   let fitScroll = scroll;
-  for(var i = target.rowNo; i < viewModel.rowHeader.maxCount; i++){
-    const targetRect = targetToRect(viewModel, target, fitScroll);
+  for(var i = target.rowNo; i < sheet.rowHeader.maxCount; i++){
+    const targetRect = targetToRect(sheet, target, fitScroll);
     if (opeModel.canvasRect.height > targetRect.bottom){
       return fitScroll;
     }
@@ -53,11 +53,11 @@ function fitBottom(viewModel, opeModel, target, scroll){
 }
 
 // 上側にはみ出ていた場合の補正
-function fitTop(viewModel, opeModel, target, scroll){
+function fitTop(sheet, opeModel, target, scroll){
 
   let fitScroll = scroll;
   for(var i = target.rowNo; i >= 0; i--){
-    const targetRect = targetToRect(viewModel, target, fitScroll);
+    const targetRect = targetToRect(sheet, target, fitScroll);
     if (targetRect.top > 0){
       return fitScroll;
     }
@@ -69,14 +69,14 @@ function fitTop(viewModel, opeModel, target, scroll){
 }
 
 // 対象セルが表示出来るようなスクロールポイントを作成する
-export function fitForTarget(viewModel, opeModel, target) {
+export function fitForTarget(sheet, opeModel, target) {
 
   let fitScroll = opeModel.scroll;
 
-  fitScroll = fitRight(viewModel, opeModel, target, fitScroll);
-  fitScroll = fitLeft(viewModel, opeModel, target, fitScroll);
-  fitScroll = fitBottom(viewModel, opeModel, target, fitScroll);
-  fitScroll = fitTop(viewModel, opeModel, target, fitScroll);
+  fitScroll = fitRight(sheet, opeModel, target, fitScroll);
+  fitScroll = fitLeft(sheet, opeModel, target, fitScroll);
+  fitScroll = fitBottom(sheet, opeModel, target, fitScroll);
+  fitScroll = fitTop(sheet, opeModel, target, fitScroll);
 
   return fitScroll;
 }

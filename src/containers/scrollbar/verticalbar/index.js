@@ -27,7 +27,7 @@ const Verticalbar  = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
     opeModel: React.PropTypes.instanceOf(OperationModel),
-    viewModel: React.PropTypes.instanceOf(GridViewModel),
+    sheet: React.PropTypes.instanceOf(GridViewModel),
     smallChange: React.PropTypes.number,
     largeChange: React.PropTypes.number,
     value: React.PropTypes.number,
@@ -54,11 +54,11 @@ const Verticalbar  = React.createClass({
   componentDidMount(){
     const node = ReactDOM.findDOMNode(this.refs.rgThumb);
     drag(node, this._dragStart, this._dragMove);
-    window.addEventListener('resize', this._handleResize);
+    window.addEventListener("resize", this._handleResize);
     this._handleResize();
   },
   componentWillUnmount() {
-    window.removeEventListener('resize', this._handleResize);
+    window.removeEventListener("resize", this._handleResize);
   },
   // スタイルの生成
   _createStyle(){
@@ -80,9 +80,9 @@ const Verticalbar  = React.createClass({
     this.setState({offsetY: e.offsetY});
   },
   _getScrollMaxValue(){
-    const viewModel = this.props.viewModel;
+    const sheet = this.props.sheet;
     const opeModel = this.props.opeModel;
-    if ((!viewModel) || (!opeModel)) {
+    if ((!sheet) || (!opeModel)) {
       return 0;
     }
 
@@ -90,10 +90,10 @@ const Verticalbar  = React.createClass({
     if (!canvasRect){
       return 0;
     }
-    const tableHeight = canvasRect.height - viewModel.columnHeader.height;
+    const tableHeight = canvasRect.height - sheet.columnHeader.height;
     let sumHeight = 0;
     let rowNo = 1;
-    viewModel.rowHeader.items.reverse().forEach((item, key)=>{
+    sheet.rowHeader.items.reverse().forEach((item, key)=>{
       sumHeight = sumHeight + item.height;
 
       if (sumHeight > tableHeight){
@@ -112,7 +112,7 @@ const Verticalbar  = React.createClass({
 
     const nextTop = (e.clientY - this.state.thumbAreaRect.top - this.state.offsetY);
 
-    const view = this.props.viewModel;
+    const view = this.props.sheet;
     const scrollMax = this._getScrollMaxValue();
 
     // 移動可能領域の幅
@@ -124,7 +124,7 @@ const Verticalbar  = React.createClass({
     // スクロールバー位置に対応するcanvas上のX座標を求める
     const canvasY = nextTop * magnification + 18;
 
-    let rowNo = this.props.viewModel.pointToRowNo(canvasY);
+    let rowNo = this.props.sheet.pointToRowNo(canvasY);
     let maxNo = this._getScrollMaxValue();
 
     if (!rowNo){
@@ -145,7 +145,7 @@ const Verticalbar  = React.createClass({
       return THUMB_MIN_HEIGHT;
     }
     const areaHeight = this.state.thumbAreaRect.height;
-    const fullHeight = this.props.viewModel.rowHeader.height;
+    const fullHeight = this.props.sheet.rowHeader.height;
 
     const magnification = fullHeight / areaHeight;
     const thumbHeight = areaHeight / magnification;
@@ -161,7 +161,7 @@ const Verticalbar  = React.createClass({
     if(!this.state.thumbAreaRect){
       return PADDING;
     }
-    const view = this.props.viewModel;
+    const view = this.props.sheet;
     const scrollMax = this._getScrollMaxValue();
 
     const thumbHeight = this._thumHeight();

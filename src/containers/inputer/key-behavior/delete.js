@@ -23,11 +23,11 @@ function deleteDown(e, props){
   //props.onValueChange(target, "");
 
   // 新規操作オブジェクトを作る
-  const viewModel = props.viewModel
+  const sheet = props.sheet
     .setValue(target, "")
     .setValueRanges(opeModel.rangeItems, "");
 
-  props.onStateChange(viewModel, opeModel);
+  props.onStateChange(sheet, opeModel);
 
   return false;
 }

@@ -26,10 +26,11 @@ function JsonToCell(json){
 
 const HEADER_WIDTH = 50;
 export default class RowHeader extends Record({
-  width: HEADER_WIDTH,
+  _width: HEADER_WIDTH,
   maxCount: 1000,
   background: "#eaeaff",
   color: "#333",
+  isVisible: true,
   editItems: Map()
 }) {
 
@@ -47,7 +48,15 @@ export default class RowHeader extends Record({
   }
 
   setWidth(width){
-    return this.set("width", width);
+    return this.set("_width", width);
+  }
+
+  get width(){
+    if (!this.isVisible){
+      return 0;
+    }
+
+    return this._width;
   }
 
   get height(){
@@ -61,6 +70,10 @@ export default class RowHeader extends Record({
   setItem(index, item){
     const editItems = this.editItems.set(index, item);
     return this.set("editItems", editItems);
+  }
+
+  setVisible(visible){
+    return this.set("isVisible", visible);
   }
 
   setMaxCount(count){

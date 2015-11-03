@@ -18,7 +18,7 @@ const style =  {
   height: "100%"
 };
 
-//const rect = targetToRect(viewModel, cellPoint, opeModel.scroll);
+//const rect = targetToRect(sheet, cellPoint, opeModel.scroll);
 const ExNodes = React.createClass({
   displayName: "Gridview-ExNodes",
   propTypes: {

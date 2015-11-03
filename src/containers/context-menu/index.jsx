@@ -7,7 +7,7 @@ import ExtensionModel from "../../model/extension";
 
 import "./css.js";
 
-//const rect = targetToRect(viewModel, cellPoint, opeModel.scroll);
+//const rect = targetToRect(sheet, cellPoint, opeModel.scroll);
 const ContextMenu = React.createClass({
   displayName: "React-Sheet-ContextMenu",
   propTypes: {

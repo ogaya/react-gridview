@@ -52,7 +52,7 @@ function arrowDownWithShift(e, props, inputer){
 
   inputer.setState({controlCellPoint: nextCellPoint});
 
-  const fitScroll = fitForTarget(props.viewModel, opeModel, nextCellPoint);
+  const fitScroll = fitForTarget(props.sheet, opeModel, nextCellPoint);
   const range = new CellRange(selectItem.cellPoint, nextCellPoint);
 
   // 新規操作オブジェクトを作る
@@ -61,7 +61,7 @@ function arrowDownWithShift(e, props, inputer){
     .setRangeItem(range)
     .setScroll(fitScroll);
 
-  props.onStateChange(props.viewModel, newOpeModel);
+  props.onStateChange(props.sheet, newOpeModel);
   return false;
 }
 
@@ -89,7 +89,7 @@ function arrowDown(e, props, keyPress, inputer){
     return true;
   }
 
-  const fitScroll = fitForTarget(props.viewModel, opeModel, target);
+  const fitScroll = fitForTarget(props.sheet, opeModel, target);
   const newSelectItem = new SelectInfo(selectItem.objectType, target, null, null);
 
   // 新規操作オブジェクトを作る
@@ -98,7 +98,7 @@ function arrowDown(e, props, keyPress, inputer){
     .resetRange()
     .setScroll(fitScroll);
 
-  props.onStateChange(props.viewModel, newOpeModel);
+  props.onStateChange(props.sheet, newOpeModel);
   return false;
 }
 

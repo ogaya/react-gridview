@@ -94,11 +94,11 @@ class CellRange extends Record({
 
 /**
  * 列ヘッダーを選択したときの処理
- * @param  {[type]} viewModel [description]
+ * @param  {[type]} sheet [description]
  * @param  {[type]} opeModel  [description]
  * @return {[type]}           [description]
  */
-function pickRangeFromColumnHeader(viewModel, opeModel){
+function pickRangeFromColumnHeader(sheet, opeModel){
 
   const opeItem = opeModel.opeItem;
   const hoverItem = opeModel.hoverItem;
@@ -111,15 +111,15 @@ function pickRangeFromColumnHeader(viewModel, opeModel){
   if (!hoverItem){
     return new CellRange(
       new CellPoint(opeItem.cellPoint.columnNo, 1),
-      new CellPoint(opeItem.cellPoint.columnNo, viewModel.rowHeader.maxCount));
+      new CellPoint(opeItem.cellPoint.columnNo, sheet.rowHeader.maxCount));
   }
 
   return new CellRange(
     new CellPoint(opeItem.cellPoint.columnNo, 1),
-    new CellPoint(hoverItem.cellPoint.columnNo, viewModel.rowHeader.maxCount));
+    new CellPoint(hoverItem.cellPoint.columnNo, sheet.rowHeader.maxCount));
 }
 
-function pickRangeFromRowHeader(viewModel, opeModel){
+function pickRangeFromRowHeader(sheet, opeModel){
 
   const opeItem = opeModel.opeItem;
   const hoverItem = opeModel.hoverItem;
@@ -132,12 +132,12 @@ function pickRangeFromRowHeader(viewModel, opeModel){
   if (!hoverItem){
     return new CellRange(
       new CellPoint(1, opeItem.cellPoint.rowNo),
-      new CellPoint(viewModel.columnHeader.maxCount, opeItem.cellPoint.rowNo));
+      new CellPoint(sheet.columnHeader.maxCount, opeItem.cellPoint.rowNo));
   }
 
   return new CellRange(
     new CellPoint(1, opeItem.cellPoint.rowNo),
-    new CellPoint(viewModel.columnHeader.maxCount, hoverItem.cellPoint.rowNo));
+    new CellPoint(sheet.columnHeader.maxCount, hoverItem.cellPoint.rowNo));
 }
 
 function opeModelToRangeItem(opeModel){
@@ -159,7 +159,7 @@ function opeModelToRangeItem(opeModel){
 }
 
 // 範囲内に結合セルがある場合、選択範囲を広げる
-function fitRange(viewModel, rangeItem){
+function fitRange(sheet, rangeItem){
   const left = rangeItem.minColumnNo;
   const top = rangeItem.minRowNo;
   const right = rangeItem.maxColumnNo;
@@ -168,7 +168,7 @@ function fitRange(viewModel, rangeItem){
   // 上下の結合を確認
   for(let columnNo = left; columnNo <= right; columnNo++){
     const cellPoint = new CellPoint(columnNo, top);
-    const cell = viewModel.getCell(cellPoint);
+    const cell = sheet.getCell(cellPoint);
 
     if (!cell.mergeRange){
       continue;
@@ -178,13 +178,13 @@ function fitRange(viewModel, rangeItem){
 
     if(needExpansion){
       const expansionRange = rangeItem.merge(cell.mergeRange);
-      return fitRange(viewModel, expansionRange);
+      return fitRange(sheet, expansionRange);
     }
   }
 
   for(let columnNo = left; columnNo <= right; columnNo++){
     const cellPoint = new CellPoint(columnNo, bottom);
-    const cell = viewModel.getCell(cellPoint);
+    const cell = sheet.getCell(cellPoint);
 
     if (!cell.mergeRange){
       continue;
@@ -194,13 +194,13 @@ function fitRange(viewModel, rangeItem){
 
     if(needExpansion){
       const expansionRange = rangeItem.merge(cell.mergeRange);
-      return fitRange(viewModel, expansionRange);
+      return fitRange(sheet, expansionRange);
     }
   }
 
   for(let rowNo = top; rowNo <= bottom; rowNo++){
     const cellPoint = new CellPoint(left, rowNo);
-    const cell = viewModel.getCell(cellPoint);
+    const cell = sheet.getCell(cellPoint);
 
     if (!cell.mergeRange){
       continue;
@@ -210,14 +210,14 @@ function fitRange(viewModel, rangeItem){
 
     if(needExpansion){
       const expansionRange = rangeItem.merge(cell.mergeRange);
-      return fitRange(viewModel, expansionRange);
+      return fitRange(sheet, expansionRange);
     }
   }
 
 
   for(let rowNo = top; rowNo <= bottom; rowNo++){
     const cellPoint = new CellPoint(right, rowNo);
-    const cell = viewModel.getCell(cellPoint);
+    const cell = sheet.getCell(cellPoint);
 
     if (!cell.mergeRange){
       continue;
@@ -227,7 +227,7 @@ function fitRange(viewModel, rangeItem){
 
     if(needExpansion){
       const expansionRange = rangeItem.merge(cell.mergeRange);
-      return fitRange(viewModel, expansionRange);
+      return fitRange(sheet, expansionRange);
     }
   }
 
@@ -237,17 +237,17 @@ function fitRange(viewModel, rangeItem){
 
 /**
  * 操作状況から選択範囲を取得する
- * @param  {[type]} viewModel [description]
+ * @param  {[type]} sheet [description]
  * @param  {[type]} opeModel  [description]
  * @return {[type]}           [description]
  */
-function modelToRangeItem(viewModel, opeModel){
+function modelToRangeItem(sheet, opeModel){
 
-  let opeRange = pickRangeFromColumnHeader(viewModel, opeModel);
+  let opeRange = pickRangeFromColumnHeader(sheet, opeModel);
   if(opeRange){
     return opeRange;
   }
-  opeRange = pickRangeFromRowHeader(viewModel, opeModel);
+  opeRange = pickRangeFromRowHeader(sheet, opeModel);
 
   if(opeRange){
     return opeRange;
@@ -260,7 +260,7 @@ function modelToRangeItem(viewModel, opeModel){
     return opeRange;
   }
 
-  return fitRange(viewModel, opeRange);
+  return fitRange(sheet, opeRange);
 }
 
 export default {

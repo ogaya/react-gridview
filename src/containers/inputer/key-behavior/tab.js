@@ -20,8 +20,8 @@ function tabDown(e, props){
 
   // 選択セルを右へ移す
   const target = selectItem.cellPoint.setColumnNo(selectItem.cellPoint.columnNo + 1);
-  //const rect = targetToRect(props.viewModel, target, opeModel.scroll);
-  const fitScroll = fitForTarget(props.viewModel, opeModel , target);
+  //const rect = targetToRect(props.sheet, target, opeModel.scroll);
+  const fitScroll = fitForTarget(props.sheet, opeModel , target);
   const newSelectItem = new SelectInfo(selectItem.objectType, target, null, null);
 
   // 入力状態を解除する
@@ -34,7 +34,7 @@ function tabDown(e, props){
     .setScroll(fitScroll)
     .setInput(input);
 
-  props.onStateChange(props.viewModel, newOpeModel);
+  props.onStateChange(props.sheet, newOpeModel);
   return false;
 }
 

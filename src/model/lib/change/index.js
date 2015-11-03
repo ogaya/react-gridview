@@ -2,15 +2,15 @@
 import {OBJECT_TYPE} from "../../sheet/object-type";
 
 // 列幅のリサイズ処理
-function columnResize(viewModel, opeModel) {
+function columnResize(sheet, opeModel) {
   const objectType = opeModel.opeItem && opeModel.opeItem.objectType;
   if (objectType !== OBJECT_TYPE.COLUMN_RESIZER) {
-    return viewModel;
+    return sheet;
   }
 
   const selectItem = opeModel.selectItem;
   if (!selectItem) {
-    return viewModel;
+    return sheet;
   }
 
   // 新しい幅を計算酢る
@@ -20,23 +20,23 @@ function columnResize(viewModel, opeModel) {
 
   // 列アイテムの更新
   const columnNo = selectItem.cellPoint.columnNo;
-  const columnHeaderItem = viewModel.columnHeader.items.get(columnNo);
+  const columnHeaderItem = sheet.columnHeader.items.get(columnNo);
   const newItem = columnHeaderItem.setWidth(width);
-  const newColumnHeader = viewModel.columnHeader.setItem(columnNo, newItem);
+  const newColumnHeader = sheet.columnHeader.setItem(columnNo, newItem);
 
-  return viewModel.setColumnHeader(newColumnHeader);
+  return sheet.setColumnHeader(newColumnHeader);
 
 }
 
-function rowResize(viewModel, opeModel){
+function rowResize(sheet, opeModel){
   const objectType = opeModel.opeItem && opeModel.opeItem.objectType;
   if (objectType !== OBJECT_TYPE.ROW_RESIZER) {
-    return viewModel;
+    return sheet;
   }
 
   const selectItem = opeModel.selectItem;
   if (!selectItem) {
-    return viewModel;
+    return sheet;
   }
 
   // 新しい高さを算出する
@@ -46,28 +46,28 @@ function rowResize(viewModel, opeModel){
 
   // 行アイテムの更新
   const rowNo = selectItem.cellPoint.rowNo;
-  const rowHeaderItem = viewModel.rowHeader.items.get(rowNo);
+  const rowHeaderItem = sheet.rowHeader.items.get(rowNo);
   const newItem = rowHeaderItem.setHeight(height);
-  const newRowHeader = viewModel.rowHeader.setItem(rowNo, newItem);
+  const newRowHeader = sheet.rowHeader.setItem(rowNo, newItem);
 
-  return viewModel.setRowHeader(newRowHeader);
+  return sheet.setRowHeader(newRowHeader);
 
 }
 
-function operationResult(viewModel, opeModel){
-  const cResizeModel = columnResize(viewModel, opeModel);
+function operationResult(sheet, opeModel){
+  const cResizeModel = columnResize(sheet, opeModel);
 
-  if (cResizeModel !== viewModel){
+  if (cResizeModel !== sheet){
     return cResizeModel;
   }
 
-  const rResizeModel = rowResize(viewModel, opeModel);
+  const rResizeModel = rowResize(sheet, opeModel);
 
-  if (rResizeModel !== viewModel){
+  if (rResizeModel !== sheet){
     return rResizeModel;
   }
 
-  return viewModel;
+  return sheet;
 }
 
 export{
