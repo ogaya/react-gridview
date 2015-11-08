@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 
 
 import drawOperation from "./controls/operation";
-import GridViewModel from "../../model/gridview";
+import GridViewModel from "../../model/sheet";
 import CanvasModel from "../../model/canvas";
 import OperationModel from "../../model/operation";
 

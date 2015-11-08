@@ -49,8 +49,10 @@ function JsonToTable(json){
   return table;
 }
 
-// 表示情報のモデル
-export default class GridView extends Record({
+/**
+ * 表示情報
+ */
+export default class Sheet extends Record({
   columnHeader: new ColumnHeaderModel(),
   rowHeader: new RowHeaderModel(),
   table: Map(),
@@ -62,9 +64,13 @@ export default class GridView extends Record({
   }
 }) {
 
+  static createClass(){
+    return new Sheet();
+  }
+
   // JSONから本クラスを生成
   static fromJson(json){
-    const view = new GridView();
+    const view = new Sheet();
     // テーブル情報を変換
     return view
       .set("table", JsonToTable(json.table))
@@ -85,6 +91,13 @@ export default class GridView extends Record({
     return this.set("rowHeader", rowHeader);
   }
 
+  withRowHeader(mutator){
+    return this.set("rowHeader", mutator(this.rowHeader));
+  }
+
+  withColumnHeader(mutator){
+    return this.set("columnHeader", mutator(this.columnHeader));
+  }
 
   getCell(target){
 
@@ -111,9 +124,7 @@ export default class GridView extends Record({
 
   // 値のセット
   setValue(cellPoint, value){
-    //const prevCell = this.getCell(cellPoint);
     const nextCell = this.getCell(cellPoint).setValue(value);
-
     return this.setCell(cellPoint, nextCell);
   }
 

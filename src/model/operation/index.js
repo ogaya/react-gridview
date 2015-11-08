@@ -1,7 +1,7 @@
 import {Record, List}from "immutable";
 import InputModel from "./input";
 import {CellPoint} from "../common";
-import {OBJECT_TYPE} from "../gridview/object-type";
+import {OBJECT_TYPE} from "../sheet/object-type";
 import {CellRange} from "../common/cellrange";
 import {SelectInfo} from "../lib/select";
 

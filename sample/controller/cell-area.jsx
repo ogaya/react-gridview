@@ -6,15 +6,15 @@ import ConnectArea from "./connect-area";
 import ColorArea from "./color-area";
 import LineArea from "./line-area";
 
-import {GridViewModel, OperationModel} from "../../dist/react-gridview.js";
+import {Sheet, Operation} from "../../dist";
 
 import "./cell-area.css";
 
 const CellArea = React.createClass({
   displayName: "CellArea",
   propTypes: {
-    viewModel: React.PropTypes.instanceOf(GridViewModel),
-    operationModel: React.PropTypes.instanceOf(OperationModel),
+    viewModel: React.PropTypes.instanceOf(Sheet),
+    operationModel: React.PropTypes.instanceOf(Operation),
     onControlView: React.PropTypes.func,
     showSubWindow: React.PropTypes.func
   },

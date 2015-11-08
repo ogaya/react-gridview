@@ -6,7 +6,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import OperationModel from "../../../model/operation";
-import GridViewModel  from "../../../model/gridview";
+import GridViewModel  from "../../../model/sheet";
 
 // ライブラリ
 import {drag} from "../../../util/drag";
@@ -26,7 +26,7 @@ const Horizontalbar  = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
     opeModel: React.PropTypes.instanceOf(OperationModel),
-    viewModel: React.PropTypes.instanceOf(GridViewModel),
+    sheet: React.PropTypes.instanceOf(GridViewModel),
     smallChange: React.PropTypes.number,
     largeChange: React.PropTypes.number,
     value: React.PropTypes.number,
@@ -53,11 +53,11 @@ const Horizontalbar  = React.createClass({
   componentDidMount(){
     const node = ReactDOM.findDOMNode(this.refs.rgThumb);
     drag(node, this._dragStart, this._dragMove);
-    window.addEventListener('resize', this._handleResize);
+    window.addEventListener("resize", this._handleResize);
     this._handleResize();
   },
   componentWillUnmount() {
-    window.removeEventListener('resize', this._handleResize);
+    window.removeEventListener("resize", this._handleResize);
   },
   // 全体のスタイルの生成
   _createStyle(){
@@ -73,9 +73,9 @@ const Horizontalbar  = React.createClass({
     return style;
   },
   _getScrollMaxValue(){
-    const viewModel = this.props.viewModel;
+    const sheet = this.props.sheet;
     const opeModel = this.props.opeModel;
-    if ((!viewModel) || (!opeModel)) {
+    if ((!sheet) || (!opeModel)) {
       return 0;
     }
 
@@ -83,10 +83,10 @@ const Horizontalbar  = React.createClass({
     if (!canvasRect){
       return 0;
     }
-    const tableWidth = canvasRect.width - viewModel.rowHeader.width;
+    const tableWidth = canvasRect.width - sheet.rowHeader.width;
     let sumWidth = 0;
     let columnNo = 1;
-    viewModel.columnHeader.items.reverse().forEach((item, key)=>{
+    sheet.columnHeader.items.reverse().forEach((item, key)=>{
       sumWidth = sumWidth + item.width;
 
       if (sumWidth > tableWidth){
@@ -109,7 +109,7 @@ const Horizontalbar  = React.createClass({
     if (!this.state.thumbAreaRect){
       return;
     }
-    const  view = this.props.viewModel;
+    const  view = this.props.sheet;
     const nextLeft = (e.clientX - this.state.thumbAreaRect.left - this.state.offsetX);
 
     const scrollMax = this._getScrollMaxValue();
@@ -122,7 +122,7 @@ const Horizontalbar  = React.createClass({
     // スクロールバー位置に対応するcanvas上のX座標を求める
     const canvasX = nextLeft * magnification + view.rowHeader.width;
 
-    let columnNo = this.props.viewModel.pointToColumnNo(canvasX);
+    let columnNo = this.props.sheet.pointToColumnNo(canvasX);
     let maxNo = this._getScrollMaxValue();
 
     if (!columnNo){
@@ -146,7 +146,7 @@ const Horizontalbar  = React.createClass({
       return THUMB_MIN_WIDTH;
     }
     const areaWidth = this.state.thumbAreaRect.width;
-    const fullWidth = this.props.viewModel.columnHeader.width;
+    const fullWidth = this.props.sheet.columnHeader.width;
 
     const magnification = fullWidth / areaWidth;
     const thumbWidth = areaWidth / magnification;
@@ -163,19 +163,19 @@ const Horizontalbar  = React.createClass({
       return PADDING;
     }
 
-    const view = this.props.viewModel;
+    const view = this.props.sheet;
     const scrollMax = this._getScrollMaxValue();
 
     const thumbWidth = this._thumWidth();
     // 移動可能領域の幅
     const moveAreaWidth = this.state.thumbAreaRect.width - thumbWidth;
-    //const fullWidth = this.props.viewModel.columnHeader.width;
+    //const fullWidth = this.props.sheet.columnHeader.width;
     const fullWidth = view.columnHeader.items.get(scrollMax).right - view.rowHeader.width;
 
     // １ピクセルあたりの倍率を求める
     const magnification = fullWidth / moveAreaWidth;
     const scrollNo = this.props.opeModel.scroll.columnNo;
-    const scrollCell = this.props.viewModel.columnHeader.items.get(scrollNo);
+    const scrollCell = this.props.sheet.columnHeader.items.get(scrollNo);
 
     if (!scrollCell){
       return PADDING;

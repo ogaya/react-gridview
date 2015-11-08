@@ -2,7 +2,7 @@ import React from "react";
 
 // モデル
 import OperationModel from "../../model/operation";
-import GridViewModel from "../../model/gridview";
+import GridViewModel from "../../model/sheet";
 import ExtensionModel from "../../model/extension";
 
 import {Point, Rect} from "../../model/common";

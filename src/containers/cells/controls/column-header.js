@@ -1,6 +1,11 @@
 import {Rect} from "../../../model/common";
 
 export default function drawColumnHeader(canvas, columnHeader, rowHeader, opeModel) {
+
+  if(!columnHeader.isVisible){
+    return;
+  }
+
   const context = canvas.context;
   //const headerHaight = 18;
   //塗りスタイルに青色を指定する

@@ -6,7 +6,7 @@ import drawColumnHeader from "./controls/column-header";
 import drawRowHeader from "./controls/row-header";
 import drawCenterHeader from "./controls/center-header";
 
-import GridViewModel from "../../model/gridview";
+import GridViewModel from "../../model/sheet";
 import CanvasModel from "../../model/canvas";
 import OperationModel from "../../model/operation";
 
@@ -67,16 +67,13 @@ const Header = React.createClass({
     this._canvasRender(this.props);
   },
   componentDidMount(){
-    window.addEventListener('resize', this._handleResize);
+    window.addEventListener("resize", this._handleResize);
     this._canvasRender(this.props);
   },
   componentWillUnmount() {
-    window.removeEventListener('resize', this._handleResize);
+    window.removeEventListener("resize", this._handleResize);
   },
   shouldComponentUpdate(nextProps) {
-    // if(nextProps.view === this.props.view){
-    //   return false;
-    // }
     this._canvasRender(nextProps);
     return false;
   },

@@ -2,7 +2,7 @@ import React from "react";
 
 // モデル情報
 import OperationModel from "../../model/operation";
-import GridViewModel from "../../model/gridview";
+import GridViewModel from "../../model/sheet";
 import ExtensionModel from "../../model/extension";
 
 // 共通ライブラリ
@@ -18,7 +18,7 @@ const style =  {
   height: "100%"
 };
 
-//const rect = targetToRect(viewModel, cellPoint, opeModel.scroll);
+//const rect = targetToRect(sheet, cellPoint, opeModel.scroll);
 const ExNodes = React.createClass({
   displayName: "Gridview-ExNodes",
   propTypes: {

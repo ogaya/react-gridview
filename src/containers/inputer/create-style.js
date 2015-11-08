@@ -1,6 +1,6 @@
 import {targetToRect, cellRangeToRect} from "../../model/lib/target_to_rect";
-import {OBJECT_TYPE} from "../../model/gridview/object-type";
-function createInputStyle(viewModel, opeModel){
+import {OBJECT_TYPE} from "../../model/sheet/object-type";
+function createInputStyle(sheet, opeModel){
 
 
   let style = {
@@ -31,15 +31,15 @@ function createInputStyle(viewModel, opeModel){
     return style;
   }
 
-  const cell = viewModel.getCell(cellPoint);
+  const cell = sheet.getCell(cellPoint);
   let rect;
 
   if (cell.mergeRange){
-    rect = cellRangeToRect(viewModel, cell.mergeRange, opeModel.scroll);
+    rect = cellRangeToRect(sheet, cell.mergeRange, opeModel.scroll);
     cellPoint = cell.mergeRange.leftTopPoint;
   }
   else {
-    rect = targetToRect(viewModel, cellPoint, opeModel.scroll);
+    rect = targetToRect(sheet, cellPoint, opeModel.scroll);
   }
 
   style.top = rect.top - 1;

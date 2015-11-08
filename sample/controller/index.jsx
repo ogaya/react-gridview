@@ -1,6 +1,6 @@
 import React from "react";
-//import GridView from "../dist/react-gridview.js";
-import {GridViewModel, OperationModel} from "../../dist/react-gridview.js";
+//import GridView from "../dist";
+import {Sheet, Operation} from "../../dist";
 
 import TextArea from"./text-area";
 import CellArea from"./cell-area";
@@ -17,8 +17,8 @@ import "./index.css";
 const Controller = React.createClass({
   displayName: "Controller",
   propTypes: {
-    viewModel: React.PropTypes.instanceOf(GridViewModel),
-    operationModel: React.PropTypes.instanceOf(OperationModel),
+    viewModel: React.PropTypes.instanceOf(Sheet),
+    operationModel: React.PropTypes.instanceOf(Operation),
     onControlView: React.PropTypes.func,
     onChangeOperation: React.PropTypes.func,
     setInputFocus: React.PropTypes.func

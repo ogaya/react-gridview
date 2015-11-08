@@ -2,12 +2,12 @@ import React from "react";
 
 // モデル情報
 import OperationModel from "../../model/operation";
-import GridViewModel from "../../model/gridview";
+import GridViewModel from "../../model/sheet";
 import ExtensionModel from "../../model/extension";
 
 import "./css.js";
 
-//const rect = targetToRect(viewModel, cellPoint, opeModel.scroll);
+//const rect = targetToRect(sheet, cellPoint, opeModel.scroll);
 const ContextMenu = React.createClass({
   displayName: "React-Sheet-ContextMenu",
   propTypes: {

@@ -1,5 +1,5 @@
 //import {targetToRect} from "../../../model/lib/target_to_rect";
-import {OBJECT_TYPE} from "../../../model/gridview/object-type";
+import {OBJECT_TYPE} from "../../../model/sheet/object-type";
 //import {SelectInfo} from "../../../model/lib/select";
 
 function deleteDown(e, props){
@@ -23,11 +23,11 @@ function deleteDown(e, props){
   //props.onValueChange(target, "");
 
   // 新規操作オブジェクトを作る
-  const viewModel = props.viewModel
+  const sheet = props.sheet
     .setValue(target, "")
     .setValueRanges(opeModel.rangeItems, "");
 
-  props.onStateChange(viewModel, opeModel);
+  props.onStateChange(sheet, opeModel);
 
   return false;
 }

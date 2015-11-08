@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import {Border} from "../../../dist/react-gridview.js";
+import {Border} from "../../../dist";
 import SimpleButton from "../common/simple-button";
 
 

@@ -6,8 +6,11 @@ import {Rect} from "../../../model/common";
 
 export default function drawRowHeader(canvas, columnHeader, rowHeader, opeModel) {
 
+  if(!rowHeader.isVisible){
+    return;
+  }
+
   const context = canvas.context;
-  //context.fillStyle = "#BEE";
   context.fillStyle = rowHeader.background;
 
   //左から20上から20の位置に幅50高さ50の塗りつぶしの四角形を描く

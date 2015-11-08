@@ -5,19 +5,19 @@ import Cells from "./containers/cells";
 import ExNodes from "./containers/exnodes";
 import Stickies from "./containers/stickies";
 import Inputer from "./containers/inputer";
-import ContextMenu from "./containers/context-menu";
+//import ContextMenu from "./containers/context-menu";
 
 //import "./react-gridview.styl";
 import {MouseEvent} from "./mouse-event";
 import {KeyPress} from "./mixins/key-press";
 
-import GridViewModel from "./model/gridview";
+import GridViewModel from "./model/sheet";
 import OperationModel from "./model/operation";
 import ExtensionModel from "./model/extension";
-import StickyModel from "./model/gridview/sticky";
-import Border from "./model/gridview/border";
+import StickyModel from "./model/sheet/sticky";
+import Border from "./model/sheet/border";
 
-import {OBJECT_TYPE} from "./model/gridview/object-type";
+import {OBJECT_TYPE} from "./model/sheet/object-type";
 import {GridViewBar} from "./containers/scrollbar";
 import {VERTICAL_ALIGN, TEXT_ALIGN, BORDER_POSITION, CellPoint} from "./model/common";
 import {drag} from "./util/drag";
@@ -36,30 +36,30 @@ const GridView = React.createClass({
   displayName: "gridview",
   mixins: [KeyPress, MouseEvent],
   propTypes: {
-    viewModel: React.PropTypes.instanceOf(GridViewModel),
+    sheet: React.PropTypes.instanceOf(GridViewModel),
     operationModel: React.PropTypes.instanceOf(OperationModel),
     extension: React.PropTypes.instanceOf(ExtensionModel),
-    onChangeView: React.PropTypes.func,
+    onChangeSheet: React.PropTypes.func,
     onChangeOperation: React.PropTypes.func
   },
   getDefaultProps() {
     return {
-      viewModel: new GridViewModel(),
+      sheet: new GridViewModel(),
       operationModel: new OperationModel(),
       extension: new ExtensionModel(),
-      onChangeView: (prevView, nextView) =>{ return nextView; },
+      onChangeSheet: (prevView, nextView) =>{ return nextView; },
       onChangeOperation: (prevVOperation, nextOperation) =>{ return nextOperation; }
     };
   },
   getInitialState() {
     return {
-      viewModel: this.props.viewModel,
+      sheet: this.props.sheet,
       operation: this.props.operationModel
     };
   },
   componentWillReceiveProps(nextProps){
-    if(this.props.viewModel !== nextProps.viewModel){
-      this.setState({viewModel: nextProps.viewModel});
+    if(this.props.sheet !== nextProps.sheet){
+      this.setState({sheet: nextProps.sheet});
     }
     if(this.props.operationModel !== nextProps.operationModel){
       this.setState({operation: nextProps.operationModel});
@@ -78,17 +78,17 @@ const GridView = React.createClass({
   },
   _onValueChange(cellPoint, value){
 
-    const viewModel = this.state.viewModel
+    const sheet = this.state.sheet
       .setValue(cellPoint, value);
 
-    this._onViewModelChange(viewModel);
+    this._onViewModelChange(sheet);
   },
-  _onViewModelChange(viewModel){
-    const nextView = this.props.onChangeView(this.state.viewModel, viewModel);
-    if (this.state.viewModel === nextView){
+  _onViewModelChange(sheet){
+    const nextView = this.props.onChangeSheet(this.state.sheet, sheet);
+    if (this.state.sheet === nextView){
       return;
     }
-    this.setState({viewModel: nextView});
+    this.setState({sheet: nextView});
   },
   _onOperationChange(ope){
     const nextOpe = this.props.onChangeOperation(this.state.operation, ope);
@@ -97,16 +97,16 @@ const GridView = React.createClass({
     }
     this.setState({operation: nextOpe});
   },
-  _onStateChange(viewModel, operation){
-    this._onViewModelChange(viewModel);
+  _onStateChange(sheet, operation){
+    this._onViewModelChange(sheet);
     this._onOperationChange(operation);
   },
   render: function () {
-    const viewModel = this.state.viewModel;
+    const sheet = this.state.sheet;
     const operation = this.state.operation;
     const cellStyle = {
-      width: "calc(100% - " + viewModel.scroll.horizontalHeight + "px)",
-      height: "calc(100% - " + viewModel.scroll.verticalWidth + "px)",
+      width: "calc(100% - " + sheet.scroll.horizontalHeight + "px)",
+      height: "calc(100% - " + sheet.scroll.verticalWidth + "px)",
       position: "relative",
       cursor: operation.HoverCursor
     };
@@ -116,15 +116,15 @@ const GridView = React.createClass({
         onWheel={this._onMouseWheel} onContextMenu={this._onContextMenu}>
         <div style={cellStyle} ref="gwcells"  onMouseMove={this._onMouseMove}>
           <Cells onOperationChange={this._onOperationChange}
-            model={viewModel} opeModel={operation} onViewModelChange={this._onViewModelChange} />
+            model={sheet} opeModel={operation} onViewModelChange={this._onViewModelChange} />
 
-          <ExNodes view={viewModel} operation={operation} extension={this.props.extension} />
-          <Stickies view={viewModel} operation={operation} extension={this.props.extension} />
+          <ExNodes view={sheet} operation={operation} extension={this.props.extension} />
+          <Stickies view={sheet} operation={operation} extension={this.props.extension} />
         </div>
 
-        <Inputer ref="inputer" opeModel={operation} viewModel={viewModel}
+        <Inputer ref="inputer" opeModel={operation} sheet={sheet}
           onValueChange={this._onValueChange} onStateChange={this._onStateChange}/>
-        <GridViewBar viewModel={viewModel} opeModel={operation} onOperationChange={this._onOperationChange}/>
+        <GridViewBar sheet={sheet} opeModel={operation} onOperationChange={this._onOperationChange}/>
       </div>
     );
   }

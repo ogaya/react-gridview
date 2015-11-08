@@ -16,22 +16,22 @@ function viewInputer(e, props){
 
   // inputエリアを表示させる
   const opeModel = props.opeModel;
-  const viewModel = props.viewModel;
+  const sheet = props.sheet;
 
   let cellPoint = opeModel.selectItem && opeModel.selectItem.cellPoint;
   if(!cellPoint){
     return;
   }
 
-  const cell = viewModel.getCell(cellPoint);
+  const cell = sheet.getCell(cellPoint);
   //let rect;
 
   if (cell.mergeRange){
-    //rect = cellRangeToRect(viewModel, cell.mergeRange, opeModel.scroll);
+    //rect = cellRangeToRect(sheet, cell.mergeRange, opeModel.scroll);
     cellPoint = cell.mergeRange.leftTopPoint;
   }
   // else {
-  //   rect = targetToRect(viewModel, cellPoint, opeModel.scroll);
+  //   rect = targetToRect(sheet, cellPoint, opeModel.scroll);
   // }
 
   const input = opeModel.input
@@ -43,7 +43,7 @@ function viewInputer(e, props){
     .setCopyingRange(null);
 
   //props.onOperationChange(ope);
-  props.onStateChange(props.viewModel, ope);
+  props.onStateChange(props.sheet, ope);
 }
 
 // キー入力処理

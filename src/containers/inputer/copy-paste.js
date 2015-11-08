@@ -3,13 +3,13 @@ import {CellPoint} from "../../model/common";
 
 function createText(props){
 
-  const viewModel = props.viewModel;
+  const sheet = props.sheet;
   const rangeItem = props.opeModel.rangeItem;
 
   let text = "";
   for(let rowNo = rangeItem.minRowNo; rowNo <= rangeItem.maxRowNo; rowNo++){
     for(let columnNo = rangeItem.minColumnNo; columnNo <= rangeItem.maxColumnNo; columnNo++){
-      var cell = viewModel.getCell(new CellPoint(columnNo, rowNo));
+      var cell = sheet.getCell(new CellPoint(columnNo, rowNo));
       text = text + cell.value;
 
       if(columnNo !== rangeItem.maxColumnNo){
@@ -35,14 +35,14 @@ function copy(e, props){
   // 選択ターゲットを取得
   opeModel = opeModel.setCopyingRange(opeModel.rangeItem);
 
-  const viewModel = props.viewModel;
+  const sheet = props.sheet;
 
   const text = createText(props);
 
-  props.onStateChange(viewModel, opeModel);
+  props.onStateChange(sheet, opeModel);
 
   e.clipboardData.setData('text/plain', text);
-  e.clipboardData.setData('application/jrgv', JSON.stringify(viewModel.toJson()));
+  e.clipboardData.setData('application/jrgv', JSON.stringify(sheet.toJson()));
 
   //window.clipboardData.setData('text', "this.value");
 
@@ -63,7 +63,7 @@ function pasteText(e, props){
     return false;
   }
 
-  let viewModel = props.viewModel;
+  let sheet = props.sheet;
 
 
   const rows = text.split('\n');
@@ -77,11 +77,11 @@ function pasteText(e, props){
         Number(columnNo) + rangeItem.minColumnNo,
         Number(rowNo) + rangeItem.minRowNo
       );
-      viewModel = viewModel.setValue(target, cellValue);
+      sheet = sheet.setValue(target, cellValue);
     }
   }
   const opeModel = props.opeModel.setCopyingRange(null);
-  props.onStateChange(viewModel, opeModel);
+  props.onStateChange(sheet, opeModel);
   return true;
 }
 

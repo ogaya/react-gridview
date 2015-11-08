@@ -18,7 +18,7 @@ import {expr} from "./expr";
 const isCalc = function(text){
   const tmp = text + "";
   return (tmp.charAt(0) === "=");
-}
+};
 const calc = function(text, view){
   if(!text){
     return {
