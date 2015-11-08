@@ -112,12 +112,12 @@ const Verticalbar  = React.createClass({
 
     const nextTop = (e.clientY - this.state.thumbAreaRect.top - this.state.offsetY);
 
-    const view = this.props.sheet;
+    const sheet = this.props.sheet;
     const scrollMax = this._getScrollMaxValue();
 
     // 移動可能領域の幅
     const moveAreaHeight = this.state.thumbAreaRect.height - this._thumHeight();
-    const fullHeight = view.rowHeader.items.get(scrollMax).bottom;
+    const fullHeight = sheet.rowHeader.items.get(scrollMax).bottom;
 
     // １ピクセルあたりの倍率を求める
     const magnification = fullHeight / moveAreaHeight;
@@ -161,24 +161,24 @@ const Verticalbar  = React.createClass({
     if(!this.state.thumbAreaRect){
       return PADDING;
     }
-    const view = this.props.sheet;
+    const sheet = this.props.sheet;
     const scrollMax = this._getScrollMaxValue();
 
     const thumbHeight = this._thumHeight();
     // 移動可能領域の幅
     const moveAreaHeight = this.state.thumbAreaRect.height - thumbHeight;
-    const fullHeight = view.rowHeader.items.get(scrollMax).bottom - view.columnHeader.height;
+    const fullHeight = sheet.rowHeader.items.get(scrollMax).bottom - sheet.columnHeader.height;
 
     // １ピクセルあたりの倍率を求める
     const magnification = fullHeight / moveAreaHeight;
     const scrollNo = this.props.opeModel.scroll.rowNo;
-    const scrollCell = view.rowHeader.items.get(scrollNo);
+    const scrollCell = sheet.rowHeader.items.get(scrollNo);
 
     if (!scrollCell){
       return PADDING;
     }
 
-    const top = Math.round((scrollCell.top  - view.columnHeader.height) / magnification);
+    const top = Math.round((scrollCell.top  - sheet.columnHeader.height) / magnification);
     return top;
   },
   _onMouseDown(e){

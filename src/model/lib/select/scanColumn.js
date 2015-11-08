@@ -24,9 +24,9 @@ const empty = new ColumnInfo(-1, 0, 0, false);
 // 絶対座標の列情報を探す
 function pointToColumnNo(sheet, opeModel, point, firstIndex, lastIndex){
 
-  if (!splitNum){
-    splitNum = 2;
-  }
+  // if (!splitNum){
+  //   splitNum = 2;
+  // }
 
   if (!firstIndex){
     firstIndex = 1;
@@ -47,12 +47,12 @@ function pointToColumnNo(sheet, opeModel, point, firstIndex, lastIndex){
 
   // ターゲットがもっと左側にある
   if (point.x < target.left){
-    return pointToColumnNo(sheet, opeModel, point, firstIndex, targetIndex - 1)
+    return pointToColumnNo(sheet, opeModel, point, firstIndex, targetIndex - 1);
   }
 
   // ターゲットがもっと右側にある
   if (point.x > target.right){
-    return pointToColumnNo(sheet, opeModel, point, targetIndex + 1, lastIndex)
+    return pointToColumnNo(sheet, opeModel, point, targetIndex + 1, lastIndex);
   }
 
   // 発見

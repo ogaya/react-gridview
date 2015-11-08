@@ -25,7 +25,7 @@ const style =  {
 const Header = React.createClass({
   displayName: "Gridview-TableCell",
   propTypes: {
-    view: React.PropTypes.instanceOf(GridViewModel),
+    sheet: React.PropTypes.instanceOf(GridViewModel),
     opeModel: React.PropTypes.instanceOf(OperationModel),
     onOperationChange: React.PropTypes.func
   },
@@ -34,7 +34,7 @@ const Header = React.createClass({
     width: 0
   },
   _canvasRender(props){
-    const view = props.view;
+    const sheet = props.sheet;
     const opeModel = props.opeModel;
     const canvasElement = ReactDOM.findDOMNode(this.refs.gwcells);
     const canvasWidth = canvasElement.offsetWidth;
@@ -44,22 +44,22 @@ const Header = React.createClass({
        (canvasWidth === this._prev.width) &&
        (this.props.opeModel.scroll.rowNo === props.opeModel.scroll.rowNo) &&
        (this.props.opeModel.scroll.columnNo === props.opeModel.scroll.columnNo) &&
-       (this.props.view === props.view)){
+       (this.props.sheet === props.sheet)){
 
       return false;
     }
 
-    //console.log("aaaa");
-
     const width = this._prev.width = canvasElement.width = canvasWidth;
     const height = this._prev.height = canvasElement.height = canvasHeigh;
     const context = canvasElement.getContext("2d");
+    var scale = sheet.scale;
+    context.scale(scale, scale);
     const canvas = new CanvasModel(context, width, height);
 
 
-    drawCenterHeader(canvas, view.columnHeader, view.rowHeader);
-    drawColumnHeader(canvas, view.columnHeader, view.rowHeader, opeModel);
-    drawRowHeader(canvas, view.columnHeader, view.rowHeader, opeModel);
+    drawCenterHeader(canvas, sheet.columnHeader, sheet.rowHeader);
+    drawColumnHeader(canvas, sheet.columnHeader, sheet.rowHeader, opeModel);
+    drawRowHeader(canvas, sheet.columnHeader, sheet.rowHeader, opeModel);
 
     return false;
   },

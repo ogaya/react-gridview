@@ -118,8 +118,8 @@ const GridView = React.createClass({
           <Cells onOperationChange={this._onOperationChange}
             model={sheet} opeModel={operation} onViewModelChange={this._onViewModelChange} />
 
-          <ExNodes view={sheet} operation={operation} extension={this.props.extension} />
-          <Stickies view={sheet} operation={operation} extension={this.props.extension} />
+          <ExNodes sheet={sheet} operation={operation} extension={this.props.extension} />
+          <Stickies sheet={sheet} operation={operation} extension={this.props.extension} />
         </div>
 
         <Inputer ref="inputer" opeModel={operation} sheet={sheet}

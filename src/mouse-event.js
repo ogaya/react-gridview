@@ -88,7 +88,7 @@ const MouseEvent = {
     const opeModel = this.state.operation;
 
     // テーブル上の座標を取得
-    const point = new Point(e.offsetX, e.offsetY);
+    const point = new Point(e.offsetX / sheet.scale, e.offsetY / sheet.scale);
 
     const item = pointToGridViewItem(sheet, opeModel, point);
     this.setInputFocus();
@@ -119,7 +119,7 @@ const MouseEvent = {
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     // テーブル上の座標を取得
-    const point = new Point(x, y);
+    const point = new Point(x / sheet.scale, y / sheet.scale);
 
     const item = pointToGridViewItem(sheet, opeModel, point, true);
     const ope = opeModel.setHoverItem(item);

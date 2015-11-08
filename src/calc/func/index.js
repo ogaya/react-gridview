@@ -34,7 +34,7 @@ const params = function(solver, args){
       CellPoint.createForId(id1),
       CellPoint.createForId(id2));
 
-    const cells = solver.view.getCells(cellRange);
+    const cells = solver.sheet.getCells(cellRange);
     const values = cells
       .map((cell)=>{return cell.value;})
       .toArray();
@@ -65,7 +65,7 @@ const func = function(solver){
 
   // 引数の取得
   let exprSolver = SolverModel.createEmpty()
-    .setView(solver.view)
+    .setView(solver.sheet)
     .setRefIds(solver.refIds)
     .setText(solver.pointSubstr());
 
@@ -82,7 +82,7 @@ const func = function(solver){
 
     let s = solver.pointSubstr(1);
     let exprSolver = SolverModel.createEmpty()
-      .setView(solver.view)
+      .setView(solver.sheet)
       .setRefIds(solver.refIds)
       .setText(solver.addPointer().pointSubstr());
 

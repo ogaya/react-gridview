@@ -59,6 +59,7 @@ export default class Sheet extends Record({
   stickies: List(),
   borders: Map(),
   scroll: new ScrollModel(),
+  zoom: 100,
   onChangeCell: (prevCell, nextCell) => {
     return nextCell;
   }
@@ -70,9 +71,9 @@ export default class Sheet extends Record({
 
   // JSONから本クラスを生成
   static fromJson(json){
-    const view = new Sheet();
+    const sheet = new Sheet();
     // テーブル情報を変換
-    return view
+    return sheet
       .set("table", JsonToTable(json.table))
       .setColumnHeader(ColumnHeaderModel.fromJson(json.columnHeader))
       .setRowHeader(RowHeaderModel.fromJson(json.rowHeader));
@@ -89,6 +90,10 @@ export default class Sheet extends Record({
 
   setRowHeader(rowHeader){
     return this.set("rowHeader", rowHeader);
+  }
+
+  setZoom(zoom){
+    return this.set("zoom", zoom);
   }
 
   withRowHeader(mutator){
@@ -142,19 +147,25 @@ export default class Sheet extends Record({
     // 参照セルの値を更新
     table = refsApply(table, prevCell, cell);
 
-    let view = this.set("table", table);
+    let sheet = this.set("table", table);
     if(cell.text !== prevCell){
       cell.childIds.forEach(id=>{
-        const childCell = view.table.get(id);
-        view = view.set("table", view.table.set(id, childCell.solveCalc(view)));
+        const childCell = sheet.table.get(id);
+        sheet = sheet.set("table", sheet.table.set(id, childCell.solveCalc(sheet)));
       });
     }
 
-    return view;
+    return sheet;
   }
 
   get defaultBorder(){
     return emptyBorder;
+  }
+
+  get scale(){
+    // デバイスのピクセル比を取得する
+    var dpr = (window && window.devicePixelRatio) || 1;
+    return this.zoom / 100 * dpr || 1;
   }
   // 枠線取得
   getBorder(cellPoint, borderPosition){
@@ -369,9 +380,6 @@ export default class Sheet extends Record({
 
   // 座標からセル位置を取得する
   pointToTarget(pointX, pointY){
-
-    //const offsetColumnNo = (scroll && scroll.columnNo) || 1;
-    //const offsetRowNo = (scroll && scroll.rowNo) || 1;
     const columnNo = this.pointToColumnNo(pointX);
     const rowNo = this.pointToRowNo(pointY);
 

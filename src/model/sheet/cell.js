@@ -82,9 +82,9 @@ export default class Cell extends Record({
     return this.set("text", value);
   }
 
-  solveCalc(view){
+  solveCalc(sheet){
 
-    const result = calc(this.text, view);
+    const result = calc(this.text, sheet);
     if (result.isError){
       return this.set("calcValue", null);
     }

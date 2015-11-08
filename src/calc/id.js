@@ -12,7 +12,7 @@ const id = function(solver){
   }
 
   const idText = solver.pointSubstr().match(/^[A-Z]+[0-9]+/)[0];
-  const value = solver.view.getValueForId(idText);
+  const value = solver.sheet.getValueForId(idText);
   return solver
     .setValue(Number(value))
     .addRefId(idText)

@@ -82,14 +82,14 @@ function targetToRight(model, target, offsetColumnNo){
 }
 
 
-function cellRangeToRect(view, cellRange, scroll){
+function cellRangeToRect(sheet, cellRange, scroll){
   const offsetColumnNo = (scroll && scroll.columnNo) || 1;
   const offsetRowNo = (scroll && scroll.rowNo) || 1;
 
-  const left = targetToLeft(view, cellRange.leftTopPoint, offsetColumnNo);
-  const top = targetToTop(view, cellRange.leftTopPoint, offsetRowNo);
-  const right = targetToRight(view, cellRange.rightBottomPoint, offsetColumnNo);
-  const bottom = targetToBottom(view, cellRange.rightBottomPoint, offsetRowNo);
+  const left = targetToLeft(sheet, cellRange.leftTopPoint, offsetColumnNo);
+  const top = targetToTop(sheet, cellRange.leftTopPoint, offsetRowNo);
+  const right = targetToRight(sheet, cellRange.rightBottomPoint, offsetColumnNo);
+  const bottom = targetToBottom(sheet, cellRange.rightBottomPoint, offsetRowNo);
 
   return Rect.forPoints(left, top, right, bottom);
 }
