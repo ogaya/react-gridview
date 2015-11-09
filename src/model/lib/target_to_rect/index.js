@@ -11,12 +11,6 @@ function targetToTop(model, target, offsetRowNo){
   if (target.rowNo < offsetRowNo){
     return -1000;
   }
-  // let top = model.columnHeader.height;
-  // const items = model.rowHeader.items.skip(offset).toArray();
-  //
-  // for(let i = 0; i < (target.rowNo - 1 - offset); i++){
-  //   top = top + items[i].height;
-  // }
 
   const scrollTop = model.rowHeader.items.get(offsetRowNo).top;
   const rowTop = model.rowHeader.items.get(target.rowNo).top;

@@ -9,7 +9,7 @@ function fitRight(sheet, opeModel, target, scroll){
   let fitScroll = scroll;
   for(var i = target.columnNo; i < sheet.columnHeader.maxCount; i++){
     const targetRect = targetToRect(sheet, target, fitScroll);
-    if (opeModel.canvasRect.width > targetRect.right){
+    if (opeModel.canvasRect.width > targetRect.right * sheet.scale){
       return fitScroll;
     }
 
@@ -42,7 +42,7 @@ function fitBottom(sheet, opeModel, target, scroll){
   let fitScroll = scroll;
   for(var i = target.rowNo; i < sheet.rowHeader.maxCount; i++){
     const targetRect = targetToRect(sheet, target, fitScroll);
-    if (opeModel.canvasRect.height > targetRect.bottom){
+    if (opeModel.canvasRect.height > targetRect.bottom * sheet.scale){
       return fitScroll;
     }
 
