@@ -2,7 +2,7 @@ import React    from "react";
 import ReactDOM from "react-dom";
 
 import OperationModel from "../../model/operation";
-import GridViewModel  from "../../model/gridview";
+import GridViewModel  from "../../model/sheet";
 
 import {KeyPress} from "../../mixins/key-press";
 
@@ -15,7 +15,7 @@ const Inputer = React.createClass({
   mixins: [KeyPress],
   propTypes: {
     value: React.PropTypes.string,
-    viewModel: React.PropTypes.instanceOf(GridViewModel),
+    sheet: React.PropTypes.instanceOf(GridViewModel),
     opeModel: React.PropTypes.instanceOf(OperationModel),
     onValueChange: React.PropTypes.func,
     onStateChange: React.PropTypes.func
@@ -40,7 +40,7 @@ const Inputer = React.createClass({
       return;
     }
 
-    const selectCell = nextProps.viewModel.getCell(selectItem.cellPoint);
+    const selectCell = nextProps.sheet.getCell(selectItem.cellPoint);
     let cellPoint;
     if(selectCell.mergeRange){
       cellPoint = selectCell.mergeRange.leftTopPoint;
@@ -85,12 +85,12 @@ const Inputer = React.createClass({
   changeText(e) {
     const input = this.props.opeModel.input.setText(e.target.value);
     const ope = this.props.opeModel.setInput(input);
-    this.props.onStateChange(this.props.viewModel, ope);
+    this.props.onStateChange(this.props.sheet, ope);
   },
   _onBlur(){
     const input = this.props.opeModel.input.setIsInputing(false);
     const ope = this.props.opeModel.setInput(input);
-    this.props.onStateChange(this.props.viewModel, ope);
+    this.props.onStateChange(this.props.sheet, ope);
   },
   _onCopy(e){
     e.preventDefault();
@@ -102,7 +102,7 @@ const Inputer = React.createClass({
     paste(e, this.props);
   },
   render() {
-    const style = createInputStyle(this.props.viewModel, this.props.opeModel);
+    const style = createInputStyle(this.props.sheet, this.props.opeModel);
     const value = this.props.opeModel.input.text;
 
     return (

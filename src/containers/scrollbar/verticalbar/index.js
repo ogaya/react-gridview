@@ -6,7 +6,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import OperationModel from "../../../model/operation";
-import GridViewModel  from "../../../model/gridview";
+import GridViewModel  from "../../../model/sheet";
 
 // モデル
 //import {Point, Rect} from "../../../model/common";
@@ -27,7 +27,7 @@ const Verticalbar  = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
     opeModel: React.PropTypes.instanceOf(OperationModel),
-    viewModel: React.PropTypes.instanceOf(GridViewModel),
+    sheet: React.PropTypes.instanceOf(GridViewModel),
     smallChange: React.PropTypes.number,
     largeChange: React.PropTypes.number,
     value: React.PropTypes.number,
@@ -54,11 +54,11 @@ const Verticalbar  = React.createClass({
   componentDidMount(){
     const node = ReactDOM.findDOMNode(this.refs.rgThumb);
     drag(node, this._dragStart, this._dragMove);
-    window.addEventListener('resize', this._handleResize);
+    window.addEventListener("resize", this._handleResize);
     this._handleResize();
   },
   componentWillUnmount() {
-    window.removeEventListener('resize', this._handleResize);
+    window.removeEventListener("resize", this._handleResize);
   },
   // スタイルの生成
   _createStyle(){
@@ -80,9 +80,9 @@ const Verticalbar  = React.createClass({
     this.setState({offsetY: e.offsetY});
   },
   _getScrollMaxValue(){
-    const viewModel = this.props.viewModel;
+    const sheet = this.props.sheet;
     const opeModel = this.props.opeModel;
-    if ((!viewModel) || (!opeModel)) {
+    if ((!sheet) || (!opeModel)) {
       return 0;
     }
 
@@ -90,10 +90,10 @@ const Verticalbar  = React.createClass({
     if (!canvasRect){
       return 0;
     }
-    const tableHeight = canvasRect.height - viewModel.columnHeader.height;
+    const tableHeight = canvasRect.height - sheet.columnHeader.height;
     let sumHeight = 0;
     let rowNo = 1;
-    viewModel.rowHeader.items.reverse().forEach((item, key)=>{
+    sheet.rowHeader.items.reverse().forEach((item, key)=>{
       sumHeight = sumHeight + item.height;
 
       if (sumHeight > tableHeight){
@@ -112,19 +112,19 @@ const Verticalbar  = React.createClass({
 
     const nextTop = (e.clientY - this.state.thumbAreaRect.top - this.state.offsetY);
 
-    const view = this.props.viewModel;
+    const sheet = this.props.sheet;
     const scrollMax = this._getScrollMaxValue();
 
     // 移動可能領域の幅
     const moveAreaHeight = this.state.thumbAreaRect.height - this._thumHeight();
-    const fullHeight = view.rowHeader.items.get(scrollMax).bottom;
+    const fullHeight = sheet.rowHeader.items.get(scrollMax).bottom;
 
     // １ピクセルあたりの倍率を求める
     const magnification = fullHeight / moveAreaHeight;
     // スクロールバー位置に対応するcanvas上のX座標を求める
     const canvasY = nextTop * magnification + 18;
 
-    let rowNo = this.props.viewModel.pointToRowNo(canvasY);
+    let rowNo = this.props.sheet.pointToRowNo(canvasY);
     let maxNo = this._getScrollMaxValue();
 
     if (!rowNo){
@@ -145,7 +145,7 @@ const Verticalbar  = React.createClass({
       return THUMB_MIN_HEIGHT;
     }
     const areaHeight = this.state.thumbAreaRect.height;
-    const fullHeight = this.props.viewModel.rowHeader.height;
+    const fullHeight = this.props.sheet.rowHeader.height;
 
     const magnification = fullHeight / areaHeight;
     const thumbHeight = areaHeight / magnification;
@@ -161,24 +161,24 @@ const Verticalbar  = React.createClass({
     if(!this.state.thumbAreaRect){
       return PADDING;
     }
-    const view = this.props.viewModel;
+    const sheet = this.props.sheet;
     const scrollMax = this._getScrollMaxValue();
 
     const thumbHeight = this._thumHeight();
     // 移動可能領域の幅
     const moveAreaHeight = this.state.thumbAreaRect.height - thumbHeight;
-    const fullHeight = view.rowHeader.items.get(scrollMax).bottom - view.columnHeader.height;
+    const fullHeight = sheet.rowHeader.items.get(scrollMax).bottom - sheet.columnHeader.height;
 
     // １ピクセルあたりの倍率を求める
     const magnification = fullHeight / moveAreaHeight;
     const scrollNo = this.props.opeModel.scroll.rowNo;
-    const scrollCell = view.rowHeader.items.get(scrollNo);
+    const scrollCell = sheet.rowHeader.items.get(scrollNo);
 
     if (!scrollCell){
       return PADDING;
     }
 
-    const top = Math.round((scrollCell.top  - view.columnHeader.height) / magnification);
+    const top = Math.round((scrollCell.top  - sheet.columnHeader.height) / magnification);
     return top;
   },
   _onMouseDown(e){

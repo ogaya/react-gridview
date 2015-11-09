@@ -1,8 +1,8 @@
 'use strict';
 
 import {CellPoint} from "../../src/model/common";
-import GridViewModel from "../../src/model/gridview";
-import ColumnHeaderItem from "../../src/model/gridview/column-header-item";
+import GridViewModel from "../../src/model/sheet";
+import ColumnHeaderItem from "../../src/model/sheet/column-header-item";
 var assert = require("power-assert");
 
 // Viewモデルのテスト

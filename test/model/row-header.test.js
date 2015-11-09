@@ -1,7 +1,7 @@
 'use strict';
 
-import RowHeaderModel from "../../src/model/gridview/row-header";
-//import ColumnHeaderItem from "../../src/model/gridview/column-header-item";
+import RowHeaderModel from "../../src/model/sheet/row-header";
+//import ColumnHeaderItem from "../../src/model/sheet/column-header-item";
 var assert = require("power-assert");
 
 describe("RowHeaderModel", function() {

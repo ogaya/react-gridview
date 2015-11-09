@@ -3,8 +3,8 @@
 import {pickColumnHeader, pointToGridViewItem} from "../../../src/model/lib/select";
 import {clientPointToColumnInfo, ColumnInfo} from "../../../src/model/lib/select/scanColumn";
 import {pointToRowInfo, RowInfo} from "../../../src/model/lib/select/scanRow";
-import GridViewModel from "../../../src/model/gridview";
-import {OBJECT_TYPE} from "../../../src/model/gridview/object-type";
+import GridViewModel from "../../../src/model/sheet";
+import {OBJECT_TYPE} from "../../../src/model/sheet/object-type";
 import OperationModel from "../../../src/model/operation";
 import {Point} from "../../../src/model/common";
 

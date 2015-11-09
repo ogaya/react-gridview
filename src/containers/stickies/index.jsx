@@ -2,7 +2,7 @@ import React from "react";
 
 // モデル
 import OperationModel from "../../model/operation";
-import GridViewModel from "../../model/gridview";
+import GridViewModel from "../../model/sheet";
 import ExtensionModel from "../../model/extension";
 
 import {Point, Rect} from "../../model/common";
@@ -18,11 +18,11 @@ const style =  {
 };
 
 // 表示領域の位置を算出する
-function getRenderRect(view, operation){
+function getRenderRect(sheet, operation){
     const canvasRect = operation.canvasRect || new Rect(0 ,0, 0, 0);
 
-    const x = view.columnHeader.items.get(operation.scroll.columnNo).left;
-    const y = view.rowHeader.items.get(operation.scroll.rowNo).top;
+    const x = sheet.columnHeader.items.get(operation.scroll.columnNo).left;
+    const y = sheet.rowHeader.items.get(operation.scroll.rowNo).top;
 
     return new Rect(x, y, canvasRect.width, canvasRect.height);
 }
@@ -32,13 +32,13 @@ const Stickies  = React.createClass({
   displayName: "Stickies",
   propTypes: {
     operation: React.PropTypes.instanceOf(OperationModel),
-    view: React.PropTypes.instanceOf(GridViewModel),
+    sheet: React.PropTypes.instanceOf(GridViewModel),
     extension: React.PropTypes.instanceOf(ExtensionModel),
     onOperationChange: React.PropTypes.func
   },
   _createNodes(){
-    const renderRect = getRenderRect(this.props.view, this.props.operation);
-    const nodes = this.props.view.stickies
+    const renderRect = getRenderRect(this.props.sheet, this.props.operation);
+    const nodes = this.props.sheet.stickies
       .filter(sticky => renderRect.isIntersected(sticky.location))
       .map((sticky, key) => {
         //const UserNode = this.props.extension.nodes.get(cell.nodeName);

@@ -2,7 +2,7 @@ import React from "react";
 
 import SimpleButton from "../common/simple-button";
 
-import {GridViewModel, OperationModel, VERTICAL_ALIGN} from "../../../dist/react-gridview.js";
+import {Sheet, Operation, VERTICAL_ALIGN} from "../../../dist";
 
 import "./index.css";
 
@@ -13,8 +13,8 @@ import VerticalBottomIcon from "./vertical-bottom.png";
 const VerticalArea = React.createClass({
   displayName: "VerticalArea",
   propTypes: {
-    viewModel: React.PropTypes.instanceOf(GridViewModel),
-    operationModel: React.PropTypes.instanceOf(OperationModel),
+    viewModel: React.PropTypes.instanceOf(Sheet),
+    operationModel: React.PropTypes.instanceOf(Operation),
     onControlView: React.PropTypes.func
   },
   _onChangeTextAlign(textAlign){

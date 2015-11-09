@@ -6,18 +6,18 @@ import {operationResult} from "./model/lib/change";
 import {pointToGridViewItem} from "./model/lib/select";
 import {modelToRangeItem} from "./model/common/cellrange";
 import {fitForTarget} from "./model/lib/fit-for-target";
-import {OBJECT_TYPE} from "./model/gridview/object-type";
+import {OBJECT_TYPE} from "./model/sheet/object-type";
 
 //import {targetToRect, cellRangeToRect} from "./model/lib/target_to_rect";
 
 
 /**
  * ドラッグ時にスクロールする処理
- * @param  {View} viewModel 表示情報
+ * @param  {View} sheet 表示情報
  * @param  {Operation} opeModel  操作情報
  * @return {CellPoint}           スクロール場所
  */
-function dragScroll(viewModel, opeModel){
+function dragScroll(sheet, opeModel){
   const opeItem = opeModel.opeItem;
   const hoverItem = opeModel.hoverItem;
 
@@ -30,7 +30,7 @@ function dragScroll(viewModel, opeModel){
     return opeModel.scroll;
   }
 
-  return fitForTarget(viewModel, opeModel, hoverItem.cellPoint);
+  return fitForTarget(sheet, opeModel, hoverItem.cellPoint);
 }
 
 /**
@@ -56,15 +56,18 @@ const MouseEvent = {
     }
     e.preventDefault();
   },
+  _onContextMenu(e){
+    e.preventDefault();
+  },
   /**
    * マウスアップ処理
    */
   _onMouseUp(){
     const opeModel = this.state.operation;
-    const viewModel = this.state.viewModel;
-    const newViewModel = operationResult(viewModel, opeModel);
+    const sheet = this.state.sheet;
+    const newViewModel = operationResult(sheet, opeModel);
 
-    if (viewModel !== newViewModel){
+    if (sheet !== newViewModel){
       this._onViewModelChange(newViewModel);
     }
     const ope = opeModel.setOpeItem(null);
@@ -76,13 +79,18 @@ const MouseEvent = {
    * @param  {Object} e イベント引数
    */
   _onMouseDown(e){
-    const viewModel = this.state.viewModel;
+
+    // 右クリック時、何もしない
+    if (e.button === 2){
+      return;
+    }
+    const sheet = this.state.sheet;
     const opeModel = this.state.operation;
 
     // テーブル上の座標を取得
-    const point = new Point(e.offsetX, e.offsetY);
+    const point = new Point(e.offsetX / sheet.scale, e.offsetY / sheet.scale);
 
-    const item = pointToGridViewItem(viewModel, opeModel, point);
+    const item = pointToGridViewItem(sheet, opeModel, point);
     this.setInputFocus();
 
     let ope = opeModel
@@ -98,25 +106,25 @@ const MouseEvent = {
 
     ope = ope.setRangeItem(null);
 
-    const rangeItem = modelToRangeItem(viewModel, ope);
+    const rangeItem = modelToRangeItem(sheet, ope);
     const input = ope.input.setIsInputing(false);
     this._onOperationChange(ope.setRangeItem(rangeItem).setInput(input));
   },
   _onMouseMove(e){
     const node = ReactDOM.findDOMNode(this.refs.gwcells);
-    const viewModel = this.state.viewModel;
+    const sheet = this.state.sheet;
     const opeModel = this.state.operation;
 
     const rect = node.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     // テーブル上の座標を取得
-    const point = new Point(x, y);
+    const point = new Point(x / sheet.scale, y / sheet.scale);
 
-    const item = pointToGridViewItem(viewModel, opeModel, point, true);
+    const item = pointToGridViewItem(sheet, opeModel, point, true);
     const ope = opeModel.setHoverItem(item);
-    const scroll = dragScroll(viewModel, ope);
-    const rangeItem = modelToRangeItem(viewModel, ope);
+    const scroll = dragScroll(sheet, ope);
+    const rangeItem = modelToRangeItem(sheet, ope);
 
     this._onOperationChange(ope.setRangeItem(rangeItem).setScroll(scroll));
   }

@@ -29,10 +29,11 @@ function JsonToCell(json){
 
 
 export default class ColumnHeader extends Record({
-  height: HEADER_HEIGHT,
+  _height: HEADER_HEIGHT,
   maxCount: 702,
   background: "#eaeaff",
   color: "#333",
+  isVisible: true,
   editItems: Map()
 }) {
 
@@ -45,6 +46,15 @@ export default class ColumnHeader extends Record({
       .setMaxCount(json.maxCount);
   }
 
+  setVisible(visible){
+    return this.set("isVisible", visible);
+  }
+  get height(){
+    if(!this.isVisible){
+      return 0;
+    }
+    return this._height;
+  }
   get width(){
     let sumWidth = 0;
     this.items.map((item) => {

@@ -4,7 +4,7 @@ export default class SolverModel extends Record({
   text: null,
   value: 0,
   pointer: 0,
-  view: null,
+  sheet: null,
   refIds: Set(),
   isError: false
 }) {
@@ -40,8 +40,8 @@ export default class SolverModel extends Record({
     return this.set("refIds", ids);
   }
 
-  setView(view){
-    return this.set("view", view);
+  setView(sheet){
+    return this.set("sheet", sheet);
   }
 
   setIsError(isError){

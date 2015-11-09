@@ -1,6 +1,6 @@
 import {Range} from "immutable";
 
-import {BORDER_POSITION, CellPoint} from "../../../dist/react-gridview.js";
+import {BORDER_POSITION, CellPoint} from "../../../dist";
 
 function setTopBorder(view, rangeItem, border){
 

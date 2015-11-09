@@ -22,7 +22,7 @@ class RowInfo extends Record({
 const empty = new RowInfo(-1, 0, 0, false);
 
 // 行情報取得
-function pointToRowInfo(viewModel, opeModel, point){
+function pointToRowInfo(sheet, opeModel, point){
 
 
   // ヘッダー内の場合
@@ -30,7 +30,7 @@ function pointToRowInfo(viewModel, opeModel, point){
   //   return empty;
   // }
 
-  let top = viewModel.columnHeader.height;
+  let top = sheet.columnHeader.height;
   const offsetRow = opeModel.scroll.rowNo;
   const offset = (offsetRow || 1) - 1;
 
@@ -38,10 +38,10 @@ function pointToRowInfo(viewModel, opeModel, point){
   let target;
   if (point.y < top){
 
-    return new RowInfo(0, 0, viewModel.columnHeader.height, false);
+    return new RowInfo(0, 0, sheet.columnHeader.height, false);
   }
   else{
-    target = viewModel.rowHeader.items.skip(offset).find((item, index) => {
+    target = sheet.rowHeader.items.skip(offset).find((item, index) => {
       const nextTop = top + item.height;
       rowNo = index;
       if ((top <= point.y) && (point.y < (nextTop + RESIZER_BORDER_WIDTH))){

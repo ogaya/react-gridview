@@ -11,12 +11,6 @@ function targetToTop(model, target, offsetRowNo){
   if (target.rowNo < offsetRowNo){
     return -1000;
   }
-  // let top = model.columnHeader.height;
-  // const items = model.rowHeader.items.skip(offset).toArray();
-  //
-  // for(let i = 0; i < (target.rowNo - 1 - offset); i++){
-  //   top = top + items[i].height;
-  // }
 
   const scrollTop = model.rowHeader.items.get(offsetRowNo).top;
   const rowTop = model.rowHeader.items.get(target.rowNo).top;
@@ -82,14 +76,14 @@ function targetToRight(model, target, offsetColumnNo){
 }
 
 
-function cellRangeToRect(view, cellRange, scroll){
+function cellRangeToRect(sheet, cellRange, scroll){
   const offsetColumnNo = (scroll && scroll.columnNo) || 1;
   const offsetRowNo = (scroll && scroll.rowNo) || 1;
 
-  const left = targetToLeft(view, cellRange.leftTopPoint, offsetColumnNo);
-  const top = targetToTop(view, cellRange.leftTopPoint, offsetRowNo);
-  const right = targetToRight(view, cellRange.rightBottomPoint, offsetColumnNo);
-  const bottom = targetToBottom(view, cellRange.rightBottomPoint, offsetRowNo);
+  const left = targetToLeft(sheet, cellRange.leftTopPoint, offsetColumnNo);
+  const top = targetToTop(sheet, cellRange.leftTopPoint, offsetRowNo);
+  const right = targetToRight(sheet, cellRange.rightBottomPoint, offsetColumnNo);
+  const bottom = targetToBottom(sheet, cellRange.rightBottomPoint, offsetRowNo);
 
   return Rect.forPoints(left, top, right, bottom);
 }
