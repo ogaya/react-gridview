@@ -1,0 +1,29 @@
+{
+  "devDependencies": {
+    "babel": "",
+    "babel-loader": "^4.1.0",
+    "css-loader": "^0.10.1",
+    "eslint-plugin-react": "^2.0.2",
+    "gulp": "^3.8.10",
+    "gulp-babel": "",
+    "gulp-espower": "^0.10.1",
+    "gulp-mocha": "",
+    "gulp-uglify": "",
+    "gulp-util": "",
+    "gulp-webpack": "^1.1.2",
+    "highlight": "^0.2.4",
+    "history": "^1.13.0",
+    "immutable": "^3.7.5",
+    "jsx-loader": "0.12.2",
+    "object-assign": "^2.0.0",
+    "power-assert": "",
+    "react": "^0.14.2",
+    "react-dom": "^0.14.2",
+    "react-gridview": "^0.1.5",
+    "require-dir": "",
+    "rimraf": "^2.2.8",
+    "style-loader": "^0.10.2",
+    "stylus-loader": "^1.1.1",
+    "url-loader": "^0.5.5"
+  }
+}

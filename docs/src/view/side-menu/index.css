@@ -1,0 +1,49 @@
+.side-menu{
+  /*background: #E3F2FD;*/
+  width: 12rem;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.side-menu > ul{
+  list-style: none;
+  padding: 0.5rem;
+  margin: 0;
+}
+
+.side-menu-item {
+  padding: 0.2rem;
+}
+
+.side-menu-item-text{
+  padding: 0 0.5rem;
+  display: inline-block;
+
+  text-decoration: none;
+  color: #000;
+  border-radius: 0.2rem;
+  -webkit-border-radius: 0.2rem;
+  -moz-border-radius: 0.2rem;
+
+  user-select: none; /* CSS3 */
+  -moz-user-select: none; /* Firefox */
+  -webkit-user-select: none; /* Safari、Chromeなど */
+  -ms-user-select: none; /* IE */
+
+}
+
+.side-menu-item-text:hover{
+  background: #0D47A1;
+  color: #FFF;
+}
+.side-menu-item-text.select{
+  background: #BBDEFB;
+  color: #000;
+}
+
+.side-menu-item:hover {
+  color: #FF5722;
+}
+.side-menu-item:active {
+  color: #000;
+}

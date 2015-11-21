@@ -1,0 +1,16 @@
+
+.header {
+  font-family: arial black, Verdana, "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  background: #009688;
+  color: #FFF;
+  padding: 0;
+  height: 2.4rem;
+  font-size: 1.5rem;
+}
+
+.header > div {
+  max-width: 50rem;
+  min-width: 30rem;
+  margin: 0 auto;
+  display: block;
+}

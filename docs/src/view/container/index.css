@@ -1,0 +1,16 @@
+.container{
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+  width: calc(100% - 12rem);
+  padding: 0.5rem 0 0 0;
+}
+
+.subhead{
+  padding: 1rem 0 0 0;
+  font-size: 175%;
+}
+
+.report{
+  padding: 0.5rem 0 0 0;
+}
