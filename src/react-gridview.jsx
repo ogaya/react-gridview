@@ -25,17 +25,11 @@ import {drag} from "./util/drag";
 // スタイルシート読み込み
 import "./css.js";
 
-const style = {
-  width: "100%",
-  height: "100%",
-  cursor: "pointer",
-  position: "relative"
-};
-
 const GridView = React.createClass({
   displayName: "gridview",
   mixins: [KeyPress, MouseEvent],
   propTypes: {
+    className: React.PropTypes.string,
     sheet: React.PropTypes.instanceOf(GridViewModel),
     operationModel: React.PropTypes.instanceOf(OperationModel),
     extension: React.PropTypes.instanceOf(ExtensionModel),
@@ -110,9 +104,13 @@ const GridView = React.createClass({
       position: "relative",
       cursor: operation.HoverCursor
     };
+    let className = "react-sheet";
+    if (this.props.className){
+      className = className + " " + this.props.className;
+    }
 
     return (
-      <div className="react-sheet" style={style} ref="gridview"
+      <div className={className} ref="gridview"
         onWheel={this._onMouseWheel} onContextMenu={this._onContextMenu}>
         <div style={cellStyle} ref="gwcells"  onMouseMove={this._onMouseMove}>
           <Cells onOperationChange={this._onOperationChange}
