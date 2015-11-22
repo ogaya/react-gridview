@@ -31,9 +31,9 @@ const Cells = React.createClass({
   render: function () {
     return (
       <div style={style}>
-        <TableCell view={this.props.model} opeModel={this.props.opeModel} onOperationChange={this.props.onOperationChange} />
-        <OperateDecoration view={this.props.model} opeModel={this.props.opeModel}/>
-        <Header view={this.props.model} opeModel={this.props.opeModel}/>
+        <TableCell sheet={this.props.model} opeModel={this.props.opeModel} onOperationChange={this.props.onOperationChange} />
+        <OperateDecoration sheet={this.props.model} opeModel={this.props.opeModel}/>
+        <Header sheet={this.props.model} opeModel={this.props.opeModel}/>
       </div>
     );
   }

@@ -12,7 +12,7 @@ const term = function(solver){
   while (true) {
     let tmp = solver.pointSubstr(1);
     let exprSolver = SolverModel.createEmpty()
-      .setView(solver.view)
+      .setView(solver.sheet)
       .setRefIds(solver.refIds)
       .setText(solver.addPointer().pointSubstr());
     if(tmp === "*"){

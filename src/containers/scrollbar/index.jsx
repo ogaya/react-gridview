@@ -56,7 +56,7 @@ const GridViewBar  = React.createClass({
       borderTop: "1px solid #999",
       borderRight: "1px solid #999",
       height: "20px",
-      width: sheet.rowHeader.width + "px"
+      width: sheet.rowHeader.width * sheet.scale + "px"
     };
   },
   _vSpaceStyle(){
@@ -68,7 +68,7 @@ const GridViewBar  = React.createClass({
       borderLeft: "1px solid #999",
       borderBottom: "1px solid #999",
       background: sheet.columnHeader.background,
-      height: sheet.columnHeader.height + "px",
+      height: sheet.columnHeader.height * sheet.scale + "px",
       width: "20px"
     };
   },
@@ -77,15 +77,15 @@ const GridViewBar  = React.createClass({
     const scroll = this.props.opeModel.scroll;
     const rowNo = scroll.rowNo;
     const columnNo = scroll.columnNo;
-
+    const scale = sheet.scale;
     const hStyle = {
-      left: sheet.rowHeader.width + "px",
-      width: "calc(100% - " + (sheet.rowHeader.width + 20) + "px)"
+      left: sheet.rowHeader.width * scale + "px",
+      width: "calc(100% - " + (sheet.rowHeader.width * scale + 20) + "px)"
     };
 
     const vStyle = {
-      top: sheet.columnHeader.height + "px",
-      height: "calc(100% - " + (sheet.columnHeader.height + 20) + "px)"
+      top: sheet.columnHeader.height * scale + "px",
+      height: "calc(100% - " + (sheet.columnHeader.height * scale + 20) + "px)"
     };
 
     return (

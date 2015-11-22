@@ -24,13 +24,13 @@ const style =  {
 const OperateDecoration = React.createClass({
   displayName: "Gridview-Operate-Decoration",
   propTypes: {
-    view: React.PropTypes.instanceOf(GridViewModel),
+    sheet: React.PropTypes.instanceOf(GridViewModel),
     opeModel: React.PropTypes.instanceOf(OperationModel),
     onViewModelChange: React.PropTypes.func,
     onOperationChange: React.PropTypes.func
   },
   _canvasRender(props){
-    const view = props.view;
+    const sheet = props.sheet;
     const opeModel = props.opeModel;
     const canvasElement = ReactDOM.findDOMNode(this.refs.gwcells);
     const canvasWidth = canvasElement.offsetWidth;
@@ -42,12 +42,15 @@ const OperateDecoration = React.createClass({
       return false;
     }
 
+
     const width = canvasElement.width = canvasWidth;
     const height = canvasElement.height = canvasHeigh;
     const context = canvasElement.getContext("2d");
+    var scale = sheet.scale;
+    context.scale(scale, scale);
     const canvas = new CanvasModel(context, width, height);
 
-    drawOperation(canvas, view, props.opeModel);
+    drawOperation(canvas, sheet, props.opeModel);
 
     return false;
   },
@@ -55,11 +58,11 @@ const OperateDecoration = React.createClass({
     this._canvasRender(this.props);
   },
   componentDidMount(){
-    window.addEventListener('resize', this._handleResize);
+    window.addEventListener("resize", this._handleResize);
     this._canvasRender(this.props);
   },
   componentWillUnmount() {
-    window.removeEventListener('resize', this._handleResize);
+    window.removeEventListener("resize", this._handleResize);
 
   },
   shouldComponentUpdate(nextProps) {

@@ -24,7 +24,7 @@ const style =  {
 const TableCell = React.createClass({
   displayName: "Gridview-TableCell",
   propTypes: {
-    view: React.PropTypes.instanceOf(GridViewModel),
+    sheet: React.PropTypes.instanceOf(GridViewModel),
     opeModel: React.PropTypes.instanceOf(OperationModel),
     onOperationChange: React.PropTypes.func
   },
@@ -33,11 +33,13 @@ const TableCell = React.createClass({
     width: 0
   },
   _canvasRender(props){
-    const view = props.view;
+    const sheet = props.sheet;
     const opeModel = props.opeModel;
     const canvasElement = ReactDOM.findDOMNode(this.refs.gwcells);
     const canvasWidth = canvasElement.offsetWidth;
     const canvasHeigh = canvasElement.offsetHeight;
+
+    //console.log(window.devicePixelRatio);
 
     if ((!opeModel.canvasRect) ||
         (opeModel.canvasRect.width !== canvasWidth) ||
@@ -51,15 +53,18 @@ const TableCell = React.createClass({
        (canvasWidth === this._prev.width) &&
        (this.props.opeModel.scroll.rowNo === props.opeModel.scroll.rowNo) &&
        (this.props.opeModel.scroll.columnNo === props.opeModel.scroll.columnNo) &&
-       (this.props.view === props.view)){
+       (this.props.sheet === props.sheet)){
       return false;
     }
+
     const width = this._prev.width = canvasElement.width = canvasWidth;
     const height = this._prev.height = canvasElement.height = canvasHeigh;
     const context = canvasElement.getContext("2d");
+    var scale = sheet.scale;
+    context.scale(scale, scale);
     const canvas = new CanvasModel(context, width, height);
 
-    drawTable(canvas, view, opeModel);
+    drawTable(canvas, sheet, opeModel);
     return false;
   },
   _handleResize() {

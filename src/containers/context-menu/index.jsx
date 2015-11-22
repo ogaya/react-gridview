@@ -11,7 +11,7 @@ import "./css.js";
 const ContextMenu = React.createClass({
   displayName: "React-Sheet-ContextMenu",
   propTypes: {
-    view: React.PropTypes.instanceOf(GridViewModel),
+    sheet: React.PropTypes.instanceOf(GridViewModel),
     operation: React.PropTypes.instanceOf(OperationModel),
     extension: React.PropTypes.instanceOf(ExtensionModel)
   },

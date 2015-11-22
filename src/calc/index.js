@@ -19,7 +19,7 @@ const isCalc = function(text){
   const tmp = text + "";
   return (tmp.charAt(0) === "=");
 };
-const calc = function(text, view){
+const calc = function(text, sheet){
   if(!text){
     return {
       value: text,
@@ -37,7 +37,7 @@ const calc = function(text, view){
   }
   let solver = SolverModel.createEmpty()
     .setText(text.substr(1))
-    .setView(view);
+    .setView(sheet);
 
   solver = expr(solver);
 

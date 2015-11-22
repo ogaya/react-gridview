@@ -22,16 +22,16 @@ const style =  {
 const ExNodes = React.createClass({
   displayName: "Gridview-ExNodes",
   propTypes: {
-    view: React.PropTypes.instanceOf(GridViewModel),
+    sheet: React.PropTypes.instanceOf(GridViewModel),
     operation: React.PropTypes.instanceOf(OperationModel),
     extension: React.PropTypes.instanceOf(ExtensionModel)
   },
   _createNodes(){
-    const nodes = this.props.view.table
+    const nodes = this.props.sheet.table
       .filter(cell => this.props.extension.nodes.has(cell.nodeName))
       .map((cell, key) => {
         const UserNode = this.props.extension.nodes.get(cell.nodeName);
-        const rect = targetToRect(this.props.view, cell.cellPoint(), this.props.operation.scroll);
+        const rect = targetToRect(this.props.sheet, cell.cellPoint(), this.props.operation.scroll);
         const userNodeStyle =  {
           overflow: "hidden",
           position: "absolute",
@@ -43,7 +43,7 @@ const ExNodes = React.createClass({
         // 参照セルの取得
         const refCells = cell.refs
           .map(id=>{
-            return this.props.view.getCell(id);
+            return this.props.sheet.getCell(id);
           })
           .toList();
         return (

@@ -61,16 +61,16 @@ function drawBorder(canvas, sheet, opeModel, cellPoint, rect){
 }
 
 // セルの描画
-function drawCell(canvas, model, opeModel, cellPoint ){
+function drawCell(canvas, sheet, opeModel, cellPoint ){
 
 
-  const cell = model.getCell(cellPoint);
+  const cell = sheet.getCell(cellPoint);
 
-  const cellRect = targetToRect(model, cellPoint, opeModel.scroll);
+  const cellRect = targetToRect(sheet, cellPoint, opeModel.scroll);
   let rect = cellRect;
 
   if (cell.mergeRange) {
-    rect = cellRangeToRect(model, cell.mergeRange, opeModel.scroll);
+    rect = cellRangeToRect(sheet, cell.mergeRange, opeModel.scroll);
   }
 
   const canCellView =  (!cell.mergeRange) || cellPoint.equals(cell.mergeRange.leftTopPoint);
@@ -80,7 +80,7 @@ function drawCell(canvas, model, opeModel, cellPoint ){
     canvas.drawRectFill(rect);
   }
 
-  drawBorder(canvas, model, opeModel, cellPoint, cellRect);
+  drawBorder(canvas, sheet, opeModel, cellPoint, cellRect);
 
   if (!cell.value){
     return;
@@ -99,18 +99,18 @@ function drawCell(canvas, model, opeModel, cellPoint ){
 }
 
 // 行内の列描画
-function drawColumn(canvas, model, rowNo, top, rowHeaderItem, opeModel) {
-  let left = model.rowHeader.width;
-  model.columnHeader.items.skip(opeModel.scroll.columnNo - 1)
+function drawColumn(canvas, sheet, rowNo, top, rowHeaderItem, opeModel) {
+  let left = sheet.rowHeader.width;
+  sheet.columnHeader.items.skip(opeModel.scroll.columnNo - 1)
     .takeWhile((item, columnNo) =>{
-      const widthOver = (canvas.width < (left));
+      const widthOver = (canvas.width < (left * sheet.scale));
 
       if (widthOver){
         return false;
       }
       // const rect = new Rect(left, top, width, height);
       const cellPoint = new CellPoint(columnNo, rowNo);
-      drawCell(canvas, model, opeModel, cellPoint);
+      drawCell(canvas, sheet, opeModel, cellPoint);
       left = left + item.width;
 
       return true;
@@ -119,13 +119,14 @@ function drawColumn(canvas, model, rowNo, top, rowHeaderItem, opeModel) {
 }
 
 // 行毎の描画
-export default function drawTable(canvas, model, opeModel) {
-  let top = model.columnHeader.height;
-  model.rowHeader.items.skip(opeModel.scroll.rowNo - 1)
+export default function drawTable(canvas, sheet, opeModel) {
+  let top = sheet.columnHeader.height;
+  sheet.rowHeader.items
+    .skip(opeModel.scroll.rowNo - 1)
     .takeWhile((item, rowNo) =>{
-      drawColumn(canvas, model, rowNo, top, item, opeModel);
+      drawColumn(canvas, sheet, rowNo, top, item, opeModel);
       top = top + item.height;
-      return (canvas.height >= top);
+      return (canvas.height >= top * sheet.scale);
     });
 
 }

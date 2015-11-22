@@ -109,18 +109,18 @@ const Horizontalbar  = React.createClass({
     if (!this.state.thumbAreaRect){
       return;
     }
-    const  view = this.props.sheet;
+    const  sheet = this.props.sheet;
     const nextLeft = (e.clientX - this.state.thumbAreaRect.left - this.state.offsetX);
 
     const scrollMax = this._getScrollMaxValue();
     // 移動可能領域の幅
     const moveAreaWidth = this.state.thumbAreaRect.width - this._thumWidth();
-    const fullWidth = view.columnHeader.items.get(scrollMax).right;
+    const fullWidth = sheet.columnHeader.items.get(scrollMax).right;
 
     // １ピクセルあたりの倍率を求める
     const magnification = fullWidth / moveAreaWidth;
     // スクロールバー位置に対応するcanvas上のX座標を求める
-    const canvasX = nextLeft * magnification + view.rowHeader.width;
+    const canvasX = nextLeft * magnification + sheet.rowHeader.width;
 
     let columnNo = this.props.sheet.pointToColumnNo(canvasX);
     let maxNo = this._getScrollMaxValue();
@@ -163,14 +163,14 @@ const Horizontalbar  = React.createClass({
       return PADDING;
     }
 
-    const view = this.props.sheet;
+    const sheet = this.props.sheet;
     const scrollMax = this._getScrollMaxValue();
 
     const thumbWidth = this._thumWidth();
     // 移動可能領域の幅
     const moveAreaWidth = this.state.thumbAreaRect.width - thumbWidth;
     //const fullWidth = this.props.sheet.columnHeader.width;
-    const fullWidth = view.columnHeader.items.get(scrollMax).right - view.rowHeader.width;
+    const fullWidth = sheet.columnHeader.items.get(scrollMax).right - sheet.rowHeader.width;
 
     // １ピクセルあたりの倍率を求める
     const magnification = fullWidth / moveAreaWidth;
@@ -181,7 +181,7 @@ const Horizontalbar  = React.createClass({
       return PADDING;
     }
 
-    const left = Math.round((scrollCell.left - view.rowHeader.width) / magnification);
+    const left = Math.round((scrollCell.left - sheet.rowHeader.width) / magnification);
     return left;
   },
   // スクロールエリアでマウスを押したときの処理

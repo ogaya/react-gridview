@@ -42,10 +42,12 @@ function createInputStyle(sheet, opeModel){
     rect = targetToRect(sheet, cellPoint, opeModel.scroll);
   }
 
-  style.top = rect.top - 1;
-  style.left = rect.left - 1;
-  style.width = rect.width - 2;
-  style.height = rect.height - 2;
+  style.top = rect.top * sheet.scale - 1;
+  style.left = rect.left * sheet.scale - 1;
+  style.width = rect.width * sheet.scale - 2;
+  style.height = rect.height * sheet.scale - 2;
+
+  style.fontSize = sheet.scale * 100 + "%";
 
   return style;
 }
