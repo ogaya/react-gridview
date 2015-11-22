@@ -71,6 +71,8 @@ const TableCell = React.createClass({
     this._canvasRender(this.props);
   },
   componentDidMount(){
+    this._prev.height = 0;
+    this._prev.width = 0;
     window.addEventListener("resize", this._handleResize);
     this._canvasRender(this.props);
   },
