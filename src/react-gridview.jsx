@@ -31,7 +31,7 @@ const GridView = React.createClass({
   propTypes: {
     className: React.PropTypes.string,
     sheet: React.PropTypes.instanceOf(GridViewModel),
-    operationModel: React.PropTypes.instanceOf(OperationModel),
+    operation: React.PropTypes.instanceOf(OperationModel),
     extension: React.PropTypes.instanceOf(ExtensionModel),
     onChangeSheet: React.PropTypes.func,
     onChangeOperation: React.PropTypes.func
@@ -39,7 +39,7 @@ const GridView = React.createClass({
   getDefaultProps() {
     return {
       sheet: new GridViewModel(),
-      operationModel: new OperationModel(),
+      operation: new OperationModel(),
       extension: new ExtensionModel(),
       onChangeSheet: (prevView, nextView) =>{ return nextView; },
       onChangeOperation: (prevVOperation, nextOperation) =>{ return nextOperation; }
@@ -48,15 +48,15 @@ const GridView = React.createClass({
   getInitialState() {
     return {
       sheet: this.props.sheet,
-      operation: this.props.operationModel
+      operation: this.props.operation
     };
   },
   componentWillReceiveProps(nextProps){
     if(this.props.sheet !== nextProps.sheet){
       this.setState({sheet: nextProps.sheet});
     }
-    if(this.props.operationModel !== nextProps.operationModel){
-      this.setState({operation: nextProps.operationModel});
+    if(this.props.operation !== nextProps.operation){
+      this.setState({operation: nextProps.operation});
     }
   },
   componentDidMount(){

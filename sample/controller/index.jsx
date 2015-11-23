@@ -18,7 +18,7 @@ const Controller = React.createClass({
   displayName: "Controller",
   propTypes: {
     viewModel: React.PropTypes.instanceOf(Sheet),
-    operationModel: React.PropTypes.instanceOf(Operation),
+    operation: React.PropTypes.instanceOf(Operation),
     onControlView: React.PropTypes.func,
     onChangeOperation: React.PropTypes.func,
     setInputFocus: React.PropTypes.func
@@ -36,11 +36,11 @@ const Controller = React.createClass({
 
     return (
       <div className="controller">
-        <CellArea viewModel={this.props.viewModel} operationModel={this.props.operationModel}
+        <CellArea viewModel={this.props.viewModel} operation={this.props.operation}
           onControlView={this.props.onControlView} showSubWindow={this._showSubWindow}/>
         <div className="value-area">
           <TextArea viewModel={this.props.viewModel} onChangeOperation={this.props.onChangeOperation}
-            operationModel={this.props.operationModel} onControlView={this.props.onControlView}
+            operation={this.props.operation} onControlView={this.props.onControlView}
             setInputFocus={this.props.setInputFocus}/>
         </div>
         {subWindow}

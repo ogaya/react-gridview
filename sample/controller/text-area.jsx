@@ -12,13 +12,13 @@ const TextArea = React.createClass({
   displayName: "TextArea",
   propTypes: {
     viewModel: React.PropTypes.instanceOf(Sheet),
-    operationModel: React.PropTypes.instanceOf(Operation),
+    operation: React.PropTypes.instanceOf(Operation),
     onControlView: React.PropTypes.func,
     onChangeOperation: React.PropTypes.func,
     setInputFocus: React.PropTypes.func
   },
   _onChangeSave(){
-    const opeModel = this.props.operationModel;
+    const opeModel = this.props.operation;
     const viewModel = this.props.viewModel;
     // セル選択の描画
     const cellPoint = opeModel && opeModel.selectItem && opeModel.selectItem.cellPoint;
@@ -40,7 +40,7 @@ const TextArea = React.createClass({
    * @return {null}   なし
    */
   _onChangeText(e){
-    const opeModel = this.props.operationModel;
+    const opeModel = this.props.operation;
     const input = opeModel.input;
 
     if(input.isInputing === false){
@@ -52,7 +52,7 @@ const TextArea = React.createClass({
 
   },
   _onKeyDown(e){
-    const opeModel = this.props.operationModel;
+    const opeModel = this.props.operation;
     const input = opeModel.input;
 
     const selectItem = opeModel.selectItem;
@@ -78,7 +78,7 @@ const TextArea = React.createClass({
 
   },
   _pickText(){
-    const opeModel = this.props.operationModel;
+    const opeModel = this.props.operation;
     const viewModel = this.props.viewModel;
 
     if (!opeModel){
@@ -105,7 +105,7 @@ const TextArea = React.createClass({
     return (cellPoint) ? viewModel.getCell(cellPoint).text : "";
   },
   render: function() {
-    const opeModel = this.props.operationModel;
+    const opeModel = this.props.operation;
     //const viewModel = this.props.viewModel;
 
     // セル選択の描画

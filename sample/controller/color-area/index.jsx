@@ -16,12 +16,12 @@ const ColorArea = React.createClass({
   displayName: "ColorArea",
   propTypes: {
     viewModel: React.PropTypes.instanceOf(Sheet),
-    operationModel: React.PropTypes.instanceOf(Operation),
+    operation: React.PropTypes.instanceOf(Operation),
     onControlView: React.PropTypes.func,
     showSubWindow: React.PropTypes.func
   },
   _onChangeTextColor(color){
-    const rangeItem = this.props.operationModel.rangeItem;
+    const rangeItem = this.props.operation.rangeItem;
     const view = this.props.viewModel.editCells(
       rangeItem, (cell)=>{
         return cell.setTextColor(color);
@@ -29,7 +29,7 @@ const ColorArea = React.createClass({
     this.props.onControlView(view);
   },
   _onChangeBgColor(color){
-    const rangeItem = this.props.operationModel.rangeItem;
+    const rangeItem = this.props.operation.rangeItem;
     const view = this.props.viewModel.editCells(
       rangeItem, (cell)=>{
         return cell.setBackground(color);

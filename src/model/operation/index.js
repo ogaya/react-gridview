@@ -34,6 +34,10 @@ export default class Operation extends Record({
   scroll: new CellPoint(1, 1)
 }) {
 
+  static createClass(){
+    return new Operation();
+  }
+
   get rangeItems(){
     if (!this.rangeItem){
       return this.clipRanges;

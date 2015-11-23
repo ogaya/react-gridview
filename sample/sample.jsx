@@ -37,13 +37,12 @@ const ExSample = React.createClass({
 });
 const Main = React.createClass({
   getInitialState() {
-    let viewModel = Sheet
-      .createClass();
+    let viewModel = Sheet.createClass();
     let extension = new Extension();
     extension = extension.addNode("sample", ExSample);
     return {
       viewModel: viewModel,
-      operationModel: new Operation(),
+      operation: Operation.createClass(),
       extension: extension
     };
   },
@@ -58,7 +57,7 @@ const Main = React.createClass({
   },
   _onChangeOperation(prevOperation, nextOperation){
     this.setState({
-      operationModel: nextOperation
+      operation: nextOperation
     });
     return nextOperation;
   },
@@ -68,13 +67,13 @@ const Main = React.createClass({
     });
   },
   render: function() {
-    const operation = this.state.operationModel;
+    const operation = this.state.operation;
     return (
       <div>
-        <Controller operationModel={operation} viewModel={this.state.viewModel} setInputFocus={this.setInputFocus}
+        <Controller operation={operation} viewModel={this.state.viewModel} setInputFocus={this.setInputFocus}
           onControlView={this._onControlView} onChangeOperation={this._onChangeOperation}/>
         <div className="viewer-area">
-          <GridView sheet={this.state.viewModel} operationModel={operation} ref="viewer"
+          <GridView sheet={this.state.viewModel} operation={operation} ref="viewer"
             extension={this.state.extension} onChangeSheet={this._onChangeSheet} onChangeOperation={this._onChangeOperation}/>
         </div>
       </div>
