@@ -1,7 +1,8 @@
 # react-gridview
 
 
-[sample][]
+[sample][]  
+[docs][]
 
 ## Install
 
@@ -22,3 +23,4 @@ var GridView = require("react-gridview").GridView;
 **MIT**
 
 [sample]: http://ogaya.github.io/react-gridview/
+[docs]: http://ogaya.github.io/react-gridview/docs/#/
