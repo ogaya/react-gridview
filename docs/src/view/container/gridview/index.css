@@ -1,0 +1,14 @@
+
+.gridview-mini
+{
+  width: 15rem;
+  height: 7rem;
+  border: 1px solid #388E3C;
+}
+.gridview-large
+{
+  margin-left: 5rem;
+  width: 30rem;
+  height: 15rem;
+  border: 1px solid #FF7043;
+}

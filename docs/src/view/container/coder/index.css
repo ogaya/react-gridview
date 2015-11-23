@@ -1,0 +1,30 @@
+.hljs{
+  font-family: Verdana, "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+}
+
+.coder{
+  padding: 0.3rem;
+  background: #F1F8E9;
+  border-left: 0.3rem solid #607D8B;
+}
+.hljs-comment{
+  color: #9E9E9E;
+}
+.hljs-keyword{
+  color: #4A148C;
+}
+.hljs-attribute{
+  color: #0D47A1;
+}
+.hljs-number{
+  color: #E64A19;
+}
+.hljs-string{
+  color: #b71c1c;
+}
+.hljs-class{
+  color: #b71c1c;
+}
+.hljs-hexcolor{
+  color: #3F51B5;
+}

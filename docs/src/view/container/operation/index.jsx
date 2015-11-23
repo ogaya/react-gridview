@@ -2,7 +2,7 @@
 import React from "react";
 
 
-const SheetPage = React.createClass({
+const OperationPage = React.createClass({
   render: function() {
     return (
       <div>
@@ -15,5 +15,5 @@ const SheetPage = React.createClass({
 });
 
 export{
-  SheetPage as default
+  OperationPage as default
 };
