@@ -27,12 +27,12 @@ const LineArea = React.createClass({
   displayName: "LineArea",
   propTypes: {
     viewModel: React.PropTypes.instanceOf(Sheet),
-    operationModel: React.PropTypes.instanceOf(Operation),
+    operation: React.PropTypes.instanceOf(Operation),
     onControlView: React.PropTypes.func,
     showSubWindow: React.PropTypes.func
   },
   _onChangeBorder(border, lineType){
-    const rangeItem = this.props.operationModel.rangeItem;
+    const rangeItem = this.props.operation.rangeItem;
     let view = this.props.viewModel;
     switch (lineType) {
       case LINE_TYPE.FULL:

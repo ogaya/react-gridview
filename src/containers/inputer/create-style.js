@@ -13,9 +13,14 @@ function createInputStyle(sheet, opeModel){
 
   // 入力中で無い場合
   if (!input.isInputing){
-    style.left = -1000;
-    style.top = -1000;
+    // style.left = -1000;
+    // style.top = -1000;
     style.width = 0;
+    style.bottom = "1px";
+    style.left = "1px";
+    style.height = 0;
+    style.fontSize = 0;
+    //style.visibility = "hidden";
     return style;
   }
 

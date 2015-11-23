@@ -13,13 +13,13 @@ const ConnectArea = React.createClass({
   displayName: "AlignArea",
   propTypes: {
     viewModel: React.PropTypes.instanceOf(Sheet),
-    operationModel: React.PropTypes.instanceOf(Operation),
+    operation: React.PropTypes.instanceOf(Operation),
     onControlView: React.PropTypes.func
   },
   _onClickMerge(){
-    const rangeItem = this.props.operationModel.rangeItem;
+    const rangeItem = this.props.operation.rangeItem;
 
-    const view = this.props.viewModel.withCells(
+    const view = this.props.viewModel.editCells(
       rangeItem, (cell)=>{
         return cell.setMergeRange(rangeItem);
       });
@@ -28,9 +28,9 @@ const ConnectArea = React.createClass({
 
   },
   _onClickUnMerge(){
-    const rangeItem = this.props.operationModel.rangeItem;
+    const rangeItem = this.props.operation.rangeItem;
 
-    const view = this.props.viewModel.withCells(
+    const view = this.props.viewModel.editCells(
       rangeItem, (cell)=>{
         return cell.setMergeRange(null);
       });

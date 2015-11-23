@@ -14,25 +14,25 @@ const CellArea = React.createClass({
   displayName: "CellArea",
   propTypes: {
     viewModel: React.PropTypes.instanceOf(Sheet),
-    operationModel: React.PropTypes.instanceOf(Operation),
+    operation: React.PropTypes.instanceOf(Operation),
     onControlView: React.PropTypes.func,
     showSubWindow: React.PropTypes.func
   },
   render: function() {
     const viewModel = this.props.viewModel;
-    const operationModel = this.props.operationModel;
+    const operation = this.props.operation;
     const onControlView = this.props.onControlView;
     return (
       <div className="sample-cell-area sample-cell-table">
-        <ColorArea viewModel={viewModel} operationModel={operationModel}
+        <ColorArea viewModel={viewModel} operation={operation}
           onControlView={onControlView} showSubWindow={this.props.showSubWindow}/>
         <AlignArea viewModel={viewModel}
-          operationModel={operationModel} onControlView={onControlView}/>
+          operation={operation} onControlView={onControlView}/>
         <VerticalArea viewModel={viewModel}
-          operationModel={operationModel} onControlView={onControlView}/>
+          operation={operation} onControlView={onControlView}/>
         <ConnectArea viewModel={viewModel}
-          operationModel={operationModel} onControlView={onControlView}/>
-        <LineArea viewModel={viewModel} operationModel={operationModel}
+          operation={operation} onControlView={onControlView}/>
+        <LineArea viewModel={viewModel} operation={operation}
           onControlView={onControlView} showSubWindow={this.props.showSubWindow}/>
         <div></div>
       </div>

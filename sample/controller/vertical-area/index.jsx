@@ -14,13 +14,13 @@ const VerticalArea = React.createClass({
   displayName: "VerticalArea",
   propTypes: {
     viewModel: React.PropTypes.instanceOf(Sheet),
-    operationModel: React.PropTypes.instanceOf(Operation),
+    operation: React.PropTypes.instanceOf(Operation),
     onControlView: React.PropTypes.func
   },
   _onChangeTextAlign(textAlign){
-    const rangeItem = this.props.operationModel.rangeItem;
+    const rangeItem = this.props.operation.rangeItem;
 
-    const view = this.props.viewModel.withCells(
+    const view = this.props.viewModel.editCells(
       rangeItem, (cell)=>{
         return cell.setVerticalAlign(textAlign);
       });
