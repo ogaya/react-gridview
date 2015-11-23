@@ -27,7 +27,7 @@ const TextArea = React.createClass({
       return;
     }
 
-    const view = viewModel.withCell(
+    const view = viewModel.editCell(
       cellPoint, (cell)=>{
         return cell.setText(opeModel.input.text);
       });

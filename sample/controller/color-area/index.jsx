@@ -22,7 +22,7 @@ const ColorArea = React.createClass({
   },
   _onChangeTextColor(color){
     const rangeItem = this.props.operationModel.rangeItem;
-    const view = this.props.viewModel.withCells(
+    const view = this.props.viewModel.editCells(
       rangeItem, (cell)=>{
         return cell.setTextColor(color);
       });
@@ -30,7 +30,7 @@ const ColorArea = React.createClass({
   },
   _onChangeBgColor(color){
     const rangeItem = this.props.operationModel.rangeItem;
-    const view = this.props.viewModel.withCells(
+    const view = this.props.viewModel.editCells(
       rangeItem, (cell)=>{
         return cell.setBackground(color);
       }

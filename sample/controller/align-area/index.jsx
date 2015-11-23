@@ -20,7 +20,7 @@ const AlignArea = React.createClass({
   _onChangeTextAlign(textAlign){
     const rangeItem = this.props.operationModel.rangeItem;
 
-    const view = this.props.viewModel.withCells(
+    const view = this.props.viewModel.editCells(
       rangeItem, (cell)=>{
         return cell.setTextAlign(textAlign);
       });

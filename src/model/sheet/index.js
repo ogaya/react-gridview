@@ -96,11 +96,11 @@ export default class Sheet extends Record({
     return this.set("zoom", zoom);
   }
 
-  withRowHeader(mutator){
+  editRowHeader(mutator){
     return this.set("rowHeader", mutator(this.rowHeader));
   }
 
-  withColumnHeader(mutator){
+  editColumnHeader(mutator){
     return this.set("columnHeader", mutator(this.columnHeader));
   }
 
@@ -211,14 +211,14 @@ export default class Sheet extends Record({
     return this.set("borders", this.borders.set(id, border));
   }
 
-  withCell(cellPoint, mutator){
+  editCell(cellPoint, mutator){
     const prevCell = this.getCell(cellPoint);
     const nextCell = mutator(prevCell);
     return this.setCell(cellPoint, nextCell);
   }
 
   // 範囲内のセルを変更する
-  withCells(range, mutator){
+  editCells(range, mutator){
     if(!range){
       return this;
     }

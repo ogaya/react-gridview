@@ -58,7 +58,7 @@ export default class Operation extends Record({
     return this.set("scroll", scroll);
   }
 
-  withScroll(mutator){
+  editScroll(mutator){
     return this.set("scroll", mutator(this.scroll));
   }
 

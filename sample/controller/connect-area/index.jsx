@@ -19,7 +19,7 @@ const ConnectArea = React.createClass({
   _onClickMerge(){
     const rangeItem = this.props.operationModel.rangeItem;
 
-    const view = this.props.viewModel.withCells(
+    const view = this.props.viewModel.editCells(
       rangeItem, (cell)=>{
         return cell.setMergeRange(rangeItem);
       });
@@ -30,7 +30,7 @@ const ConnectArea = React.createClass({
   _onClickUnMerge(){
     const rangeItem = this.props.operationModel.rangeItem;
 
-    const view = this.props.viewModel.withCells(
+    const view = this.props.viewModel.editCells(
       rangeItem, (cell)=>{
         return cell.setMergeRange(null);
       });
