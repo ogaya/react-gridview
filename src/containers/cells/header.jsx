@@ -29,10 +29,6 @@ const Header = React.createClass({
     opeModel: React.PropTypes.instanceOf(OperationModel),
     onOperationChange: React.PropTypes.func
   },
-  _prev: {
-    height: 0,
-    width: 0
-  },
   _canvasRender(props){
     const sheet = props.sheet;
     const opeModel = props.opeModel;
@@ -40,8 +36,8 @@ const Header = React.createClass({
     const canvasWidth = canvasElement.offsetWidth;
     const canvasHeigh = canvasElement.offsetHeight;
 
-    if((canvasHeigh === this._prev.height) &&
-       (canvasWidth === this._prev.width) &&
+    if((canvasHeigh === canvasElement.height) &&
+       (canvasWidth === canvasElement.width) &&
        (this.props.opeModel.scroll.rowNo === props.opeModel.scroll.rowNo) &&
        (this.props.opeModel.scroll.columnNo === props.opeModel.scroll.columnNo) &&
        (this.props.sheet === props.sheet)){
@@ -49,8 +45,8 @@ const Header = React.createClass({
       return false;
     }
 
-    const width = this._prev.width = canvasElement.width = canvasWidth;
-    const height = this._prev.height = canvasElement.height = canvasHeigh;
+    const width = canvasElement.width = canvasWidth;
+    const height = canvasElement.height = canvasHeigh;
     const context = canvasElement.getContext("2d");
     var scale = sheet.scale;
     context.scale(scale, scale);
@@ -67,8 +63,6 @@ const Header = React.createClass({
     this._canvasRender(this.props);
   },
   componentDidMount(){
-    this._prev.height = 0;
-    this._prev.width = 0;
     window.addEventListener("resize", this._handleResize);
     this._canvasRender(this.props);
   },
