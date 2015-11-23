@@ -42,14 +42,14 @@ const Verticalbar  = React.createClass({
   },
   getInitialState() {
     return {
-      thumbAreaRect: null,
+      thumbAreaHeight: 0,
       offsetY: 0
     };
   },
   _handleResize(){
     const thumbArea = ReactDOM.findDOMNode(this.refs.rgThumbArea);
     const areaRect = thumbArea.getBoundingClientRect();
-    this.setState({thumbAreaRect: areaRect});
+    this.setState({thumbAreaHeight: areaRect.height});
   },
   componentDidMount(){
     const node = ReactDOM.findDOMNode(this.refs.rgThumb);
@@ -74,9 +74,6 @@ const Verticalbar  = React.createClass({
     return style;
   },
   _dragStart(e){
-    if (!this.state.thumbAreaRect){
-      return;
-    }
     this.setState({offsetY: e.offsetY});
   },
   _getScrollMaxValue(){
@@ -106,17 +103,19 @@ const Verticalbar  = React.createClass({
   },
   // thumbバーを操作中の処理
   _dragMove(e){
-    if (!this.state.thumbAreaRect){
-      return;
+    const thumbArea = ReactDOM.findDOMNode(this.refs.rgThumbArea);
+    if(!thumbArea){
+      return PADDING;
     }
+    const thumbAreaRect = thumbArea.getBoundingClientRect();
 
-    const nextTop = (e.clientY - this.state.thumbAreaRect.top - this.state.offsetY);
+    const nextTop = (e.clientY - thumbAreaRect.top - this.state.offsetY);
 
     const sheet = this.props.sheet;
     const scrollMax = this._getScrollMaxValue();
 
     // 移動可能領域の幅
-    const moveAreaHeight = this.state.thumbAreaRect.height - this._thumHeight();
+    const moveAreaHeight = thumbAreaRect.height - this._thumHeight();
     const fullHeight = sheet.rowHeader.items.get(scrollMax).bottom;
 
     // １ピクセルあたりの倍率を求める
@@ -141,10 +140,11 @@ const Verticalbar  = React.createClass({
   },
   // thumbの幅
   _thumHeight(){
-    if(!this.state.thumbAreaRect){
-      return THUMB_MIN_HEIGHT;
+    if(!this.state.thumbAreaHeight){
+      return PADDING;
     }
-    const areaHeight = this.state.thumbAreaRect.height;
+
+    const areaHeight = this.state.thumbAreaHeight;
     const fullHeight = this.props.sheet.rowHeader.height;
 
     const magnification = fullHeight / areaHeight;
@@ -158,15 +158,16 @@ const Verticalbar  = React.createClass({
   },
   // thumbの左側の位置
   _thumTop(){
-    if(!this.state.thumbAreaRect){
+    if(!this.state.thumbAreaHeight){
       return PADDING;
     }
+
     const sheet = this.props.sheet;
     const scrollMax = this._getScrollMaxValue();
 
     const thumbHeight = this._thumHeight();
     // 移動可能領域の幅
-    const moveAreaHeight = this.state.thumbAreaRect.height - thumbHeight;
+    const moveAreaHeight = this.state.thumbAreaHeight - thumbHeight;
     const fullHeight = sheet.rowHeader.items.get(scrollMax).bottom - sheet.columnHeader.height;
 
     // １ピクセルあたりの倍率を求める

@@ -41,14 +41,14 @@ const Horizontalbar  = React.createClass({
   },
   getInitialState() {
     return {
-      thumbAreaRect: null,
+      thumbAreaWidth: 0,
       offsetX: 0
     };
   },
   _handleResize(){
     const thumbArea = ReactDOM.findDOMNode(this.refs.rgThumbArea);
     const areaRect = thumbArea.getBoundingClientRect();
-    this.setState({thumbAreaRect: areaRect});
+    this.setState({thumbAreaWidth: areaRect.width});
   },
   componentDidMount(){
     const node = ReactDOM.findDOMNode(this.refs.rgThumb);
@@ -98,23 +98,20 @@ const Horizontalbar  = React.createClass({
     return columnNo;
   },
   _dragStart(e){
-    if (!this.state.thumbAreaRect){
-      return;
-    }
     this.setState({offsetX: e.offsetX});
   },
   // thumbバーを操作中の処理
   _dragMove(e){
 
-    if (!this.state.thumbAreaRect){
-      return;
-    }
+    const thumbArea = ReactDOM.findDOMNode(this.refs.rgThumbArea);
+    const thumbAreaRect = thumbArea.getBoundingClientRect();
+
     const  sheet = this.props.sheet;
-    const nextLeft = (e.clientX - this.state.thumbAreaRect.left - this.state.offsetX);
+    const nextLeft = (e.clientX - thumbAreaRect.left - this.state.offsetX);
 
     const scrollMax = this._getScrollMaxValue();
     // 移動可能領域の幅
-    const moveAreaWidth = this.state.thumbAreaRect.width - this._thumWidth();
+    const moveAreaWidth = thumbAreaRect.width - this._thumWidth();
     const fullWidth = sheet.columnHeader.items.get(scrollMax).right;
 
     // １ピクセルあたりの倍率を求める
@@ -142,10 +139,10 @@ const Horizontalbar  = React.createClass({
    * @return {[number]} [幅]
    */
   _thumWidth(){
-    if(!this.state.thumbAreaRect){
+    if(!this.state.thumbAreaWidth){
       return THUMB_MIN_WIDTH;
     }
-    const areaWidth = this.state.thumbAreaRect.width;
+    const areaWidth = this.state.thumbAreaWidth;
     const fullWidth = this.props.sheet.columnHeader.width;
 
     const magnification = fullWidth / areaWidth;
@@ -159,7 +156,7 @@ const Horizontalbar  = React.createClass({
   },
   // thumbの左側の位置
   _thumLeft(){
-    if(!this.state.thumbAreaRect){
+    if(!this.state.thumbAreaWidth){
       return PADDING;
     }
 
@@ -168,7 +165,7 @@ const Horizontalbar  = React.createClass({
 
     const thumbWidth = this._thumWidth();
     // 移動可能領域の幅
-    const moveAreaWidth = this.state.thumbAreaRect.width - thumbWidth;
+    const moveAreaWidth = this.state.thumbAreaWidth - thumbWidth;
     //const fullWidth = this.props.sheet.columnHeader.width;
     const fullWidth = sheet.columnHeader.items.get(scrollMax).right - sheet.rowHeader.width;
 
