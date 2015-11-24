@@ -50,11 +50,35 @@ const func = (prevSheet, nextSheet) => {
 // Cell("A1") can't change
 <GridView onChangeSheet={func}/>`;
 
+const onChangeOperationJs =
+`// .jsx
+const func = (prevOperation, nextOperation) => {
+  if (nextOperation.selectItem){
+    return prevOperation;
+  }
+  else{
+    return nextOperation;
+  }
+};
+
+// This Component can't select
+<GridView onChangeOperation={func}/>`;
+
+const func2 = (prevOperation, nextOperation) => {
+  if (nextOperation.selectItem){
+    return prevOperation;
+  }
+  else{
+    return nextOperation;
+  }
+};
+
 export{
   classNameCss,
   classNameJsMini,
   classNameJsLarge,
   sheetJs,
   operationJs,
-  onChangeSheetJs
+  onChangeSheetJs,
+  onChangeOperationJs
 }

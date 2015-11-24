@@ -1,11 +1,11 @@
 import React from "react";
 import {GridView} from "react-gridview";
 
-import "./index.css";
-
 import Coder  from "../coder";
 
 import *  as text from "./text.js";
+
+import "./index.css";
 
 const func1 = (prevSheet, nextSheet) => {
   if (nextSheet.getCell("A1").text){
@@ -13,6 +13,15 @@ const func1 = (prevSheet, nextSheet) => {
   }
   else{
     return nextSheet;
+  }
+};
+
+const func2 = (prevOperation, nextOperation) => {
+  if (nextOperation.selectItem){
+    return prevOperation;
+  }
+  else{
+    return nextOperation;
   }
 };
 
@@ -68,6 +77,14 @@ const GridViewPage = React.createClass({
           {text.onChangeSheetJs}
         </Coder>
         <GridView className="gridview-sample" onChangeSheet={func1}/>
+        <div className="subhead" id="/gridview/onchangeoperation">
+          onChangeOperation
+        </div>
+        <Coder className="js">
+          {text.onChangeOperationJs}
+        </Coder>
+        <GridView className="gridview-sample" onChangeOperation={func2}/>
+
       </div>
     );
   }
