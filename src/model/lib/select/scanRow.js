@@ -22,7 +22,7 @@ class RowInfo extends Record({
 const empty = new RowInfo(-1, 0, 0, false);
 
 // 行情報取得
-function pointToRowInfo(sheet, opeModel, point){
+function clientPointToRowInfo(sheet, opeModel, point){
 
 
   // ヘッダー内の場合
@@ -63,5 +63,5 @@ function pointToRowInfo(sheet, opeModel, point){
 
 export default {
   RowInfo,
-  pointToRowInfo
+  clientPointToRowInfo
 };

@@ -1,6 +1,6 @@
 
 .sample-cell-area{
-  width: 100%;
+  width: calc(100% - 50px);
   table-layout: fixed;
   padding: 2px;
   padding-left: 50px;
