@@ -6,6 +6,8 @@ const TouchEvent = {
     this._startOperation = this.state.operation;
   },
   _onTouchMove(e){
+
+    e.preventDefault();
     if (e.touches.length < 1){
       return;
     }
