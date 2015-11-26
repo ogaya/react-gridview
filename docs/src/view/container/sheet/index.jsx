@@ -9,8 +9,8 @@ const SheetPage = React.createClass({
     return (
       <div>
         <div>
-          <div className="subhead" id="/sheet/getcell">
-            getCell
+          <div>
+            Sorry.We are getting ready.
           </div>
         </div>
       </div>
