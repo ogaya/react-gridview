@@ -7,7 +7,7 @@ import {SelectInfo} from "./item";
 // 列情報取得処理
 import {clientPointToColumnInfo} from "./scanColumn";
 // 行情報取得処理
-import {pointToRowInfo} from "./scanRow";
+import {clientPointToRowInfo} from "./scanRow";
 
 /**
  * 列ヘッダーのピックアップ
@@ -56,7 +56,7 @@ function pickCell(columnInfo, rowInfo, point){
 function pointToGridViewItem(sheet, opeModel, point, isDrag){
 
   const columnInfo = clientPointToColumnInfo(sheet, opeModel, point);
-  const rowInfo = pointToRowInfo(sheet, opeModel, point);
+  const rowInfo = clientPointToRowInfo(sheet, opeModel, point);
 
   const isCellDrag = (
     (isDrag) &&

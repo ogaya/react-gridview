@@ -9,6 +9,7 @@ import Inputer from "./containers/inputer";
 
 //import "./react-gridview.styl";
 import {MouseEvent} from "./mouse-event";
+import {TouchEvent} from "./touch-event";
 import {KeyPress} from "./mixins/key-press";
 
 import GridViewModel from "./model/sheet";
@@ -27,7 +28,7 @@ import "./css.js";
 
 const GridView = React.createClass({
   displayName: "gridview",
-  mixins: [KeyPress, MouseEvent],
+  mixins: [KeyPress, MouseEvent, TouchEvent],
   propTypes: {
     className: React.PropTypes.string,
     sheet: React.PropTypes.instanceOf(GridViewModel),
@@ -62,6 +63,7 @@ const GridView = React.createClass({
   componentDidMount(){
     const node = ReactDOM.findDOMNode(this.refs.gwcells);
     drag(node, this._onMouseDown, this._onMouseMove, this._onMouseUp);
+    //drag(node, this._onTouchStart, this._onTouchMove, this._onTouchEnd);
     this._addKeyPressEvent();
   },
   componentWillUnmount(){
@@ -112,7 +114,7 @@ const GridView = React.createClass({
     return (
       <div className={className} ref="gridview"
         onWheel={this._onMouseWheel} onContextMenu={this._onContextMenu}>
-        <div style={cellStyle} ref="gwcells"  onMouseMove={this._onMouseMove}>
+        <div style={cellStyle} ref="gwcells"  onMouseMove={this._onMouseMove} onTouchStart={this._onTouchStart} onTouchMove={this._onTouchMove}>
           <Cells onOperationChange={this._onOperationChange}
             model={sheet} opeModel={operation} onViewModelChange={this._onViewModelChange} />
 

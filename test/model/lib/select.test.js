@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
 import {pickColumnHeader, pointToGridViewItem} from "../../../src/model/lib/select";
 import {clientPointToColumnInfo, ColumnInfo} from "../../../src/model/lib/select/scanColumn";
-import {pointToRowInfo, RowInfo} from "../../../src/model/lib/select/scanRow";
+import {clientPointToRowInfo, RowInfo} from "../../../src/model/lib/select/scanRow";
 import GridViewModel from "../../../src/model/sheet";
 import {OBJECT_TYPE} from "../../../src/model/sheet/object-type";
 import OperationModel from "../../../src/model/operation";
@@ -58,7 +58,7 @@ describe("pointToRowInfo", function() {
       viewModel.rowHeader.width + 1,
       viewModel.columnHeader.height + 1);
 
-    const rowInfo = pointToRowInfo(viewModel, opeModel, point);
+    const rowInfo = clientPointToRowInfo(viewModel, opeModel, point);
 
     // 対象行番号
     assert.equal(rowInfo.rowNo, 1);
@@ -73,7 +73,7 @@ describe("pointToRowInfo", function() {
       viewModel.rowHeader.width + 1,
       viewModel.columnHeader.height + viewModel.rowHeader.items.get(1).height + 5);
 
-    const rowInfo = pointToRowInfo(viewModel, opeModel, point);
+    const rowInfo = clientPointToRowInfo(viewModel, opeModel, point);
 
     // 対象行番号
     assert.equal(rowInfo.rowNo, 2);

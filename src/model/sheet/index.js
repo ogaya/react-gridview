@@ -164,8 +164,9 @@ export default class Sheet extends Record({
 
   get scale(){
     // デバイスのピクセル比を取得する
-    var dpr = (window && window.devicePixelRatio) || 1;
-    return this.zoom / 100 * dpr || 1;
+    // var dpr = (window && window.devicePixelRatio) || 1;
+    // return this.zoom / 100 * dpr || 1;
+    return this.zoom / 100 || 1;
   }
   // 枠線取得
   getBorder(cellPoint, borderPosition){
