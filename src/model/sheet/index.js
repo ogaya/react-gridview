@@ -65,6 +65,10 @@ export default class Sheet extends Record({
   }
 }) {
 
+  static create(){
+    return new Sheet();
+  }
+
   static createClass(){
     return new Sheet();
   }
