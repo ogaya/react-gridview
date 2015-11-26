@@ -37,13 +37,12 @@ const ExSample = React.createClass({
 });
 const Main = React.createClass({
   getInitialState() {
-    let viewModel = Sheet
-      .createClass();
+    let viewModel = Sheet.createClass();
     let extension = new Extension();
     extension = extension.addNode("sample", ExSample);
     return {
       viewModel: viewModel,
-      operation: new Operation(),
+      operation: Operation.createClass(),
       extension: extension
     };
   },
