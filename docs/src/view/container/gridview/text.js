@@ -26,14 +26,14 @@ const sheetJs =
 `// .jsx
 import {GridView, Sheet} from "react-gridview";
 
-const sheetModel = Sheet.createClass();
+const sheetModel = Sheet.create();
 <GridView sheet={sheetModel}/>`;
 
 const operationJs =
 `// .jsx
 import {GridView, Operation} from "react-gridview";
 
-const opeModel = Operation.createClass();
+const opeModel = Operation.create();
 <GridView operation={opeModel}/>`;
 
 const onChangeSheetJs =
