@@ -34,6 +34,10 @@ export default class Operation extends Record({
   scroll: new CellPoint(1, 1)
 }) {
 
+  static create(){
+    return new Operation();
+  }
+
   static createClass(){
     return new Operation();
   }
