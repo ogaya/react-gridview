@@ -7,7 +7,7 @@ const Top = React.createClass({
   render: function() {
     return (
       <div>
-        <div>
+        <div className="report">
           I'm afraid my expressions may be rude or hard to read, because I'm not so good at English. But please be patient.I plan on improving this document.
         </div>
 

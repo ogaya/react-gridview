@@ -29,7 +29,7 @@ const GridViewPage = React.createClass({
   render: function() {
     return (
       <div>
-        <div>
+        <div className="report">
           GridView is React Component.Please refer to an official site for how to use React.
         </div>
         <a href="https://facebook.github.io/react/">React</a>

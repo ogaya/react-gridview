@@ -19,3 +19,27 @@
   height: 15rem;
   border: 1px solid #999;
 }
+
+@media only screen and (max-width: 481px) {
+  .side-menu {
+    width: 100%;
+    display: block;
+    position: static;
+  }
+
+  .container{
+    padding: 0;
+    width: 100%;
+  }
+  .subhead{
+    padding: 0.5rem;
+    font-size: 1.5rem;
+  }
+  .report{
+    padding: 0.5rem;
+  }
+  .gridview-sample{
+    width: 100%;
+  }
+
+}
