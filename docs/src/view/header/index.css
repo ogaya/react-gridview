@@ -19,4 +19,10 @@
   .header {
     padding-left: 1rem;
   }
+  .header > div {
+    max-width: 12rem;
+    min-width: 0;
+    width: 12rem;
+    margin: 0;
+  }
 }

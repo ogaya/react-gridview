@@ -30,9 +30,9 @@ const GridViewPage = React.createClass({
     return (
       <div>
         <div className="report">
-          GridView is React Component.Please refer to an official site for how to use React.
+          GridView is React Component.Please refer to an official site for how to use <a href="https://facebook.github.io/react/">React.</a>
         </div>
-        <a href="https://facebook.github.io/react/">React</a>
+
 
         <Coder className="js">
           {`//.jsx\nimport {GridView} from "react-gridview"\n<GridView/>`}

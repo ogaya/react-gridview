@@ -16,6 +16,6 @@
 
   .gridview-large
   {
-    width: calc(100% - 5rem);
+    width: calc(100% - 5rem - 2px);
   }
 }

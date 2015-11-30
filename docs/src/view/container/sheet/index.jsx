@@ -9,9 +9,7 @@ const SheetPage = React.createClass({
     return (
       <div>
         <div>
-          <div>
-            Sorry.We are getting ready.
-          </div>
+          Sorry.We are getting ready.
         </div>
       </div>
     );

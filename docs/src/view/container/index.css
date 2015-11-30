@@ -7,8 +7,9 @@
 }
 
 .subhead{
+  font-weight: bold;
   padding: 1rem 0 0 0;
-  font-size: 175%;
+  font-size: 1.25rem;
 }
 
 .report{
@@ -33,13 +34,12 @@
   }
   .subhead{
     padding: 0.5rem;
-    font-size: 1.5rem;
   }
   .report{
     padding: 0.5rem;
   }
   .gridview-sample{
-    width: 100%;
+    width: calc(100% - 2px);
   }
 
 }
