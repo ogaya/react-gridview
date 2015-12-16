@@ -1,11 +1,12 @@
 import {Record} from "immutable";
 import CellModel from "./cell";
 import {VERTICAL_ALIGN, TEXT_ALIGN} from "../common";
+import toMinJS from "../lib/to-min-js";
+
 const emptyCell = new CellModel();
 const defCell = emptyCell
   .setVerticalAlign(VERTICAL_ALIGN.MIDDLE)
   .setTextAlign(TEXT_ALIGN.CENTER);
-
 
 export default class ColumnHeaderItem extends Record({
   cell: defCell,
@@ -13,12 +14,20 @@ export default class ColumnHeaderItem extends Record({
   left: 0
 }) {
 
+  static create(){
+    return new ColumnHeaderItem();
+  }
+
   // JSONから本クラスを生成
-  static fromJson(json){
-    const item = new ColumnHeaderItem();
-    return item
-      .set("cell", CellModel.fromJson(json.cell))
+  static fromJS(json){
+    //const item = new ColumnHeaderItem();
+    return ColumnHeaderItem.create()
+      .set("cell", CellModel.fromJS(json.cell))
       .setWidth(json.width);
+  }
+
+  toMinJS(columnHeaderItem){
+    return toMinJS(this, columnHeaderItem, ColumnHeaderItem);
   }
 
   setWidth(width) {

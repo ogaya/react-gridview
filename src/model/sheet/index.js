@@ -43,7 +43,7 @@ function JsonToTable(json){
     return table;
   }
   for(var key in json){
-    const cell = CellModel.fromJson(json[key]);
+    const cell = CellModel.fromJS(json[key]);
     table = table.set(key, cell);
   }
   return table;
@@ -74,18 +74,40 @@ export default class Sheet extends Record({
   }
 
   // JSONから本クラスを生成
-  static fromJson(json){
+  static fromJS(json){
     const sheet = new Sheet();
     // テーブル情報を変換
     return sheet
-      .set("table", JsonToTable(json.table))
-      .setColumnHeader(ColumnHeaderModel.fromJson(json.columnHeader))
-      .setRowHeader(RowHeaderModel.fromJson(json.rowHeader));
+      .set("table", JsonToTable(json.cells))
+      .setColumnHeader(ColumnHeaderModel.fromJS(json.columnHeader))
+      .setRowHeader(RowHeaderModel.fromJS(json.rowHeader));
   }
 
+  toJS(){
+    //const mapJS = (items) =>{
+    let tableJS = {};
+    this.table.forEach((item, key) =>{
+      const cell = item.toMinJS();
+      if (Object.keys(cell).length){
+        tableJS[key] = cell;
+      }
+    });
+
+    return {
+      columnHeader: this.columnHeader.toMinJS(),
+      rowHeader: this.rowHeader.toMinJS(),
+      cells: tableJS,
+      borders: this.borders.toJS()
+    };
+  }
+
+
   // 本クラスをJSONへ変換
-  toJson(){
-    return this.toJS();
+  toFullJS(){
+    return {
+      columnHeader: this.columnHeader.toJS(),
+      rowHeader: this.rowHeader.toJS()
+    };
   }
 
   setColumnHeader(columnHeader){
@@ -108,12 +130,25 @@ export default class Sheet extends Record({
     return this.set("columnHeader", mutator(this.columnHeader));
   }
 
-  getCell(target){
+  getCell(){
+    //
+    // const id = (typeof target === "string") ? target : target.toId();
+    // const cellPoint = (typeof target === "string") ? CellPoint.createForId(id) : target;
 
-    const id = (typeof target === "string") ? target : target.toId();
-    const cellPoint = (typeof target === "string") ? CellPoint.createForId(id) : target;
+
+    let id;
+    let cellPoint;
+    if(arguments.length === 1){
+      id = (typeof arguments[0] === "string") ? arguments[0] : arguments[0].toId();
+      cellPoint = (typeof arguments[0] === "string") ? CellPoint.createForId(id) : arguments[0];
+    }
+    else{
+      cellPoint = new CellPoint(arguments[0], arguments[1]);
+      id = cellPoint.toId();
+    }
+
     if (this.table.has(id) === false){
-      return CellModel.createCell(cellPoint);
+      return CellModel.create(cellPoint);
     }
 
     return this.table.get(id);
@@ -137,7 +172,9 @@ export default class Sheet extends Record({
     return this.setCell(cellPoint, nextCell);
   }
 
-  setCell(cellPoint, nextCell){
+  setCell(){
+    const cellPoint = (arguments.length === 2) ? arguments[0] : new CellPoint(arguments[0], arguments[1]);
+    let nextCell = arguments[arguments.length - 1];
     const prevCell = this.getCell(cellPoint);
     nextCell = nextCell.solveCalc(this);
     let cell = this.onChangeCell(prevCell, nextCell);

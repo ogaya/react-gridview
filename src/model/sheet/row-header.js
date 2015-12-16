@@ -15,7 +15,7 @@ function JsonToCell(json){
   }
 
   for(var key in json){
-    const item = RowHeaderItem.fromJson(json[key]);
+    const item = RowHeaderItem.fromJS(json[key]);
     table = table.set(Number(key), item);
   }
 
@@ -34,13 +34,70 @@ export default class RowHeader extends Record({
   editItems: Map()
 }) {
 
+  static create(){
+    return new RowHeader();
+  }
+
   // JSONから本クラスを生成
-  static fromJson(json){
-    let rHeader = new RowHeader();
-    // アイテム情報を変換
-    rHeader = rHeader.set("editItems", JsonToCell(json.editItems));
-    return rHeader
-      .setMaxCount(json.maxCount);
+  static fromJS(json){
+    const rowHeader = RowHeader.create();
+    if (!json){
+      return rowHeader;
+    }
+    return rowHeader
+      .setMaxCount(json.maxCount || rowHeader.maxCount)
+      .setBackground(json.background || rowHeader.background)
+      .setVisible(json.isVisible || rowHeader.isVisible)
+      .set("editItems", JsonToCell(json.items) || rowHeader.editItems)
+      .setMaxCount(json.maxCount || rowHeader.maxCount);
+  }
+
+
+  toJS(){
+    return {
+      width: this._width,
+      maxCount: this.maxCount,
+      background: this.background,
+      isVisible: this.isVisible,
+      items: this.items.toJS()
+    };
+  }
+
+  toMinJS(){
+    const empty = RowHeader.create();
+    const mapJS = (items) =>{
+      let mapJson = {};
+      items.forEach((item, key) =>{
+        const minJS = item.toMinJS(defCell);
+        if (Object.keys(minJS).length){
+          mapJson[key] = minJS;
+        }
+      });
+      return mapJson;
+    };
+
+    let json = {};
+    this.forEach((value, key) =>{
+      const dValue = empty.get(key);
+      if ((value) && (value.toMinJS)){
+        const minJS = value.toMinJS(dValue);
+        if (Object.keys(minJS).length){
+          json[key] = minJS;
+        }
+        return;
+      }
+      if (key === "editItems"){
+        const mapValue = mapJS(value);
+        if (Object.keys(mapValue).length){
+          json.items = mapValue;
+        }
+        return;
+      }
+      if (dValue !== value){
+        json[key] = value;
+      }
+    });
+    return json;
   }
 
   setBackground(background){
