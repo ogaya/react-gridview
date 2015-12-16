@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 import RowHeaderModel from "../../src/model/sheet/row-header";
 //import ColumnHeaderItem from "../../src/model/sheet/column-header-item";

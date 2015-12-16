@@ -2,6 +2,7 @@ import {Record, Set} from "immutable";
 import {VERTICAL_ALIGN, TEXT_ALIGN} from "../common";
 import {calc, isCalc} from "../../calc";
 import {CellPoint} from "../common";
+import toMinJS from "../lib/to-min-js";
 
 function JsonToSet(json){
   let result = Set();
@@ -33,27 +34,38 @@ export default class Cell extends Record({
   mergeRange: null
 }) {
 
-  static createCell(target) {
+  static create(t) {
     const cell = new Cell();
+    const target = t || {
+      columnNo: 1,
+      rowNo: 1
+    };
     return cell
       .set("columnNo", target.columnNo)
       .set("rowNo", target.rowNo);
   }
 
-  static fromJson(json){
-    let cell = new Cell();
+  static fromJS(json){
+    const cell = Cell.create();
 
+    if (!json){
+      return cell;
+    }
     return cell
-      .set("columnNo", json.columnNo)
-      .set("rowNo", json.rowNo)
-      .setBackground(json.background)
-      .setValue(json.value)
-      .setVerticalAlign(json.verticalAlign)
-      .setTextAlign(json.textAlign)
-      .setIndent(json.indent)
+      .set("columnNo", json.columnNo || cell.columnNo)
+      .set("rowNo", json.rowNo || cell.rowNo)
+      .setBackground(json.background || cell.background)
+      .setText(json.text || cell.text)
+      .setVerticalAlign(json.verticalAlign || cell.verticalAlign)
+      .setTextAlign(json.textAlign || cell.textAlign)
+      .setIndent(json.indent || cell.indent)
       .set("childIds", JsonToSet(json.childIds))
       .set("refs", JsonToSet(json.refs))
-      .setTextColor(json.textColor);
+      .setTextColor(json.textColor || cell.textColor);
+  }
+
+  toMinJS(cell){
+    return toMinJS(this, cell, Cell);
   }
 
   toId(){

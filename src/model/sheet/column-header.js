@@ -1,6 +1,7 @@
 import {Record, Map, OrderedMap}from "immutable";
 import ColumnHeaderItem from "./column-header-item";
 import {HEADER_SIZE} from "./const";
+//import toMinJS from "../lib/to-min-js";
 
 const abc = ["A", "B", "C", "D", "E", "F",
   "G", "H", "I", "J", "K", "L", "M", "N", "O",
@@ -20,7 +21,7 @@ function JsonToCell(json){
   }
 
   for(var key in json){
-    const item = ColumnHeaderItem.fromJson(json[key]);
+    const item = ColumnHeaderItem.fromJS(json[key]);
     table = table.set(Number(key), item);
   }
 
@@ -37,13 +38,76 @@ export default class ColumnHeader extends Record({
   editItems: Map()
 }) {
 
+  static create(){
+    return new ColumnHeader();
+  }
+
   // JSONから本クラスを生成
-  static fromJson(json){
-    let cHeader = new ColumnHeader();
-    // アイテム情報を変換
-    cHeader = cHeader.set("editItems", JsonToCell(json.editItems));
-    return cHeader
-      .setMaxCount(json.maxCount);
+  static fromJS(json){
+    const columnHeader = ColumnHeader.create();
+
+    if (!json){
+      return columnHeader;
+    }
+    return columnHeader
+      .setMaxCount(json.maxCount || columnHeader.maxCount)
+      .set("editItems", JsonToCell(json.items))
+      .setColor(json.color || columnHeader.color)
+      .setVisible(json.isVisible || columnHeader.isVisible)
+      .setMaxCount(json.maxCount || columnHeader.maxCount);
+  }
+
+  toJS(){
+    return {
+      height: this._height,
+      maxCount: this.maxCount,
+      background: this.background,
+      isVisible: this.isVisible,
+      items: this.items.toJS()
+    };
+  }
+
+  toMinJS(){
+    const empty = ColumnHeader.create();
+
+    const mapJS = (items) =>{
+      let mapJson = {};
+      items.forEach((item, key) =>{
+        const minJS = item.toMinJS(defCell);
+        if (Object.keys(minJS).length){
+          mapJson[key] = minJS;
+        }
+      });
+      return mapJson;
+    };
+
+    let json = {};
+    this.forEach((value, key) =>{
+      const dValue = empty.get(key);
+      if ((value) && (value.toMinJS)){
+        const minJS = value.toMinJS(dValue);
+        if (Object.keys(minJS).length){
+          json[key] = minJS;
+        }
+        return;
+      }
+      if (key === "editItems"){
+        const mapValue = mapJS(value);
+        if (Object.keys(mapValue).length){
+          json.items = mapValue;
+        }
+        return;
+      }
+      if (dValue !== value){
+        json[key] = value;
+      }
+    });
+    return json;
+    //return toMinJS(this, columnHeader, ColumnHeader);
+  }
+
+  setColor(color){
+    return this.set("color", color);
   }
 
   setVisible(visible){

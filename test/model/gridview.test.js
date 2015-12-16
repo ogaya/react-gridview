@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 import {CellPoint} from "../../src/model/common";
 import GridViewModel from "../../src/model/sheet";
