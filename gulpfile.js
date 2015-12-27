@@ -30,7 +30,7 @@ gulp.task("cleanBuild", function(cb) {
 //});
 
 
-gulp.task("build", ["cleanBuild"], function() {
+gulp.task("release", ["cleanBuild"], function() {
   return gulp.src('./src/**')
     .pipe(babel())
     .pipe(gulp.dest("./dist"));
@@ -38,21 +38,21 @@ gulp.task("build", ["cleanBuild"], function() {
 
 
 gulp.task("watch", function() {
-  gulp.watch("./src/**", ["sample"]);
+  gulp.watch("./src/**", ["build"]);
 });
 
 
 gulp.task("auto", function() {
-  gulp.watch("./sample/**", ["sample"]);
+  gulp.watch("./sample/**", ["build"]);
 });
 
-gulp.task("sample", ["build", "mocha"], function() {
+gulp.task("build", ["release", "test"], function() {
   return gulp.src("")
   .pipe(webpack(webpackSampleConfig))
   .pipe(gulp.dest(""));
 });
 
-gulp.task('mocha', function() {
+gulp.task('test', function() {
   require('babel/register');
   //require('intelli-espower-loader');
 
@@ -65,6 +65,6 @@ gulp.task('mocha', function() {
     //.on('error', gutil.log);
 });
 
-gulp.task('test', function() {
-  gulp.watch("./test/**/*.js", ["mocha"]);
-});
+// gulp.task('test', function() {
+//   gulp.watch("./test/**/*.js", ["mocha"]);
+// });
