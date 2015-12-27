@@ -1,0 +1,6 @@
+{
+    "compilerOptions": {
+        "module": "amd",
+        "jsx": "react"
+    }
+}
