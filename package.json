@@ -31,24 +31,26 @@
     ]
   },
   "devDependencies": {
-    "object-assign": "^2.0.0",
-    "babel": "",
+    "babel": "^5.4.7",
     "babel-loader": "^4.1.0",
     "css-loader": "^0.10.1",
     "eslint-plugin-react": "^2.0.2",
     "gulp": "^3.8.10",
-    "gulp-babel": "",
+    "gulp-babel": "^5.1.0",
     "gulp-espower": "^0.10.1",
     "gulp-mocha": "",
+    "gulp-typescript": "^2.10.0",
     "gulp-uglify": "",
     "gulp-util": "",
     "gulp-webpack": "^1.1.2",
     "jsx-loader": "0.12.2",
+    "object-assign": "^4.0.1",
     "power-assert": "",
     "require-dir": "",
     "rimraf": "^2.2.8",
     "style-loader": "^0.10.2",
     "stylus-loader": "^1.1.1",
+    "typescript": "^1.7.5",
     "url-loader": "^0.5.5"
   }
 }
