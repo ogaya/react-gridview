@@ -30,23 +30,13 @@ gulp.task("cleanBuild", function(cb) {
 //});
 
 
-gulp.task("release", ["cleanBuild"], function() {
+gulp.task("build", ["cleanBuild"], function() {
   return gulp.src('./src/**')
     .pipe(babel())
     .pipe(gulp.dest("./dist"));
 });
 
-
-gulp.task("watch", function() {
-  gulp.watch("./src/**", ["build"]);
-});
-
-
-gulp.task("auto", function() {
-  gulp.watch("./sample/**", ["build"]);
-});
-
-gulp.task("build", ["release", "test"], function() {
+gulp.task("sample", ["build", "test"], function() {
   return gulp.src("")
   .pipe(webpack(webpackSampleConfig))
   .pipe(gulp.dest(""));
