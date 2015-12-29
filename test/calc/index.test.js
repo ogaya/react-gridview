@@ -1,8 +1,8 @@
 'use strict';
 
-import {calc} from "../../src/calc";
-import GridViewModel from "../../src/model/sheet";
-import {CellPoint} from "../../src/model/common";
+var calc = require("../../dist/calc").calc;
+var GridViewModel = require("../../dist/model/sheet").default;
+var CellPoint = require("../../dist/model/common").CellPoint;
 
 //import ColumnHeaderItem from "../../src/model/sheet/column-header-item";
 var assert = require("power-assert");
@@ -69,7 +69,7 @@ describe("calc", function() {
 
   describe("id", function() {
     it("mix", function() {
-      let model = new GridViewModel();
+      var model = new GridViewModel();
       model = model
         .setValue(new CellPoint(1, 1), 5)
         .setValue(new CellPoint(1, 2), 4)
@@ -81,13 +81,13 @@ describe("calc", function() {
     });
 
     it("ref", function() {
-      let model = new GridViewModel();
+      var model = new GridViewModel();
       model = model
         .setValue(new CellPoint(1, 1), 5)
         .setValue(new CellPoint(1, 2), 4)
         .setValue(new CellPoint(2, 1), 10);
 
-      const refs = calc("=A1+A2*B2", model).refs;
+      var refs = calc("=A1+A2*B2", model).refs;
 
       assert.equal(refs.count(), 3);
       assert.equal(refs.includes("A1"), true);
@@ -110,7 +110,7 @@ describe("calc", function() {
     });
 
     it("mix", function() {
-      let model = new GridViewModel();
+      var model = new GridViewModel();
       model = model
         .setValue(new CellPoint(1, 1), 5)
         .setValue(new CellPoint(1, 2), 4)
@@ -128,7 +128,7 @@ describe("calc", function() {
     });
 
     it("ref", function() {
-      let model = new GridViewModel();
+      var model = new GridViewModel();
       model = model
         .setValue(new CellPoint(1, 1), 5)
         .setValue(new CellPoint(1, 2), 4)
@@ -137,8 +137,8 @@ describe("calc", function() {
         .setValue(new CellPoint(2, 1), 20)
         .setValue(new CellPoint(3, 1), 40);
 
-      const refs = calc("=SUM(A1,A3)", model).refs;
-      const refsRange = calc("=SUM(A1:A3)", model).refs;
+      var refs = calc("=SUM(A1,A3)", model).refs;
+      var refsRange = calc("=SUM(A1:A3)", model).refs;
 
       assert.equal(refs.count(), 2);
       assert.equal(refs.includes("A1"), true);

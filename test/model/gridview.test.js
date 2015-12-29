@@ -1,8 +1,8 @@
 "use strict";
 
-import {CellPoint} from "../../src/model/common";
-import GridViewModel from "../../src/model/sheet";
-import ColumnHeaderItem from "../../src/model/sheet/column-header-item";
+var CellPoint = require("../../dist/model/common").CellPoint;
+var GridViewModel = require("../../dist/model/sheet").default;
+var ColumnHeaderItem = require("../../dist/model/sheet/column-header-item");
 var assert = require("power-assert");
 
 // Viewモデルのテスト
@@ -11,11 +11,11 @@ describe("GridViewModel", function() {
 
 
     it("setValue", function() {
-      const model = new GridViewModel();
-      const target11 = new CellPoint(1, 1);
-      const target12 = new CellPoint(1, 2);
-      const target21 = new CellPoint(2, 1);
-      const testModel = model
+      var model = new GridViewModel();
+      var target11 = new CellPoint(1, 1);
+      var target12 = new CellPoint(1, 2);
+      var target21 = new CellPoint(2, 1);
+      var testModel = model
         .setValue(target11, "11")
         .setValue(target12, "12");
 
@@ -26,13 +26,13 @@ describe("GridViewModel", function() {
 
     // 座標からセル位置を算出するテスト
     it("pointToTarget", function() {
-      const model = new GridViewModel();
+      var model = new GridViewModel();
 
-      const target1 = model.pointToTarget(100, 20);
+      var target1 = model.pointToTarget(100, 20);
       assert.equal(target1.columnNo, 1);
       assert.equal(target1.rowNo, 1);
 
-      const target2 = model.pointToTarget(200, 20);
+      var target2 = model.pointToTarget(200, 20);
 
       assert.equal(target2.columnNo, 2);
       assert.equal(target2.rowNo, 1);
@@ -41,17 +41,17 @@ describe("GridViewModel", function() {
 
     // 座標から列位置を算出するテスト
     it("pointToColumnNo", function() {
-      const model = new GridViewModel();
-      const chItem = new ColumnHeaderItem();
+      var model = new GridViewModel();
+      var chItem = new ColumnHeaderItem();
 
-      const columnHeader = model.columnHeader
+      var columnHeader = model.columnHeader
         .setMaxCount(3)
         .setItem(1, chItem.setWidth(20))
         .setItem(2, chItem.setWidth(10))
         .setItem(3, chItem.setWidth(30));
 
-      const rowHeader = model.rowHeader.setWidth(10);
-      const testModel = model
+      var rowHeader = model.rowHeader.setWidth(10);
+      var testModel = model
         .setColumnHeader(columnHeader)
         .setRowHeader(rowHeader);
 

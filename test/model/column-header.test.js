@@ -1,13 +1,13 @@
 'use strict';
 
-import ColumnHeaderModel from "../../src/model/sheet/column-header";
+var ColumnHeaderModel = require("../../dist/model/sheet/column-header").default;
 //import ColumnHeaderItem from "../../src/model/sheet/column-header-item";
 var assert = require("power-assert");
 
 describe("ColumnHeaderModel", function() {
   describe("Methods", function() {
     it("Item Value", function() {
-      const model = new ColumnHeaderModel();
+      var model = new ColumnHeaderModel();
 
       assert.equal(model.items.get(1).cell.value, "A");
       assert.equal(model.items.get(2).cell.value, "B");

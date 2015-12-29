@@ -1,29 +1,35 @@
 "use strict";
 
-import {pickColumnHeader, pointToGridViewItem} from "../../../src/model/lib/select";
-import {clientPointToColumnInfo, ColumnInfo} from "../../../src/model/lib/select/scanColumn";
-import {clientPointToRowInfo, RowInfo} from "../../../src/model/lib/select/scanRow";
-import GridViewModel from "../../../src/model/sheet";
-import {OBJECT_TYPE} from "../../../src/model/sheet/object-type";
-import OperationModel from "../../../src/model/operation";
-import {Point} from "../../../src/model/common";
+var pickColumnHeader = require("../../../dist/model/lib/select").pickColumnHeader;
+var pointToGridViewItem = require("../../../dist/model/lib/select").pointToGridViewItem;
+
+var clientPointToColumnInfo = require("../../../dist/model/lib/select/scanColumn").clientPointToColumnInfo;
+var ColumnInfo = require("../../../dist/model/lib/select/scanColumn").ColumnInfo;
+
+var clientPointToRowInfo = require("../../../dist/model/lib/select/scanRow").clientPointToRowInfo;
+var RowInfo = require("../../../dist/model/lib/select/scanRow").RowInfo;
+
+var GridViewModel = require("../../../dist/model/sheet").default;
+var OBJECT_TYPE = require("../../../dist/model/sheet/object-type").OBJECT_TYPE;
+var OperationModel = require("../../../dist/model/operation");
+var Point = require("../../../dist/model/common").Point;
 
 var assert = require("power-assert");
 
 // 列ヘッダーのアイテムを選択しているか判定
 describe("pickColumnHeader", function() {
   it("non hit", function() {
-    const columnInfo = new ColumnInfo(1, 50, 50, false);
-    const rowInfo = new RowInfo(1, 18, 18, false);
-    const columnHeader = pickColumnHeader(columnInfo, rowInfo);
+    var columnInfo = new ColumnInfo(1, 50, 50, false);
+    var rowInfo = new RowInfo(1, 18, 18, false);
+    var columnHeader = pickColumnHeader(columnInfo, rowInfo);
 
     assert.equal(columnHeader, null);
   });
 
   it("columnNo=1", function() {
-    const columnInfo = new ColumnInfo(1, 50, 50, false);
-    const rowInfo = new RowInfo(0, 18, 18, false);
-    const columnHeader = pickColumnHeader(columnInfo, rowInfo);
+    var columnInfo = new ColumnInfo(1, 50, 50, false);
+    var rowInfo = new RowInfo(0, 18, 18, false);
+    var columnHeader = pickColumnHeader(columnInfo, rowInfo);
     assert.equal(columnHeader.cellPoint.columnNo, 1);
     assert.equal(columnHeader.cellPoint.rowNo, 0);
     assert.equal(columnHeader.rect.left, 50);
@@ -34,9 +40,9 @@ describe("pickColumnHeader", function() {
   });
 
   it("columnNo=1 resizer", function() {
-    const columnInfo = new ColumnInfo(1, 50, 50, true);
-    const rowInfo = new RowInfo(0, 18, 18, false);
-    const columnHeader = pickColumnHeader(columnInfo, rowInfo);
+    var columnInfo = new ColumnInfo(1, 50, 50, true);
+    var rowInfo = new RowInfo(0, 18, 18, false);
+    var columnHeader = pickColumnHeader(columnInfo, rowInfo);
     assert.equal(columnHeader.cellPoint.columnNo, 1);
     assert.equal(columnHeader.cellPoint.rowNo, 0);
     assert.equal(columnHeader.rect.left, 50);
@@ -49,16 +55,16 @@ describe("pickColumnHeader", function() {
 
 // 行情報の検索テスト
 describe("pointToRowInfo", function() {
-  const viewModel = new GridViewModel();
-  const opeModel = new OperationModel();
+  var viewModel = new GridViewModel();
+  var opeModel = new OperationModel();
 
   it("rowNo=1", function() {
 
-    const point = new Point(
+    var point = new Point(
       viewModel.rowHeader.width + 1,
       viewModel.columnHeader.height + 1);
 
-    const rowInfo = clientPointToRowInfo(viewModel, opeModel, point);
+    var rowInfo = clientPointToRowInfo(viewModel, opeModel, point);
 
     // 対象行番号
     assert.equal(rowInfo.rowNo, 1);
@@ -69,11 +75,11 @@ describe("pointToRowInfo", function() {
   });
 
   it("rowNo=2", function() {
-    const point = new Point(
+    var point = new Point(
       viewModel.rowHeader.width + 1,
       viewModel.columnHeader.height + viewModel.rowHeader.items.get(1).height + 5);
 
-    const rowInfo = clientPointToRowInfo(viewModel, opeModel, point);
+    var rowInfo = clientPointToRowInfo(viewModel, opeModel, point);
 
     // 対象行番号
     assert.equal(rowInfo.rowNo, 2);
@@ -84,14 +90,14 @@ describe("pointToRowInfo", function() {
   });
 });
 describe("pointToGridViewItem", function() {
-  const viewModel = new GridViewModel();
-  const opeModel = new OperationModel();
+  var viewModel = new GridViewModel();
+  var opeModel = new OperationModel();
 
   it("CELL", function() {
 
-    const point = new Point(51, 20);
+    var point = new Point(51, 20);
 
-    const item = pointToGridViewItem(viewModel, opeModel, point);
+    var item = pointToGridViewItem(viewModel, opeModel, point);
     // 対象列番号
     assert.equal(item.objectType, OBJECT_TYPE.CELL);
   });
@@ -100,15 +106,15 @@ describe("pointToGridViewItem", function() {
 
 // 列情報検索のテスト
 describe("clientPointToColumnInfo", function() {
-  const viewModel = new GridViewModel();
-  const opeModel = new OperationModel();
+  var viewModel = new GridViewModel();
+  var opeModel = new OperationModel();
 
   it("columnNo=0", function() {
-    const point = new Point(
+    var point = new Point(
       viewModel.rowHeader.width - 1,
       viewModel.columnHeader.height + 1);
 
-    const columnInfo = clientPointToColumnInfo(viewModel, opeModel, point);
+    var columnInfo = clientPointToColumnInfo(viewModel, opeModel, point);
 
     // 対象列番号
     assert.equal(columnInfo.columnNo, 0);
@@ -122,11 +128,11 @@ describe("clientPointToColumnInfo", function() {
 
   it("columnNo=1", function() {
 
-    const point = new Point(
+    var point = new Point(
       viewModel.rowHeader.width + 1,
       viewModel.columnHeader.height + 1);
 
-    const columnInfo = clientPointToColumnInfo(viewModel, opeModel, point);
+    var columnInfo = clientPointToColumnInfo(viewModel, opeModel, point);
 
     // 対象列番号
     assert.equal(columnInfo.columnNo, 1);
@@ -137,11 +143,11 @@ describe("clientPointToColumnInfo", function() {
   });
 
   it("columnNo=1 isRightBorder", function() {
-    const point = new Point(
+    var point = new Point(
       viewModel.rowHeader.width + viewModel.columnHeader.items.get(1).width + 1,
       viewModel.columnHeader.height + 1);
 
-    const columnInfo = clientPointToColumnInfo(viewModel, opeModel, point);
+    var columnInfo = clientPointToColumnInfo(viewModel, opeModel, point);
 
     // 対象列番号
     assert.equal(columnInfo.columnNo, 1);
@@ -154,11 +160,11 @@ describe("clientPointToColumnInfo", function() {
   });
 
   it("columnNo=2", function() {
-    const point = new Point(
+    var point = new Point(
       viewModel.rowHeader.width + viewModel.columnHeader.items.get(1).width + 5,
       viewModel.columnHeader.height + 1);
 
-    const columnInfo = clientPointToColumnInfo(viewModel, opeModel, point);
+    var columnInfo = clientPointToColumnInfo(viewModel, opeModel, point);
 
     // 対象列番号
     assert.equal(columnInfo.columnNo, 2);

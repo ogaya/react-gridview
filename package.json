@@ -38,6 +38,7 @@
     "gulp": "^3.8.10",
     "gulp-babel": "^5.1.0",
     "gulp-espower": "^0.10.1",
+    "gulp-istanbul": "^0.10.3",
     "gulp-mocha": "",
     "gulp-typescript": "^2.10.0",
     "gulp-uglify": "",

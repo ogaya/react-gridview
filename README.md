@@ -1,6 +1,6 @@
 # react-gridview
 
-[![Build Status](https://travis-ci.org/ogaya/react-gridview.svg?branch=developer)](https://travis-ci.org/ogaya/react-gridview)
+[![Build Status](https://travis-ci.org/ogaya/react-gridview.svg)](https://travis-ci.org/ogaya/react-gridview)
 
 [sample][]  
 
