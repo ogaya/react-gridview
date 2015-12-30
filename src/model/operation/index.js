@@ -2,7 +2,7 @@ import {Record, List}from "immutable";
 import InputModel from "./input";
 import {CellPoint} from "../common";
 import {OBJECT_TYPE} from "../sheet/object-type";
-import {CellRange} from "../common/cellrange";
+import {CellRange} from "../common";
 import {SelectInfo} from "../lib/select";
 
 function objectCursor(objectType){

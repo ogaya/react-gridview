@@ -36,7 +36,7 @@ gulp.task("ts-build", ["cleanBuild"], function (cb) {
 });
 
 gulp.task("build", ["ts-build"], function () {
-    return gulp.src('./src/**')
+    return gulp.src('./src/**/{*.js,*.jsx}')
         .pipe(babel())
         .pipe(gulp.dest("./dist"));
 });

@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import {Point} from "./model/common";
 import {operationResult} from "./model/lib/change";
 import {pointToGridViewItem} from "./model/lib/select";
-import {modelToRangeItem} from "./model/common/cellrange";
+import {modelToRangeItem} from "./model/common/cell-range";
 import {fitForTarget} from "./model/lib/fit-for-target";
 import {OBJECT_TYPE} from "./model/sheet/object-type";
 

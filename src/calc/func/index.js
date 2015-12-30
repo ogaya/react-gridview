@@ -3,7 +3,7 @@ import SolverModel from "../solver";
 import {funcList} from "./def-funcs";
 
 import {CellPoint} from "../../model/common";
-import {CellRange} from "../../model/common/cellrange";
+import {CellRange} from "../../model/common";
 
 
 // <func>   ::= [[a-z]|[A-Z]|[0-9]]* '(' <param> ')'
