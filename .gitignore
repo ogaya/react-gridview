@@ -2,5 +2,5 @@ node_modules/
 coverage/
 dist/
 typings/*
-!ex.t.ds
+!ex.d.ts
 sample.bundle.js
