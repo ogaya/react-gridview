@@ -3,6 +3,7 @@ var webpack = require("gulp-webpack");
 //var webpackConfig = require("./webpack.config.js");
 var webpackSampleConfig = require("./webpack-sample.config.js");
 
+var exec = require('child_process').exec;
 //var requireDir = require("require-dir");
 var uglify = require("gulp-uglify");
 
@@ -25,7 +26,16 @@ gulp.task("cleanBuild", function (cb) {
 //  .pipe(gulp.dest(""));
 //});
 
-gulp.task("build", ["cleanBuild"], function () {
+
+gulp.task("ts-build", ["cleanBuild"], function (cb) {
+    exec("tsc -p ./", function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+        cb(err);
+    });
+});
+
+gulp.task("build", ["ts-build"], function () {
     return gulp.src('./src/**')
         .pipe(babel())
         .pipe(gulp.dest("./dist"));

@@ -1,6 +1,12 @@
 {
     "compilerOptions": {
-        "module": "amd",
-        "jsx": "react"
-    }
+        "module": "commonjs",
+        "jsx": "react",
+        "rootDir": "src",
+        "outDir": "dist"
+    },
+    "exclude": [
+        "node_modules",
+        "docs"
+    ]
 }
