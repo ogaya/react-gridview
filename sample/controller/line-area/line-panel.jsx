@@ -61,7 +61,7 @@ const LinePanel = React.createClass({
     this.props.showSubWindow(null);
   },
   _onClickLine(lineType){
-    let border = Border.createClass()
+    let border = Border.create()
       .setColors(["#000"])
       .setWeight(2);
     this.props.onSelectBorder(border, lineType);

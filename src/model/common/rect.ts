@@ -22,7 +22,11 @@ export class Rect extends Record({
     }
 
     // 四隅の座標から矩形モデルを作成する
-    static forPoints(x1, y1, x2, y2) {
+    static forPoints(
+        x1: number,
+        y1: number,
+        x2: number, 
+        y2: number) {
         const left = Math.min(x1, x2);
         const right = Math.max(x1, x2);
         const top = Math.min(y1, y2);
@@ -44,6 +48,9 @@ export class Rect extends Record({
         return new Rect(left, top, width, height);
     }
 
+    /**
+     * 矩形を縮小させる
+     */
     reduce(value) {
         return new Rect(
             this.left + value,

@@ -10,7 +10,7 @@ class CellRange extends Record({
     cellPoint1: CellPoint;
     cellPoint2: CellPoint;
 
-    constructor(cellPoint1, cellPoint2) {
+    constructor(cellPoint1: CellPoint, cellPoint2: CellPoint) {
         super({
             cellPoint1: cellPoint1,
             cellPoint2: cellPoint2
@@ -41,7 +41,7 @@ class CellRange extends Record({
         return new CellPoint(this.maxColumnNo, this.maxRowNo);
     }
 
-    merge(rangeItem): CellRange {
+    merge(rangeItem: CellRange): CellRange {
         const left = Math.min(this.minColumnNo, rangeItem.minColumnNo);
         const top = Math.min(this.minRowNo, rangeItem.minRowNo);
         const right = Math.max(this.maxColumnNo, rangeItem.maxColumnNo);
@@ -57,11 +57,11 @@ class CellRange extends Record({
         const left = this.minColumnNo;
         const top = this.minRowNo;
         const right = this.maxColumnNo;
-        //const bottom = this.maxRowNo;
+        const bottom = this.maxRowNo;
 
         let points = List<CellPoint>();
         for (var column = left; column <= right; column++) {
-            for (var row = top; row <= top; row++) {
+            for (var row = top; row <= bottom; row++) {
                 points = points.push(new CellPoint(column, row));
             }
         }

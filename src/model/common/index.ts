@@ -16,10 +16,10 @@ const TEXT_ALIGN = Object.freeze({
 });
 
 
-const LINE_STYLE = Object.freeze({
-    NORMAL: "NORMAL",
-    DOT: "DOT"
-});
+enum LINE_STYLE {
+    NORMAL=0,
+    DOT=1
+};
 
 const BORDER_POSITION = Object.freeze({
     TOP: "TOP",
