@@ -34,6 +34,16 @@ export default class Operation extends Record({
   scroll: new CellPoint(1, 1)
 }) {
 
+  input: InputModel;
+  selectItem: any;
+  opeItem: any;
+  hoverItem: any;
+  rangeItem: any;
+  copyingRange: any;
+  clipRanges: any;
+  canvasRect: any;
+  scroll: CellPoint;
+  
   static create(){
     return new Operation();
   }
@@ -58,8 +68,8 @@ export default class Operation extends Record({
     return this.set("input", input);
   }
 
-  setSelectItem(selectItem){
-    return this.set("selectItem", selectItem);
+  setSelectItem(selectItem) : this{
+    return (<this>this.set("selectItem", selectItem));
   }
 
   setScroll(scroll){

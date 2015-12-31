@@ -11,7 +11,7 @@ var RowInfo = require("../../../dist/model/lib/select/scanRow").RowInfo;
 
 var GridViewModel = require("../../../dist/model/sheet").default;
 var OBJECT_TYPE = require("../../../dist/model/sheet/object-type").OBJECT_TYPE;
-var OperationModel = require("../../../dist/model/operation");
+var OperationModel = require("../../../dist/model/operation").default;
 var Point = require("../../../dist/model/common").Point;
 
 var assert = require("power-assert");

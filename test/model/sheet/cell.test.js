@@ -1,6 +1,6 @@
 "use strict";
 
-var Cell = require("../../../dist/model/sheet/cell");
+var Cell = require("../../../dist/model/sheet/cell").default;
 var assert = require("power-assert");
 
 describe("Cell", function() {

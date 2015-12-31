@@ -1,7 +1,7 @@
 "use strict";
 
 var ColumnHeader = require("../../../dist/model/sheet/column-header").default;
-var ColumnHeaderItem = require("../../../dist/model/sheet/column-header-item");
+var ColumnHeaderItem = require("../../../dist/model/sheet/column-header-item").default;
 
 var assert = require("power-assert");
 

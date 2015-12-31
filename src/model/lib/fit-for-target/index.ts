@@ -80,8 +80,3 @@ export function fitForTarget(sheet, opeModel, target) {
 
   return fitScroll;
 }
-
-
-export {
-  fitForTarget
-};
