@@ -5,6 +5,8 @@ export default class InputModel extends Record({
     isInputing: false,
     text: ""
 }) {
+    isInputing: boolean;
+    text: string;
 
     setIsInputing(isInputing) {
 
