@@ -17,14 +17,14 @@ interface State {
 }
 
 export default class ContextMenu extends React.Component<Props, State> {
-//const ContextMenu = React.createClass({
-  public static displayName = "React-Sheet-ContextMenu";
+    //const ContextMenu = React.createClass({
+    public static displayName = "React-Sheet-ContextMenu";
 
-  render() {
-    return (
-      <div className="rs-context-menu">
-        メニュー
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div className="rs-context-menu">
+                メニュー
+                </div>
+        );
+    }
 }

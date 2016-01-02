@@ -15,7 +15,8 @@ import {copy, paste}      from "./copy-paste";
 import {applyMixins} from "../../util/apply-mixins";
 
 interface Props {
-    value: string;
+    ref?: string;
+    value?: string;
     sheet: Sheet;
     opeModel: Operation;
     onValueChange: (cellPoint: CellPoint, text: string) => void;

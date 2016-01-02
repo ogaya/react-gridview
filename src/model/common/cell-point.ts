@@ -20,12 +20,12 @@ export class CellPoint extends Record({
         });
     }
 
-    setColumnNo(columnNo) {
-        return this.set("columnNo", columnNo);
+    setColumnNo(columnNo): this {
+        return <this>this.set("columnNo", columnNo);
     }
 
-    setRowNo(rowNo) {
-        return this.set("rowNo", rowNo);
+    setRowNo(rowNo): this {
+        return <this>this.set("rowNo", rowNo);
     }
 
     // ID化

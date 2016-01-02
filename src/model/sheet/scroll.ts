@@ -22,5 +22,10 @@ export default class ScrollModel extends Record({
     verticalVisibility: "visible",
     background: "#AAA"
 }) {
+    horizontalHeight: number;
+    horizontalVisibility: any;
+    verticalWidth: number;
+    verticalVisibility: any;
+    background: any;
 
 }

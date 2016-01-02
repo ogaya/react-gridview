@@ -45,8 +45,6 @@ export class KeyPressble {
             }
         }
         if (document.addEventListener) { // DOMレベル2イベントモデル
-      
-  
             //キャプチャリングイベントハンドラを登録する
             document.addEventListener("keydown", this._keyPress.onKeyPressKeyDown, true);
             document.addEventListener("keyup", this._keyPress.onKeyPressKeyUp, true);
@@ -55,7 +53,6 @@ export class KeyPressble {
     }
 
     _removeKeyPressEvent() {
-        console.log("rem");
         if (document.removeEventListener) { // DOMレベル2イベントモデル
             document.removeEventListener("mousemove", this._keyPress.onKeyPressKeyDown, true);
             document.removeEventListener("mouseup", this._keyPress.onKeyPressKeyUp, true);

@@ -36,7 +36,7 @@ interface Props {
     operation: Operation;
     sheet: Sheet;
     extension: Extension;
-    onOperationChange: () => any;
+    onOperationChange?: () => any;
 }
 
 export default class Stickies extends React.Component<Props, {}> {
