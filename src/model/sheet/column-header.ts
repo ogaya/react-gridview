@@ -31,14 +31,14 @@ function JsonToCell(json) {
 
 export default class ColumnHeader extends Record({
     _height: HEADER_HEIGHT,
-    maxCount: 702,
+    columnCount: 702,
     background: "#eaeaff",
     color: "#333",
     isVisible: true,
     editItems: Map()
 }) {
     _height: number;
-    maxCount: number;
+    columnCount: number;
     background: any;
     color: any;
     isVisible: boolean;
@@ -57,7 +57,7 @@ export default class ColumnHeader extends Record({
             return columnHeader;
         }
         return columnHeader
-            .setMaxCount(json.maxCount || columnHeader.maxCount)
+            .setColumnCount(json.columnCount || columnHeader.columnCount)
             .setEditItems(JsonToCell(json.items))
             .setColor(json.color || columnHeader.color)
             .setVisible(json.isVisible || columnHeader.isVisible);
@@ -66,7 +66,7 @@ export default class ColumnHeader extends Record({
     toJS() {
         return {
             height: this._height,
-            maxCount: this.maxCount,
+            columnCount: this.columnCount,
             background: this.background,
             isVisible: this.isVisible,
             items: this.items.toJS()
@@ -144,8 +144,8 @@ export default class ColumnHeader extends Record({
         return <this>this.set("editItems", editItems);
     }
 
-    setMaxCount(count): this {
-        return <this>this.set("maxCount", count);
+    setColumnCount(count): this {
+        return <this>this.set("columnCount", count);
     }
 
     get items() {
@@ -154,7 +154,7 @@ export default class ColumnHeader extends Record({
         }
         this._items = OrderedMap().withMutations(map => {
             let sumWidth = HEADER_SIZE.WIDTH;
-            for (let i = 0; i < this.maxCount; i++) {
+            for (let i = 0; i < this.columnCount; i++) {
                 const columnNo = i + 1;
                 const value = ColumnHeader.getId(columnNo);
 

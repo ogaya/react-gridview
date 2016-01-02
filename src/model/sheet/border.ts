@@ -1,5 +1,6 @@
 import {Record} from "immutable";
 import {LINE_STYLE} from "../common";
+import toMinJS from "../lib/to-min-js";
 
 export default class Border extends Record({
     // 線幅
@@ -13,24 +14,41 @@ export default class Border extends Record({
     lineStyle: LINE_STYLE;
     dash: Array<number>;
 
+
+    static fromJS(json) {
+        const border = Border.create();
+
+        if (!json) {
+            return border;
+        }
+        return border
+            .setWeight(json.weight || border.weight)
+            .setColors(json.colors || border.colors)
+            .setLineStyle(json.lineStyle || border.lineStyle)
+            .setDash(json.dash || border.dash);
+    }
+
+    toMinJS() {
+        return toMinJS(this, new Border, Border);
+    }
     static create() {
         return new Border();
     };
 
-    setWeight(weight) {
-        return this.set("weight", weight);
+    setWeight(weight) : this {
+        return <this> this.set("weight", weight);
     }
 
-    setColors(colors) {
-        return this.set("colors", colors);
+    setColors(colors):this {
+        return <this> this.set("colors", colors);
     }
 
-    setLineStyle(lineStyle) {
-        return this.set("lineStyle", lineStyle);
+    setLineStyle(lineStyle):this {
+        return <this> this.set("lineStyle", lineStyle);
     }
 
-    setDash(dash) {
-        return this.set("dash", dash);
+    setDash(dash):this {
+        return <this> this.set("dash", dash);
     }
 
     equals(border) {

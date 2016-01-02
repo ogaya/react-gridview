@@ -27,7 +27,7 @@ function JsonToCell(json) {
 const HEADER_WIDTH = 50;
 export default class RowHeader extends Record({
     _width: HEADER_WIDTH,
-    maxCount: 1000,
+    rowCount: 1000,
     background: "#eaeaff",
     color: "#333",
     isVisible: true,
@@ -35,7 +35,7 @@ export default class RowHeader extends Record({
 }) {
 
     _width: number;
-    maxCount: number;
+    rowCount: number;
     background: any;
     color: any;
     isVisible: boolean;
@@ -53,18 +53,17 @@ export default class RowHeader extends Record({
             return rowHeader;
         }
         return rowHeader
-            .setMaxCount(json.maxCount || rowHeader.maxCount)
+            .setRowCount(json.maxCount || rowHeader.rowCount)
             .setBackground(json.background || rowHeader.background)
             .setVisible(json.isVisible || rowHeader.isVisible)
-            .setEditItems(JsonToCell(json.items) || rowHeader.editItems)
-            .setMaxCount(json.maxCount || rowHeader.maxCount);
+            .setEditItems(JsonToCell(json.items) || rowHeader.editItems);
     }
 
 
     toJS() {
         return {
             width: this._width,
-            maxCount: this.maxCount,
+            rowCount: this.rowCount,
             background: this.background,
             isVisible: this.isVisible,
             items: this.items.toJS()
@@ -145,8 +144,8 @@ export default class RowHeader extends Record({
         return <this>this.set("isVisible", visible);
     }
 
-    setMaxCount(count): this {
-        return <this>this.set("maxCount", count);
+    setRowCount(count): this {
+        return <this>this.set("rowCount", count);
     }
 
     _rowNoToItem(rowNo) {
@@ -162,7 +161,7 @@ export default class RowHeader extends Record({
         }
         let sumHeight = HEADER_SIZE.HEIGHT;
         this._items = OrderedMap().withMutations(map => {
-            for (let i = 0; i < this.maxCount; i++) {
+            for (let i = 0; i < this.rowCount; i++) {
                 const rowNo = i + 1;
                 const item = this._rowNoToItem(rowNo);
                 map.set(rowNo, item.setTop(sumHeight));

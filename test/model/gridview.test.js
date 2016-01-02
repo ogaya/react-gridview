@@ -45,7 +45,7 @@ describe("GridViewModel", function() {
       var chItem = new ColumnHeaderItem();
 
       var columnHeader = model.columnHeader
-        .setMaxCount(3)
+        .setColumnCount(3)
         .setItem(1, chItem.setWidth(20))
         .setItem(2, chItem.setWidth(10))
         .setItem(3, chItem.setWidth(30));

@@ -80,7 +80,7 @@ export default class Cell extends Record({
             .setTextColor(json.textColor || cell.textColor);
     }
 
-    toMinJS(cell) {
+    toMinJS(cell?:this) {
         return toMinJS(this, cell, Cell);
     }
 

@@ -312,8 +312,8 @@ export class GridView extends React.Component<Props, State> implements KeyPressb
         const sheet = this.state.sheet;
         const operation = this.state.operation;
         const cellStyle = {
-            width: "calc(100% - " + sheet.scroll.horizontalHeight + "px)",
-            height: "calc(100% - " + sheet.scroll.verticalWidth + "px)",
+            width: "100%",
+            height: "100%",
             position: "relative",
             cursor: operation.HoverCursor
         };

@@ -1,7 +1,7 @@
 import {Record, Map, Range, List}from "immutable";
 import ColumnHeader from "./column-header";
 import RowHeader from "./row-header";
-import {CellPoint, BORDER_POSITION} from "../common";
+import {CellPoint, CellRange, BORDER_POSITION} from "../common";
 import Cell from "./cell";
 import Scroll from "./scroll";
 import Border from "./border";
@@ -37,7 +37,7 @@ function refsApply(table, prevCell, nextCell) {
 
 // JSONからテーブル情報を生成
 function JsonToTable(json) {
-    let table = Map();
+    let table = <Map<string, Cell>>Map();
 
     if (!json) {
         return table;
@@ -47,6 +47,21 @@ function JsonToTable(json) {
         table = table.set(key, cell);
     }
     return table;
+}
+
+function JsonToBorders(json) {
+    let borders = <Map<string, Border>>Map();
+
+    if (!json) {
+        return borders;
+    }
+
+    for (var key in json) {
+        const border = Border.fromJS(json[key]);
+        borders = borders.set(key, border);
+    }
+
+    return borders;
 }
 
 /**
@@ -67,14 +82,12 @@ export default class Sheet extends Record({
 
     columnHeader: ColumnHeader;
     rowHeader: RowHeader;
-    table: any;
+    table: Map<string, Cell>;
     stickies: any;
-    borders: any;
-    scroll: Scroll;
+    borders: Map<string, Border>;
+    //scroll: Scroll;
     zoom: number;
     onChangeCell: (prev: Cell, nextCell: Cell) => Cell;
-
-
 
     static create() {
         return new Sheet();
@@ -87,37 +100,80 @@ export default class Sheet extends Record({
     // JSONから本クラスを生成
     static fromJS(json) {
         const sheet = new Sheet();
+        const zoom = Number(json.zoom) || 100; 
         // テーブル情報を変換
         return sheet
             .setTable(JsonToTable(json.cells))
+            .setBorders(JsonToBorders(json.borders))
             .setColumnHeader(ColumnHeader.fromJS(json.columnHeader))
-            .setRowHeader(RowHeader.fromJS(json.rowHeader));
+            .setRowHeader(RowHeader.fromJS(json.rowHeader))
+            .setZoom(zoom);
     }
 
-    toJS() {
-        //const mapJS = (items) =>{
-        let tableJS = {};
+    private tableToMinJS() {
+        let json: any = {};
         this.table.forEach((item, key) => {
             const cell = item.toMinJS();
             if (Object.keys(cell).length) {
-                tableJS[key] = cell;
+                json[key] = cell;
             }
         });
+        return json;
+    }
+    
+    private tableToJS() {
+        let json: any = {};
 
-        return {
-            columnHeader: this.columnHeader.toMinJS(),
-            rowHeader: this.rowHeader.toMinJS(),
-            cells: tableJS,
-            borders: this.borders.toJS()
-        };
+        Range(1, this.columnHeader.columnCount + 1).forEach((columnNo) => {
+            Range(1, this.rowHeader.rowCount + 1).forEach((rowNo) => {
+                const cellPoint = new CellPoint(columnNo, rowNo);
+                const key = cellPoint.toId();
+                json[key] = this.getCell(cellPoint);
+            });
+        });
+        return json;
+    }
+
+    private bordersToJS(isMin:boolean) {
+        let json: any = {};
+        this.borders.forEach((border, key) => {
+            const bJson = border.toMinJS();
+            if ((!isMin) || (Object.keys(bJson).length)) {
+                json[key] = bJson;
+            }
+        })
+
+        return json;
+    }
+
+    toMinJS() {
+        let json: any = {};
+        const addJson = (j, v, name) => {
+            if (Object.keys(v).length) {
+                j[name] = v;
+            }
+            return j;
+        }
+        
+        json = addJson(json, this.columnHeader.toMinJS(), "columnHeader");
+        json = addJson(json, this.rowHeader.toMinJS(), "rowHeader");
+        json = addJson(json, this.bordersToJS(true), "borders");
+        json = addJson(json, this.tableToMinJS(), "cells");
+        if (this.zoom !== 100){
+            json["zoom"] = this.zoom;
+        }
+        return json;
     }
 
 
     // 本クラスをJSONへ変換
-    toFullJS() {
+    toJS() {
         return {
             columnHeader: this.columnHeader.toJS(),
-            rowHeader: this.rowHeader.toJS()
+            rowHeader: this.rowHeader.toJS(),
+            borders: this.bordersToJS(false),
+            cells: this.tableToJS(),
+            zoom: this.zoom
         };
     }
 
@@ -133,7 +189,7 @@ export default class Sheet extends Record({
         return <this>this.set("rowHeader", rowHeader);
     }
 
-    setZoom(zoom): this {
+    setZoom(zoom: number): this {
         return <this>this.set("zoom", zoom);
     }
 
@@ -235,6 +291,10 @@ export default class Sheet extends Record({
         return this.borders.get(id);
     }
 
+    setBorders(borders: Map<string, Border>): this {
+        return <this>this.set("borders", borders);
+    }
+
     // 枠線設定
     setBorder(cellPoint, borderPosition, border): this {
         if (!cellPoint) {
@@ -299,16 +359,16 @@ export default class Sheet extends Record({
         return model;
     }
 
-    getCells(range) {
+    getCells(range:CellRange):List<Cell> {
         if (!range) {
-            return List();
+            return <List<Cell>>List();
         }
         const left = Math.min(range.cellPoint1.columnNo, range.cellPoint2.columnNo);
         const right = Math.max(range.cellPoint1.columnNo, range.cellPoint2.columnNo);
         const top = Math.min(range.cellPoint1.rowNo, range.cellPoint2.rowNo);
         const bottom = Math.max(range.cellPoint1.rowNo, range.cellPoint2.rowNo);
 
-        let cells = List();
+        let cells = <List<Cell>>List();
 
         Range(left, right + 1).forEach((columnNo) => {
             Range(top, bottom + 1).forEach((rowNo) => {
@@ -376,7 +436,7 @@ export default class Sheet extends Record({
         }
 
         if ((!lastIndex) && (lastIndex !== 0)) {
-            lastIndex = this.columnHeader.maxCount;
+            lastIndex = this.columnHeader.columnCount;
         }
 
         // 上限下限が逆転してしまったら、範囲外にはもう無い
@@ -410,7 +470,7 @@ export default class Sheet extends Record({
         }
 
         if ((!lastIndex) && (lastIndex !== 0)) {
-            lastIndex = this.rowHeader.maxCount;
+            lastIndex = this.rowHeader.rowCount;
         }
 
         // 左右が逆転してしまったら、範囲外にはもう無い
@@ -440,8 +500,6 @@ export default class Sheet extends Record({
     pointToTarget(pointX, pointY) {
         const columnNo = this.pointToColumnNo(pointX);
         const rowNo = this.pointToRowNo(pointY);
-
         return new CellPoint(columnNo, rowNo);
     }
-
 }

@@ -17,6 +17,10 @@ class CellRange extends Record({
         });
     }
     
+    create(cellPoint1: CellPoint, cellPoint2: CellPoint) {
+        return new CellRange(cellPoint1, cellPoint2);
+    }
+    
     get minColumnNo(): number {
         return Math.min(this.cellPoint1.columnNo, this.cellPoint2.columnNo);
     }
