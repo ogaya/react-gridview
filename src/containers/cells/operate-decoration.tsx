@@ -21,17 +21,14 @@ const style = {
 };
 
 
-interface Props {
+export interface OperateDecorationProps {
     sheet: Sheet;
     opeModel: Operation;
     onViewModelChange?: (sheet: Sheet) => void;
     onOperationChange?: (ope: Operation) => void;
 }
 
-interface State {
-}
-
-export default class OperateDecoration extends React.Component<Props, State> {
+export class OperateDecoration extends React.Component<OperateDecorationProps, {}> {
     //const OperateDecoration = React.createClass({
     public static displayName = "Gridview-Operate-Decoration";
     _canvasRender(props) {

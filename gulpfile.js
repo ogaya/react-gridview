@@ -26,6 +26,13 @@ gulp.task("cleanBuild", function (cb) {
 //  .pipe(gulp.dest(""));
 //});
 
+gulp.task("definition", function (cb) {
+    exec("tsc -d -p ./", function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+        cb(err);
+    });
+});
 
 gulp.task("build", ["cleanBuild"], function (cb) {
     exec("tsc -p ./", function (err, stdout, stderr) {

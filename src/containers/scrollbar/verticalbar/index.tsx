@@ -23,7 +23,7 @@ const PADDING = 0;
 const THUMB_MIN_HEIGHT = 30;
 
 
-interface Props {
+export interface VerticalbarProps {
     className?: string;
     opeModel: Operation;
     sheet: Sheet;
@@ -33,19 +33,19 @@ interface Props {
     onChangeValue?: (value?: any) => void;
 }
 
-interface State {
+export interface VerticalbarState {
     offsetY: number;
     thumbAreaHeight: number;
 }
 
-export class Verticalbar extends React.Component<Props, State> {
+export class Verticalbar extends React.Component<VerticalbarProps, VerticalbarState> {
     public static displayName = "Verticalbar";
     public static defaultProps = {
         smallChange: 1,
         largeChange: 5,
         onChangeValue: () => { }
     };
-    state: State = {
+    state: VerticalbarState = {
         thumbAreaHeight: 0,
         offsetY: 0
     };

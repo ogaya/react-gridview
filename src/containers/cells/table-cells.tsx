@@ -21,16 +21,14 @@ const style = {
     outline: "none"
 };
 
-interface Props {
+export interface TableCellsProps {
     sheet: Sheet;
     opeModel: Operation;
     onOperationChange: (ope: Operation) => void;
 }
 
-interface State {
-}
 
-export default class TableCell extends React.Component<Props, State> {
+export class TableCells extends React.Component<TableCellsProps, {}> {
     //const TableCell = React.createClass({
     public static displayName = "Gridview-TableCell";
 

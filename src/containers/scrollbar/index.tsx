@@ -14,18 +14,18 @@ const cStyle = Object.freeze({
     height: "20px"
 });
 
-interface Props {
+export interface GridViewBarProps {
     opeModel: Operation;
     sheet: Sheet;
     onOperationChange: (value?) => void;
 }
 
-interface State {
+export interface GridViewBarState {
     offsetY: number;
     thumbAreaHeight: number;
 }
 
-export class GridViewBar extends React.Component<Props, State> {
+export class GridViewBar extends React.Component<GridViewBarProps, GridViewBarState> {
     //const GridViewBar  = React.createClass({
     public static displayName = "GridViewBar";
     public static defaultProps = {

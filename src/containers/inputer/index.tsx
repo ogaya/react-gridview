@@ -14,7 +14,7 @@ import {copy, paste}      from "./copy-paste";
 
 import {applyMixins} from "../../util/apply-mixins";
 
-interface Props {
+export interface InputerProps {
     ref?: string;
     value?: string;
     sheet: Sheet;
@@ -23,12 +23,12 @@ interface Props {
     onStateChange: (sheet: Sheet, operation: Operation) => void;
 }
 
-interface State {
+export interface InputerState {
     inputText: string;
     controlCellPoint: any;
 }
 
-export default class Inputer extends React.Component<Props, State> implements KeyPressble {
+export default class Inputer extends React.Component<InputerProps, InputerState> implements KeyPressble {
     //const Inputer = React.createClass({
     public static displayName = "Gridview-Cells";
     //mixins: [KeyPress],
@@ -52,7 +52,7 @@ export default class Inputer extends React.Component<Props, State> implements Ke
         this._removeKeyPressEvent();
     }
 
-    _setValue = (nextProps: Props) => {
+    _setValue = (nextProps: InputerProps) => {
         const selectItem = this.props.opeModel.selectItem;
 
         if (!selectItem) {

@@ -19,17 +19,13 @@ const style = {
 };
 
 
-interface Props {
+export interface ExNodesProps {
     sheet: Sheet;
     operation: Operation;
     extension: Extension;
 }
 
-interface State {
-
-}
-
-export default class ExNodes extends React.Component<Props, State> {
+export default class ExNodes extends React.Component<ExNodesProps, {}> {
     //const ExNodes = React.createClass({
     public static displayName = "Gridview-ExNodes";
 

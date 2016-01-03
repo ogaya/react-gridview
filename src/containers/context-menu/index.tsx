@@ -7,16 +7,13 @@ import Extension from "../../model/extension";
 
 import "./css.js";
 
-interface Props {
+export interface ContextMenuProps {
     sheet: Sheet;
     operation: Operation;
     extension: Extension;
 }
 
-interface State {
-}
-
-export default class ContextMenu extends React.Component<Props, State> {
+export default class ContextMenu extends React.Component<ContextMenuProps, {}> {
     //const ContextMenu = React.createClass({
     public static displayName = "React-Sheet-ContextMenu";
 

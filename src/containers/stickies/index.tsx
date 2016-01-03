@@ -32,14 +32,14 @@ function getRenderRect(sheet, operation) {
     
     
     
-interface Props {
+export interface StickiesProps {
     operation: Operation;
     sheet: Sheet;
     extension: Extension;
     onOperationChange?: () => any;
 }
 
-export default class Stickies extends React.Component<Props, {}> {
+export default class Stickies extends React.Component<StickiesProps, {}> {
     displayName: string = "Stickies";
 
     _createNodes() {

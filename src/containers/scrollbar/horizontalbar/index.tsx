@@ -21,7 +21,7 @@ const PADDING = 0;
 // thumbの最小幅
 const THUMB_MIN_WIDTH = 30;
 
-interface Props {
+export interface HorizontalbarProps {
     className?: string;
     opeModel: Operation;
     sheet: Sheet;
@@ -31,12 +31,12 @@ interface Props {
     onChangeValue?: (val?: any) => void;
 }
 
-interface State {
+export interface HorizontalbarState {
     offsetX: number;
     thumbAreaWidth: number;
 }
 
-export class Horizontalbar extends React.Component<Props, State> {
+export class Horizontalbar extends React.Component<HorizontalbarProps, HorizontalbarState> {
     displayName: string = "Horizontalbar";
     public static defaultProps = {
         smallChange: 1,
@@ -44,7 +44,7 @@ export class Horizontalbar extends React.Component<Props, State> {
         onChangeValue: () => { },
         value: 0
     };
-    state: State = {
+    state: HorizontalbarState = {
         thumbAreaWidth: 0,
         offsetX: 0
     };

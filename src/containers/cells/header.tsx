@@ -23,16 +23,13 @@ const style = {
 };
 
 
-interface Props {
+export interface HeaderProps {
     sheet: Sheet;
     opeModel: Operation;
     onOperationChange?: (ope: Operation) => void;
 }
 
-interface State {
-}
-
-export default class Header extends React.Component<Props, State> {
+export class Header extends React.Component<HeaderProps, {}> {
     //const Header = React.createClass({
     public static displayName = "Gridview-TableCell";
 

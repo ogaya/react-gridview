@@ -54,7 +54,7 @@ function dragScroll(sheet, opeModel) {
     return fitForTarget(sheet, opeModel, hoverItem.cellPoint);
 }
 
-interface Props {
+export interface GridViewProps {
     className: string;
     key?: any;
     ref?: any;
@@ -65,12 +65,12 @@ interface Props {
     onChangeOperation: (prevOpe: Operation, nextOpe: Operation) => Operation;
 }
 
-interface State {
+export interface GridViewState {
     sheet: Sheet;
     operation: Operation;
 }
 
-export class GridView extends React.Component<Props, State> implements KeyPressble {
+export class GridView extends React.Component<GridViewProps, GridViewState> implements KeyPressble {
     //const GridView = React.createClass({
     public static displayName = "gridview";
     //mixins: [KeyPress, MouseEvent, TouchEvent],
@@ -83,7 +83,7 @@ export class GridView extends React.Component<Props, State> implements KeyPressb
         onChangeOperation: (prevVOperation, nextOperation) => { return nextOperation; }
     }
 
-    constructor(props: Props, context) {
+    constructor(props: GridViewProps, context) {
         super(props, context);
 
         this.state = {
@@ -102,7 +102,7 @@ export class GridView extends React.Component<Props, State> implements KeyPressb
     //       operation: this.props.operation
     //     };
     //   },
-    componentWillReceiveProps(nextProps: Props) {
+    componentWillReceiveProps(nextProps: GridViewProps) {
         if (this.props.sheet !== nextProps.sheet) {
             //this.setState({sheet: nextProps.sheet});
             this.setState((prevState, props) => {
