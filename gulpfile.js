@@ -14,6 +14,8 @@ var mocha = require('gulp-mocha');
 var babel = require('gulp-babel');
 //var espower = require('gulp-espower');
 
+var replace = require("gulp-replace");
+
 gulp.task("cleanBuild", function (cb) {
     var rimraf = require("rimraf");
     rimraf("./dist/*", cb);
@@ -22,16 +24,22 @@ gulp.task("cleanBuild", function (cb) {
 //gulp.task("build", ["cleanBuild"], function() {
 //  return gulp.src("")
 //  .pipe(webpack(webpackConfig))
-//  .pipe(uglify())
+//  .pipe(utaglify())
 //  .pipe(gulp.dest(""));
 //});
 
-gulp.task("definition", function (cb) {
+gulp.task("decoration", ["build"], function (cb) {
     exec("tsc -d -p ./", function (err, stdout, stderr) {
         console.log(stdout);
         console.log(stderr);
         cb(err);
     });
+});
+
+gulp.task('release', ["decoration"], function(){
+  gulp.src(['./dist/**/*.d.ts'])
+    .pipe(replace('extends  {', '{'))
+    .pipe(gulp.dest('./dist'));
 });
 
 gulp.task("build", ["cleanBuild"], function (cb) {
