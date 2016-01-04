@@ -1,14 +1,14 @@
 import {Record, Map, OrderedMap}from "immutable";
 import RowHeaderItem from "./row-header-item";
 
+import {HEADER_SIZE} from "../common";
+
 const defCell = new RowHeaderItem();
 const emptyCell = defCell.setBackground("#DDD");
-import {HEADER_SIZE} from "./const";
-
 
 // JSONからテーブル情報を生成
 function JsonToCell(json) {
-    let table = Map();
+    let table = <Map<number, RowHeaderItem>>Map();
 
     if (!json) {
         return table;
@@ -21,7 +21,6 @@ function JsonToCell(json) {
 
     return table;
 }
-
 
 
 const HEADER_WIDTH = 50;
@@ -39,8 +38,8 @@ export default class RowHeader extends Record({
     background: any;
     color: any;
     isVisible: boolean;
-    editItems: any;
-    _items: any;
+    editItems: Map<number, RowHeaderItem>;
+    _items: Map<number, RowHeaderItem>;
 
     static create() {
         return new RowHeader();
@@ -107,16 +106,16 @@ export default class RowHeader extends Record({
         return json;
     }
 
-    setEditItems(editItems): this {
-        return <this>this.set("editItems", editItems);
+    setEditItems(editItems: Map<number, RowHeaderItem>) {
+        return <RowHeader>this.set("editItems", editItems);
     }
 
-    setBackground(background): this {
-        return <this>this.set("background", background);
+    setBackground(background) {
+        return <RowHeader>this.set("background", background);
     }
 
-    setWidth(width): this {
-        return <this>this.set("_width", width);
+    setWidth(width: number) {
+        return <RowHeader>this.set("_width", width);
     }
 
     get width() {
@@ -135,20 +134,20 @@ export default class RowHeader extends Record({
         return sumHeight;
     }
 
-    setItem(index, item): this {
+    setItem(index: number, item: RowHeaderItem) {
         const editItems = this.editItems.set(index, item);
         return this.setEditItems(editItems);
     }
 
-    setVisible(visible): this {
-        return <this>this.set("isVisible", visible);
+    setVisible(visible: boolean) {
+        return <RowHeader>this.set("isVisible", visible);
     }
 
-    setRowCount(count): this {
-        return <this>this.set("rowCount", count);
+    setRowCount(count: number) {
+        return <RowHeader>this.set("rowCount", count);
     }
 
-    _rowNoToItem(rowNo) {
+    _rowNoToItem(rowNo: number) {
         if (this.editItems.has(rowNo)) {
             return this.editItems.get(rowNo);
         }
@@ -160,7 +159,7 @@ export default class RowHeader extends Record({
             return this._items;
         }
         let sumHeight = HEADER_SIZE.HEIGHT;
-        this._items = OrderedMap().withMutations(map => {
+        this._items = <Map<number, RowHeaderItem>>OrderedMap().withMutations(map => {
             for (let i = 0; i < this.rowCount; i++) {
                 const rowNo = i + 1;
                 const item = this._rowNoToItem(rowNo);

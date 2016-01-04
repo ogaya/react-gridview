@@ -29,32 +29,32 @@ export default class ColumnHeaderItem extends Record({
             .setWidth(json.width);
     }
 
-    toMinJS(columnHeaderItem) {
-        return toMinJS(this, columnHeaderItem, ColumnHeaderItem);
+    toMinJS(defaultItem?: ColumnHeaderItem) {
+        return toMinJS(this, defaultItem, ColumnHeaderItem);
     }
 
-    setCell(cell: Cell): this {
-        return <this>this.set("cell", cell);
+    setCell(cell: Cell) {
+        return <ColumnHeaderItem>this.set("cell", cell);
     }
 
-    setWidth(width): this {
-        return <this>this.set("width", width);
+    setWidth(width: number) {
+        return <ColumnHeaderItem>this.set("width", width);
     }
 
-    setValue(value): this {
+    setValue(value) {
         const cell = this.cell.setValue(value);
         return this.setCell(cell);
     }
 
-    setLeft(left): this {
-        return <this>this.set("left", left);
+    setLeft(left: number) {
+        return <ColumnHeaderItem>this.set("left", left);
     }
 
     get right() {
         return this.left + this.width;
     }
 
-    setBackground(background): this {
+    setBackground(background) {
         const cell = this.cell.setBackground(background);
         return this.setCell(cell);
     }

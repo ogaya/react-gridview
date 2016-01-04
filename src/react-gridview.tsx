@@ -55,14 +55,14 @@ function dragScroll(sheet, opeModel) {
 }
 
 export interface GridViewProps {
-    className: string;
+    className?: string;
     key?: any;
     ref?: any;
-    sheet: Sheet;
-    operation: Operation;
-    extension: Extension;
-    onChangeSheet: (prevSheet: Sheet, nextSheet: Sheet) => Sheet;
-    onChangeOperation: (prevOpe: Operation, nextOpe: Operation) => Operation;
+    sheet?: Sheet;
+    operation?: Operation;
+    extension?: Extension;
+    onChangeSheet?: (prevSheet: Sheet, nextSheet: Sheet) => Sheet;
+    onChangeOperation?: (prevOpe: Operation, nextOpe: Operation) => Operation;
 }
 
 export interface GridViewState {

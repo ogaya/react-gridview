@@ -1,6 +1,6 @@
 import {Record, Map, OrderedMap}from "immutable";
 import ColumnHeaderItem from "./column-header-item";
-import {HEADER_SIZE} from "./const";
+import {HEADER_SIZE} from "../common";
 //import toMinJS from "../lib/to-min-js";
 
 const abc = ["A", "B", "C", "D", "E", "F",
@@ -14,7 +14,7 @@ const HEADER_HEIGHT = HEADER_SIZE.HEIGHT;
 
 // JSONからテーブル情報を生成
 function JsonToCell(json) {
-    let table = Map();
+    let table = <Map<number, ColumnHeaderItem>>Map();
 
     if (!json) {
         return table;
@@ -42,8 +42,8 @@ export default class ColumnHeader extends Record({
     background: any;
     color: any;
     isVisible: boolean;
-    editItems: any;
-    _items: any;
+    editItems: Map<number, ColumnHeaderItem>;
+    _items: Map<number, ColumnHeaderItem>;
 
     static create() {
         return new ColumnHeader();
@@ -112,15 +112,15 @@ export default class ColumnHeader extends Record({
         //return toMinJS(this, columnHeader, ColumnHeader);
     }
 
-    setEditItems(editItems): this {
-        return <this>this.set("editItems", editItems);
+    setEditItems(editItems: Map<number, ColumnHeaderItem>) {
+        return <ColumnHeader>this.set("editItems", editItems);
     }
-    setColor(color): this {
-        return <this>this.set("color", color);
+    setColor(color) {
+        return <ColumnHeader>this.set("color", color);
     }
 
-    setVisible(visible): this {
-        return <this>this.set("isVisible", visible);
+    setVisible(visible: boolean) {
+        return <ColumnHeader>this.set("isVisible", visible);
     }
     get height() {
         if (!this.isVisible) {
@@ -139,20 +139,20 @@ export default class ColumnHeader extends Record({
         return quotientStr + remainderStr;
     }
 
-    setItem(index, item): this {
+    setItem(index, item) {
         const editItems = this.editItems.set(index, item);
-        return <this>this.set("editItems", editItems);
+        return <ColumnHeader>this.set("editItems", editItems);
     }
 
-    setColumnCount(count): this {
-        return <this>this.set("columnCount", count);
+    setColumnCount(count) {
+        return <ColumnHeader>this.set("columnCount", count);
     }
 
     get items() {
         if (this._items) {
             return this._items;
         }
-        this._items = OrderedMap().withMutations(map => {
+        this._items = <Map<number, ColumnHeaderItem>>OrderedMap().withMutations(map => {
             let sumWidth = HEADER_SIZE.WIDTH;
             for (let i = 0; i < this.columnCount; i++) {
                 const columnNo = i + 1;

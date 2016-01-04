@@ -3,7 +3,7 @@ import {Record} from "immutable";
 import {Rect} from "../common/rect";
 const empty = new Rect(0, 0, 100, 100);
 
-export default class StickyModel extends Record({
+export class Sticky extends Record({
     location: empty,
     text: "",
     nodeName: ""
@@ -11,4 +11,8 @@ export default class StickyModel extends Record({
     equals(sticky) {
         return JSON.stringify(this.toJS()) === JSON.stringify(sticky.toJS());
     }
+}
+
+export {
+    Sticky as default
 }

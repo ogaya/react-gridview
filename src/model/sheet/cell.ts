@@ -1,11 +1,12 @@
 import {Record, Set} from "immutable";
 import {VERTICAL_ALIGN, TEXT_ALIGN} from "../common";
 import {calc, isCalc} from "../../calc";
-import {CellPoint} from "../common";
+import {CellPoint, CellRange} from "../common";
 import toMinJS from "../lib/to-min-js";
+import {Sheet} from "./index";
 
 function JsonToSet(json) {
-    let result = Set();
+    let result = <Set<string>>Set();
 
     if (!json) {
         return result;
@@ -16,7 +17,8 @@ function JsonToSet(json) {
     return result;
 }
 
-export default class Cell extends Record({
+
+export class Cell extends Record({
     columnNo: 0,
     rowNo: 0,
     text: "",
@@ -37,8 +39,8 @@ export default class Cell extends Record({
     columnNo: number;
     rowNo: number;
     text: string;
-    verticalAlign: any;
-    textAlign: any;
+    verticalAlign: VERTICAL_ALIGN;
+    textAlign: TEXT_ALIGN;
     indent: number;
     background: any;
     textColor: any;
@@ -48,7 +50,7 @@ export default class Cell extends Record({
     refs: Set<string>;
     calcValue: any;
     nodeName: string;
-    mergeRange: any;
+    mergeRange: CellRange;
 
     static create(t?): Cell {
         const cell = new Cell();
@@ -80,7 +82,7 @@ export default class Cell extends Record({
             .setTextColor(json.textColor || cell.textColor);
     }
 
-    toMinJS(cell?:this) {
+    toMinJS(cell?: Cell) {
         return toMinJS(this, cell, Cell);
     }
 
@@ -93,38 +95,32 @@ export default class Cell extends Record({
         return new CellPoint(this.columnNo, this.rowNo);
     }
 
-    setColumnNo(columnNo: number): this {
-        return <this>this.set("columnNo", columnNo);
+    setColumnNo(columnNo: number) {
+        return <Cell>this.set("columnNo", columnNo);
     }
 
-    setRowNo(rowNo: number): this {
-        return <this>this.set("rowNo", rowNo);
+    setRowNo(rowNo: number) {
+        return <Cell>this.set("rowNo", rowNo);
     }
 
-    // toJS(){
-    //   return {
-    //     value: this.value
-    //   };
-    // }
-
-    setBackground(background): this {
-        return <this>this.set("background", background);
+    setBackground(background) {
+        return <Cell>this.set("background", background);
     }
 
-    setText(value): this {
-        return <this>this.set("text", value);
+    setText(value) {
+        return <Cell>this.set("text", value);
     }
-    setValue(value):this {
-        return <this>this.set("text", value);
+    setValue(value) {
+        return <Cell>this.set("text", value);
     }
 
-    solveCalc(sheet):this {
+    solveCalc(sheet: Sheet) {
 
         const result = calc(this.text, sheet);
         if (result.isError) {
-            return <this>this.set("calcValue", null);
+            return <Cell>this.set("calcValue", null);
         }
-        return <this>this
+        return <Cell>this
             .set("refs", result.refs)
             .set("calcValue", result.value);
     }
@@ -132,47 +128,47 @@ export default class Cell extends Record({
     get value() {
         return isCalc(this.text) ? this.calcValue : this.text;
     }
-    
-    setRefs(refs) :this{
-        return <this>this.set("refs", refs);
+
+    setRefs(refs) {
+        return <Cell>this.set("refs", refs);
     }
 
-    setVerticalAlign(verticalAlign): this {
-        return <this>this.set("verticalAlign", verticalAlign);
+    setVerticalAlign(verticalAlign) {
+        return <Cell>this.set("verticalAlign", verticalAlign);
     }
 
-    setTextAlign(textAlign):this {
-        return <this>this.set("textAlign", textAlign);
+    setTextAlign(textAlign) {
+        return <Cell>this.set("textAlign", textAlign);
     }
 
-    setIndent(indent):this {
-        return <this>this.set("indent", indent);
+    setIndent(indent) {
+        return <Cell>this.set("indent", indent);
     }
 
-    setTextColor(textColor):this {
-        return <this>this.set("textColor", textColor);
+    setTextColor(textColor) {
+        return <Cell>this.set("textColor", textColor);
     }
 
-    setMergeRange(mergeRange):this {
-        return <this>this.set("mergeRange", mergeRange);
+    setMergeRange(mergeRange: CellRange) {
+        return <Cell>this.set("mergeRange", mergeRange);
     }
 
-    setChildIds(childIds): this{
-        return <this>this.set("childIds", childIds);
+    setChildIds(childIds: Set<string>) {
+        return <Cell>this.set("childIds", childIds);
     }
-    addChildId(childId):this {
-        return <this>this.set("childIds", this.childIds.add(childId));
-    }
-
-    deleteChildId(childId):this {
-        return <this>this.set("childIds", this.childIds.delete(childId));
+    addChildId(childId: string) {
+        return <Cell>this.set("childIds", this.childIds.add(childId));
     }
 
-    setNodeName(nodeName):this {
-        return <this>this.set("nodeName", nodeName);
+    deleteChildId(childId: string) {
+        return <Cell>this.set("childIds", this.childIds.delete(childId));
     }
 
-    equals(cell) {
+    setNodeName(nodeName: string) {
+        return <Cell>this.set("nodeName", nodeName);
+    }
+
+    equals(cell:Cell) {
         const tmp = cell
             .set("columnNo", this.columnNo)
             .set("rowNo", this.rowNo)
@@ -181,4 +177,8 @@ export default class Cell extends Record({
 
         return JSON.stringify(this.toJS()) === JSON.stringify(tmp.toJS());
     }
+}
+
+export{
+    Cell as default
 }

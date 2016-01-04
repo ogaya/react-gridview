@@ -6,6 +6,7 @@ import Cell from "./cell";
 import Scroll from "./scroll";
 import Border from "./border";
 import {OBJECT_TYPE} from "./object-type";
+import {Sticky} from "./sticky";
 
 const emptyCell = new Cell();
 const emptyBorder = new Border();
@@ -14,7 +15,7 @@ OBJECT_TYPE
 };
 
 // テーブルに参照ポイントの適用を行う
-function refsApply(table, prevCell, nextCell) {
+function refsApply(table: Map<string, Cell>, prevCell: Cell, nextCell: Cell) {
     // 参照セルの値を更新
 
     prevCell.refs.forEach((ref) => {
@@ -67,7 +68,7 @@ function JsonToBorders(json) {
 /**
  * 表示情報
  */
-export default class Sheet extends Record({
+export class Sheet extends Record({
     columnHeader: new ColumnHeader(),
     rowHeader: new RowHeader(),
     table: Map(),
@@ -120,7 +121,7 @@ export default class Sheet extends Record({
         });
         return json;
     }
-    
+
     private tableToJS() {
         let json: any = {};
 
@@ -134,7 +135,7 @@ export default class Sheet extends Record({
         return json;
     }
 
-    private bordersToJS(isMin:boolean) {
+    private bordersToJS(isMin: boolean) {
         let json: any = {};
         this.borders.forEach((border, key) => {
             const bJson = border.toMinJS();
@@ -154,12 +155,12 @@ export default class Sheet extends Record({
             }
             return j;
         }
-        
+
         json = addJson(json, this.columnHeader.toMinJS(), "columnHeader");
         json = addJson(json, this.rowHeader.toMinJS(), "rowHeader");
         json = addJson(json, this.bordersToJS(true), "borders");
         json = addJson(json, this.tableToMinJS(), "cells");
-        if (this.zoom !== 100){
+        if (this.zoom !== 100) {
             json["zoom"] = this.zoom;
         }
         return json;
@@ -177,28 +178,28 @@ export default class Sheet extends Record({
         };
     }
 
-    setTable(table): this {
-        return <this>this.set("table", table);
+    setTable(table: Map<string, Cell>) {
+        return <Sheet>this.set("table", table);
     }
 
-    setColumnHeader(columnHeader): this {
-        return <this>this.set("columnHeader", columnHeader);
+    setColumnHeader(columnHeader: ColumnHeader) {
+        return <Sheet>this.set("columnHeader", columnHeader);
     }
 
-    setRowHeader(rowHeader): this {
-        return <this>this.set("rowHeader", rowHeader);
+    setRowHeader(rowHeader: RowHeader) {
+        return <Sheet>this.set("rowHeader", rowHeader);
     }
 
-    setZoom(zoom: number): this {
-        return <this>this.set("zoom", zoom);
+    setZoom(zoom: number) {
+        return <Sheet>this.set("zoom", zoom);
     }
 
-    editRowHeader(mutator): this {
-        return <this>this.set("rowHeader", mutator(this.rowHeader));
+    editRowHeader(mutator: (rowHeader: RowHeader) => RowHeader) {
+        return <Sheet>this.set("rowHeader", mutator(this.rowHeader));
     }
 
-    editColumnHeader(mutator): this {
-        return <this>this.set("columnHeader", mutator(this.columnHeader));
+    editColumnHeader(mutator: (columnHeader: ColumnHeader) => ColumnHeader) {
+        return <Sheet>this.set("columnHeader", mutator(this.columnHeader));
     }
 
 
@@ -227,11 +228,11 @@ export default class Sheet extends Record({
     }
 
 
-    setOnChangeCell(onChangeCell): this {
-        return <this>this.set("onChangeCell", onChangeCell);
+    setOnChangeCell(onChangeCell: (prev: Cell, nextCell: Cell) => Cell) {
+        return <Sheet>this.set("onChangeCell", onChangeCell);
     }
 
-    getValueForId(id) {
+    getValueForId(id: string) {
         if (this.table.has(id) === false) {
             return "";
         }
@@ -239,9 +240,9 @@ export default class Sheet extends Record({
     }
 
     // 値のセット
-    setValue(cellPoint, value): this {
+    setValue(cellPoint: CellPoint, value) {
         const nextCell = this.getCell(cellPoint).setValue(value);
-        return <this>this.setCell(cellPoint, nextCell);
+        return <Sheet>this.setCell(cellPoint, nextCell);
     }
 
     setCell(arg, arg2) {
@@ -282,7 +283,7 @@ export default class Sheet extends Record({
         return this.zoom / 100 || 1;
     }
     // 枠線取得
-    getBorder(cellPoint, borderPosition) {
+    getBorder(cellPoint: CellPoint, borderPosition: BORDER_POSITION) {
         const id = cellPoint.toId() + "-" + borderPosition;
         if (this.borders.has(id) === false) {
             return this.defaultBorder;
@@ -291,12 +292,12 @@ export default class Sheet extends Record({
         return this.borders.get(id);
     }
 
-    setBorders(borders: Map<string, Border>): this {
-        return <this>this.set("borders", borders);
+    setBorders(borders: Map<string, Border>) {
+        return <Sheet>this.set("borders", borders);
     }
 
     // 枠線設定
-    setBorder(cellPoint, borderPosition, border): this {
+    setBorder(cellPoint: CellPoint, borderPosition: BORDER_POSITION, border: Border) {
         if (!cellPoint) {
             return this;
         }
@@ -314,7 +315,7 @@ export default class Sheet extends Record({
         const id = cellPoint.toId() + "-" + borderPosition;
         if (!border) {
             if (this.borders.has(id)) {
-                return <this>this.set("borders", this.borders.delete(id));
+                return <Sheet>this.set("borders", this.borders.delete(id));
             }
             else {
                 return this;
@@ -326,17 +327,17 @@ export default class Sheet extends Record({
             return this;
         }
 
-        return <this>this.set("borders", this.borders.set(id, border));
+        return <Sheet>this.set("borders", this.borders.set(id, border));
     }
 
-    editCell(cellPoint, mutator): this {
+    editCell(cellPoint: CellPoint, mutator: (cell: Cell) => Cell) {
         const prevCell = this.getCell(cellPoint);
         const nextCell = mutator(prevCell);
         return this.setCell(cellPoint, nextCell);
     }
 
     // 範囲内のセルを変更する
-    editCells(range, mutator) {
+    editCells(range: CellRange, mutator: (cell: Cell) => Cell) {
         if (!range) {
             return this;
         }
@@ -345,7 +346,7 @@ export default class Sheet extends Record({
         const top = Math.min(range.cellPoint1.rowNo, range.cellPoint2.rowNo);
         const bottom = Math.max(range.cellPoint1.rowNo, range.cellPoint2.rowNo);
 
-        let model = this;
+        let model = <Sheet>this;
         Range(left, right + 1).forEach((columnNo) => {
             Range(top, bottom + 1).forEach((rowNo) => {
                 const cellPoint = new CellPoint(columnNo, rowNo);
@@ -359,7 +360,7 @@ export default class Sheet extends Record({
         return model;
     }
 
-    getCells(range:CellRange):List<Cell> {
+    getCells(range: CellRange): List<Cell> {
         if (!range) {
             return <List<Cell>>List();
         }
@@ -380,16 +381,16 @@ export default class Sheet extends Record({
         return cells;
     }
 
-    addSticky(sticky) {
+    addSticky(sticky: Sticky) {
         return this.set("stickies", this.stickies.push(sticky));
     }
 
-    deleteSticky(index) {
+    deleteSticky(index: number) {
         return this.set("stickies", this.stickies.delete(index));
     }
 
-    // 範囲内のセルを取得する
-    setValueRange(range, value): this {
+    // 範囲内のセルを設定する
+    setValueRange(range: CellRange, value) {
         if (!range) {
             return this;
         }
@@ -398,7 +399,7 @@ export default class Sheet extends Record({
         const top = Math.min(range.cellPoint1.rowNo, range.cellPoint2.rowNo);
         const bottom = Math.max(range.cellPoint1.rowNo, range.cellPoint2.rowNo);
 
-        let model = this;
+        let model = <Sheet>this;
         Range(left, right + 1).forEach((columnNo) => {
             Range(top, bottom + 1).forEach((rowNo) => {
                 model = model.setValue(new CellPoint(columnNo, rowNo), value);
@@ -414,12 +415,12 @@ export default class Sheet extends Record({
      * @param {List} ranges 範囲リスト
      * @param {string} value  変更値
      */
-    setValueRanges(ranges, value): this {
+    setValueRanges(ranges: List<CellRange>, value) {
         if (!ranges) {
             return this;
         }
 
-        let model = this;
+        let model = <Sheet>this;
 
         ranges.forEach(range => {
             model = model.setValueRange(range, value);
@@ -429,7 +430,7 @@ export default class Sheet extends Record({
 
 
     // 絶対座標の列情報を探す(二分探索)
-    pointToColumnNo(pointX, firstIndex?, lastIndex?) {
+    pointToColumnNo(pointX: number, firstIndex?: number, lastIndex?: number) {
 
         if ((!firstIndex) && (lastIndex !== 0)) {
             firstIndex = 1;
@@ -463,7 +464,7 @@ export default class Sheet extends Record({
     }
 
     // Ｙ座標から、行番号を算出する
-    pointToRowNo(pointY, firstIndex?, lastIndex?) {
+    pointToRowNo(pointY: number, firstIndex?: number, lastIndex?: number) {
 
         if ((!firstIndex) && (lastIndex !== 0)) {
             firstIndex = 1;
@@ -497,9 +498,13 @@ export default class Sheet extends Record({
     }
 
     // 座標からセル位置を取得する
-    pointToTarget(pointX, pointY) {
+    pointToTarget(pointX: number, pointY: number) {
         const columnNo = this.pointToColumnNo(pointX);
         const rowNo = this.pointToRowNo(pointY);
         return new CellPoint(columnNo, rowNo);
     }
+}
+
+export {
+Sheet as default
 }
