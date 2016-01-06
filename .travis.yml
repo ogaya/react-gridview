@@ -5,6 +5,7 @@ install:
   - npm install -g tsd
   - npm install -g typescript
   - npm install
-  - tsd install
+  - tsd install react --save
+  - tsd install react-dom --save
 
 script: gulp build
