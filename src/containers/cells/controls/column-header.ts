@@ -1,6 +1,11 @@
 import {Rect} from "../../../model/common";
+import {Canvas} from "../../../model/canvas";
+import {ColumnHeader} from "../../../model/sheet/column-header";
+import {RowHeader} from "../../../model/sheet/row-header";
+import {Operation} from "../../../model/operation";
 
-export default function drawColumnHeader(canvas, columnHeader, rowHeader, opeModel) {
+export default function drawColumnHeader(
+    canvas:Canvas, columnHeader:ColumnHeader, rowHeader:RowHeader, opeModel:Operation) {
 
     if (!columnHeader.isVisible) {
         return;

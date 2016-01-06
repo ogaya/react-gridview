@@ -1,13 +1,20 @@
 import {CellPoint, BORDER_POSITION} from "../../../model/common";
 import {targetToRect, cellRangeToRect} from "../../../model/lib/target_to_rect";
+import {Rect} from "../../../model/common";
+import {Canvas} from "../../../model/canvas";
+import {ColumnHeaderItem} from "../../../model/sheet/column-header-item";
+import {RowHeaderItem} from "../../../model/sheet/row-header-item";
+import {Operation} from "../../../model/operation";
+import {Sheet} from "../../../model/sheet";
+
 
 // セル枠の描画
-function drawBorder(canvas, sheet, opeModel, cellPoint, rect) {
+function drawBorder(canvas: Canvas, sheet: Sheet,
+    opeModel: Operation, cellPoint: CellPoint, rect: Rect) {
     let offset;
     const cell = sheet.getCell(cellPoint);
     const topBorder = sheet.getBorder(cellPoint, BORDER_POSITION.TOP);
     const leftBorder = sheet.getBorder(cellPoint, BORDER_POSITION.LEFT);
-
 
     canvas.context.strokeStyle = topBorder.colors[0];
     // 上部分は結合されている
@@ -61,8 +68,7 @@ function drawBorder(canvas, sheet, opeModel, cellPoint, rect) {
 }
 
 // セルの描画
-function drawCell(canvas, sheet, opeModel, cellPoint) {
-
+function drawCell(canvas: Canvas, sheet: Sheet, opeModel: Operation, cellPoint: CellPoint) {
 
     const cell = sheet.getCell(cellPoint);
 
@@ -99,7 +105,9 @@ function drawCell(canvas, sheet, opeModel, cellPoint) {
 }
 
 // 行内の列描画
-function drawColumn(canvas, sheet, rowNo, top, rowHeaderItem, opeModel) {
+function drawColumn(canvas: Canvas, sheet: Sheet,
+    rowNo: number, top: number, rowHeaderItem: RowHeaderItem, opeModel: Operation) {
+
     let left = sheet.rowHeader.width;
     sheet.columnHeader.items.skip(opeModel.scroll.columnNo - 1)
         .takeWhile((item, columnNo) => {
@@ -119,7 +127,7 @@ function drawColumn(canvas, sheet, rowNo, top, rowHeaderItem, opeModel) {
 }
 
 // 行毎の描画
-export default function drawTable(canvas, sheet, opeModel) {
+export default function drawTable(canvas: Canvas, sheet: Sheet, opeModel: Operation) {
     let top = sheet.columnHeader.height;
     sheet.rowHeader.items
         .skip(opeModel.scroll.rowNo - 1)

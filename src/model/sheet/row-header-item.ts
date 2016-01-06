@@ -8,7 +8,7 @@ const defCell = emptyCell
     .setVerticalAlign(VERTICAL_ALIGN.MIDDLE)
     .setTextAlign(TEXT_ALIGN.RIGHT);
 
-export default class RowHeaderItem extends Record({
+export class RowHeaderItem extends Record({
     cell: defCell,
     height: 21,
     top: 0
@@ -27,33 +27,37 @@ export default class RowHeaderItem extends Record({
             .setHeight(json.height);
     }
 
-    toMinJS(rowHeaderItem) {
+    toMinJS(rowHeaderItem: RowHeaderItem) {
         return toMinJS(this, rowHeaderItem, RowHeaderItem);
     }
 
-    setCell(cell: Cell): this {
-        return <this>this.set("cell", cell);
+    setCell(cell: Cell) {
+        return <RowHeaderItem>this.set("cell", cell);
     }
 
-    setHeight(height): this {
-        return <this>this.set("height", height);
+    setHeight(height: number) {
+        return <RowHeaderItem>this.set("height", height);
     }
 
-    setTop(top): this {
-        return <this>this.set("top", top);
+    setTop(top: number) {
+        return <RowHeaderItem>this.set("top", top);
     }
 
     get bottom() {
         return this.top + this.height;
     }
 
-    setValue(value): this {
+    setValue(value) {
         const cell = this.cell.setValue(value);
-        return <this>this.set("cell", cell);
+        return <RowHeaderItem>this.set("cell", cell);
     }
 
-    setBackground(background): this {
+    setBackground(background) {
         const cell = this.cell.setBackground(background);
-        return <this>this.set("cell", cell);
+        return <RowHeaderItem>this.set("cell", cell);
     }
+}
+
+export{
+    RowHeaderItem as default
 }

@@ -12,7 +12,7 @@ export class Rect extends Record({
     width: number;
     height: number;
 
-    constructor(left, top, width, height) {
+    constructor(left: number, top: number, width: number, height: number) {
         super({
             left: left,
             top: top,
@@ -37,7 +37,7 @@ export class Rect extends Record({
         return new Rect(left, top, width, height);
     }
 
-    static forRects(rect1, rect2) {
+    static forRects(rect1:Rect, rect2:Rect) {
         const left = Math.min(rect1.left, rect2.left);
         const right = Math.max(rect1.right, rect2.right);
         const top = Math.min(rect1.top, rect2.top);
@@ -60,23 +60,23 @@ export class Rect extends Record({
     }
 
     setLeft(left: number) {
-        return this.set("left", left);
+        return <Rect>this.set("left", left);
     }
 
     setTop(top: number) {
-        return this.set("top", top);
+        return <Rect>this.set("top", top);
     }
 
     setWidth(width: number) {
-        return this.set("width", width);
+        return <Rect>this.set("width", width);
     }
 
     setHeight(height: number) {
-        return this.set("height", height);
+        return <Rect>this.set("height", height);
     }
 
     // 四角形同士が交差しているか判定
-    isIntersected(rect) {
+    isIntersected(rect:Rect) {
         if (!rect) {
             return false;
         }

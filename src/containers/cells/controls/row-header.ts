@@ -1,10 +1,15 @@
 import {Rect} from "../../../model/common";
+import {Canvas} from "../../../model/canvas";
+import {ColumnHeader} from "../../../model/sheet/column-header";
+import {RowHeader} from "../../../model/sheet/row-header";
+import {Operation} from "../../../model/operation";
 
 //const fontFamily =
 //"ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "メイリオ", Meiryo,
 //Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;;
 
-export default function drawRowHeader(canvas, columnHeader, rowHeader, opeModel) {
+export default function drawRowHeader(
+    canvas:Canvas, columnHeader:ColumnHeader, rowHeader:RowHeader, opeModel:Operation) {
 
     if (!rowHeader.isVisible) {
         return;

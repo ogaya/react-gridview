@@ -29,7 +29,7 @@ function JsonToCell(json) {
 }
 
 
-export default class ColumnHeader extends Record({
+export class ColumnHeader extends Record({
     _height: HEADER_HEIGHT,
     columnCount: 702,
     background: "#eaeaff",
@@ -176,5 +176,6 @@ export default class ColumnHeader extends Record({
 }
 
 export {
-HEADER_HEIGHT
+HEADER_HEIGHT,
+ColumnHeader as default
 };

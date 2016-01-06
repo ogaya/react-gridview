@@ -13,19 +13,19 @@ export class CellPoint extends Record({
     rowNo: number;
 
     // コンストラクタ
-    constructor(columnNo, rowNo) {
+    constructor(columnNo:number, rowNo:number) {
         super({
             columnNo: Number(columnNo),
             rowNo: Number(rowNo)
         });
     }
 
-    setColumnNo(columnNo): this {
-        return <this>this.set("columnNo", columnNo);
+    setColumnNo(columnNo:number) {
+        return <CellPoint>this.set("columnNo", columnNo);
     }
 
-    setRowNo(rowNo): this {
-        return <this>this.set("rowNo", rowNo);
+    setRowNo(rowNo:number) {
+        return <CellPoint>this.set("rowNo", rowNo);
     }
 
     // ID化
@@ -37,7 +37,7 @@ export class CellPoint extends Record({
         return CellPoint.getColumnId(this.columnNo) + this.rowNo;
     }
 
-    static createForId(id) {
+    static createForId(id:string) {
         let columnNo = 0;
         let rowNo = 0;
         for (let i = 0; i < id.length; i++) {
@@ -54,7 +54,7 @@ export class CellPoint extends Record({
         return new CellPoint(columnNo, rowNo);
     }
 
-    static getColumnId(x) {
+    static getColumnId(x:number) {
         const num = x - 1;
         const quotient = Math.floor(num / abc.length) - 1;
         const remainder = num % abc.length;
@@ -63,7 +63,7 @@ export class CellPoint extends Record({
         return quotientStr + remainderStr;
     }
 
-    equals(cellPoint) {
+    equals(cellPoint:CellPoint) {
         if (!cellPoint) {
             return false;
         }

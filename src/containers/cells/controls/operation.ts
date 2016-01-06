@@ -1,10 +1,12 @@
 import {targetToRect, cellRangeToRect} from "../../../model/lib/target_to_rect";
 import {COLOR} from "../../../model/common";
-import {OBJECT_TYPE} from "../../../model/sheet";
+import {OBJECT_TYPE, Sheet} from "../../../model/sheet";
+import {Canvas} from "../../../model/canvas";
+import {Operation} from "../../../model/operation";
 //import {Rect} from "../../../model/common/rect";
 
 // 列のリサイズ処理を描画
-function drawColumnResize(canvas, sheet, opeModel) {
+function drawColumnResize(canvas:Canvas, sheet:Sheet, opeModel:Operation) {
     if (!opeModel.opeItem) {
         return;
     }
@@ -19,7 +21,7 @@ function drawColumnResize(canvas, sheet, opeModel) {
 }
 
 // 行のリサイズ描画
-function drawRowResize(canvas, sheet, opeModel) {
+function drawRowResize(canvas:Canvas, sheet:Sheet, opeModel:Operation) {
     if (!opeModel.opeItem) {
         return;
     }
@@ -34,7 +36,7 @@ function drawRowResize(canvas, sheet, opeModel) {
 }
 
 // 範囲選択の描画
-function drawRange(canvas, sheet, opeModel) {
+function drawRange(canvas:Canvas, sheet:Sheet, opeModel:Operation) {
     const rangeItems = opeModel.rangeItems;
     if (!rangeItems) {
         return;
@@ -77,7 +79,7 @@ function drawRange(canvas, sheet, opeModel) {
  * @param  {View} sheet 表示情報
  * @param  {Operation} opeModel  捜査情報
  */
-function drawCopy(canvas, sheet, opeModel) {
+function drawCopy(canvas:Canvas, sheet:Sheet, opeModel:Operation) {
     const copyingRange = opeModel.copyingRange;
 
     if (!copyingRange) {
@@ -94,7 +96,7 @@ function drawCopy(canvas, sheet, opeModel) {
     canvas.drawRectDashedLine(rect, [8, 4]);
 }
 
-function drawSelectCell(canvas, sheet, opeModel) {
+function drawSelectCell(canvas:Canvas, sheet:Sheet, opeModel:Operation) {
     // セル選択の描画
     const cellPoint = opeModel.selectItem && opeModel.selectItem.cellPoint;
     //console.log(target);
@@ -119,7 +121,7 @@ function drawSelectCell(canvas, sheet, opeModel) {
 }
 
 // ユーザー操作の描画
-export default function drawOperation(canvas, sheet, opeModel) {
+export default function drawOperation(canvas:Canvas, sheet:Sheet, opeModel:Operation) {
 
     // リサイズ処理の描画
     drawColumnResize(canvas, sheet, opeModel);

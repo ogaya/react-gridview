@@ -38,8 +38,6 @@ const HEADER_SIZE = Object.freeze({
 // リサイザーの幅
 const RESIZER_BORDER_WIDTH = 4;
 
-
-
 export {
 Rect,
 CellPoint,

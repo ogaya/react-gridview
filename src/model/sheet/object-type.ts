@@ -1,11 +1,11 @@
-const OBJECT_TYPE = Object.freeze({
-    NONE: "NONE",
-    COLUMN_HEADER: "COLUMN_HEADER",
-    COLUMN_RESIZER: "COLUMN_RESIZER",
-    ROW_HEADER: "ROW_HEADER",
-    ROW_RESIZER: "ROW_RESIZER",
-    CELL: "CELL"
-});
+enum OBJECT_TYPE{
+    NONE=0,
+    COLUMN_HEADER=1,
+    COLUMN_RESIZER=2,
+    ROW_HEADER=3,
+    ROW_RESIZER=4,
+    CELL=5
+};
 
 
 export default {

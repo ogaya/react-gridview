@@ -2,6 +2,9 @@ import {Record, List} from "immutable";
 import {OBJECT_TYPE} from "../sheet/object-type";
 import {CellPoint} from "./cell-point";
 
+import {Sheet} from "../sheet";
+import {Operation} from "../operation";
+
 // セル選択モデル
 class CellRange extends Record({
     cellPoint1: null,
@@ -74,7 +77,7 @@ class CellRange extends Record({
 
     }
 
-    equals(cellRange): boolean {
+    equals(cellRange:CellRange): boolean {
         if (!cellRange) {
             return false;
         }
@@ -104,7 +107,7 @@ class CellRange extends Record({
  * @param  {[type]} opeModel  [description]
  * @return {[type]}           [description]
  */
-function pickRangeFromColumnHeader(sheet, opeModel) {
+function pickRangeFromColumnHeader(sheet:Sheet, opeModel:Operation) {
 
     const opeItem = opeModel.opeItem;
     const hoverItem = opeModel.hoverItem;
@@ -117,15 +120,15 @@ function pickRangeFromColumnHeader(sheet, opeModel) {
     if (!hoverItem) {
         return new CellRange(
             new CellPoint(opeItem.cellPoint.columnNo, 1),
-            new CellPoint(opeItem.cellPoint.columnNo, sheet.rowHeader.maxCount));
+            new CellPoint(opeItem.cellPoint.columnNo, sheet.rowHeader.rowCount));
     }
 
     return new CellRange(
         new CellPoint(opeItem.cellPoint.columnNo, 1),
-        new CellPoint(hoverItem.cellPoint.columnNo, sheet.rowHeader.maxCount));
+        new CellPoint(hoverItem.cellPoint.columnNo, sheet.rowHeader.rowCount));
 }
 
-function pickRangeFromRowHeader(sheet, opeModel) {
+function pickRangeFromRowHeader(sheet:Sheet, opeModel:Operation) {
 
     const opeItem = opeModel.opeItem;
     const hoverItem = opeModel.hoverItem;
@@ -138,15 +141,15 @@ function pickRangeFromRowHeader(sheet, opeModel) {
     if (!hoverItem) {
         return new CellRange(
             new CellPoint(1, opeItem.cellPoint.rowNo),
-            new CellPoint(sheet.columnHeader.maxCount, opeItem.cellPoint.rowNo));
+            new CellPoint(sheet.columnHeader.columnCount, opeItem.cellPoint.rowNo));
     }
 
     return new CellRange(
         new CellPoint(1, opeItem.cellPoint.rowNo),
-        new CellPoint(sheet.columnHeader.maxCount, hoverItem.cellPoint.rowNo));
+        new CellPoint(sheet.columnHeader.columnCount, hoverItem.cellPoint.rowNo));
 }
 
-function opeModelToRangeItem(opeModel) {
+function opeModelToRangeItem(opeModel:Operation) {
 
     const opeItem = opeModel.opeItem;
     const hoverItem = opeModel.hoverItem;
@@ -165,7 +168,7 @@ function opeModelToRangeItem(opeModel) {
 }
 
 // 範囲内に結合セルがある場合、選択範囲を広げる
-function fitRange(sheet, rangeItem) {
+function fitRange(sheet:Sheet, rangeItem:CellRange) {
     const left = rangeItem.minColumnNo;
     const top = rangeItem.minRowNo;
     const right = rangeItem.maxColumnNo;
@@ -247,7 +250,7 @@ function fitRange(sheet, rangeItem) {
  * @param  {[type]} opeModel  [description]
  * @return {[type]}           [description]
  */
-function modelToRangeItem(sheet, opeModel) {
+function modelToRangeItem(sheet:Sheet, opeModel:Operation) {
 
     let opeRange = pickRangeFromColumnHeader(sheet, opeModel);
     if (opeRange) {

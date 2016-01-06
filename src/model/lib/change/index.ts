@@ -1,8 +1,11 @@
 
 import {OBJECT_TYPE} from "../../sheet/object-type";
 
+import {Sheet} from "../../sheet";
+import {Operation} from "../../operation";
+
 // 列幅のリサイズ処理
-function columnResize(sheet, opeModel) {
+function columnResize(sheet:Sheet, opeModel:Operation) {
     const objectType = opeModel.opeItem && opeModel.opeItem.objectType;
     if (objectType !== OBJECT_TYPE.COLUMN_RESIZER) {
         return sheet;
@@ -28,7 +31,7 @@ function columnResize(sheet, opeModel) {
 
 }
 
-function rowResize(sheet, opeModel) {
+function rowResize(sheet:Sheet, opeModel:Operation) {
     const objectType = opeModel.opeItem && opeModel.opeItem.objectType;
     if (objectType !== OBJECT_TYPE.ROW_RESIZER) {
         return sheet;
@@ -54,7 +57,7 @@ function rowResize(sheet, opeModel) {
 
 }
 
-export function operationResult(sheet, opeModel) {
+export function operationResult(sheet:Sheet, opeModel:Operation) {
     const cResizeModel = columnResize(sheet, opeModel);
 
     if (cResizeModel !== sheet) {
@@ -69,7 +72,3 @@ export function operationResult(sheet, opeModel) {
 
     return sheet;
 }
-
-// export{
-//   operationResult
-// };

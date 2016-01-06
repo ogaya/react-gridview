@@ -1,5 +1,9 @@
+import {Canvas} from "../../../model/canvas";
+import {ColumnHeader} from "../../../model/sheet/column-header";
+import {RowHeader} from "../../../model/sheet/row-header";
 
-export default function drawColumnHeader(canvas, columnHeader, rowHeader) {
+export default function drawColumnHeader(
+    canvas:Canvas, columnHeader:ColumnHeader, rowHeader:RowHeader) {
     //const headerHaight = 18;
     //塗りスタイルに青色を指定する
     //context.fillStyle = "rgb(200, 200, 200)";

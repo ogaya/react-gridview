@@ -8,7 +8,7 @@ const defCell = emptyCell
     .setVerticalAlign(VERTICAL_ALIGN.MIDDLE)
     .setTextAlign(TEXT_ALIGN.CENTER);
 
-export default class ColumnHeaderItem extends Record({
+export class ColumnHeaderItem extends Record({
     cell: defCell,
     width: 80,
     left: 0
@@ -58,4 +58,8 @@ export default class ColumnHeaderItem extends Record({
         const cell = this.cell.setBackground(background);
         return this.setCell(cell);
     }
+}
+
+export{
+    ColumnHeaderItem as default
 }

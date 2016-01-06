@@ -1,5 +1,8 @@
 import {Record} from "immutable";
-import {RESIZER_BORDER_WIDTH} from "../../common";
+import {RESIZER_BORDER_WIDTH, Point} from "../../common";
+
+import {Sheet} from "../../sheet";
+import {Operation} from "../../operation";
 
 // 行情報
 export class RowInfo extends Record({
@@ -9,7 +12,12 @@ export class RowInfo extends Record({
     isBottomBorder: false
 }) {
 
-    constructor(rowNo, top, height, isBottomBorder) {
+    rowNo: number;
+    top: number;
+    height: number;
+    isBottomBorder: boolean;
+
+    constructor(rowNo: number, top: number, height: number, isBottomBorder: boolean) {
         super({
             rowNo: rowNo,
             top: top,
@@ -22,7 +30,7 @@ export class RowInfo extends Record({
 const empty = new RowInfo(-1, 0, 0, false);
 
 // 行情報取得
-export function clientPointToRowInfo(sheet, opeModel, point) {
+export function clientPointToRowInfo(sheet: Sheet, opeModel: Operation, point: Point) {
 
 
     // ヘッダー内の場合
@@ -59,4 +67,7 @@ export function clientPointToRowInfo(sheet, opeModel, point) {
     const diffY = point.y - (top + target.height);
     const isBottomBorder = Math.abs(diffY) < RESIZER_BORDER_WIDTH;
     return new RowInfo(rowNo, top, target.height, isBottomBorder);
+}
+export {
+RowInfo as default
 }

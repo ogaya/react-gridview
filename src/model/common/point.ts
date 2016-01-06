@@ -9,7 +9,7 @@ export class Point extends Record({
     x: number;
     y: number;
 
-    constructor(x, y) {
+    constructor(x: number, y: number) {
         super({
             x: Number(x),
             y: Number(y)

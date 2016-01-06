@@ -1,7 +1,8 @@
 
-import {Rect} from "../../common";
+import {Rect, CellPoint, CellRange} from "../../common";
+import {Sheet} from "../../sheet";
 
-function targetToTop(model, target, offsetRowNo) {
+function targetToTop(model: Sheet, target: CellPoint, offsetRowNo: number) {
     if (!target) {
         return null;
     }
@@ -19,7 +20,7 @@ function targetToTop(model, target, offsetRowNo) {
 }
 
 
-function targetToBottom(model, target, offsetRowNo) {
+function targetToBottom(model: Sheet, target: CellPoint, offsetRowNo: number) {
     if (!target) {
         return null;
     }
@@ -38,7 +39,7 @@ function targetToBottom(model, target, offsetRowNo) {
 }
 
 // ターゲットの左座標を求める
-function targetToLeft(model, target, offsetColumnNo) {
+function targetToLeft(model: Sheet, target: CellPoint, offsetColumnNo: number) {
     if (!target) {
         return null;
     }
@@ -56,7 +57,7 @@ function targetToLeft(model, target, offsetColumnNo) {
     return left;
 }
 
-function targetToRight(model, target, offsetColumnNo) {
+function targetToRight(model: Sheet, target: CellPoint, offsetColumnNo: number) {
     if (!target) {
         return null;
     }
@@ -76,7 +77,7 @@ function targetToRight(model, target, offsetColumnNo) {
 }
 
 
-export function cellRangeToRect(sheet, cellRange, scroll) {
+export function cellRangeToRect(sheet: Sheet, cellRange: CellRange, scroll: CellPoint) {
     const offsetColumnNo = (scroll && scroll.columnNo) || 1;
     const offsetRowNo = (scroll && scroll.rowNo) || 1;
 
@@ -89,7 +90,7 @@ export function cellRangeToRect(sheet, cellRange, scroll) {
 }
 
 // 対象セルの位置を取得する
-export function targetToRect(model, target, scroll) {
+export function targetToRect(model: Sheet, target: CellPoint, scroll: CellPoint) {
     const offsetColumnNo = (scroll && scroll.columnNo) || 1;
     //const offsetX = offsetColumnNo - 1;
     const offsetRowNo = (scroll && scroll.rowNo) || 1;

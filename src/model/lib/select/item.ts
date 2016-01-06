@@ -1,4 +1,8 @@
 import {Record} from "immutable";
+import {Rect, Point, CellPoint} from "../../common";
+
+import {OBJECT_TYPE} from "../../sheet";
+import {Operation} from "../../operation";
 
 // セル位置モデル
 export class SelectInfo extends Record({
@@ -7,8 +11,12 @@ export class SelectInfo extends Record({
     point: null,
     rect: null
 }) {
+    objectType: OBJECT_TYPE;
+    cellPoint: CellPoint;
+    point: Point;
+    rect: Rect;
 
-    constructor(objectType, cellPoint, rect, point) {
+    constructor(objectType: OBJECT_TYPE, cellPoint: CellPoint, rect: Rect, point: Point) {
         super({
             objectType: objectType,
             cellPoint: cellPoint,

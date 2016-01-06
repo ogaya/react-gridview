@@ -1,6 +1,7 @@
 import {Record, Set} from "immutable";
+import {Sheet} from "../model/sheet";
 
-export default class SolverModel extends Record({
+export class Solver extends Record({
     text: null,
     value: 0,
     pointer: 0,
@@ -11,46 +12,46 @@ export default class SolverModel extends Record({
     text: string;
     value: number;
     pointer: number;
-    refIds: Set<any>;
+    refIds: Set<string>;
     isError: boolean;
-    
+
     static createEmpty() {
-        return new SolverModel();
+        return new Solver();
     }
-    setText(text): any {
-        return this.set("text", text);
-    }
-
-    setValue(value): any {
-        return this.set("value", value);
+    setText(text: string) {
+        return <Solver>this.set("text", text);
     }
 
-    setPointer(pointer): SolverModel {
-        return <SolverModel>this.set("pointer", pointer);
+    setValue(value: number) {
+        return <Solver>this.set("value", value);
     }
 
-    addPointer(pointer): SolverModel {
+    setPointer(pointer: number): Solver {
+        return <Solver>this.set("pointer", pointer);
+    }
+
+    addPointer(pointer: number): Solver {
         pointer = pointer || 1;
-        return <SolverModel>this.set("pointer", this.pointer + pointer);
+        return <Solver>this.set("pointer", this.pointer + pointer);
     }
 
-    addRefId(id): SolverModel {
+    addRefId(id: string): Solver {
         if (this.refIds.has(id)) {
             return this.setIsError(true);
         }
-        return <SolverModel>this.set("refIds", this.refIds.add(id));
+        return <Solver>this.set("refIds", this.refIds.add(id));
     }
 
-    setRefIds(ids): SolverModel {
-        return <SolverModel>this.set("refIds", ids);
+    setRefIds(ids: Set<string>): Solver {
+        return <Solver>this.set("refIds", ids);
     }
 
-    setView(sheet): SolverModel {
-        return <SolverModel>this.set("sheet", sheet);
+    setView(sheet: Sheet): Solver {
+        return <Solver>this.set("sheet", sheet);
     }
 
-    setIsError(isError): SolverModel {
-        return <SolverModel>this.set("isError", isError);
+    setIsError(isError) {
+        return <Solver>this.set("isError", isError);
     }
 
     // 解析処理していない残り文字数
@@ -76,4 +77,8 @@ export default class SolverModel extends Record({
         return this.text.substr(this.pointer, length);
     }
 
+}
+
+export {
+Solver as default
 }

@@ -1,6 +1,6 @@
 import {Record, List}from "immutable";
-import InputModel from "./input";
-import {CellPoint} from "../common";
+import {InputModel} from "./input";
+import {CellPoint, Rect} from "../common";
 import {OBJECT_TYPE} from "../sheet/object-type";
 import {CellRange} from "../common";
 import {SelectInfo} from "../lib/select";
@@ -22,7 +22,7 @@ function objectCursor(objectType) {
     }
 }
 
-export default class Operation extends Record({
+export class Operation extends Record({
     input: new InputModel(),
     selectItem: null,
     opeItem: null,
@@ -35,13 +35,13 @@ export default class Operation extends Record({
 }) {
 
     input: InputModel;
-    selectItem: any;
-    opeItem: any;
-    hoverItem: any;
-    rangeItem: any;
-    copyingRange: any;
-    clipRanges: any;
-    canvasRect: any;
+    selectItem: SelectInfo;
+    opeItem: SelectInfo;
+    hoverItem: SelectInfo;
+    rangeItem: CellRange;
+    copyingRange: CellRange;
+    clipRanges: List<CellRange>;
+    canvasRect: Rect;
     scroll: CellPoint;
 
     static create() {
@@ -64,32 +64,32 @@ export default class Operation extends Record({
      * @param {InputModel} input 入力状態
      * @return {Operation}        更新した自身
      */
-    setInput(input): this {
-        return <this>this.set("input", input);
+    setInput(input: InputModel) {
+        return <Operation>this.set("input", input);
     }
 
-    setSelectItem(selectItem): this {
-        return (<this>this.set("selectItem", selectItem));
+    setSelectItem(selectItem: SelectInfo) {
+        return <Operation>this.set("selectItem", selectItem);
     }
 
-    setScroll(scroll): this {
-        return <this>this.set("scroll", scroll);
+    setScroll(scroll: CellPoint) {
+        return <Operation>this.set("scroll", scroll);
     }
 
-    editScroll(mutator): this {
-        return <this>this.set("scroll", mutator(this.scroll));
+    editScroll(mutator: (scroll: CellPoint) => CellPoint) {
+        return <Operation>this.set("scroll", mutator(this.scroll));
     }
 
-    setHoverItem(hoverItem): this {
-        return <this>this.set("hoverItem", hoverItem);
+    setHoverItem(hoverItem: SelectInfo) {
+        return <Operation>this.set("hoverItem", hoverItem);
     }
 
-    setOpeItem(opeItem): this {
-        return <this>this.set("opeItem", opeItem);
+    setOpeItem(opeItem: SelectInfo) {
+        return <Operation>this.set("opeItem", opeItem);
     }
 
-    setRangeItem(rangeItem): this {
-        return <this>this.set("rangeItem", rangeItem);
+    setRangeItem(rangeItem: CellRange) {
+        return <Operation>this.set("rangeItem", rangeItem);
     }
 
     /**
@@ -97,13 +97,13 @@ export default class Operation extends Record({
      * @param  {CellRange} rangeItem 選択範囲
      * @return {Operation} 更新した自身
      */
-    pushClipRanges(rangeItem): this {
-        return <this>this.set("clipRanges", this.clipRanges.push(rangeItem));
+    pushClipRanges(rangeItem: CellRange) {
+        return <Operation>this.set("clipRanges", this.clipRanges.push(rangeItem));
     }
 
-    downSelect(): this {
+    downSelect() {
         if (!this.selectItem) {
-            return this;
+            return <Operation>this;
         }
         // 選択セルを下へ移す
         const target = this.selectItem.cellPoint.setRowNo(this.selectItem.cellPoint.rowNo + 1);
@@ -116,22 +116,22 @@ export default class Operation extends Record({
      * 保持中の選択範囲を削除する
      * @return {Operation} 更新した自身
      */
-    clearClipRanges(): this {
-        return <this>this.set("clipRanges", this.clipRanges.clear());
+    clearClipRanges() {
+        return <Operation>this.set("clipRanges", this.clipRanges.clear());
     }
 
-    setCanvasRect(canvasRect): this {
-        return <this>this.set("canvasRect", canvasRect);
+    setCanvasRect(canvasRect: Rect) {
+        return <Operation>this.set("canvasRect", canvasRect);
     }
 
-    setCopyingRange(copyingRange): this {
-        return <this>this.set("copyingRange", copyingRange);
+    setCopyingRange(copyingRange: CellRange) {
+        return <Operation>this.set("copyingRange", copyingRange);
     }
 
-    resetRange(): this {
+    resetRange() {
         const target = this.selectItem.cellPoint;
         const range = new CellRange(target, target);
-        return this.setRangeItem(range);
+        return <Operation>this.setRangeItem(range);
     }
 
     opeCursor() {
@@ -162,4 +162,8 @@ export default class Operation extends Record({
 
         return objectCursor(objectType);
     }
+}
+
+export {
+Operation as default
 }

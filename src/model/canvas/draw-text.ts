@@ -1,7 +1,9 @@
-import {TEXT_ALIGN, VERTICAL_ALIGN} from "../common";
+import {TEXT_ALIGN, VERTICAL_ALIGN, Rect} from "../common";
 
 // 縦位置を調整する
-function adjustVerticalAlign(context, rect, verticalAlign, indent) {
+function adjustVerticalAlign(
+    context: CanvasRenderingContext2D, rect: Rect,
+    verticalAlign: VERTICAL_ALIGN, indent: number) {
     switch (verticalAlign) {
         case VERTICAL_ALIGN.TOP:
             context.textBaseline = "top";
@@ -17,7 +19,9 @@ function adjustVerticalAlign(context, rect, verticalAlign, indent) {
 }
 
 // 横位置を調整する
-function adjustTextlAlign(context, rect, textAligin, indent) {
+function adjustTextlAlign(
+    context: CanvasRenderingContext2D, rect: Rect,
+    textAligin: TEXT_ALIGN, indent: number) {
     switch (textAligin) {
         case TEXT_ALIGN.CENTER:
             context.textAlign = "center";
@@ -33,13 +37,10 @@ function adjustTextlAlign(context, rect, textAligin, indent) {
 }
 
 // 塗りつぶしテキストを描画する
-export function drawFillText(context,
-    value, rect, textAlign, verticalAlign, indent) {
+export function drawFillText(context: CanvasRenderingContext2D,
+    value: string, rect: Rect, textAlign: TEXT_ALIGN, verticalAlign: VERTICAL_ALIGN, indent: number) {
 
     indent = (indent) || 0;
-
-
-
     const x = adjustTextlAlign(context, rect, textAlign, indent);
     const y = adjustVerticalAlign(context, rect, verticalAlign, indent);
 

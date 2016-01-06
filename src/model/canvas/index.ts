@@ -1,6 +1,8 @@
 import {Record} from "immutable";
 import {drawFillText} from "./draw-text";
-export default class CanvasModel extends Record({
+import {TEXT_ALIGN, VERTICAL_ALIGN, Rect} from "../common";
+
+export class Canvas extends Record({
     context: null,
     width: 0,
     height: 0
@@ -10,16 +12,17 @@ export default class CanvasModel extends Record({
     width: number;
     height: number;
 
-    constructor(context, width, height) {
+    constructor(context: CanvasRenderingContext2D, width: number, height: number) {
         super({ context: context, width: width, height: height });
     }
 
-    drawText(value, rect, textAligin, verticalAlign, indent) {
+    drawText(value:string, rect:Rect, 
+        textAligin:TEXT_ALIGN, verticalAlign:VERTICAL_ALIGN, indent:number=0) {
         drawFillText(this.context, value, rect, textAligin, verticalAlign, indent);
     }
 
     // 直線を引く
-    drawLine(x1, y1, x2, y2) {
+    drawLine(x1: number, y1: number, x2: number, y2: number) {
         const context = this.context;
         context.beginPath();
         context.moveTo(x1 + 0.5, y1 + 0.5);
@@ -28,7 +31,7 @@ export default class CanvasModel extends Record({
     }
 
     // 点線を引く
-    drawDashedLine(x, y, x2, y2, dashArray) {
+    drawDashedLine(x: number, y: number, x2: number, y2: number, dashArray: Array<number>) {
         const context = this.context;
         context.beginPath();
         if (!dashArray) {
@@ -60,7 +63,7 @@ export default class CanvasModel extends Record({
         context.stroke();
     }
 
-    drawRectLine(rect) {
+    drawRectLine(rect: Rect) {
         // 上ライン
         this.drawLine(rect.left, rect.top, rect.right, rect.top);
         // 右ライン
@@ -71,7 +74,7 @@ export default class CanvasModel extends Record({
         this.drawLine(rect.left, rect.top, rect.left, rect.bottom);
     }
 
-    drawRectDashedLine(rect, dashArray) {
+    drawRectDashedLine(rect: Rect, dashArray: Array<number>) {
         // 上ライン
         this.drawDashedLine(rect.left, rect.top, rect.right, rect.top, dashArray);
         // 右ライン
@@ -82,8 +85,12 @@ export default class CanvasModel extends Record({
         this.drawDashedLine(rect.left, rect.top, rect.left, rect.bottom, dashArray);
     }
 
-    drawRectFill(rect) {
+    drawRectFill(rect: Rect) {
         const context = this.context;
         context.fillRect(rect.left, rect.top, rect.width, rect.height);
     }
+}
+
+export {
+    Canvas as default
 }

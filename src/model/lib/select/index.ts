@@ -1,13 +1,16 @@
 
 import {OBJECT_TYPE} from "../../sheet/object-type";
 
-import {Rect, CellPoint} from "../../common";
+import {Rect, CellPoint, Point} from "../../common";
 import {SelectInfo} from "./item";
 
 // 列情報取得処理
-import {clientPointToColumnInfo} from "./scanColumn";
+import {clientPointToColumnInfo, ColumnInfo} from "./scanColumn";
 // 行情報取得処理
-import {clientPointToRowInfo} from "./scanRow";
+import {clientPointToRowInfo, RowInfo} from "./scanRow";
+
+import {Sheet} from "../../sheet";
+import {Operation} from "../../operation";
 
 /**
  * 列ヘッダーのピックアップ
@@ -16,7 +19,7 @@ import {clientPointToRowInfo} from "./scanRow";
  * @param  {Point} point            座標
  * @return {SelectInfo}       選択アイテムの情報
  */
-export function pickColumnHeader(columnInfo, rowInfo, point) {
+export function pickColumnHeader(columnInfo: ColumnInfo, rowInfo: RowInfo, point: Point) {
     if (rowInfo.rowNo !== 0) {
         return null;
     }
@@ -28,7 +31,7 @@ export function pickColumnHeader(columnInfo, rowInfo, point) {
     return new SelectInfo(objectType, target, rect, point);
 }
 
-function pickRowHeader(columnInfo, rowInfo, point) {
+function pickRowHeader(columnInfo: ColumnInfo, rowInfo: RowInfo, point: Point) {
     if (columnInfo.columnNo !== 0) {
         return null;
     }
@@ -40,11 +43,11 @@ function pickRowHeader(columnInfo, rowInfo, point) {
     return new SelectInfo(objectType, target, rect, point);
 }
 
-function pickCell(columnInfo, rowInfo, point) {
+function pickCell(columnInfo: ColumnInfo, rowInfo: RowInfo, point: Point) {
     if (rowInfo.rowNo <= 0) {
         return null;
     }
-    if (columnInfo.rowNo <= 0) {
+    if (columnInfo.columnNo <= 0) {
         return null;
     }
     const target = new CellPoint(columnInfo.columnNo, rowInfo.rowNo);
@@ -53,7 +56,7 @@ function pickCell(columnInfo, rowInfo, point) {
     return new SelectInfo(objectType, target, rect, point);
 }
 
-export function pointToGridViewItem(sheet, opeModel, point, isDrag) {
+export function pointToGridViewItem(sheet: Sheet, opeModel: Operation, point: Point, isDrag: Boolean) {
 
     const columnInfo = clientPointToColumnInfo(sheet, opeModel, point);
     const rowInfo = clientPointToRowInfo(sheet, opeModel, point);

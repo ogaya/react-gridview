@@ -1,5 +1,7 @@
 import {Record} from "immutable";
-import {RESIZER_BORDER_WIDTH} from "../../common";
+import {RESIZER_BORDER_WIDTH, Point} from "../../common";
+import {Sheet} from "../../sheet";
+import {Operation} from "../../operation";
 
 // 列情報
 export class ColumnInfo extends Record({
@@ -8,8 +10,12 @@ export class ColumnInfo extends Record({
     width: 0,
     isRightBorder: false
 }) {
+    columnNo: number;
+    left: number;
+    width: number;
+    isRightBorder: boolean;
 
-    constructor(columnNo, left, width, isRightBorder) {
+    constructor(columnNo: number, left: number, width: number, isRightBorder: boolean) {
         super({
             columnNo: columnNo,
             left: left,
@@ -23,7 +29,7 @@ const empty = new ColumnInfo(-1, 0, 0, false);
 
 
 // 列情報取得
-export function clientPointToColumnInfo(sheet, opeModel, point) {
+export function clientPointToColumnInfo(sheet: Sheet, opeModel: Operation, point: Point) {
 
     // ヘッダー内の場合
     if (point.x <= 0) {

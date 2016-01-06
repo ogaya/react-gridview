@@ -24,7 +24,7 @@ function JsonToCell(json) {
 
 
 const HEADER_WIDTH = 50;
-export default class RowHeader extends Record({
+export class RowHeader extends Record({
     _width: HEADER_WIDTH,
     rowCount: 1000,
     background: "#eaeaff",
@@ -172,5 +172,6 @@ export default class RowHeader extends Record({
 }
 
 export {
-HEADER_WIDTH
+HEADER_WIDTH,
+RowHeader as default
 };
