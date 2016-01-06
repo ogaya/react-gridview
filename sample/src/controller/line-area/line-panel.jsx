@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import {Border} from "react-gridview";
-import SimpleButton from "../common/simple-button";
+import SimpleButton from "../common/simple-button/index.tsx";
 
 
 import FullIcon from "./full.png";

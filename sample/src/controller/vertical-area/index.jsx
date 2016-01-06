@@ -1,6 +1,6 @@
 import React from "react";
 
-import SimpleButton from "../common/simple-button";
+import SimpleButton from "../common/simple-button/index.tsx";
 
 import {Sheet, Operation, VERTICAL_ALIGN} from "react-gridview";
 

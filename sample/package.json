@@ -16,6 +16,8 @@
     "rimraf": "^2.5.0",
     "style-loader": "^0.13.0",
     "stylus-loader": "^1.4.2",
+    "ts-loader": "^0.7.2",
+    "typescript": "^1.7.5",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.9"
   }

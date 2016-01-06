@@ -1,2 +1,4 @@
 sample/node_modules/
 docs/node_modules/
+sample/typings/*
+!ex.d.ts

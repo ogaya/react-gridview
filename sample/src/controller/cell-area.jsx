@@ -1,6 +1,6 @@
 import React from "react";
 
-import AlignArea from "./align-area";
+import AlignArea from "./align-area/index.tsx";
 import VerticalArea from "./vertical-area";
 import ConnectArea from "./connect-area";
 import ColorArea from "./color-area";

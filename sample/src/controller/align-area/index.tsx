@@ -1,43 +1,52 @@
-import React from "react";
+import * as React from "react";
 
-import SimpleButton from "../common/simple-button";
+import SimpleButton from "../common/simple-button/index.tsx";
 
 import {Sheet, Operation, TEXT_ALIGN} from "react-gridview";
 
 import "./index.css";
 
-import AlignLeftIcon from "./align-left.png";
-import AlignCenterIcon from "./align-center.png";
-import AlignRightIcon from "./align-right.png";
+const AlignLeftIcon = require("./align-left.png");
+const AlignCenterIcon = require("./align-center.png");
+const AlignRightIcon = require("./align-right.png");
 
-const AlignArea = React.createClass({
-  displayName: "AlignArea",
-  propTypes: {
-    viewModel: React.PropTypes.instanceOf(Sheet),
-    operation: React.PropTypes.instanceOf(Operation),
-    onControlView: React.PropTypes.func
-  },
-  _onChangeTextAlign(textAlign){
+
+export interface Props {
+    sheet: Sheet;
+    operation: Operation;
+    onControlView: (sheet:Sheet)=>void;
+}
+
+
+export default class AlignArea extends React.Component<Props, {}> {
+    
+//const AlignArea = React.createClass({
+  public static displayName = "AlignArea";
+  
+  _onChangeTextAlign = (textAlign) =>{
     const rangeItem = this.props.operation.rangeItem;
 
-    const view = this.props.viewModel.editCells(
+    const view = this.props.sheet.editCells(
       rangeItem, (cell)=>{
         return cell.setTextAlign(textAlign);
       });
 
     this.props.onControlView(view);
 
-  },
-  _onClickLeft(){
+  }
+  
+  _onClickLeft = () =>{
     this._onChangeTextAlign(TEXT_ALIGN.LEFT);
-  },
-  _onClickCenter(){
+  }
+  
+  _onClickCenter = () =>{
     this._onChangeTextAlign(TEXT_ALIGN.CENTER);
-  },
-  _onClickRight(){
+  }
+  
+  _onClickRight = () =>{
     this._onChangeTextAlign(TEXT_ALIGN.RIGHT);
-  },
-  render: function() {
+  }
+  render() {
     return (
       <div className="align-area">
         <div>
@@ -52,6 +61,6 @@ const AlignArea = React.createClass({
       </div>
     );
   }
-});
+}
 
-module.exports = AlignArea;
+//module.exports = AlignArea;
