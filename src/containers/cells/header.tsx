@@ -21,7 +21,15 @@ const style = {
     height: "100%",
     outline: "none"
 };
-
+const styleHidden = {
+    visibility: "hidden",
+    position: "absolute",
+    top: "0px",
+    bottom: "0px",
+    width: "100%",
+    height: "100%",
+    outline: "none"
+};
 
 export interface HeaderProps {
     sheet: Sheet;
@@ -36,7 +44,7 @@ export class Header extends React.Component<HeaderProps, {}> {
     _canvasRender(props) {
         const sheet = props.sheet;
         const opeModel = props.opeModel;
-        const canvasElement: any = ReactDOM.findDOMNode(this.refs["gwcells"]);
+        const canvasElement: any = ReactDOM.findDOMNode(this.refs["gwcellshidden"]);
         const canvasWidth = canvasElement.offsetWidth;
         const canvasHeigh = canvasElement.offsetHeight;
 
@@ -49,17 +57,21 @@ export class Header extends React.Component<HeaderProps, {}> {
             return false;
         }
 
-        const width = canvasElement.width = canvasWidth;
-        const height = canvasElement.height = canvasHeigh;
+        const mainElement: any = ReactDOM.findDOMNode(this.refs["gwcells"]);
+
+        const width = canvasElement.width = mainElement.width = canvasWidth;
+        const height = canvasElement.height = mainElement.height = canvasHeigh;
         const context = canvasElement.getContext("2d");
         var scale = sheet.scale;
         context.scale(scale, scale);
         const canvas = new Canvas(context, width, height);
 
-
         drawCenterHeader(canvas, sheet.columnHeader, sheet.rowHeader);
         drawColumnHeader(canvas, sheet.columnHeader, sheet.rowHeader, opeModel);
         drawRowHeader(canvas, sheet.columnHeader, sheet.rowHeader, opeModel);
+
+        const mainContext: CanvasRenderingContext2D = mainElement.getContext("2d");
+        mainContext.drawImage(canvasElement, 0, 0);
 
         return false;
     }
@@ -82,7 +94,10 @@ export class Header extends React.Component<HeaderProps, {}> {
 
     render() {
         return (
-            <canvas className="gw-cells" ref="gwcells" style={style}/>
+            <div style={style}>
+                <canvas className="gw-cells" ref="gwcellshidden" style={styleHidden}/>
+                <canvas className="gw-cells" ref="gwcells" style={style}/>
+            </div>
         );
     }
 }

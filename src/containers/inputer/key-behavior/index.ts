@@ -5,9 +5,10 @@ import {enterDown} from "./enter";
 import {arrowDown} from "./arrow";
 import {deleteDown} from "./delete";
 
+import {InputerProps} from "../index.tsx";
 
 // テキスト入力エリアを表示させる
-function viewInputer(e, props) {
+function viewInputer(e:KeyboardEvent, props:InputerProps) {
 
     // 機能キーは除外
     if (e.keyCode < 48) {
@@ -24,32 +25,26 @@ function viewInputer(e, props) {
     }
 
     const cell = sheet.getCell(cellPoint);
-    //let rect;
 
     if (cell.mergeRange) {
-        //rect = cellRangeToRect(sheet, cell.mergeRange, opeModel.scroll);
         cellPoint = cell.mergeRange.leftTopPoint;
     }
-    // else {
-    //   rect = targetToRect(sheet, cellPoint, opeModel.scroll);
-    // }
 
     const input = opeModel.input
         .setIsInputing(true);
-    //.setRect(rect)
-    //.setTarget(cellPoint);
+        
     const ope = opeModel
         .setInput(input)
         .setCopyingRange(null);
+        
 
-    //props.onOperationChange(ope);
     props.onStateChange(props.sheet, ope);
 }
 
 // キー入力処理
-export function inputKeyDown(e, inputer) {
+export function inputKeyDown(e:KeyboardEvent, inputer) {
 
-    const props = inputer.props;
+    const props:InputerProps = inputer.props;
     const keyPress = inputer._keyPress;
 
     // tabを押したとき、右に選択セルを移動させる
@@ -58,9 +53,15 @@ export function inputKeyDown(e, inputer) {
         //return false;
     }
 
-    // 円ターキーを押したとき、洗濯セルを下へ移動させる
+    // エンターキーを押したとき、洗濯セルを下へ移動させる
     if (e.keyCode === 13) {
         return enterDown(e, props, keyPress, inputer);
+    }
+    
+    // androidのソフトウェアキーボードを閉じるボタンを押したとき
+    if (e.keyCode === 229) {
+        inputer._onBlur();
+        return false;
     }
 
     if ((e.keyCode >= 37) && (e.keyCode <= 40) && (!props.opeModel.input.isInputing)) {

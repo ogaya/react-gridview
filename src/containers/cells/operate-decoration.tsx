@@ -21,6 +21,17 @@ const style = {
 };
 
 
+const styleHidden = {
+    visibility: "hidden",
+    position: "absolute",
+    top: "0px",
+    bottom: "0px",
+    width: "100%",
+    height: "100%",
+    outline: "none"
+};
+
+
 export interface OperateDecorationProps {
     sheet: Sheet;
     opeModel: Operation;
@@ -34,7 +45,7 @@ export class OperateDecoration extends React.Component<OperateDecorationProps, {
     _canvasRender(props) {
         const sheet = props.sheet;
         const opeModel = props.opeModel;
-        const canvasElement: any = ReactDOM.findDOMNode(this.refs["gwcells"]);
+        const canvasElement: any = ReactDOM.findDOMNode(this.refs["gwcellshidden"]);
         const canvasWidth = canvasElement.offsetWidth;
         const canvasHeigh = canvasElement.offsetHeight;
 
@@ -44,15 +55,19 @@ export class OperateDecoration extends React.Component<OperateDecorationProps, {
             return false;
         }
 
+        const mainElement: any = ReactDOM.findDOMNode(this.refs["gwcells"]);
 
-        const width = canvasElement.width = canvasWidth;
-        const height = canvasElement.height = canvasHeigh;
+        const width = canvasElement.width = mainElement.width = canvasWidth;
+        const height = canvasElement.height = mainElement.height = canvasHeigh;
         const context = canvasElement.getContext("2d");
         var scale = sheet.scale;
         context.scale(scale, scale);
         const canvas = new Canvas(context, width, height);
 
         drawOperation(canvas, sheet, props.opeModel);
+
+        const mainContext: CanvasRenderingContext2D = mainElement.getContext("2d");
+        mainContext.drawImage(canvasElement, 0, 0);
 
         return false;
     }
@@ -73,7 +88,10 @@ export class OperateDecoration extends React.Component<OperateDecorationProps, {
     }
     render() {
         return (
-            <canvas className="gw-cells" ref="gwcells" style={style}/>
+            <div style={style}>
+                <canvas className="gw-cells" ref="gwcellshidden" style={styleHidden}/>
+                <canvas className="gw-cells" ref="gwcells" style={style}/>
+            </div>
         );
     }
 }

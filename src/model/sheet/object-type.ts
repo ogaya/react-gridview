@@ -8,8 +8,8 @@ enum OBJECT_TYPE{
 };
 
 
-export default {
-    OBJECT_TYPE
+export {
+    OBJECT_TYPE as default
 };
 export{
     OBJECT_TYPE
