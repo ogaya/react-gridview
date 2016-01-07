@@ -11,12 +11,34 @@ npm install --save-dev react-gridview
 ```
 
 ## Usage
+
+### ・ES6
+
 ```
-var GridView = require("react-gridview").GridView;
+// .jsx
+import {GridView} from "react-gridview";
 
 <GridView />
-
 ```
+
+### ・TypeScript
+```
+// tsconfig.json
+{
+    "compilerOptions": {
+        "moduleResolution": "node",
+        // --- ohter options
+    }
+}
+```
+Can use "import" without ```<reference path ="..."/>```
+```
+// .tsx
+import {GridView} from "react-gridview";
+
+<GridView />
+```
+
 
 ## License
 
