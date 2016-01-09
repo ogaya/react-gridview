@@ -7,6 +7,7 @@ import "./index.css";
 export interface Props {
     className?: string;
     style?: any;
+    key?:any;
     icon?: string;
     onClick?: () => void;
     pressed?: boolean;

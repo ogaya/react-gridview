@@ -1,11 +1,11 @@
-import React from "react";
+import * as React from "react";
 
 import SimpleButton from "../common/simple-button/index.tsx";
 
-import {Sheet, Operation} from "react-gridview";
+import {Sheet, Operation, Border} from "react-gridview";
 
 //import LinePanel from "./line-panel";
-import {LinePanel, LINE_TYPE} from "./line-panel";
+import {LinePanel, LINE_TYPE} from "./line-panel.tsx";
 
 import {
   setFullBorder,
@@ -17,21 +17,25 @@ import {
   setMiddleBorder,
   setGridBorder,
   setTopBorder
-} from "./set-border";
+} from "./set-border.ts";
 
-import FullIcon from "./full.png";
+const FullIcon = require("./full.png");
 
 import "./index.css";
 
-const LineArea = React.createClass({
-  displayName: "LineArea",
-  propTypes: {
-    viewModel: React.PropTypes.instanceOf(Sheet),
-    operation: React.PropTypes.instanceOf(Operation),
-    onControlView: React.PropTypes.func,
-    showSubWindow: React.PropTypes.func
-  },
-  _onChangeBorder(border, lineType){
+
+
+export interface Props {
+    viewModel: Sheet;
+    operation: Operation;
+    onControlView: (sheet:Sheet)=>void;
+    showSubWindow: (window)=>void;
+}
+
+export class LineArea extends React.Component<Props, {}> {
+  public static displayName = "LineArea";
+
+  _onChangeBorder(border:Border, lineType){
     const rangeItem = this.props.operation.rangeItem;
     let view = this.props.viewModel;
     switch (lineType) {
@@ -70,21 +74,26 @@ const LineArea = React.createClass({
     }
 
     this.props.onControlView(view);
-  },
+  }
+  
   _onClick(){
     const subWindow = <LinePanel
-      showSubWindow={this.props.showSubWindow} onSelectBorder={this._onChangeBorder}/>;
+      showSubWindow={this.props.showSubWindow}
+      onSelectBorder={this._onChangeBorder.bind(this)}/>;
     this.props.showSubWindow(subWindow);
-  },
-  render: function() {
+  }
+  
+  render() {
     return (
       <div className="line-area">
         <div>
-          <SimpleButton icon={FullIcon} onClick={this._onClick}/>
+          <SimpleButton icon={FullIcon} onClick={this._onClick.bind(this)}/>
         </div>
       </div>
     );
   }
-});
+}
 
-module.exports = LineArea;
+export{
+    LineArea as default
+}
