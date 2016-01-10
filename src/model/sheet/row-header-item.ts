@@ -8,9 +8,11 @@ const defCell = emptyCell
     .setVerticalAlign(VERTICAL_ALIGN.MIDDLE)
     .setTextAlign(TEXT_ALIGN.RIGHT);
 
+const DEFAULT_HEIGHT = 21;
+
 export class RowHeaderItem extends Record({
     cell: defCell,
-    height: 21,
+    height: DEFAULT_HEIGHT,
     top: 0
 }) {
     cell: Cell;
@@ -23,12 +25,18 @@ export class RowHeaderItem extends Record({
     // JSONから本クラスを生成
     static fromJS(json) {
         return RowHeaderItem.create()
-            .setCell(Cell.fromJS(json.cell))
+            .setCell(Cell.fromJS(json.cell, defCell))
             .setHeight(json.height);
     }
 
-    toMinJS(rowHeaderItem: RowHeaderItem) {
-        return toMinJS(this, rowHeaderItem, RowHeaderItem);
+    toMinJS(rowHeaderItem: RowHeaderItem):any {
+        if (this.height === DEFAULT_HEIGHT){
+            return {};
+        }
+        return {
+            height: this.height
+        };
+        //return toMinJS(this, rowHeaderItem, RowHeaderItem);
     }
 
     setCell(cell: Cell) {

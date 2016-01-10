@@ -1,8 +1,9 @@
 
 import {factor} from "./factor";
-import SolverModel from "./solver";
+import {Solver} from "./solver";
+
 // <term>   ::= <factor> [ ('*'|'/') <factor> ]*
-const term = function(solver){
+const term = function(solver:Solver){
   if (solver.isError){
     return solver;
   }
@@ -11,7 +12,7 @@ const term = function(solver){
 
   while (true) {
     let tmp = solver.pointSubstr(1);
-    let exprSolver = SolverModel.createEmpty()
+    let exprSolver = Solver.createEmpty()
       .setView(solver.sheet)
       .setRefIds(solver.refIds)
       .setText(solver.addPointer().pointSubstr());

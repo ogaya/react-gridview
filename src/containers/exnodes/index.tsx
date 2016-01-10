@@ -4,6 +4,7 @@ import * as React from "react";
 import Operation from "../../model/operation";
 import Sheet from "../../model/sheet";
 import Extension from "../../model/extension";
+import {CellPoint} from "../../model/common";
 
 // 共通ライブラリ
 import {targetToRect, cellRangeToRect} from "../../model/lib/target_to_rect";
@@ -34,7 +35,7 @@ export default class ExNodes extends React.Component<ExNodesProps, {}> {
             .filter(cell => this.props.extension.nodes.has(cell.nodeName))
             .map((cell, key) => {
                 const UserNode = this.props.extension.nodes.get(cell.nodeName);
-                const rect = targetToRect(this.props.sheet, cell.cellPoint(), this.props.operation.scroll);
+                const rect = targetToRect(this.props.sheet, CellPoint.fromId(key), this.props.operation.scroll);
                 const userNodeStyle = {
                     overflow: "hidden",
                     position: "absolute",

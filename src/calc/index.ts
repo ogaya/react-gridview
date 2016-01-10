@@ -13,17 +13,25 @@ import {Set} from "immutable";
 // <range>  ::= [A-Z]+ [0-9]+ : [A-Z]+ [0-9]+
 
 
-import SolverModel from "./solver";
+import {Solver} from "./solver";
 import {expr} from "./expr";
-export function isCalc(text) {
+
+import {Sheet} from "../model/sheet";
+export interface ICalc{
+    value: any;
+    refs: Set<string>;
+    isError: boolean;
+};
+
+export function isCalc(text:string) {
     const tmp = text + "";
     return (tmp.charAt(0) === "=");
 };
-export function calc(text, sheet) {
+export function calc(text:string, sheet:Sheet):ICalc {
     if (!text) {
         return {
             value: text,
-            refs: Set(),
+            refs: <Set<string>>Set(),
             isError: false
         };
     }
@@ -31,11 +39,11 @@ export function calc(text, sheet) {
     if (isCalc(text) === false) {
         return {
             value: text,
-            refs: Set(),
+            refs: <Set<string>>Set(),
             isError: false
         };
     }
-    let solver = SolverModel.createEmpty()
+    let solver = Solver.createEmpty()
         .setText(text.substr(1))
         .setView(sheet);
 

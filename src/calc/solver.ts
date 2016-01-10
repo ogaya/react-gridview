@@ -13,6 +13,7 @@ export class Solver extends Record({
     value: number;
     pointer: number;
     refIds: Set<string>;
+    sheet: Sheet;
     isError: boolean;
 
     static createEmpty() {
@@ -30,7 +31,7 @@ export class Solver extends Record({
         return <Solver>this.set("pointer", pointer);
     }
 
-    addPointer(pointer: number): Solver {
+    addPointer(pointer?: number): Solver {
         pointer = pointer || 1;
         return <Solver>this.set("pointer", this.pointer + pointer);
     }
@@ -62,7 +63,7 @@ export class Solver extends Record({
         return this.text.length - this.pointer;
     }
 
-    pointSubstr(length) {
+    pointSubstr(length?) {
         // テキストなし
         if (!this.text) {
             return "";

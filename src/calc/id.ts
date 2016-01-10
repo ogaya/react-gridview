@@ -1,11 +1,14 @@
+
+import {Solver} from "./solver";
+
 // <id>     ::= [A-Z]+ [0-9]+
 
-export function isId (text) {
+export function isId (text:string) {
     const idText = text.match(/^[A-Z]+[0-9]+/);
     return (idText !== null);
 };
 
-export function id(solver) {
+export function id(solver:Solver) {
 
     if (solver.isError) {
         return solver;
@@ -18,8 +21,3 @@ export function id(solver) {
         .addRefId(idText)
         .addPointer(idText.length);
 };
-
-// export {
-// isId,
-// id
-// };

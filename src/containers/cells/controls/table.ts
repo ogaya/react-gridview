@@ -20,12 +20,12 @@ function drawBorder(canvas: Canvas, sheet: Sheet,
     // 上部分は結合されている
     const isTopMerge =
         (cell.mergeRange) &&
-        (cell.mergeRange.minRowNo !== cell.rowNo);
+        (cell.mergeRange.minRowNo !== cellPoint.rowNo);
 
     // 左部分は結合されている
     const isLeftMerge =
         (cell.mergeRange) &&
-        (cell.mergeRange.minColumnNo !== cell.columnNo);
+        (cell.mergeRange.minColumnNo !== cellPoint.columnNo);
 
     if (!isTopMerge) {
         const lineLength = topBorder.colors.length;

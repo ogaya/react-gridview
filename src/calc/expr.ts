@@ -1,10 +1,10 @@
 
 import {term} from "./term";
 
-import SolverModel from "./solver";
+import {Solver} from "./solver";
 
 // <expr>   ::= <term> [ ('+'|'-') <term> ]*
-const expr = function(solver){
+const expr = function(solver:Solver){
 
   if (solver.isError){
     return solver;
@@ -14,7 +14,7 @@ const expr = function(solver){
   while (true) {
     let s = solver.pointSubstr(1);
 
-    let exprSolver = SolverModel.createEmpty()
+    let exprSolver = Solver.createEmpty()
       .setView(solver.sheet)
       .setRefIds(solver.refIds)
       .setText(solver.addPointer().pointSubstr());

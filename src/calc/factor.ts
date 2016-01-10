@@ -4,8 +4,10 @@ import {isId, id} from "./id";
 import {isFunc, func} from "./func";
 import {expr} from "./expr";
 
+import {Solver} from "./solver";
+
 // <factor> ::= <text>  | <number> | <id>  | <calc> | '(' <expr> ')'
-const factor = function(solver){
+const factor = function(solver:Solver){
 
   // エラーがある場合、処理を終了させる
   if (solver.isError){
