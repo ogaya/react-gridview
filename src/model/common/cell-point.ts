@@ -37,7 +37,7 @@ export class CellPoint extends Record({
         return CellPoint.getColumnId(this.columnNo) + this.rowNo;
     }
 
-    static createForId(id:string) {
+    static fromId(id:string) {
         let columnNo = 0;
         let rowNo = 0;
         for (let i = 0; i < id.length; i++) {

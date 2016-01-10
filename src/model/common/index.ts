@@ -38,6 +38,11 @@ const HEADER_SIZE = Object.freeze({
 // リサイザーの幅
 const RESIZER_BORDER_WIDTH = 4;
 
+interface KeyValuePair<TKey, TValue>{
+    key:TKey,
+    value:TValue
+};
+
 export {
 Rect,
 CellPoint,
@@ -49,5 +54,6 @@ RESIZER_BORDER_WIDTH,
 LINE_STYLE,
 BORDER_POSITION,
 HEADER_SIZE,
-COLOR
+COLOR,
+KeyValuePair
 };

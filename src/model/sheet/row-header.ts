@@ -149,7 +149,7 @@ export class RowHeader extends Record({
 
     _rowNoToItem(rowNo: number) {
         if (this.editItems.has(rowNo)) {
-            return this.editItems.get(rowNo);
+            return this.editItems.get(rowNo).setValue(rowNo);
         }
         return emptyCell.setValue(rowNo);
     }

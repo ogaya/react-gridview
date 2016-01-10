@@ -160,9 +160,9 @@ export class ColumnHeader extends Record({
 
                 const item = this.editItems.has(columnNo) ?
                     this.editItems.get(columnNo) :
-                    emptyCell.setValue(value);
+                    emptyCell;
 
-                map.set(columnNo, item.setLeft(sumWidth));
+                map.set(columnNo, item.setValue(value).setLeft(sumWidth));
                 sumWidth = sumWidth + item.width;
             }
         });

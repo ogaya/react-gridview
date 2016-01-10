@@ -7,7 +7,14 @@ import Border from "./model/sheet/border";
 
 import {OBJECT_TYPE} from "./model/sheet/object-type";
 
-import {VERTICAL_ALIGN, TEXT_ALIGN, BORDER_POSITION, CellPoint} from "./model/common";
+import {
+    VERTICAL_ALIGN,
+    TEXT_ALIGN,
+    BORDER_POSITION,
+    LINE_STYLE,
+    CellRange,
+    CellPoint
+} from "./model/common";
 
 import {GridView} from "./react-gridview";
 
@@ -18,8 +25,10 @@ const Rgv = {
     Extension: Extension,
     Sticky: Sticky,
     CellPoint: CellPoint,
+    CellRange: CellRange,
     VERTICAL_ALIGN: VERTICAL_ALIGN,
     TEXT_ALIGN: TEXT_ALIGN,
+    LINE_STYLE,
     BORDER_POSITION: BORDER_POSITION,
     OBJECT_TYPE: OBJECT_TYPE
 };
@@ -36,5 +45,7 @@ VERTICAL_ALIGN,
 TEXT_ALIGN,
 BORDER_POSITION,
 OBJECT_TYPE,
+LINE_STYLE,
+CellRange,
 CellPoint
 };

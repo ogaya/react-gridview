@@ -8,9 +8,11 @@ const defCell = emptyCell
     .setVerticalAlign(VERTICAL_ALIGN.MIDDLE)
     .setTextAlign(TEXT_ALIGN.CENTER);
 
+const DEFAULT_WIDTH = 80;
+
 export class ColumnHeaderItem extends Record({
     cell: defCell,
-    width: 80,
+    width: DEFAULT_WIDTH,
     left: 0
 }) {
     cell: Cell;
@@ -25,12 +27,18 @@ export class ColumnHeaderItem extends Record({
     static fromJS(json) {
         //const item = new ColumnHeaderItem();
         return ColumnHeaderItem.create()
-            .setCell(Cell.fromJS(json.cell))
+            .setCell(Cell.fromJS(json.cell, defCell))
             .setWidth(json.width);
     }
 
-    toMinJS(defaultItem?: ColumnHeaderItem) {
-        return toMinJS(this, defaultItem, ColumnHeaderItem);
+    toMinJS(defaultItem?: ColumnHeaderItem):any {
+        if (this.width === DEFAULT_WIDTH){
+            return {};
+        }
+        return {
+            width: this.width
+        };
+        //return toMinJS(this, defaultItem, ColumnHeaderItem);
     }
 
     setCell(cell: Cell) {

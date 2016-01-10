@@ -1,7 +1,7 @@
 import {Record, Map, Range, List}from "immutable";
 import ColumnHeader from "./column-header";
 import RowHeader from "./row-header";
-import {CellPoint, CellRange, BORDER_POSITION} from "../common";
+import {CellPoint, CellRange, BORDER_POSITION, KeyValuePair} from "../common";
 import Cell from "./cell";
 import Scroll from "./scroll";
 import Border from "./border";
@@ -15,19 +15,23 @@ OBJECT_TYPE
 };
 
 // テーブルに参照ポイントの適用を行う
-function refsApply(table: Map<string, Cell>, prevCell: Cell, nextCell: Cell) {
+function refsApply(table: Map<string, Cell>, 
+    prevKV: KeyValuePair<string, Cell>,
+    nextKV: KeyValuePair<string, Cell>) {
     // 参照セルの値を更新
 
-    prevCell.refs.forEach((ref) => {
+    // 前回情報の参照ポイントを除去
+    prevKV.value.refs.forEach((ref) => {
         if (table.has(ref)) {
-            const cell = table.get(ref).deleteChildId(prevCell.toId());
+            const cell = table.get(ref).deleteChildId(prevKV.key);
             table = table.set(ref, cell);
         }
     });
 
-    nextCell.refs.forEach((ref) => {
+    // 今回情報の参照ポイントを追加
+    nextKV.value.refs.forEach((ref) => {
         if (table.has(ref)) {
-            const cell = table.get(ref).addChildId(nextCell.toId());
+            const cell = table.get(ref).addChildId(nextKV.key);
             table = table.set(ref, cell);
         }
     });
@@ -206,14 +210,14 @@ export class Sheet extends Record({
     getCell(arg): Cell {
         //
         // const id = (typeof target === "string") ? target : target.toId();
-        // const cellPoint = (typeof target === "string") ? CellPoint.createForId(id) : target;
+        // const cellPoint = (typeof target === "string") ? CellPoint.fromId(id) : target;
 
 
         let id;
         let cellPoint;
         if (arguments.length === 1) {
             id = (typeof arguments[0] === "string") ? arguments[0] : arguments[0].toId();
-            cellPoint = (typeof arguments[0] === "string") ? CellPoint.createForId(id) : arguments[0];
+            cellPoint = (typeof arguments[0] === "string") ? CellPoint.fromId(id) : arguments[0];
         }
         else {
             cellPoint = new CellPoint(arguments[0], arguments[1]);
@@ -221,7 +225,7 @@ export class Sheet extends Record({
         }
 
         if (this.table.has(id) === false) {
-            return Cell.create(cellPoint);
+            return Cell.create();
         }
 
         return this.table.get(id);
@@ -258,8 +262,17 @@ export class Sheet extends Record({
             this.table.delete(cellPoint.toId()) :
             this.table.set(cellPoint.toId(), cell);
 
+        const prevKV = {
+            key: cellPoint.toId(),
+            value: prevCell
+        };
+        const nextKV = {
+            key: cellPoint.toId(),
+            value: nextCell
+        };
+        
         // 参照セルの値を更新
-        table = refsApply(table, prevCell, cell);
+        table = refsApply(table, prevKV, nextKV);
 
         let sheet = this.setTable(table);
         if (cell.text !== prevCell.text) {
@@ -360,21 +373,24 @@ export class Sheet extends Record({
         return model;
     }
 
-    getCells(range: CellRange): List<Cell> {
+    getCells(range: CellRange): List<KeyValuePair<string, Cell>> {
         if (!range) {
-            return <List<Cell>>List();
+            return <List<KeyValuePair<string, Cell>>>List();
         }
         const left = Math.min(range.cellPoint1.columnNo, range.cellPoint2.columnNo);
         const right = Math.max(range.cellPoint1.columnNo, range.cellPoint2.columnNo);
         const top = Math.min(range.cellPoint1.rowNo, range.cellPoint2.rowNo);
         const bottom = Math.max(range.cellPoint1.rowNo, range.cellPoint2.rowNo);
 
-        let cells = <List<Cell>>List();
+        let cells = <List<KeyValuePair<string, Cell>>>List();
 
         Range(left, right + 1).forEach((columnNo) => {
             Range(top, bottom + 1).forEach((rowNo) => {
                 const cellPoint = new CellPoint(columnNo, rowNo);
-                cells = cells.push(this.getCell(cellPoint));
+                cells = cells.push({
+                    key: cellPoint.toId(),
+                    value: this.getCell(cellPoint)
+                });
             });
         });
 

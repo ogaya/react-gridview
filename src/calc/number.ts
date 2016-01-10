@@ -1,18 +1,21 @@
+import {Solver} from "./solver";
+
 // <number> :== [0-9]+[\.]?[0-9]*
 
-export function isNumber(text) {
+export function isNumber(text:string) {
     const numberText = text.match(/^[0-9]+[\.]?[0-9]*/);
     return (numberText !== null);
 };
 
-export function number(solver) {
+export function number(solver:Solver) {
 
     if (solver.isError) {
         return solver;
     }
+    
 
     const numberText = solver.pointSubstr().match(/^[0-9]+[\.]?[0-9]*/)[0];
-    if (isNaN(numberText) === false) {
+    if (isNumber(numberText) === true) {
         solver = solver
             .setValue(Number(numberText))
             .addPointer(numberText.length);
@@ -23,8 +26,3 @@ export function number(solver) {
 
     return solver;
 }
-
-// export{
-//   isNumber,
-//   number
-// };
