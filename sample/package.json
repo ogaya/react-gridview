@@ -12,7 +12,7 @@
     "immutable": "^3.7.6",
     "react": "^0.14.5",
     "react-dom": "^0.14.5",
-    "react-gridview": "^0.1.11",
+    "react-gridview": "^0.2.0",
     "rimraf": "^2.5.0",
     "style-loader": "^0.13.0",
     "stylus-loader": "^1.4.2",

@@ -52,14 +52,15 @@ export function setCrossBorder(view: Sheet, rangeItem: CellRange, border: Border
     const left = Math.min(rangeItem.cellPoint1.columnNo, rangeItem.cellPoint2.columnNo);
     const top = Math.min(rangeItem.cellPoint1.rowNo, rangeItem.cellPoint2.rowNo);
 
-    view.getCells(rangeItem).forEach((cell) => {
+    view.getCells(rangeItem).forEach((kv) => {
+        const cellPoint = CellPoint.fromId(kv.key);
 
-        if (cell.cellPoint().columnNo !== left) {
-            view = view.setBorder(cell.cellPoint(), BORDER_POSITION.LEFT, border);
+        if (cellPoint.columnNo !== left) {
+            view = view.setBorder(cellPoint, BORDER_POSITION.LEFT, border);
         }
 
-        if (cell.cellPoint().rowNo !== top) {
-            view = view.setBorder(cell.cellPoint(), BORDER_POSITION.TOP, border);
+        if (cellPoint.rowNo !== top) {
+            view = view.setBorder(cellPoint, BORDER_POSITION.TOP, border);
         }
     });
     return view;
@@ -67,10 +68,11 @@ export function setCrossBorder(view: Sheet, rangeItem: CellRange, border: Border
 
 export function setCenterBorder(view: Sheet, rangeItem: CellRange, border: Border) {
     const left = Math.min(rangeItem.cellPoint1.columnNo, rangeItem.cellPoint2.columnNo);
-    view.getCells(rangeItem).forEach((cell) => {
+    view.getCells(rangeItem).forEach((kv) => {
+        const cellPoint = CellPoint.fromId(kv.key);
 
-        if (cell.cellPoint().columnNo !== left) {
-            view = view.setBorder(cell.cellPoint(), BORDER_POSITION.LEFT, border);
+        if (cellPoint.columnNo !== left) {
+            view = view.setBorder(cellPoint, BORDER_POSITION.LEFT, border);
         }
     });
     return view;
@@ -80,9 +82,11 @@ export function setCenterBorder(view: Sheet, rangeItem: CellRange, border: Borde
 export function setMiddleBorder(view: Sheet, rangeItem: CellRange, border: Border) {
     const top = Math.min(rangeItem.cellPoint1.rowNo, rangeItem.cellPoint2.rowNo);
 
-    view.getCells(rangeItem).forEach((cell) => {
-        if (cell.cellPoint().rowNo !== top) {
-            view = view.setBorder(cell.cellPoint(), BORDER_POSITION.TOP, border);
+    view.getCells(rangeItem).forEach((kv) => {
+        const cellPoint = CellPoint.fromId(kv.key);
+
+        if (cellPoint.rowNo !== top) {
+            view = view.setBorder(cellPoint, BORDER_POSITION.TOP, border);
         }
     });
     return view;
@@ -94,17 +98,19 @@ export function setFullBorder(view: Sheet, rangeItem: CellRange, border: Border)
     const right = Math.max(rangeItem.cellPoint1.columnNo, rangeItem.cellPoint2.columnNo);
     const bottom = Math.max(rangeItem.cellPoint1.rowNo, rangeItem.cellPoint2.rowNo);
 
-    view.getCells(rangeItem).forEach((cell) => {
-        view = view
-            .setBorder(cell.cellPoint(), BORDER_POSITION.TOP, border)
-            .setBorder(cell.cellPoint(), BORDER_POSITION.LEFT, border);
+    view.getCells(rangeItem).forEach((kv) => {
+        const cellPoint = CellPoint.fromId(kv.key);
 
-        if (cell.cellPoint().columnNo === right) {
-            view = view.setBorder(cell.cellPoint(), BORDER_POSITION.RIGHT, border);
+        view = view
+            .setBorder(cellPoint, BORDER_POSITION.TOP, border)
+            .setBorder(cellPoint, BORDER_POSITION.LEFT, border);
+
+        if (cellPoint.columnNo === right) {
+            view = view.setBorder(cellPoint, BORDER_POSITION.RIGHT, border);
         }
 
-        if (cell.cellPoint().rowNo === bottom) {
-            view = view.setBorder(cell.cellPoint(), BORDER_POSITION.BOTTOM, border);
+        if (cellPoint.rowNo === bottom) {
+            view = view.setBorder(cellPoint, BORDER_POSITION.BOTTOM, border);
         }
     });
     return view;
