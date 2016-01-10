@@ -5,6 +5,7 @@ import VerticalArea from "./vertical-area/index.tsx";
 import ConnectArea from "./connect-area/index.tsx";
 import ColorArea from "./color-area/index.tsx";
 import LineArea from "./line-area/index.tsx";
+import SaveArea from "./save-area/index.tsx";
 
 import {Sheet, Operation} from "react-gridview";
 
@@ -27,6 +28,10 @@ export default class CellArea extends React.Component<Props, {}> {
         const onControlView = this.props.onControlView;
         return (
             <div className="sample-cell-area sample-cell-table">
+                <SaveArea
+                    sheet={viewModel}
+                    onControlView={onControlView}
+                    showSubWindow={this.props.showSubWindow}/>
                 <ColorArea 
                     viewModel={viewModel}
                     operation={operation}

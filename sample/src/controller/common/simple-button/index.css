@@ -1,20 +1,35 @@
 .sample-button{
-  height: 20px;
-  width: 22px;
-
-  cursor: pointer;
+    height: 20px;
+    width: 22px;
+    cursor: pointer;
 }
 
 .sample-button:hover{
-  background: #FFF;
+    background: #FFF;
 }
 
 .sample-button:active{
-  background: #AAA;
+    background: #AAA;
 }
 
 .sample-button-img{
-  height: calc(100% - 6px);
-  width: calc(100% - 6px);
-  padding: 3px;
+    height: calc(100% - 6px);
+    width: calc(100% - 6px);
+    padding: 3px;
+}
+
+.sample-button.file-reader{
+    position: relative;
+}
+.sample-button.file-reader input[type="file"] {
+    opacity: 0;
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0);
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 0;
+    height: 20px;
+    width: 22px;
+    padding: 3px;
+    cursor: pointer;
 }
