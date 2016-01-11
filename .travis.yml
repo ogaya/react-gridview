@@ -2,10 +2,7 @@ language: node_js
 
 install:
   - npm install -g gulp
-  - npm install -g tsd
   - npm install -g typescript
   - npm install
-  - tsd install react --save
-  - tsd install react-dom --save
 
 script: gulp build

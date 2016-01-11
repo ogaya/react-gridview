@@ -1,7 +1,5 @@
 node_modules/
 coverage/
 dist/
-typings/*
-!ex.d.ts
 sample.bundle.js
 tsd.json
