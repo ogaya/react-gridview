@@ -7,6 +7,38 @@ var assert = require("power-assert");
 
 
 describe("CellRange", function () {
+    
+    it("fromJS", function () {
+        assert.equal(CellRange.fromJS(null), null);
+        var cellRange = CellRange.fromJS({
+            cellPoint1: {
+                columnNo:1,
+                rowNo: 3
+            }
+        });
+        assert.equal(cellRange, null);
+        cellRange = CellRange.fromJS({
+            cellPoint2: {
+                columnNo:2,
+                rowNo: 4
+            }
+        });
+        assert.equal(cellRange, null);
+        cellRange = CellRange.fromJS({
+            cellPoint1: {
+                columnNo:1,
+                rowNo: 3
+            },
+            cellPoint2: {
+                columnNo:2,
+                rowNo: 4
+            }
+        });
+        assert.equal(cellRange.leftTopPoint.columnNo, 1);
+        assert.equal(cellRange.leftTopPoint.rowNo, 3);
+        assert.equal(cellRange.rightBottomPoint.columnNo, 2);
+        assert.equal(cellRange.rightBottomPoint.rowNo, 4);
+    });
     it("no", function () {
         var cellRange = new CellRange(
             new CellPoint(10, 15),

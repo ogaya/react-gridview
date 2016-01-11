@@ -19,6 +19,17 @@ export class CellPoint extends Record({
             rowNo: Number(rowNo)
         });
     }
+    
+    public static fromJS(json){
+        if(!json){
+            return null;
+        }
+        
+        return new CellPoint(
+            json.columnNo || 0,
+            json.rowNo || 0
+        );
+    }
 
     setColumnNo(columnNo:number) {
         return <CellPoint>this.set("columnNo", columnNo);

@@ -20,7 +20,22 @@ class CellRange extends Record({
         });
     }
     
-    create(cellPoint1: CellPoint, cellPoint2: CellPoint) {
+    public static create(cellPoint1: CellPoint, cellPoint2: CellPoint) {
+        return new CellRange(cellPoint1, cellPoint2);
+    }
+    
+    public static fromJS(json){
+        if (!json){
+            return null;
+        }
+        
+        const cellPoint1 = CellPoint.fromJS(json.cellPoint1);
+        const cellPoint2 = CellPoint.fromJS(json.cellPoint2);
+        
+        if ((!cellPoint1) || (!cellPoint2)){
+            return null;
+        }
+        
         return new CellRange(cellPoint1, cellPoint2);
     }
     

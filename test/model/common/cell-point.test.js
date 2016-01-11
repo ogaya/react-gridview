@@ -6,6 +6,29 @@ var assert = require("power-assert");
 
 // 列ヘッダーのアイテムを選択しているか判定
 describe("CellPoint", function () {
+    describe("fromJS", function () {
+        it("null", function(){
+            var cellPoint = CellPoint.fromJS(null);
+            assert.equal(cellPoint, null);
+        });
+        
+        it("1-2", function(){
+            var cellPoint = CellPoint.fromJS({
+                columnNo: 1,
+                rowNo: 2
+            });
+            assert.equal(cellPoint.columnNo, 1);
+            assert.equal(cellPoint.rowNo, 2);
+        });
+        it("2-1", function(){
+            var cellPoint = CellPoint.fromJS({
+                columnNo: 2,
+                rowNo: 1
+            });
+            assert.equal(cellPoint.columnNo, 2);
+            assert.equal(cellPoint.rowNo, 1);
+        });
+    });
     describe("fromId", function () {
         it("A1", function () {
             var cellPoint = CellPoint.fromId("A1");
