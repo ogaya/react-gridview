@@ -36,11 +36,11 @@ const params = function(solver: Solver, args) {
 
         const cells = solver.sheet.getCells(cellRange);
         const values = cells
-            .map((kv) => { return kv.value.value; })
+            .map((v) => { return v.value; })
             .toArray();
 
-        cells.forEach(kv=> {
-            solver = solver.addRefId(kv.key);
+        cells.forEach((v, k)=> {
+            solver = solver.addRefId(k);
         });
         args.push(values);
 
