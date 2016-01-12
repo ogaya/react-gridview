@@ -52,8 +52,8 @@ export function setCrossBorder(view: Sheet, rangeItem: CellRange, border: Border
     const left = Math.min(rangeItem.cellPoint1.columnNo, rangeItem.cellPoint2.columnNo);
     const top = Math.min(rangeItem.cellPoint1.rowNo, rangeItem.cellPoint2.rowNo);
 
-    view.getCells(rangeItem).forEach((kv) => {
-        const cellPoint = CellPoint.fromId(kv.key);
+    view.getCells(rangeItem).forEach((v, k) => {
+        const cellPoint = CellPoint.fromId(k);
 
         if (cellPoint.columnNo !== left) {
             view = view.setBorder(cellPoint, BORDER_POSITION.LEFT, border);
@@ -68,8 +68,8 @@ export function setCrossBorder(view: Sheet, rangeItem: CellRange, border: Border
 
 export function setCenterBorder(view: Sheet, rangeItem: CellRange, border: Border) {
     const left = Math.min(rangeItem.cellPoint1.columnNo, rangeItem.cellPoint2.columnNo);
-    view.getCells(rangeItem).forEach((kv) => {
-        const cellPoint = CellPoint.fromId(kv.key);
+    view.getCells(rangeItem).forEach((v, key) => {
+        const cellPoint = CellPoint.fromId(key);
 
         if (cellPoint.columnNo !== left) {
             view = view.setBorder(cellPoint, BORDER_POSITION.LEFT, border);
@@ -82,8 +82,8 @@ export function setCenterBorder(view: Sheet, rangeItem: CellRange, border: Borde
 export function setMiddleBorder(view: Sheet, rangeItem: CellRange, border: Border) {
     const top = Math.min(rangeItem.cellPoint1.rowNo, rangeItem.cellPoint2.rowNo);
 
-    view.getCells(rangeItem).forEach((kv) => {
-        const cellPoint = CellPoint.fromId(kv.key);
+    view.getCells(rangeItem).forEach((v, k) => {
+        const cellPoint = CellPoint.fromId(k);
 
         if (cellPoint.rowNo !== top) {
             view = view.setBorder(cellPoint, BORDER_POSITION.TOP, border);
@@ -98,8 +98,8 @@ export function setFullBorder(view: Sheet, rangeItem: CellRange, border: Border)
     const right = Math.max(rangeItem.cellPoint1.columnNo, rangeItem.cellPoint2.columnNo);
     const bottom = Math.max(rangeItem.cellPoint1.rowNo, rangeItem.cellPoint2.rowNo);
 
-    view.getCells(rangeItem).forEach((kv) => {
-        const cellPoint = CellPoint.fromId(kv.key);
+    view.getCells(rangeItem).forEach((v, k) => {
+        const cellPoint = CellPoint.fromId(k);
 
         view = view
             .setBorder(cellPoint, BORDER_POSITION.TOP, border)

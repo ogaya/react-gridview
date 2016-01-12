@@ -37,7 +37,7 @@ export default class Main extends React.Component<{}, State> {
     }
 
     setInputFocus() {
-        const viewer: any = this.refs["viewer"]
+        const viewer: any = this.refs["viewer"];
         viewer.setInputFocus();
     }
 
@@ -70,7 +70,7 @@ export default class Main extends React.Component<{}, State> {
                 <Controller
                     operation={operation}
                     viewModel={this.state.viewModel}
-                    setInputFocus={this.setInputFocus}
+                    setInputFocus={this.setInputFocus.bind(this)}
                     onControlView={this._onControlView.bind(this)}
                     onChangeOperation={this._onChangeOperation.bind(this)}
                 />
