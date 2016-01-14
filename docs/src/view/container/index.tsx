@@ -1,17 +1,19 @@
-import React from "react";
+import * as React from "react";
 
-import Top            from "./top";
-import GridViewPage   from "./gridview";
-import SheetPage      from "./sheet";
-import OperationPage  from "./operation";
-import NotFound       from "./not-found";
+import Top            from "./top/index.tsx";
+import GridViewPage   from "./gridview/index.tsx";
+import SheetPage      from "./sheet/index.tsx";
+import OperationPage  from "./operation/index.tsx";
+import NotFound       from "./not-found/index.tsx";
 
 import "./index.css";
 
-const Container = React.createClass({
-  propTypes: {
-    hash: React.PropTypes.string
-  },
+export interface Props{
+    hash: string;
+}
+
+export default class Container extends React.Component<Props, {}>{
+    
   _createNode(){
     const hashList = this.props.hash.split("/");
     if (hashList.length < 2){
@@ -30,8 +32,8 @@ const Container = React.createClass({
       default:
         return <NotFound hash={this.props.hash} />;
     }
-  },
-  render: function() {
+  }
+  render() {
     const node = this._createNode();
     return (
       <div className="container">
@@ -39,8 +41,4 @@ const Container = React.createClass({
       </div>
     );
   }
-});
-
-export{
-  Container as default
-};
+}

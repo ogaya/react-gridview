@@ -6,14 +6,19 @@ var webpackConfig = require("./webpack.config.js");
 //var requireDir = require("require-dir");
 var uglify = require("gulp-uglify");
 
-
-gulp.task("docs", function() {
-  return gulp.src("")
-  .pipe(webpack(webpackConfig))
-  .pipe(uglify())
-  .pipe(gulp.dest(""));
+gulp.task("cleanBuild", function (cb) {
+    var rimraf = require("rimraf");
+    rimraf("./dist/*", cb);
 });
 
-gulp.task("watch", function() {
-  gulp.watch("./src/**", ["docs"]);
+gulp.task("pack", ["cleanBuild"], function () {
+    return gulp.src("")
+        .pipe(webpack(webpackConfig))
+        .pipe(uglify())
+        .pipe(gulp.dest(""));
+});
+
+gulp.task("build", ["pack"], function () {
+    return gulp.src("./src/index.html")
+        .pipe(gulp.dest("./dist"));
 });

@@ -1,10 +1,10 @@
-import React from "react";
+import * as React from "react";
 
 
 import "./index.css";
 
-const Header = React.createClass({
-  render: function() {
+export default class Header extends React.Component<{}, {}>{
+  render() {
     return (
       <div className="header">
         <div>
@@ -16,8 +16,4 @@ const Header = React.createClass({
       </div>
     );
   }
-});
-
-export{
-  Header as default
 };

@@ -1,5 +1,25 @@
+const defineText =
+    `
+interface GridViewProps {
+    className?: string;
+    key?: any;
+    ref?: any;
+    sheet?: Sheet;
+    operation?: Operation;
+    extension?: Extension;
+    onChangeSheet?: (prevSheet: Sheet, nextSheet: Sheet) => Sheet;
+    onChangeOperation?: (prevOpe: Operation, nextOpe: Operation) => Operation;
+}
+interface GridViewState {
+    sheet: Sheet;
+    operation: Operation;
+}
+class GridView extends React.Component<GridViewProps, GridViewState>
+`;
+
+
 const classNameCss =
-`/*.css*/
+    `/*.css*/
 .gridview-mini
 {
   width: 15rem;
@@ -15,29 +35,29 @@ const classNameCss =
 }`;
 
 const classNameJsMini =
-`// .jsx
+    `// .jsx
 <GridView className="gridview-mini"/>`;
 
 const classNameJsLarge =
-`// .jsx
+    `// .jsx
 <GridView className="gridview-large"/>`;
 
 const sheetJs =
-`// .jsx
+    `// .jsx
 import {GridView, Sheet} from "react-gridview";
 
 const sheetModel = Sheet.create();
 <GridView sheet={sheetModel}/>`;
 
 const operationJs =
-`// .jsx
+    `// .jsx
 import {GridView, Operation} from "react-gridview";
 
 const opeModel = Operation.create();
 <GridView operation={opeModel}/>`;
 
 const onChangeSheetJs =
-`// .jsx
+    `// .jsx
 const func = (prevSheet, nextSheet) => {
   if (nextSheet.getCell("A1").text){
     return prevSheet;
@@ -51,7 +71,7 @@ const func = (prevSheet, nextSheet) => {
 <GridView onChangeSheet={func}/>`;
 
 const onChangeOperationJs =
-`// .jsx
+    `// .jsx
 const func = (prevOperation, nextOperation) => {
   if (nextOperation.selectItem){
     return prevOperation;
@@ -65,20 +85,21 @@ const func = (prevOperation, nextOperation) => {
 <GridView onChangeOperation={func}/>`;
 
 const func2 = (prevOperation, nextOperation) => {
-  if (nextOperation.selectItem){
-    return prevOperation;
-  }
-  else{
-    return nextOperation;
-  }
+    if (nextOperation.selectItem) {
+        return prevOperation;
+    }
+    else {
+        return nextOperation;
+    }
 };
 
-export{
-  classNameCss,
-  classNameJsMini,
-  classNameJsLarge,
-  sheetJs,
-  operationJs,
-  onChangeSheetJs,
-  onChangeOperationJs
+export default {
+    defineText,
+    classNameCss,
+    classNameJsMini,
+    classNameJsLarge,
+    sheetJs,
+    operationJs,
+    onChangeSheetJs,
+    onChangeOperationJs
 }

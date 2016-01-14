@@ -8,7 +8,6 @@
         "outDir": "dist"
     },
     "exclude": [
-        "node_modules",
-        "docs"
+        "node_modules"
     ]
 }

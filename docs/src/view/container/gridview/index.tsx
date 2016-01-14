@@ -1,9 +1,7 @@
-import React from "react";
+import * as React from "react";
 import {GridView} from "react-gridview";
-
-import Coder  from "../coder";
-
-import *  as text from "./text.js";
+import Coder  from "../coder/index.tsx";
+import text from "./text.ts";
 
 import "./index.css";
 
@@ -25,8 +23,13 @@ const func2 = (prevOperation, nextOperation) => {
   }
 };
 
-const GridViewPage = React.createClass({
-  render: function() {
+
+export interface Props{
+    hash?: string;
+}
+export default class GridViewPage extends React.Component<Props, {}> {
+
+  render() {
     return (
       <div>
         <div className="report">
@@ -88,8 +91,8 @@ const GridViewPage = React.createClass({
       </div>
     );
   }
-});
+}
 
-export{
-  GridViewPage as default
-};
+//export{
+//  GridViewPage as default
+//};
