@@ -5,7 +5,6 @@ import Operation from "../../model/operation";
 import Sheet from "../../model/sheet";
 import {CellPoint} from "../../model/common";
 
-//import {KeyPress} from "../../mixins/key-press";
 import {KeyPressble, IKeyPress} from "../../mixins/key-pressble";
 
 import {createInputStyle} from "./create-style";
@@ -29,9 +28,7 @@ export interface InputerState {
 }
 
 export default class Inputer extends React.Component<InputerProps, InputerState> implements KeyPressble {
-    //const Inputer = React.createClass({
     public static displayName = "Gridview-Cells";
-    //mixins: [KeyPress],
  
     state = {
         inputText: "",
@@ -115,8 +112,13 @@ export default class Inputer extends React.Component<InputerProps, InputerState>
     }
 
     changeText = (e) => {
-        const input = this.props.opeModel.input.setText(e.target.value);
-        const ope = this.props.opeModel.setInput(input);
+        const input = this.props.opeModel.input
+            .setText(e.target.value)
+            .setIsInputing(true);
+        const ope = this.props.opeModel
+            .setInput(input)
+            .setCopyingRange(null);
+        
         this.props.onStateChange(this.props.sheet, ope);
     }
 

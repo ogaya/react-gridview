@@ -31,7 +31,7 @@ import {GridView} from "react-gridview";
     }
 }
 ```
-Can use "import" without ```<reference path ="..."/>```
+  
 ```
 // .tsx
 import {GridView} from "react-gridview";

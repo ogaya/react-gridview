@@ -208,10 +208,6 @@ export class Sheet extends Record({
 
 
     getCell(arg): Cell {
-        //
-        // const id = (typeof target === "string") ? target : target.toId();
-        // const cellPoint = (typeof target === "string") ? CellPoint.fromId(id) : target;
-
 
         let id;
         let cellPoint;
@@ -373,24 +369,24 @@ export class Sheet extends Record({
         return model;
     }
 
-    getCells(range: CellRange): List<KeyValuePair<string, Cell>> {
+    getCells(range: CellRange): Map<string, Cell> {
         if (!range) {
-            return <List<KeyValuePair<string, Cell>>>List();
+            return <Map<string, Cell>>Map();
         }
         const left = Math.min(range.cellPoint1.columnNo, range.cellPoint2.columnNo);
         const right = Math.max(range.cellPoint1.columnNo, range.cellPoint2.columnNo);
         const top = Math.min(range.cellPoint1.rowNo, range.cellPoint2.rowNo);
         const bottom = Math.max(range.cellPoint1.rowNo, range.cellPoint2.rowNo);
 
-        let cells = <List<KeyValuePair<string, Cell>>>List();
+        let cells = <Map<string, Cell>>Map();
 
         Range(left, right + 1).forEach((columnNo) => {
             Range(top, bottom + 1).forEach((rowNo) => {
                 const cellPoint = new CellPoint(columnNo, rowNo);
-                cells = cells.push({
-                    key: cellPoint.toId(),
-                    value: this.getCell(cellPoint)
-                });
+                cells = cells.set(
+                    cellPoint.toId(),
+                    this.getCell(cellPoint)
+                );
             });
         });
 

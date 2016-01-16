@@ -1,7 +1,8 @@
 
 import {CellPoint} from "../../model/common";
+import {InputerProps} from "./index.tsx";
 
-function createText(props) {
+function createText(props: InputerProps) {
 
     const sheet = props.sheet;
     const rangeItem = props.opeModel.rangeItem;
@@ -28,9 +29,14 @@ function createText(props) {
  * @param  {Object} props Inputコンポーネントのprops
  * @return {bool}       false:入力キャンセル
  */
-export function copy(e, props) {
+export function copy(e, props: InputerProps) {
 
     let opeModel = props.opeModel;
+    
+    // 入力中の場合は標準処理に任せる
+    if (opeModel.input.isInputing) {
+        return;
+    }
 
     // 選択ターゲットを取得
     opeModel = opeModel.setCopyingRange(opeModel.rangeItem);
@@ -42,7 +48,7 @@ export function copy(e, props) {
     props.onStateChange(sheet, opeModel);
 
     e.clipboardData.setData('text/plain', text);
-    e.clipboardData.setData('application/jrgv', JSON.stringify(sheet.toJson()));
+    //e.clipboardData.setData('application/jrgv', JSON.stringify(sheet.toMinJS()));
 
     //window.clipboardData.setData('text', "this.value");
 
@@ -54,10 +60,17 @@ export function copy(e, props) {
  * @param  {[type]} props [description]
  * @return {bool}       true:貼り付けた
  */
-function pasteText(e, props) {
+function pasteText(e, props: InputerProps) {
+
+
+    // 入力中の場合は標準処理に任せる
+    if (props.opeModel.input.isInputing) {
+        return;
+    }
 
     const text = e.clipboardData.getData('text');
     const rangeItem = props.opeModel.rangeItem;
+
 
     if (!text) {
         return false;
