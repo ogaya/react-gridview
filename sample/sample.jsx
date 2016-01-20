@@ -73,7 +73,7 @@ const Main = React.createClass({
         <Controller operation={operation} viewModel={this.state.viewModel} setInputFocus={this.setInputFocus}
           onControlView={this._onControlView} onChangeOperation={this._onChangeOperation}/>
         <div className="viewer-area">
-          <GridView sheet={this.state.viewModel} operation={operation} ref="viewer"
+          <GridView className="gview" sheet={this.state.viewModel} operation={operation} ref="viewer"
             extension={this.state.extension} onChangeSheet={this._onChangeSheet} onChangeOperation={this._onChangeOperation}/>
         </div>
       </div>

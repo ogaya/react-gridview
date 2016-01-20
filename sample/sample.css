@@ -5,3 +5,7 @@
   height: calc(100% - 52px);
   table-layout: fixed;
 }
+
+.gview{
+    border: none;
+}

@@ -62,8 +62,9 @@ export class GridViewBar extends React.Component<GridViewBarProps, GridViewBarSt
             background: sheet.rowHeader.background,
             borderTop: "1px solid #999",
             borderRight: "1px solid #999",
-            height: "20px",
-            width: sheet.rowHeader.width * sheet.scale + "px"
+            height: "21px",
+            boxSizing: "border-box",
+            width: (sheet.rowHeader.width * sheet.scale + 1) + "px"
         };
     }
 
@@ -76,8 +77,9 @@ export class GridViewBar extends React.Component<GridViewBarProps, GridViewBarSt
             borderLeft: "1px solid #999",
             borderBottom: "1px solid #999",
             background: sheet.columnHeader.background,
-            height: sheet.columnHeader.height * sheet.scale + "px",
-            width: "20px"
+            height: (sheet.columnHeader.height * sheet.scale + 1)+ "px",
+            boxSizing: "border-box",
+            width: "21px"
         };
     }
     render() {
