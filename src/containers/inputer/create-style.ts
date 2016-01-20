@@ -55,7 +55,7 @@ export function createInputStyle(sheet, opeModel) {
 
     style.fontSize = sheet.scale * 100 + "%";
     style.padding = "1px";
-    style.border = "none";
+    style.border = "2px solid #2196F3";
     style.boxSizing = "border-box";
     
     return style;
