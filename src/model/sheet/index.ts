@@ -15,7 +15,7 @@ OBJECT_TYPE
 };
 
 // テーブルに参照ポイントの適用を行う
-function refsApply(table: Map<string, Cell>, 
+function refsApply(table: Map<string, Cell>,
     prevKV: KeyValuePair<string, Cell>,
     nextKV: KeyValuePair<string, Cell>) {
     // 参照セルの値を更新
@@ -301,8 +301,18 @@ export class Sheet extends Record({
         return this.borders.get(id);
     }
 
-    setBorders(borders: Map<string, Border>) {
-        return <Sheet>this.set("borders", borders);
+    setBorders(borders: Map<string, Border>);
+    setBorders(cellRange: CellRange, borderPosition: BORDER_POSITION, border: Border);
+    setBorders(a, b?:BORDER_POSITION, c?:Border) {
+        if (a instanceof CellRange){
+            let model = <Sheet>this;
+            const cellRange = <CellRange>a;
+            cellRange.toPoints().forEach((cellPoint) =>{
+                model = model.setBorder(cellPoint, b, c);
+            })
+            return model;
+        }
+        return <Sheet>this.set("borders", a);
     }
 
     // 枠線設定
@@ -338,6 +348,29 @@ export class Sheet extends Record({
 
         return <Sheet>this.set("borders", this.borders.set(id, border));
     }
+    
+    editBorders(cellRange: CellRange, borderPosition: BORDER_POSITION, mutator: (border: Border, cellPoint?: CellPoint) => Border) {
+        if (!cellRange) {
+            return this;
+        }
+        const left = Math.min(cellRange.cellPoint1.columnNo, cellRange.cellPoint2.columnNo);
+        const right = Math.max(cellRange.cellPoint1.columnNo, cellRange.cellPoint2.columnNo);
+        const top = Math.min(cellRange.cellPoint1.rowNo, cellRange.cellPoint2.rowNo);
+        const bottom = Math.max(cellRange.cellPoint1.rowNo, cellRange.cellPoint2.rowNo);
+
+        let model = <Sheet>this;
+        Range(left, right + 1).forEach((columnNo) => {
+            Range(top, bottom + 1).forEach((rowNo) => {
+                
+                const cellPoint = new CellPoint(columnNo, rowNo);
+                const prevBorder = this.getBorder(cellPoint, borderPosition);
+                const nextBorder = mutator(prevBorder, cellPoint);
+                model = model.setBorder(cellPoint,borderPosition, nextBorder);
+            });
+        });
+
+        return model;
+    }
 
     editCell(cellPoint: CellPoint, mutator: (cell: Cell) => Cell) {
         const prevCell = this.getCell(cellPoint);
@@ -346,7 +379,7 @@ export class Sheet extends Record({
     }
 
     // 範囲内のセルを変更する
-    editCells(range: CellRange, mutator: (cell: Cell) => Cell) {
+    editCells(range: CellRange, mutator: (cell: Cell, cellPoint?: CellPoint) => Cell) {
         if (!range) {
             return this;
         }
@@ -360,13 +393,26 @@ export class Sheet extends Record({
             Range(top, bottom + 1).forEach((rowNo) => {
                 const cellPoint = new CellPoint(columnNo, rowNo);
                 const prevCell = this.getCell(cellPoint);
-                const nextCell = mutator(prevCell);
+                const nextCell = mutator(prevCell, cellPoint);
                 model = model.setCell(cellPoint, nextCell);
-                //model = model.setValue(new CellPoint(columnNo, rowNo), value);
             });
         });
 
         return model;
+    }
+
+    mergeRange(rangeItem: CellRange) {
+        return this.editCells(
+            rangeItem, (cell) => {
+                return cell.setMergeRange(rangeItem);
+            });
+    }
+    
+    unMergeRange(rangeItem: CellRange) {
+        return this.editCells(
+            rangeItem, (cell) => {
+                return cell.setMergeRange(null);
+            });
     }
 
     getCells(range: CellRange): Map<string, Cell> {

@@ -42,6 +42,10 @@ export class Border extends Record({
     setColors(colors: Array<string>) {
         return <Border>this.set("colors", colors);
     }
+    
+    setColor(color: string){
+        return <Border>this.set("colors", [color]);
+    }
 
     setLineStyle(lineStyle: LINE_STYLE) {
         return <Border>this.set("lineStyle", lineStyle);

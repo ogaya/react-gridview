@@ -20,6 +20,10 @@ export class CellPoint extends Record({
         });
     }
     
+    public static create(columnNo:number, rowNo:number){
+        return new CellPoint(columnNo, rowNo);
+    }
+    
     public static fromJS(json){
         if(!json){
             return null;

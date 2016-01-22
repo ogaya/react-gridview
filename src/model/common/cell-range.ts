@@ -1,4 +1,4 @@
-import {Record, List} from "immutable";
+import {Record, List, Range} from "immutable";
 import {OBJECT_TYPE} from "../sheet/object-type";
 import {CellPoint} from "./cell-point";
 
@@ -19,26 +19,49 @@ class CellRange extends Record({
             cellPoint2: cellPoint2
         });
     }
-    
-    public static create(cellPoint1: CellPoint, cellPoint2: CellPoint) {
+    public static create(cellPoint1: CellPoint, cellPoint2: CellPoint): CellRange;
+    public static create(columnNo1: number, rowNo1: number, columnNo2: number, rowNo2: number): CellRange;
+
+    public static create(a, b, c?: number, d?: number) {
+        if (a instanceof CellPoint) {
+            return new CellRange(a, b);
+        }
+
+        const cellPoint1 = CellPoint.create(a, b);
+        const cellPoint2 = CellPoint.create(c, d);
+
         return new CellRange(cellPoint1, cellPoint2);
     }
-    
-    public static fromJS(json){
-        if (!json){
+
+    public static fromJS(json) {
+        if (!json) {
             return null;
         }
-        
+
         const cellPoint1 = CellPoint.fromJS(json.cellPoint1);
         const cellPoint2 = CellPoint.fromJS(json.cellPoint2);
-        
-        if ((!cellPoint1) || (!cellPoint2)){
+
+        if ((!cellPoint1) || (!cellPoint2)) {
             return null;
         }
-        
+
         return new CellRange(cellPoint1, cellPoint2);
     }
     
+    toPoints(){
+        const left = this.minColumnNo;
+        const right = this.maxColumnNo;
+        const top = this.minRowNo;
+        const bottom = this.maxRowNo;
+        let points = List<CellPoint>();
+        Range(left, right + 1).forEach((columnNo) => {
+            Range(top, bottom + 1).forEach((rowNo) => {
+                points = points.push(CellPoint.create(columnNo, rowNo));
+            });
+        });
+        return points;
+    }
+
     get minColumnNo(): number {
         return Math.min(this.cellPoint1.columnNo, this.cellPoint2.columnNo);
     }
@@ -92,7 +115,7 @@ class CellRange extends Record({
 
     }
 
-    equals(cellRange:CellRange): boolean {
+    equals(cellRange: CellRange): boolean {
         if (!cellRange) {
             return false;
         }
@@ -122,7 +145,7 @@ class CellRange extends Record({
  * @param  {[type]} opeModel  [description]
  * @return {[type]}           [description]
  */
-function pickRangeFromColumnHeader(sheet:Sheet, opeModel:Operation) {
+function pickRangeFromColumnHeader(sheet: Sheet, opeModel: Operation) {
 
     const opeItem = opeModel.opeItem;
     const hoverItem = opeModel.hoverItem;
@@ -143,7 +166,7 @@ function pickRangeFromColumnHeader(sheet:Sheet, opeModel:Operation) {
         new CellPoint(hoverItem.cellPoint.columnNo, sheet.rowHeader.rowCount));
 }
 
-function pickRangeFromRowHeader(sheet:Sheet, opeModel:Operation) {
+function pickRangeFromRowHeader(sheet: Sheet, opeModel: Operation) {
 
     const opeItem = opeModel.opeItem;
     const hoverItem = opeModel.hoverItem;
@@ -164,7 +187,7 @@ function pickRangeFromRowHeader(sheet:Sheet, opeModel:Operation) {
         new CellPoint(sheet.columnHeader.columnCount, hoverItem.cellPoint.rowNo));
 }
 
-function opeModelToRangeItem(opeModel:Operation) {
+function opeModelToRangeItem(opeModel: Operation) {
 
     const opeItem = opeModel.opeItem;
     const hoverItem = opeModel.hoverItem;
@@ -183,7 +206,7 @@ function opeModelToRangeItem(opeModel:Operation) {
 }
 
 // 範囲内に結合セルがある場合、選択範囲を広げる
-function fitRange(sheet:Sheet, rangeItem:CellRange) {
+function fitRange(sheet: Sheet, rangeItem: CellRange) {
     const left = rangeItem.minColumnNo;
     const top = rangeItem.minRowNo;
     const right = rangeItem.maxColumnNo;
@@ -265,7 +288,7 @@ function fitRange(sheet:Sheet, rangeItem:CellRange) {
  * @param  {[type]} opeModel  [description]
  * @return {[type]}           [description]
  */
-function modelToRangeItem(sheet:Sheet, opeModel:Operation) {
+function modelToRangeItem(sheet: Sheet, opeModel: Operation) {
 
     let opeRange = pickRangeFromColumnHeader(sheet, opeModel);
     if (opeRange) {

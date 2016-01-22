@@ -9,7 +9,7 @@ const jsonExclude = Set<string>([
     "calcValue",
     "childIds",
     "refs"
-    ]);
+]);
 
 function jsonToSet(json) {
     let result = <Set<string>>Set();
@@ -57,7 +57,7 @@ export class Cell extends Record({
         return new Cell();
     }
 
-    static fromJS(json, defaultCell?:Cell) {
+    static fromJS(json, defaultCell?: Cell) {
         const cell = defaultCell || Cell.create();
 
         if (!json) {
@@ -107,15 +107,15 @@ export class Cell extends Record({
         return <Cell>this.set("refs", refs);
     }
 
-    setVerticalAlign(verticalAlign) {
+    setVerticalAlign(verticalAlign: VERTICAL_ALIGN) {
         return <Cell>this.set("verticalAlign", verticalAlign);
     }
 
-    setTextAlign(textAlign) {
+    setTextAlign(textAlign: TEXT_ALIGN) {
         return <Cell>this.set("textAlign", textAlign);
     }
 
-    setIndent(indent) {
+    setIndent(indent: number) {
         return <Cell>this.set("indent", indent);
     }
 
@@ -142,7 +142,7 @@ export class Cell extends Record({
         return <Cell>this.set("nodeName", nodeName);
     }
 
-    equals(cell:Cell) {
+    equals(cell: Cell) {
         const tmp = cell
             .set("childIds", this.childIds)
             .set("refs", this.refs);
@@ -151,6 +151,6 @@ export class Cell extends Record({
     }
 }
 
-export{
-    Cell as default
+export {
+Cell as default
 }
