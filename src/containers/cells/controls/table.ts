@@ -47,7 +47,7 @@ function drawBorder(canvas: Canvas, sheet: Sheet,
     }
 
     if (!isLeftMerge) {
-        const lineLength = topBorder.colors.length;
+        const lineLength = leftBorder.colors.length;
         offset = Math.floor(lineLength * leftBorder.weight / 2);
 
         // 左のセルラインを描画
@@ -55,6 +55,7 @@ function drawBorder(canvas: Canvas, sheet: Sheet,
         canvas.context.lineWidth = leftBorder.weight;
         for (let leftIndex in leftBorder.colors) {
             const offsetTLeft = leftBorder.weight * leftIndex - offset;
+            //const offsetTLeft = leftBorder.weight * leftIndex;
 
             canvas.context.strokeStyle = leftBorder.colors[leftIndex];
             if (hasDashLeft) {

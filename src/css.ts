@@ -5,6 +5,8 @@ css(`
 .react-sheet{
   width: 100%;
   height: 100%;
+  box-sizing: border-box;
+  border: solid 1px #AAA;
   cursor: pointer;
   position: relative;
   -webkit-tap-highlight-color:rgba(0,0,0,0);

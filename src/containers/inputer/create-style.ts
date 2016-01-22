@@ -50,10 +50,13 @@ export function createInputStyle(sheet, opeModel) {
 
     style.top = rect.top * sheet.scale - 1;
     style.left = rect.left * sheet.scale - 1;
-    style.width = rect.width * sheet.scale - 2;
-    style.height = rect.height * sheet.scale - 2;
+    style.width = rect.width * sheet.scale + 2;
+    style.height = rect.height * sheet.scale + 2;
 
     style.fontSize = sheet.scale * 100 + "%";
-
+    style.padding = "1px";
+    style.border = "2px solid #2196F3";
+    style.boxSizing = "border-box";
+    
     return style;
 }

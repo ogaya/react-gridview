@@ -2,7 +2,8 @@
 
 [![Build Status](https://travis-ci.org/ogaya/react-gridview.svg)](https://travis-ci.org/ogaya/react-gridview)
 
-[sample][]  
+[Demo][]  
+[Examples][]  
 
 ## Install
 
@@ -44,5 +45,6 @@ import {GridView} from "react-gridview";
 
 **MIT**
 
-[sample]: http://ogaya.github.io/react-gridview/
+[Demo]: http://ogaya.github.io/react-gridview/
+[Examples]: http://ogaya.github.io/react-gridview-examples/dist/index.html#basic-example
 [docs]: http://ogaya.github.io/react-gridview/docs/#/
