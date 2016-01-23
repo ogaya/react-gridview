@@ -159,7 +159,7 @@ function drawCell(canvas: Canvas, sheet: Sheet, opeModel: Operation, cellPoint: 
         viewCell.textColor :
         "#000";
 
-    canvas.context.font = "10pt Arial";
+    canvas.context.font = viewCell.font;
     canvas.drawText(viewCell.value, rect.reduce(2),
         viewCell.textAlign, viewCell.verticalAlign, viewCell.indent);
 }
