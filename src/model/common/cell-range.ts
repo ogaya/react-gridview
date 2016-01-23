@@ -312,6 +312,7 @@ function modelToRangeItem(sheet: Sheet, opeModel: Operation) {
 
 export {
 CellRange,
+fitRange,
 modelToRangeItem,
 opeModelToRangeItem
 };

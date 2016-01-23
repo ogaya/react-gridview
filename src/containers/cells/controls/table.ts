@@ -155,12 +155,13 @@ function drawCell(canvas: Canvas, sheet: Sheet, opeModel: Operation, cellPoint: 
         return;
     }
 
-    canvas.context.fillStyle = (cell.textColor) ?
-        cell.textColor :
+    canvas.context.fillStyle = (viewCell.textColor) ?
+        viewCell.textColor :
         "#000";
 
     canvas.context.font = "10pt Arial";
-    canvas.drawText(viewCell.value, rect.reduce(2), cell.textAlign, cell.verticalAlign, cell.indent);
+    canvas.drawText(viewCell.value, rect.reduce(2),
+        viewCell.textAlign, viewCell.verticalAlign, viewCell.indent);
 }
 
 // 行内の列描画
