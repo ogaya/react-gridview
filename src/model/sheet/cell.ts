@@ -31,6 +31,7 @@ export class Cell extends Record({
     indent: 1,
     background: "",
     textColor: "",
+    font: "10pt Arial",
     // このセルを参照しているセル
     childIds: Set(),
     // このセルが参照しているセル
@@ -45,6 +46,7 @@ export class Cell extends Record({
     indent: number;
     background: any;
     textColor: any;
+    font: string;
     // このセルを参照しているセル
     childIds: Set<string>;
     // このセルが参照しているセル
@@ -102,6 +104,7 @@ export class Cell extends Record({
     get value() {
         return isCalc(this.text) ? this.calcValue : this.text;
     }
+    
 
     setRefs(refs) {
         return <Cell>this.set("refs", refs);
@@ -122,6 +125,11 @@ export class Cell extends Record({
     setTextColor(textColor) {
         return <Cell>this.set("textColor", textColor);
     }
+    
+    setFont(font: string){
+        return <Cell>this.set("font", font);
+    }
+    
 
     setMergeRange(mergeRange: CellRange) {
         return <Cell>this.set("mergeRange", mergeRange);

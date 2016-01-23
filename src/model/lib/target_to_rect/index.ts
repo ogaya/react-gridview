@@ -9,9 +9,6 @@ function targetToTop(model: Sheet, target: CellPoint, offsetRowNo: number) {
     if (!target.rowNo) {
         return null;
     }
-    if (target.rowNo < offsetRowNo) {
-        return -1000;
-    }
 
     const scrollTop = model.rowHeader.items.get(offsetRowNo).top;
     const rowTop = model.rowHeader.items.get(target.rowNo).top;
@@ -26,9 +23,6 @@ function targetToBottom(model: Sheet, target: CellPoint, offsetRowNo: number) {
     }
     if (!target.rowNo) {
         return null;
-    }
-    if (target.rowNo < offsetRowNo) {
-        return -1000;
     }
 
     const scrollTop = model.rowHeader.items.get(offsetRowNo).top;
@@ -46,14 +40,9 @@ function targetToLeft(model: Sheet, target: CellPoint, offsetColumnNo: number) {
     if (!target.columnNo) {
         return null;
     }
-
-    if (target.columnNo < offsetColumnNo) {
-        return -1000;
-    }
-
     const scrollLeft = model.columnHeader.items.get(offsetColumnNo).left;
-    const rowLeft = model.columnHeader.items.get(target.columnNo).left;
-    const left = model.rowHeader.width + rowLeft - scrollLeft;
+    const targetLeft = model.columnHeader.items.get(target.columnNo).left;
+    const left = model.rowHeader.width + targetLeft - scrollLeft;
     return left;
 }
 
@@ -63,10 +52,6 @@ function targetToRight(model: Sheet, target: CellPoint, offsetColumnNo: number) 
     }
     if (!target.columnNo) {
         return null;
-    }
-
-    if (target.columnNo < offsetColumnNo) {
-        return -1000;
     }
 
     const scrollLeft = model.columnHeader.items.get(offsetColumnNo).left;

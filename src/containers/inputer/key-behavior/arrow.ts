@@ -2,7 +2,7 @@
 import {fitForTarget} from "../../../model/lib/fit-for-target";
 import {OBJECT_TYPE}  from "../../../model/sheet/object-type";
 import {SelectInfo}   from "../../../model/lib/select";
-import {CellRange}    from "../../../model/common";
+import {CellRange, fitRange}    from "../../../model/common";
 
 /**
  * キーコード入力後のセル位置
@@ -53,7 +53,7 @@ function arrowDownWithShift(e, props, inputer) {
     inputer.setState({ controlCellPoint: nextCellPoint });
 
     const fitScroll = fitForTarget(props.sheet, opeModel, nextCellPoint);
-    const range = new CellRange(selectItem.cellPoint, nextCellPoint);
+    const range = fitRange(props.sheet, new CellRange(selectItem.cellPoint, nextCellPoint));
 
     // 新規操作オブジェクトを作る
     const newOpeModel = opeModel

@@ -20,6 +20,8 @@ export default function drawColumnHeader(
     context.fillRect(rowHeader.width, 0, columnHeader.width, columnHeader.height);
     context.strokeStyle = "#999";
     context.lineWidth = 1;
+    
+    canvas.drawLine(rowHeader.width, columnHeader.height, columnHeader.width, columnHeader.height);
 
     const columnNo = opeModel.scroll.columnNo;
     let sumWidth = rowHeader.width;

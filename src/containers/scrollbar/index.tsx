@@ -53,8 +53,13 @@ export class GridViewBar extends React.Component<GridViewBarProps, GridViewBarSt
         this.props.onOperationChange(opeModel.setScroll(scroll));
     }
 
-    _hSpaceStyle() {
+    _hSpaceStyle():any {
         const sheet = this.props.sheet;
+        if(!sheet.rowHeader.isVisible){
+            return {
+                display: "none"
+            };
+        }
         return {
             left: "0px",
             bottom: "0px",
@@ -68,8 +73,13 @@ export class GridViewBar extends React.Component<GridViewBarProps, GridViewBarSt
         };
     }
 
-    _vSpaceStyle() {
+    _vSpaceStyle():any {
         const sheet = this.props.sheet;
+        if(!sheet.columnHeader.isVisible){
+            return {
+                display:"none"
+            };
+        }
         return {
             right: "0px",
             top: "0px",

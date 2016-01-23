@@ -1,6 +1,6 @@
 import {Rect} from "./rect";
 import {CellPoint} from "./cell-point";
-import {CellRange} from "./cell-range";
+import {CellRange, fitRange} from "./cell-range";
 import {Point} from "./point";
 import {COLOR} from "./color";
 
@@ -55,5 +55,6 @@ LINE_STYLE,
 BORDER_POSITION,
 HEADER_SIZE,
 COLOR,
-KeyValuePair
+KeyValuePair,
+fitRange
 };
