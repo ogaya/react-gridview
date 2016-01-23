@@ -27,6 +27,7 @@ export default function drawRowHeader(
     const rowNo = opeModel.scroll.rowNo;
 
     canvas.drawLine(0, sumHeight, rowHeader.width, sumHeight);
+    canvas.drawLine(rowHeader.width, columnHeader.height, rowHeader.width, rowHeader.height);
 
     rowHeader.items.skip(rowNo - 1)
         .takeWhile((item) => {
