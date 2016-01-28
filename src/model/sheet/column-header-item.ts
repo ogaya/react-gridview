@@ -46,7 +46,7 @@ export class ColumnHeaderItem extends Record({
     }
 
     setWidth(width: number) {
-        return <ColumnHeaderItem>this.set("width", width);
+        return <ColumnHeaderItem>this.set("width", Math.round(width));
     }
 
     setValue(value) {
