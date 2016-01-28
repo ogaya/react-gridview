@@ -48,6 +48,9 @@ export class Header extends React.Component<HeaderProps, {}> {
         const canvasWidth = canvasElement.offsetWidth;
         const canvasHeigh = canvasElement.offsetHeight;
 
+        if ((canvasWidth === 0) || (canvasHeigh === 0)){
+            return false;
+        }
         if ((canvasHeigh === canvasElement.height) &&
             (canvasWidth === canvasElement.width) &&
             (this.props.opeModel.scroll.rowNo === props.opeModel.scroll.rowNo) &&

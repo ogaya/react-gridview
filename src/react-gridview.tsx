@@ -34,7 +34,7 @@ import "./css.js";
 
 /**
  * ドラッグ時にスクロールする処理
- * @param  {View} sheet 表示情報
+ * @param  {Sheet} sheet 表示情報
  * @param  {Operation} opeModel  操作情報
  * @return {CellPoint}           スクロール場所
  */
@@ -54,7 +54,7 @@ function dragScroll(sheet, opeModel) {
     return fitForTarget(sheet, opeModel, hoverItem.cellPoint);
 }
 
-export interface GridViewProps {
+export interface IGridViewProps {
     className?: string;
     key?: any;
     ref?: any;
@@ -65,16 +65,13 @@ export interface GridViewProps {
     onChangeOperation?: (prevOpe: Operation, nextOpe: Operation) => Operation;
 }
 
-export interface GridViewState {
+export interface IGridViewState {
     sheet: Sheet;
     operation: Operation;
 }
 
-export class GridView extends React.Component<GridViewProps, GridViewState> implements KeyPressble {
-    //const GridView = React.createClass({
+export class GridView extends React.Component<IGridViewProps, IGridViewState> implements KeyPressble {
     public static displayName = "gridview";
-    //mixins: [KeyPress, MouseEvent, TouchEvent],
-  
     public static defaultProps = {
         sheet: new Sheet(),
         operation: new Operation(),
@@ -83,9 +80,8 @@ export class GridView extends React.Component<GridViewProps, GridViewState> impl
         onChangeOperation: (prevVOperation, nextOperation) => { return nextOperation; }
     }
 
-    constructor(props: GridViewProps, context) {
+    constructor(props: IGridViewProps, context) {
         super(props, context);
-
         this.state = {
             sheet: this.props.sheet,
             operation: this.props.operation
@@ -95,32 +91,19 @@ export class GridView extends React.Component<GridViewProps, GridViewState> impl
     _keyPress: IKeyPress;
     _addKeyPressEvent: () => void;
     _removeKeyPressEvent: () => void;
-  
-    //   getInitialState() {
-    //     return {
-    //       sheet: this.props.sheet,
-    //       operation: this.props.operation
-    //     };
-    //   },
-    componentWillReceiveProps(nextProps: GridViewProps) {
-        if (this.props.sheet !== nextProps.sheet) {
-            //this.setState({sheet: nextProps.sheet});
-            this.setState((prevState, props) => {
+
+    componentWillReceiveProps(nextProps: IGridViewProps) {
+        this.setState((prevState, props) => {
+            if (this.props.sheet !== nextProps.sheet) {
                 prevState.sheet = nextProps.sheet;
-                return prevState;
-            });
-        }
-        if (this.props.operation !== nextProps.operation) {
-            //this.setState({operation: nextProps.operation});
-            this.setState((prevState, props) => {
+            }
+            if (this.props.operation !== nextProps.operation) {
                 prevState.operation = nextProps.operation;
-                return prevState;
-            });
-        }
+            }
+            return prevState;
+        });
     }
- 
- 
- 
+
     /**
     * マウスホイール処理
     * @param  {Object} e イベント引数
@@ -148,10 +131,10 @@ export class GridView extends React.Component<GridViewProps, GridViewState> impl
     _onMouseUp = () => {
         const opeModel = this.state.operation;
         const sheet = this.state.sheet;
-        const newViewModel = operationResult(sheet, opeModel);
+        const nextSheet = operationResult(sheet, opeModel);
 
-        if (sheet !== newViewModel) {
-            this._onViewModelChange(newViewModel);
+        if (sheet !== nextSheet) {
+            this._onViewModelChange(nextSheet);
         }
         const ope = opeModel.setOpeItem(null);
         this._onOperationChange(ope);
@@ -276,20 +259,18 @@ export class GridView extends React.Component<GridViewProps, GridViewState> impl
     }
 
     _onValueChange = (cellPoint, value) => {
-
         const sheet = this.state.sheet
             .setValue(cellPoint, value);
-
         this._onViewModelChange(sheet);
     }
     _onViewModelChange = (sheet) => {
-        const nextView = this.props.onChangeSheet(this.state.sheet, sheet);
-        if (this.state.sheet === nextView) {
+        const prevSheet = this.state.sheet;
+        const nextSheet = this.props.onChangeSheet(prevSheet, sheet);
+        if (prevSheet === nextSheet) {
             return;
         }
-        //this.setState({sheet: nextView});
         this.setState((prevState, props) => {
-            prevState.sheet = nextView;
+            prevState.sheet = nextSheet;
             return prevState;
         });
     }
@@ -298,7 +279,6 @@ export class GridView extends React.Component<GridViewProps, GridViewState> impl
         if (this.state.operation === nextOpe) {
             return;
         }
-        //this.setState({operation: nextOpe});
         this.setState((prevState, props) => {
             prevState.operation = nextOpe;
             return prevState;

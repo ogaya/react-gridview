@@ -1,20 +1,22 @@
 var gulp = require("gulp");
-var webpack = require("gulp-webpack");
-var webpackSampleConfig = require("./webpack-sample.config.js");
-
 var exec = require('child_process').exec;
-var uglify = require("gulp-uglify");
-
 var istanbul = require("gulp-istanbul");
-
 var mocha = require('gulp-mocha');
-var babel = require('gulp-babel');
-
 var replace = require("gulp-replace");
 
-gulp.task("cleanBuild", function (cb) {
+gulp.task("build:clean", function (cb) {
     var rimraf = require("rimraf");
-    rimraf("./dist/*", cb);
+    rimraf("./dist/*", function () {
+        rimraf("./tmp/*", cb);
+    });
+});
+
+gulp.task("build", ["build:clean"], function (cb) {
+    exec("tsc -p ./", function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+        cb(err);
+    });
 });
 
 gulp.task("decoration", ["build"], function (cb) {
@@ -25,34 +27,54 @@ gulp.task("decoration", ["build"], function (cb) {
     });
 });
 
-gulp.task('release', ["decoration"], function(){
-  gulp.src(['./dist/**/*.d.ts'])
-    .pipe(replace('extends  {', '{'))
-    .pipe(gulp.dest('./dist'));
+
+gulp.task("release:copy", ["decoration"], function () {
+    gulp.src(['./tmp/src/**', "!./tmp/src/**/*.d.ts"])
+        .pipe(gulp.dest('./dist'));
 });
 
-gulp.task("build", ["cleanBuild"], function (cb) {
-    exec("tsc -p ./", function (err, stdout, stderr) {
+gulp.task('release', ["release:copy"], function () {
+    
+    gulp.src(['./tmp/src/**/*.d.ts'])
+        .pipe(replace('extends  {', '{'))
+        .pipe(gulp.dest('./dist'));
+});
+
+gulp.task("mapping", ["build"], function (cb) {
+    exec("tsc --sourceMap -p ./", function (err, stdout, stderr) {
         console.log(stdout);
         console.log(stderr);
         cb(err);
     });
 });
 
-gulp.task("sample", ["build"], function () {
-    return gulp.src("")
-        .pipe(webpack(webpackSampleConfig))
-        .pipe(gulp.dest(""));
-});
-gulp.task("pre-test", function () {
-    return gulp.src(['./dist/**/*.js'])
+gulp.task("test:pre", ["mapping"], function () {
+    return gulp.src(['./tmp/src/**/*.js'])
         .pipe(istanbul())
         .pipe(istanbul.hookRequire());
 });
 
-gulp.task('test', ["pre-test"],function () {
-    return gulp.src('./test/**/*.js')
+gulp.task("test:run", ["test:pre"], function () {
+    return gulp.src('./tmp/test/**/*.js')
         .pipe(mocha({}))
         .pipe(istanbul.writeReports());
 });
 
+gulp.task("coverage-html", ["test:run"], function (cb) {
+    exec("cd coverage && remap-istanbul -i coverage-final.json -o html-report -t html ", function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+        cb(err);
+    });
+});
+
+gulp.task("test", ["coverage-html"], function (cb) {
+    exec("cd coverage && remap-istanbul -i coverage-final.json -o lcov-remapped.info -t lcovonly", function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+        cb(err);
+    });
+});
+
+// "cat coverage/lcov.info | coveralls"
+ 

@@ -44,7 +44,7 @@ export class RowHeaderItem extends Record({
     }
 
     setHeight(height: number) {
-        return <RowHeaderItem>this.set("height", height);
+        return <RowHeaderItem>this.set("height", Math.round(height));
     }
 
     setTop(top: number) {

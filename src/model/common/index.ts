@@ -1,6 +1,7 @@
 import {Rect} from "./rect";
 import {CellPoint} from "./cell-point";
 import {CellRange, fitRange} from "./cell-range";
+import {FreezePane} from "./freeze-pane";
 import {Point} from "./point";
 import {COLOR} from "./color";
 
@@ -47,6 +48,7 @@ export {
 Rect,
 CellPoint,
 CellRange,
+FreezePane,
 Point,
 VERTICAL_ALIGN,
 TEXT_ALIGN,

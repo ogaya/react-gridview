@@ -9,6 +9,7 @@ node_js:
 install:
   - npm install -g gulp
   - npm install -g typescript
+  - npm install -g remap-istanbul
   - npm install
 
 script: gulp build

@@ -27,7 +27,7 @@ export function isCalc(text:string) {
     const tmp = text + "";
     return (tmp.charAt(0) === "=");
 };
-export function calc(text:string, sheet:Sheet):ICalc {
+export function calc(text:string, sheet?:Sheet):ICalc {
     if (!text) {
         return {
             value: text,

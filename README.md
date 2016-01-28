@@ -1,4 +1,5 @@
 # react-gridview
+React-Gridview provides a spreadsheet interface to your web application. 
 
 [![Build Status](https://travis-ci.org/ogaya/react-gridview.svg)](https://travis-ci.org/ogaya/react-gridview)
 
@@ -17,9 +18,16 @@ npm install --save-dev react-gridview
 
 ```
 // .jsx
+import React from "react";
 import {GridView} from "react-gridview";
 
-<GridView />
+const BasicExample = React.createClass({
+    render: function() {
+        return (
+            <GridView />
+        );
+    }
+});
 ```
 
 ### ・TypeScript
@@ -35,9 +43,19 @@ import {GridView} from "react-gridview";
   
 ```
 // .tsx
+
+/// <reference path="../node_modules/immutable/dist/immutable.d.ts" />
+import * as React from "react";
 import {GridView} from "react-gridview";
 
-<GridView />
+export class BasicExample extends React.Component<{}, {}>{
+    render() {
+        return (
+            <GridView className="basic-example" />
+        );
+    }
+};
+
 ```
 
 

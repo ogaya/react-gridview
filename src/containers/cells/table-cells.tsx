@@ -52,6 +52,9 @@ export class TableCells extends React.Component<TableCellsProps, {}> {
 
         //console.log(window.devicePixelRatio);
 
+        if ((canvasWidth === 0) || (canvasHeigh === 0)){
+            return false;
+        }
         if ((!opeModel.canvasRect) ||
             (opeModel.canvasRect.width !== canvasWidth) ||
             (opeModel.canvasRect.height !== canvasHeigh)) {

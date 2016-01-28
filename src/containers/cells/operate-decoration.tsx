@@ -49,6 +49,9 @@ export class OperateDecoration extends React.Component<OperateDecorationProps, {
         const canvasWidth = canvasElement.offsetWidth;
         const canvasHeigh = canvasElement.offsetHeight;
 
+        if ((canvasWidth === 0) || (canvasHeigh === 0)){
+            return false;
+        }
         if ((!opeModel.canvasRect) ||
             (opeModel.canvasRect.width !== canvasWidth) ||
             (opeModel.canvasRect.height !== canvasHeigh)) {
