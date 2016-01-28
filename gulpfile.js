@@ -1,14 +1,7 @@
 var gulp = require("gulp");
-var webpack = require("gulp-webpack");
-
 var exec = require('child_process').exec;
-var uglify = require("gulp-uglify");
-
 var istanbul = require("gulp-istanbul");
-
 var mocha = require('gulp-mocha');
-var babel = require('gulp-babel');
-
 var replace = require("gulp-replace");
 
 gulp.task("build:clean", function (cb) {
@@ -47,7 +40,6 @@ gulp.task('release', ["decoration"], function () {
         .pipe(gulp.dest('./dist'));
 });
 
-
 gulp.task("mapping", ["build"], function (cb) {
     exec("tsc --sourceMap -p ./", function (err, stdout, stderr) {
         console.log(stdout);
@@ -55,7 +47,6 @@ gulp.task("mapping", ["build"], function (cb) {
         cb(err);
     });
 });
-
 
 gulp.task("test:pre", ["mapping"], function () {
     return gulp.src(['./tmp/src/**/*.js'])
