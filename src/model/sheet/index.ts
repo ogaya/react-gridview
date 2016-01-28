@@ -1,7 +1,11 @@
 import {Record, Map, Range, List}from "immutable";
 import ColumnHeader from "./column-header";
 import RowHeader from "./row-header";
-import {CellPoint, CellRange, BORDER_POSITION, KeyValuePair} from "../common";
+import {CellPoint} from "../common";
+import {CellRange} from "../common";
+import {BORDER_POSITION} from "../common";
+import {KeyValuePair} from "../common";
+import {FreezePane} from "../common";
 import Cell from "./cell";
 import Scroll from "./scroll";
 import Border from "./border";
@@ -75,6 +79,7 @@ function JsonToBorders(json) {
 export class Sheet extends Record({
     columnHeader: new ColumnHeader(),
     rowHeader: new RowHeader(),
+    freezePane: null,
     table: Map(),
     stickies: List(),
     borders: Map(),
@@ -88,6 +93,7 @@ export class Sheet extends Record({
     columnHeader: ColumnHeader;
     rowHeader: RowHeader;
     table: Map<string, Cell>;
+    freezePane: FreezePane;
     stickies: any;
     borders: Map<string, Border>;
     //scroll: Scroll;
@@ -112,7 +118,8 @@ export class Sheet extends Record({
             .setBorders(JsonToBorders(json.borders))
             .setColumnHeader(ColumnHeader.fromJS(json.columnHeader))
             .setRowHeader(RowHeader.fromJS(json.rowHeader))
-            .setZoom(zoom);
+            .setZoom(zoom)
+            .setFreezePane(json.freezePane);
     }
 
     private tableToMinJS() {
@@ -154,6 +161,9 @@ export class Sheet extends Record({
     toMinJS() {
         let json: any = {};
         const addJson = (j, v, name) => {
+            if (!v){
+                return j;
+            }
             if (Object.keys(v).length) {
                 j[name] = v;
             }
@@ -164,6 +174,7 @@ export class Sheet extends Record({
         json = addJson(json, this.rowHeader.toMinJS(), "rowHeader");
         json = addJson(json, this.bordersToJS(true), "borders");
         json = addJson(json, this.tableToMinJS(), "cells");
+        json = addJson(json, this.freezePane && this.freezePane.toMinJS(), "freezePane");
         if (this.zoom !== 100) {
             json["zoom"] = this.zoom;
         }
@@ -245,7 +256,7 @@ export class Sheet extends Record({
         return <Sheet>this.setCell(cellPoint, nextCell);
     }
 
-    setCell(arg, arg2) {
+    setCell(arg, arg2, arg3?) {
         const cellPoint = (arguments.length === 2) ? arguments[0] : new CellPoint(arguments[0], arguments[1]);
         let nextCell = arguments[arguments.length - 1];
         const prevCell = this.getCell(cellPoint);
@@ -303,11 +314,11 @@ export class Sheet extends Record({
 
     setBorders(borders: Map<string, Border>);
     setBorders(cellRange: CellRange, borderPosition: BORDER_POSITION, border: Border);
-    setBorders(a, b?:BORDER_POSITION, c?:Border) {
-        if (a instanceof CellRange){
+    setBorders(a, b?: BORDER_POSITION, c?: Border) {
+        if (a instanceof CellRange) {
             let model = <Sheet>this;
             const cellRange = <CellRange>a;
-            cellRange.toPoints().forEach((cellPoint) =>{
+            cellRange.toPoints().forEach((cellPoint) => {
                 model = model.setBorder(cellPoint, b, c);
             })
             return model;
@@ -348,7 +359,7 @@ export class Sheet extends Record({
 
         return <Sheet>this.set("borders", this.borders.set(id, border));
     }
-    
+
     editBorders(cellRange: CellRange, borderPosition: BORDER_POSITION, mutator: (border: Border, cellPoint?: CellPoint) => Border) {
         if (!cellRange) {
             return this;
@@ -361,11 +372,11 @@ export class Sheet extends Record({
         let model = <Sheet>this;
         Range(left, right + 1).forEach((columnNo) => {
             Range(top, bottom + 1).forEach((rowNo) => {
-                
+
                 const cellPoint = new CellPoint(columnNo, rowNo);
                 const prevBorder = this.getBorder(cellPoint, borderPosition);
                 const nextBorder = mutator(prevBorder, cellPoint);
-                model = model.setBorder(cellPoint,borderPosition, nextBorder);
+                model = model.setBorder(cellPoint, borderPosition, nextBorder);
             });
         });
 
@@ -400,14 +411,19 @@ export class Sheet extends Record({
 
         return model;
     }
-
+    setFreezePane(freezePane:FreezePane){
+        return <Sheet>this.set("freezePane", freezePane);
+    }
+    editFreezePane(mutator: (freezePane:FreezePane) => FreezePane){
+        return <Sheet>this.set("freezePane", mutator(this.freezePane));
+    }
     mergeRange(rangeItem: CellRange) {
         return this.editCells(
             rangeItem, (cell) => {
                 return cell.setMergeRange(rangeItem);
             });
     }
-    
+
     unMergeRange(rangeItem: CellRange) {
         return this.editCells(
             rangeItem, (cell) => {

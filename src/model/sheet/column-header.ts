@@ -37,13 +37,13 @@ export class ColumnHeader extends Record({
     isVisible: true,
     editItems: Map()
 }) {
-    _height: number;
+    private _height: number;
     columnCount: number;
     background: any;
     color: any;
     isVisible: boolean;
     editItems: Map<number, ColumnHeaderItem>;
-    _items: Map<number, ColumnHeaderItem>;
+    private _items: Map<number, ColumnHeaderItem>;
 
     static create() {
         return new ColumnHeader();

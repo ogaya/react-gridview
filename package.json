@@ -1,6 +1,6 @@
 {
   "name": "react-gridview",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "React.js gridview",
   "repository": {
     "type": "git",
@@ -13,7 +13,8 @@
   ],
   "keywords": [
     "react",
-    "react-component"
+    "react-component",
+    "spreadsheet"
   ],
   "author": "Naoya Ogawa",
   "license": "MIT",
@@ -26,14 +27,10 @@
     "react": "^0.14.0",
     "react-dom": "^0.14.0"
   },
-  "browserify": {
-    "transform": [
-      "babelify"
-    ]
-  },
   "devDependencies": {
     "babel": "^5.4.7",
     "babel-loader": "^4.1.0",
+    "coveralls": "^2.11.6",
     "css-loader": "^0.10.1",
     "eslint-plugin-react": "^2.0.2",
     "gulp": "^3.8.10",
