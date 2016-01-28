@@ -33,7 +33,7 @@ gulp.task("release:copy", ["decoration"], function () {
         .pipe(gulp.dest('./dist'));
 });
 
-gulp.task('release', ["decoration"], function () {
+gulp.task('release', ["release:copy"], function () {
     
     gulp.src(['./tmp/src/**/*.d.ts'])
         .pipe(replace('extends  {', '{'))
