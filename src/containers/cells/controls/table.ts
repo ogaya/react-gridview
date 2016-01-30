@@ -1,6 +1,6 @@
 import {CellPoint, BORDER_POSITION} from "../../../model/common";
 import {targetToRect, cellRangeToRect} from "../../../model/lib/target_to_rect";
-import {Rect} from "../../../model/common";
+import {Rect, Point} from "../../../model/common";
 import {Canvas} from "../../../model/canvas";
 import {ColumnHeaderItem} from "../../../model/sheet/column-header-item";
 import {RowHeaderItem} from "../../../model/sheet/row-header-item";
@@ -8,13 +8,18 @@ import {Operation} from "../../../model/operation";
 import {Sheet} from "../../../model/sheet";
 import {Cell} from "../../../model/sheet/cell";
 
+interface ITopLeft {
+    cellPoint: CellPoint,
+    canvasPoint: Point
+}
+
 /**
  * 左のセルラインを描画
  */
 function drawBorderLeft(canvas: Canvas, sheet: Sheet,
-    opeModel: Operation, cellPoint: CellPoint, rect: Rect) {
+    topLeft: ITopLeft, cellPoint: CellPoint, rect: Rect) {
 
-    if (opeModel.scroll.columnNo === cellPoint.columnNo) {
+    if (topLeft.cellPoint.columnNo === cellPoint.columnNo) {
         return;
     }
 
@@ -37,7 +42,6 @@ function drawBorderLeft(canvas: Canvas, sheet: Sheet,
     canvas.context.lineWidth = leftBorder.weight;
     for (let leftIndex in leftBorder.colors) {
         const offsetTLeft = leftBorder.weight * leftIndex - offset;
-        //const offsetTLeft = leftBorder.weight * leftIndex;
 
         canvas.context.strokeStyle = leftBorder.colors[leftIndex];
         if (hasDashLeft) {
@@ -51,9 +55,9 @@ function drawBorderLeft(canvas: Canvas, sheet: Sheet,
 }
 
 function drawBorderTop(canvas: Canvas, sheet: Sheet,
-    opeModel: Operation, cellPoint: CellPoint, rect: Rect) {
+    topLeft: ITopLeft, cellPoint: CellPoint, rect: Rect) {
 
-    if (opeModel.scroll.rowNo === cellPoint.rowNo) {
+    if (topLeft.cellPoint.rowNo === cellPoint.rowNo) {
         return;
     }
     const cell = sheet.getCell(cellPoint);
@@ -90,13 +94,16 @@ function drawBorderTop(canvas: Canvas, sheet: Sheet,
 
 // セル枠の描画
 function drawBorder(canvas: Canvas, sheet: Sheet,
-    opeModel: Operation, cellPoint: CellPoint, rect: Rect) {
+    topLeft: ITopLeft, cellPoint: CellPoint, rect: Rect) {
 
-    drawBorderTop(canvas, sheet, opeModel, cellPoint, rect);
-    drawBorderLeft(canvas, sheet, opeModel, cellPoint, rect);
+    drawBorderTop(canvas, sheet, topLeft, cellPoint, rect);
+    drawBorderLeft(canvas, sheet, topLeft, cellPoint, rect);
 }
 
-function CanCellView(cell: Cell, sheet: Sheet, opeModel: Operation, cellPoint: CellPoint) {
+/**
+ * 対象セルが描画可能か
+ */
+function CanCellView(cell: Cell, sheet: Sheet, topLeft: ITopLeft, cellPoint: CellPoint) {
     if (!cell.mergeRange) {
         return true;
     }
@@ -104,18 +111,18 @@ function CanCellView(cell: Cell, sheet: Sheet, opeModel: Operation, cellPoint: C
         return true;
     }
 
-    if ((cellPoint.columnNo === opeModel.scroll.columnNo) &&
+    if ((cellPoint.columnNo === topLeft.cellPoint.columnNo) &&
         (cellPoint.rowNo === cell.mergeRange.leftTopPoint.rowNo)) {
         return true;
     }
 
-    if ((cellPoint.rowNo === opeModel.scroll.rowNo) &&
+    if ((cellPoint.rowNo === topLeft.cellPoint.rowNo) &&
         (cellPoint.columnNo === cell.mergeRange.leftTopPoint.columnNo)) {
         return true;
     }
 
-    if ((cellPoint.columnNo === opeModel.scroll.columnNo) &&
-        (cellPoint.rowNo === opeModel.scroll.rowNo)) {
+    if ((cellPoint.columnNo === topLeft.cellPoint.columnNo) &&
+        (cellPoint.rowNo === topLeft.cellPoint.rowNo)) {
         return true;
     }
     return false;
@@ -124,19 +131,21 @@ function CanCellView(cell: Cell, sheet: Sheet, opeModel: Operation, cellPoint: C
 /**
  * セルの描画
  */
-function drawCell(canvas: Canvas, sheet: Sheet, opeModel: Operation, cellPoint: CellPoint) {
+function drawCell(canvas: Canvas, sheet: Sheet, topLeft: ITopLeft, cellPoint: CellPoint) {
 
     const cell = sheet.getCell(cellPoint);
 
-    const cellRect = targetToRect(sheet, cellPoint, opeModel.scroll);
+    const cellRect = targetToRect(sheet, cellPoint, topLeft.cellPoint)
+        .editTop((top) => { return top + topLeft.canvasPoint.y });
     let rect = cellRect;
 
     if (cell.mergeRange) {
-        rect = cellRangeToRect(sheet, cell.mergeRange, opeModel.scroll);
+        rect = cellRangeToRect(sheet, cell.mergeRange, topLeft.cellPoint)
+            .editTop((top) => { return top + topLeft.canvasPoint.y });
     }
 
     // セルが描画可能か判定する
-    const canCellView = CanCellView(cell, sheet, opeModel, cellPoint);
+    const canCellView = CanCellView(cell, sheet, topLeft, cellPoint);
     const viewCell = (!cell.mergeRange) ?
         cell :
         sheet.getCell(cell.mergeRange.leftTopPoint);
@@ -146,7 +155,7 @@ function drawCell(canvas: Canvas, sheet: Sheet, opeModel: Operation, cellPoint: 
         canvas.drawRectFill(rect);
     }
 
-    drawBorder(canvas, sheet, opeModel, cellPoint, cellRect);
+    drawBorder(canvas, sheet, topLeft, cellPoint, cellRect);
 
     if (!canCellView) {
         return;
@@ -166,35 +175,62 @@ function drawCell(canvas: Canvas, sheet: Sheet, opeModel: Operation, cellPoint: 
 
 // 行内の列描画
 function drawColumn(canvas: Canvas, sheet: Sheet,
-    rowNo: number, top: number, rowHeaderItem: RowHeaderItem, opeModel: Operation) {
+    rowNo: number, rowHeaderItem: RowHeaderItem, topLeft: ITopLeft) {
 
     let left = sheet.rowHeader.width;
-    sheet.columnHeader.items.skip(opeModel.scroll.columnNo - 1)
+    sheet.columnHeader.items.skip(topLeft.cellPoint.columnNo - 1)
         .takeWhile((item, columnNo) => {
             const widthOver = (canvas.width < (left * sheet.scale));
 
             if (widthOver) {
                 return false;
             }
-            // const rect = new Rect(left, top, width, height);
             const cellPoint = new CellPoint(columnNo, rowNo);
-            drawCell(canvas, sheet, opeModel, cellPoint);
+            drawCell(canvas, sheet, topLeft, cellPoint);
             left = left + item.width;
 
             return true;
         });
+}
 
+/**
+ * ウィンドウ固定枠描画
+ */
+function drawFreezePane(canvas: Canvas, sheet: Sheet) {
+    if ((!sheet.freezePane) || (!sheet.freezePane.firstPoint)) {
+        return;
+    }
+    const freezePaneTopHeight = sheet.getFreezePaneTopHeight();
+    const startRowNo = (sheet.freezePane.topLeft && sheet.freezePane.topLeft.rowNo) || 1;
+    const topLeft = {
+        cellPoint: sheet.freezePane.topLeft || CellPoint.create(1, 1),
+        canvasPoint: Point.create(0, 0)
+    };
+    sheet.rowHeader.items
+        .skip(startRowNo - 1)
+        .takeWhile((item, rowNo) => {
+            drawColumn(canvas, sheet, rowNo, item, topLeft);
+            return rowNo + 1 < sheet.freezePane.firstPoint.rowNo;
+        })
 }
 
 // 行毎の描画
 export default function drawTable(canvas: Canvas, sheet: Sheet, opeModel: Operation) {
-    let top = sheet.columnHeader.height;
+    const freezePaneLeftWidth = sheet.getFreezePaneLeftWidth();
+    const freezePaneTopHeight = sheet.getFreezePaneTopHeight();
+    const topLeft = {
+        cellPoint: opeModel.scroll,
+        canvasPoint: Point.create(freezePaneLeftWidth, freezePaneTopHeight)
+    };
+    let top = sheet.columnHeader.height + freezePaneTopHeight;
     sheet.rowHeader.items
         .skip(opeModel.scroll.rowNo - 1)
         .takeWhile((item, rowNo) => {
-            drawColumn(canvas, sheet, rowNo, top, item, opeModel);
+            drawColumn(canvas, sheet, rowNo, item, topLeft);
             top = top + item.height;
             return (canvas.height >= top * sheet.scale);
         });
+        
+    drawFreezePane(canvas, sheet);
 
 }

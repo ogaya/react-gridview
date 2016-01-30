@@ -27,7 +27,6 @@ export interface CellsProps {
 }
 
 export default class Cells extends React.Component<CellsProps, {}> {
-    //const Cells = React.createClass({
     public static displayName = "Gridview-Cells";
 
     render() {
@@ -41,4 +40,3 @@ export default class Cells extends React.Component<CellsProps, {}> {
     }
 }
 
-//module.exports = Cells;

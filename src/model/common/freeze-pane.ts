@@ -1,30 +1,39 @@
 import {Record} from "immutable";
-import {CellRange} from "./cell-range";
+import {CellPoint} from "./cell-point";
 import {Sheet} from "../sheet";
-
 
 /**
  * ウィンドウ固定枠
  */
 export class FreezePane extends Record({
     topLeft: null,
+    firstPoint: null,
+    lastPoint: null,
     bottomRight: null
 }) {
-    // 左上の固定範囲
-    topLeft: CellRange;
-    // 右下の固定範囲
-    bottomRight: CellRange;
+    // 表示する左上座標
+    topLeft: CellPoint;
+    // 固定始めの座標
+    firstPoint: CellPoint;
+    // 固定終わりの座標
+    lastPoint: CellPoint;
+    // 表示する右下座標
+    bottomRight: CellPoint;
 
     // コンストラクタ
-    constructor(topLeft: CellRange, bottomRight: CellRange) {
+    constructor(topLeft?: CellPoint,
+        firstPoint?: CellPoint, lastPoint?: CellPoint, bottomRight?: CellPoint) {
         super({
             topLeft: topLeft,
+            firstPoint: firstPoint,
+            lastPoint: lastPoint,
             bottomRight: bottomRight
         });
     }
 
-    public static create(topLeft: CellRange, bottomRight: CellRange) {
-        return new FreezePane(topLeft, bottomRight);
+    public static create(topLeft?: CellPoint,
+        firstPoint?: CellPoint, lastPoint?: CellPoint, bottomRight?: CellPoint) {
+        return new FreezePane(topLeft, firstPoint, lastPoint, bottomRight);
     }
 
     public static fromJS(json) {
@@ -33,20 +42,23 @@ export class FreezePane extends Record({
         }
 
         return new FreezePane(
-            CellRange.fromJS(json.topLeft),
-            CellRange.fromJS(json.bottomRight)
+            CellPoint.fromJS(json.topLeft),
+            CellPoint.fromJS(json.firstPoint),
+            CellPoint.fromJS(json.lastPoint),
+            CellPoint.fromJS(json.bottomRight)
         );
     }
 
     toMinJS() {
         let json: any = {};
-        if ((this.topLeft === null) ||
-            (this.bottomRight === null)) {
-            return json;
-        }
-
         if (this.topLeft !== null) {
             json.topLeft = this.topLeft.toJS();
+        }
+        if (this.firstPoint !== null) {
+            json.firstPoint = this.firstPoint.toJS();
+        }
+        if (this.lastPoint !== null) {
+            json.lastPoint = this.lastPoint.toJS();
         }
         if (this.bottomRight !== null) {
             json.bottomRight = this.bottomRight.toJS();
@@ -66,66 +78,15 @@ export class FreezePane extends Record({
         if (this.topLeft.equals(freezePan.topLeft)) {
             return false;
         }
-
+        if (this.firstPoint.equals(freezePan.firstPoint)) {
+            return false;
+        }
+        if (this.lastPoint.equals(freezePan.lastPoint)) {
+            return false;
+        }
         if (this.bottomRight.equals(freezePan.bottomRight)) {
             return false;
         }
-
         return true;
     }
-}
-
-
-/**
- * 固定枠（上側）の高さを取得
- */
-export function getFreezePanTopHeight(freezePane:FreezePane, sheet:Sheet){
-    if ((!freezePane) || (!freezePane.topLeft)){
-        return 0;
-    }
-    const max = sheet.rowHeader.items.get(freezePane.topLeft.maxRowNo).bottom;
-    if (freezePane.topLeft.minRowNo === 0){
-        return max;
-    }
-    const min = sheet.rowHeader.items.get(freezePane.topLeft.minRowNo).bottom;
-    return max - min;
-}
-
-/**
- * 固定枠（下側）の高さを取得
- */
-export function getFreezePanBottomHeight(freezePane:FreezePane, sheet:Sheet){
-    if ((!freezePane) || (!freezePane.bottomRight)){
-        return 0;
-    }
-    const max = sheet.rowHeader.items.get(freezePane.bottomRight.maxRowNo).bottom;
-    const min = sheet.rowHeader.items.get(freezePane.bottomRight.minRowNo).bottom;
-    return max - min;
-}
-
-/**
- * 固定枠（左側）の幅を取得
- */
-export function getFreezePanLeftWidth(freezePane:FreezePane, sheet:Sheet){
-    if ((!freezePane) || (!freezePane.topLeft)){
-        return 0;
-    }
-    const max = sheet.columnHeader.items.get(freezePane.topLeft.maxColumnNo).right;
-    if (freezePane.topLeft.minColumnNo === 0){
-        return max;
-    }
-    const min = sheet.columnHeader.items.get(freezePane.topLeft.minColumnNo).right;
-    return max - min;
-}
-
-/**
- * 固定枠（右側）の幅を取得
- */
-export function getFreezePanRightWidth(freezePane:FreezePane, sheet:Sheet){
-    if ((!freezePane) || (!freezePane.bottomRight)){
-        return 0;
-    }
-    const max = sheet.columnHeader.items.get(freezePane.bottomRight.maxColumnNo).right;
-    const min = sheet.columnHeader.items.get(freezePane.bottomRight.minColumnNo).right;
-    return max - min;
 }

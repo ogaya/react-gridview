@@ -71,13 +71,15 @@ export class TableCells extends React.Component<TableCellsProps, {}> {
             return false;
         }
 
+        const dpr = window.devicePixelRatio || 1;
+
         const mainElement: any = ReactDOM.findDOMNode(this.refs["gwcells"]);
         
         
-        const width = canvasElement.width = mainElement.width = canvasWidth;
-        const height = canvasElement.height = mainElement.height = canvasHeigh;
+        const width = canvasElement.width = mainElement.width = canvasWidth * dpr;
+        const height = canvasElement.height = mainElement.height = canvasHeigh * dpr;
         const context:CanvasRenderingContext2D = canvasElement.getContext("2d");
-        var scale = sheet.scale;
+        var scale = sheet.scale * dpr;
         
         context.scale(scale, scale);
         const canvas = new Canvas(context, width, height);
