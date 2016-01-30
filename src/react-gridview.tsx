@@ -307,7 +307,7 @@ export class GridView extends React.Component<IGridViewProps, IGridViewState> im
                 onWheel={this._onMouseWheel} onContextMenu={this._onContextMenu}>
                 <div style={cellStyle} ref="gwcells"  onMouseMove={this._onMouseMove} onTouchStart={this._onTouchStart} onTouchMove={this._onTouchMove}>
                     <Cells onOperationChange={this._onOperationChange}
-                        model={sheet} opeModel={operation}/>
+                        sheet={sheet} opeModel={operation}/>
 
                     <ExNodes sheet={sheet} operation={operation} extension={this.props.extension} />
                     <Stickies sheet={sheet} operation={operation} extension={this.props.extension} />
