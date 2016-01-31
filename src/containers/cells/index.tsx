@@ -42,8 +42,22 @@ export interface CellsProps {
     onOperationChange: (ope: Operation) => void;
 }
 
-export default class Cells extends React.Component<CellsProps, {}> {
+export interface CellsState {
+    tableElement: any,
+    opeElement: any,
+    headerElement: any
+}
+
+export default class Cells extends React.Component<CellsProps, CellsState> {
     public static displayName = "Gridview-Cells";
+    constructor(props: CellsProps, context) {
+        super(props, context);
+        this.state = {
+            tableElement: document.createElement("canvas"),
+            opeElement: document.createElement("canvas"),
+            headerElement: document.createElement("canvas")
+        };
+    }
 
     private _canRender(canvasElement: any,
         tableElement: any, opeElement: any, headerElement: any, props:CellsProps){
@@ -53,12 +67,9 @@ export default class Cells extends React.Component<CellsProps, {}> {
         if ((!paneElement) || (!tableElement) || (!opeElement) || (!headerElement)){
             return false;
         }
-
         const canvasWidth = paneElement.offsetWidth;
         const canvasHeigh = paneElement.offsetHeight;
-
         const opeModel = props.opeModel;
-        
         if ((canvasWidth === 0) || (canvasHeigh === 0)){
             return false;
         }
@@ -92,12 +103,13 @@ export default class Cells extends React.Component<CellsProps, {}> {
         const context:CanvasRenderingContext2D = tableElement.getContext("2d");
         var scale = sheet.scale * dpr;
         
+        context.save();
         context.scale(scale, scale);
         context.clearRect(0, 0, tableElement.width, tableElement.height);
 
         const canvas = new Canvas(context, tableElement.width, tableElement.height);
         drawTable(canvas, sheet, opeModel);
-        context.scale(1/scale, 1/scale);
+        context.restore();
     }
     private _operationRender(operationElement: any, props:CellsProps){
         const sheet = props.sheet;
@@ -107,12 +119,13 @@ export default class Cells extends React.Component<CellsProps, {}> {
         const context:CanvasRenderingContext2D = operationElement.getContext("2d");
         var scale = sheet.scale * dpr;
         
+        context.save();
         context.scale(scale, scale);
         context.clearRect(0, 0, operationElement.width, operationElement.height);
 
         const canvas = new Canvas(context, operationElement.width, operationElement.height);
         drawOperation(canvas, sheet, opeModel);
-        context.scale(1/scale, 1/scale);
+        context.restore();
     }
     private _headerRender(headerElement: any, props:CellsProps, isForce:boolean){
         const sheet = props.sheet;
@@ -130,6 +143,7 @@ export default class Cells extends React.Component<CellsProps, {}> {
         const context:CanvasRenderingContext2D = headerElement.getContext("2d");
         var scale = sheet.scale * dpr;
         
+        context.save();
         context.scale(scale, scale);
         context.clearRect(0, 0, headerElement.width, headerElement.height);
 
@@ -138,15 +152,15 @@ export default class Cells extends React.Component<CellsProps, {}> {
         drawColumnHeader(canvas, sheet.columnHeader, sheet.rowHeader, opeModel);
         drawRowHeader(canvas, sheet.columnHeader, sheet.rowHeader, opeModel);
 
-        context.scale(1/scale, 1/scale);
+        context.restore();
     }
     _canvasRender(props:CellsProps, isForce:boolean) {
         const sheet = props.sheet;
         const opeModel = props.opeModel;
         const canvasElement: any = ReactDOM.findDOMNode(this.refs["gwcells"]);
-        const tableElement: any = ReactDOM.findDOMNode(this.refs["gwtable"]);
-        const opeElement: any = ReactDOM.findDOMNode(this.refs["gwope"]);
-        const headerElement: any = ReactDOM.findDOMNode(this.refs["gwheader"]);
+        const tableElement: any = this.state.tableElement;
+        const opeElement: any = this.state.opeElement;
+        const headerElement: any = this.state.headerElement;
 
         if ((!this._canRender(
                 canvasElement, tableElement, opeElement, headerElement, props)) &&
@@ -163,7 +177,6 @@ export default class Cells extends React.Component<CellsProps, {}> {
         canvasContext.drawImage(opeElement, 0, 0);
         canvasContext.drawImage(headerElement, 0, 0);
     }
-
     _handleResize = () => {
         this._canvasRender(this.props, true);
     }
@@ -182,9 +195,6 @@ export default class Cells extends React.Component<CellsProps, {}> {
     render() {
         return (
             <div style={style} ref="gwpane">
-                <canvas className="gw-cells" ref="gwtable" style={styleHidden}/>
-                <canvas className="gw-cells" ref="gwope" style={styleHidden}/>
-                <canvas className="gw-cells" ref="gwheader" style={styleHidden}/>
                 <canvas className="gw-cells" ref="gwcells" style={style}/>
             </div>
         );
