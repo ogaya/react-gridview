@@ -175,21 +175,13 @@ function drawCell(canvas: Canvas, sheet: Sheet, topLeft: ITopLeft, cellPoint: Ce
 
 // 行内の列描画
 function drawColumn(canvas: Canvas, sheet: Sheet,
-    rowNo: number, rowHeaderItem: RowHeaderItem, topLeft: ITopLeft) {
+    rowNo: number, rowHeaderItem: RowHeaderItem, topLeft: ITopLeft, limitRight:number) {
 
-    let left = sheet.rowHeader.width;
     sheet.columnHeader.items.skip(topLeft.cellPoint.columnNo - 1)
         .takeWhile((item, columnNo) => {
-            const widthOver = (canvas.width < (left * sheet.scale));
-
-            if (widthOver) {
-                return false;
-            }
             const cellPoint = new CellPoint(columnNo, rowNo);
             drawCell(canvas, sheet, topLeft, cellPoint);
-            left = left + item.width;
-
-            return true;
+            return (item.right < limitRight);
         });
 }
 
@@ -209,7 +201,7 @@ function drawFreezePane(canvas: Canvas, sheet: Sheet) {
     sheet.rowHeader.items
         .skip(startRowNo - 1)
         .takeWhile((item, rowNo) => {
-            drawColumn(canvas, sheet, rowNo, item, topLeft);
+            drawColumn(canvas, sheet, rowNo, item, topLeft, 0);
             return rowNo + 1 < sheet.freezePane.firstPoint.rowNo;
         })
 }
@@ -222,15 +214,16 @@ export default function drawTable(canvas: Canvas, sheet: Sheet, opeModel: Operat
         cellPoint: opeModel.scroll,
         canvasPoint: Point.create(freezePaneLeftWidth, freezePaneTopHeight)
     };
-    let top = sheet.columnHeader.height + freezePaneTopHeight;
+    const top = sheet.columnHeader.height + freezePaneTopHeight;
+    const limitBottom = sheet.rowHeader.items.get(opeModel.scroll.rowNo).top + 
+        (canvas.height / sheet.scale);
+    const limitRight = sheet.columnHeader.items.get(opeModel.scroll.columnNo).left + 
+        (canvas.width / sheet.scale);
     sheet.rowHeader.items
         .skip(opeModel.scroll.rowNo - 1)
         .takeWhile((item, rowNo) => {
-            drawColumn(canvas, sheet, rowNo, item, topLeft);
-            top = top + item.height;
-            return (canvas.height >= top * sheet.scale);
+            drawColumn(canvas, sheet, rowNo, item, topLeft, limitRight);
+            return (item.bottom < limitBottom);
         });
-        
-    drawFreezePane(canvas, sheet);
 
 }

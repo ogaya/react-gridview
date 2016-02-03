@@ -21,7 +21,6 @@ const requestAnimationFrame =
     w.webkitRequestAnimationFrame ||
     w.msRequestAnimationFrame;
 
-
 // スタイルシート読み込み
 import "./css.js";
 
@@ -115,7 +114,6 @@ export default class Cells extends React.Component<CellsProps, CellsState> {
                 opeElement.width = headerElement.width = canvasWidth * dpr;
             canvasElement.height = tableElement.height =
                 opeElement.height = headerElement.height = canvasHeigh * dpr;
-            return false;
         }
 
         return true;
