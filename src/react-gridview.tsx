@@ -168,7 +168,6 @@ export class GridView extends React.Component<IGridViewProps, IGridViewState> im
         const point = new Point(e.offsetX / sheet.scale, e.offsetY / sheet.scale);
 
         const item = pointToGridViewItem(sheet, opeModel, point, false);
-        this.setInputFocus();
 
         let ope = opeModel
             .setSelectItem(item)
@@ -298,11 +297,6 @@ export class GridView extends React.Component<IGridViewProps, IGridViewState> im
         this._unmounted = true;
     }
 
-    setInputFocus() {
-        const inputer = this.refs["inputer"] as Inputer;
-        inputer.setInputFocus();
-    }
-
     _onValueChange = (cellPoint, value) => {
         const sheet = this.state.sheet
             .setValue(cellPoint, value);
@@ -340,6 +334,8 @@ export class GridView extends React.Component<IGridViewProps, IGridViewState> im
             width: "100%",
             height: "100%",
             position: "relative",
+            zIndex: 2,
+            background: "#FFF",
             cursor: operation.HoverCursor
         };
         let className = "react-sheet";
