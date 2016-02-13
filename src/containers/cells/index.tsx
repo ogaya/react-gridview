@@ -54,8 +54,7 @@ export interface CellsState {
     opeElement: any,
     headerElement: any,
     prevSheet: Sheet,
-    prevOpe: Operation,
-    isMounted: boolean
+    prevOpe: Operation
 }
 
 export default class Cells extends React.Component<CellsProps, CellsState> {
@@ -67,10 +66,15 @@ export default class Cells extends React.Component<CellsProps, CellsState> {
             opeElement: document.createElement("canvas"),
             headerElement: document.createElement("canvas"),
             prevSheet: null,
-            prevOpe: null,
-            isMounted: true
+            prevOpe: null
         };
+        
+        this._unMounted = false;
+        this._dpr = window.devicePixelRatio || 1;
     }
+    
+    private _unMounted: boolean;
+    private _dpr: number;
     
     private _sheetRendered(){
         if (!this.state.prevOpe){
@@ -109,11 +113,10 @@ export default class Cells extends React.Component<CellsProps, CellsState> {
             (opeModel.canvasRect.height !== canvasHeigh)) {
             const cRect = new Rect(0, 0, canvasWidth, canvasHeigh);
             this.props.onOperationChange(opeModel.setCanvasRect(cRect));
-            const dpr = window.devicePixelRatio || 1;
             canvasElement.width = tableElement.width = 
-                opeElement.width = headerElement.width = canvasWidth * dpr;
+                opeElement.width = headerElement.width = canvasWidth * this._dpr;
             canvasElement.height = tableElement.height =
-                opeElement.height = headerElement.height = canvasHeigh * dpr;
+                opeElement.height = headerElement.height = canvasHeigh * this._dpr;
         }
 
         return true;
@@ -125,9 +128,8 @@ export default class Cells extends React.Component<CellsProps, CellsState> {
             return;
         }
 
-        const dpr = window.devicePixelRatio || 1;
         const context:CanvasRenderingContext2D = tableElement.getContext("2d");
-        var scale = sheet.scale * dpr;
+        var scale = sheet.scale * this._dpr;
         
         context.save();
         context.scale(scale, scale);
@@ -141,9 +143,8 @@ export default class Cells extends React.Component<CellsProps, CellsState> {
         const sheet = this.props.sheet;
         const opeModel = this.props.opeModel;
 
-        const dpr = window.devicePixelRatio || 1;
         const context:CanvasRenderingContext2D = operationElement.getContext("2d");
-        var scale = sheet.scale * dpr;
+        var scale = sheet.scale * this._dpr;
         
         context.save();
         context.scale(scale, scale);
@@ -160,10 +161,8 @@ export default class Cells extends React.Component<CellsProps, CellsState> {
             return;
         }
 
-        const dpr = window.devicePixelRatio || 1;
-
         const context:CanvasRenderingContext2D = headerElement.getContext("2d");
-        const scale = sheet.scale * dpr;
+        const scale = sheet.scale * this._dpr;
 
         context.save();
         context.scale(scale, scale);
@@ -214,10 +213,11 @@ export default class Cells extends React.Component<CellsProps, CellsState> {
     }
     
     rendering = () =>{
-        this._canvasRender();
-        if(this.state.isMounted){
-            requestAnimationFrame(this.rendering);
+        if (this._unMounted){
+            return;
         }
+        this._canvasRender();
+        requestAnimationFrame(this.rendering);
     }
 
     componentDidMount() {
@@ -226,10 +226,7 @@ export default class Cells extends React.Component<CellsProps, CellsState> {
     }
     componentWillUnmount() {
         window.removeEventListener("resize", this._handleResize);
-        this.setState((prevState)=>{
-            prevState.isMounted = false;
-            return prevState;
-        })
+        this._unMounted = true;
     }
     shouldComponentUpdate(nextProps) {
         return false;

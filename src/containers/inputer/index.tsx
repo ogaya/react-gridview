@@ -101,6 +101,13 @@ export default class Inputer extends React.Component<InputerProps, InputerState>
         }
 
     }
+    
+    componentDidUpdate(prevProps:InputerProps){
+        if (prevProps.opeModel.selectItem !== this.props.opeModel.selectItem){
+            this.setInputFocus();
+        }
+        
+    }
 
     setInputFocus = () => {
         const inputTest: any = ReactDOM.findDOMNode(this.refs["inputText"]);

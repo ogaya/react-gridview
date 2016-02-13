@@ -86,11 +86,21 @@ export class GridView extends React.Component<IGridViewProps, IGridViewState> im
             sheet: this.props.sheet,
             operation: this.props.operation
         };
+        
+        this._isTouched = false;
+        this._tColumnNo = 0;
+        this._tRowNo = 0;
+        this._unmounted = false;
     }
 
     _keyPress: IKeyPress;
     _addKeyPressEvent: () => void;
     _removeKeyPressEvent: () => void;
+    
+    _isTouched:boolean;
+    _tColumnNo: number;
+    _tRowNo: number;
+    _unmounted: boolean;
 
     componentWillReceiveProps(nextProps: IGridViewProps) {
         this.setState((prevState, props) => {
@@ -117,8 +127,9 @@ export class GridView extends React.Component<IGridViewProps, IGridViewState> im
         }
 
         if (opeModel.scroll.rowNo !== value) {
-            const scroll = opeModel.scroll.setRowNo(value);
-            this._onOperationChange(opeModel.setScroll(scroll));
+            this._isTouched = true;
+            this._tColumnNo = opeModel.scroll.columnNo;
+            this._tRowNo = value;
         }
         e.preventDefault();
     }
@@ -157,7 +168,6 @@ export class GridView extends React.Component<IGridViewProps, IGridViewState> im
         const point = new Point(e.offsetX / sheet.scale, e.offsetY / sheet.scale);
 
         const item = pointToGridViewItem(sheet, opeModel, point, false);
-        this.setInputFocus();
 
         let ope = opeModel
             .setSelectItem(item)
@@ -197,13 +207,46 @@ export class GridView extends React.Component<IGridViewProps, IGridViewState> im
     }
 
     _startOperation: Operation;
-    _startTouches: any;
+    _startToucheClientX: number;
+    _startToucheClientY: number;
+    _startToucheIdentifier: number;
 
-    _onTouchStart = (e) => {
-        this._startTouches = e.touches;
-        this._startOperation = this.state.operation;
+
+    _touchDecided  = () => {
+        if (this._unmounted){
+            return;
+        }
+        if (!this._isTouched){
+            requestAnimationFrame(this._touchDecided);
+            return;
+        }
+        const operation = this.state.operation;
+        const columnNo = this._tColumnNo;
+        const rowNo = this._tRowNo;
+        if ((operation.scroll.columnNo === columnNo) &&
+            (operation.scroll.rowNo === rowNo)){
+            this._isTouched = false;
+            requestAnimationFrame(this._touchDecided);
+            return;
+        }
+
+        const scroll = operation.scroll
+            .setColumnNo(columnNo)
+            .setRowNo(rowNo);
+        this._onOperationChange(operation.setScroll(scroll));
+        
+        this._isTouched = false;
+        requestAnimationFrame(this._touchDecided);
     }
-    _onTouchMove = (e) => {
+    
+    _onTouchStart = (e:React.TouchEvent) => {
+        this._startToucheClientX = e.touches[0].clientX;
+        this._startToucheClientY = e.touches[0].clientY;
+        this._startToucheIdentifier = e.touches[0].identifier;
+        this._startOperation = this.state.operation;
+        
+    }
+    _onTouchMove = (e:React.TouchEvent) => {
 
         e.preventDefault();
         if (e.touches.length < 1) {
@@ -211,18 +254,18 @@ export class GridView extends React.Component<IGridViewProps, IGridViewState> im
         }
 
         const touch = e.touches[0];
-        const startTouch = this._startTouches[0];
 
-        if (startTouch.identifier !== touch.identifier) {
+        if (this._startToucheIdentifier  !== touch.identifier) {
             return;
         }
 
         const sheet = this.state.sheet;
         const operation = this.state.operation;
 
-        const diffX = startTouch.clientX - touch.clientX + sheet.rowHeader.width;
-        const diffY = startTouch.clientY - touch.clientY + sheet.columnHeader.height;
+        const diffX = this._startToucheClientX - touch.clientX + sheet.rowHeader.width;
+        const diffY = this._startToucheClientY - touch.clientY + sheet.columnHeader.height;
 
+        
         const top = sheet.rowHeader.items.get(this._startOperation.scroll.rowNo).top;
         const left = sheet.columnHeader.items.get(this._startOperation.scroll.columnNo).left;
 
@@ -236,26 +279,22 @@ export class GridView extends React.Component<IGridViewProps, IGridViewState> im
         if (columnNo < 1) {
             columnNo = 1;
         }
-        const scroll = operation.scroll
-            .setColumnNo(columnNo)
-            .setRowNo(rowNo);
-        this._onOperationChange(operation.setScroll(scroll));
+
+        this._isTouched = true;
+        this._tColumnNo = columnNo;
+        this._tRowNo = rowNo;
     }
 
     componentDidMount() {
         const node = ReactDOM.findDOMNode(this.refs["gwcells"]);
         drag(node, this._onMouseDown, this._onMouseMove, this._onMouseUp);
-        //drag(node, this._onTouchStart, this._onTouchMove, this._onTouchEnd);
         this._addKeyPressEvent();
+        this._touchDecided();
     }
 
     componentWillUnmount() {
         this._removeKeyPressEvent();
-    }
-
-    setInputFocus() {
-        const inputer = this.refs["inputer"] as Inputer;
-        inputer.setInputFocus();
+        this._unmounted = true;
     }
 
     _onValueChange = (cellPoint, value) => {
@@ -295,6 +334,8 @@ export class GridView extends React.Component<IGridViewProps, IGridViewState> im
             width: "100%",
             height: "100%",
             position: "relative",
+            zIndex: 2,
+            background: "#FFF",
             cursor: operation.HoverCursor
         };
         let className = "react-sheet";
