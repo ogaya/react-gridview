@@ -13,7 +13,8 @@ import {
     BORDER_POSITION,
     LINE_STYLE,
     CellRange,
-    CellPoint
+    CellPoint,
+    FreezePane
 } from "./model/common";
 
 import {GridView} from "./react-gridview";
@@ -30,7 +31,8 @@ const Rgv = {
     TEXT_ALIGN: TEXT_ALIGN,
     LINE_STYLE,
     BORDER_POSITION: BORDER_POSITION,
-    OBJECT_TYPE: OBJECT_TYPE
+    OBJECT_TYPE: OBJECT_TYPE,
+    FreezePane: FreezePane
 };
 
 export {
@@ -47,5 +49,6 @@ BORDER_POSITION,
 OBJECT_TYPE,
 LINE_STYLE,
 CellRange,
-CellPoint
+CellPoint,
+FreezePane
 };

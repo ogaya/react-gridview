@@ -8,7 +8,7 @@ const defCell = emptyCell
     .setVerticalAlign(VERTICAL_ALIGN.MIDDLE)
     .setTextAlign(TEXT_ALIGN.CENTER);
 
-const DEFAULT_WIDTH = 80;
+export const DEFAULT_WIDTH = 80;
 
 export class ColumnHeaderItem extends Record({
     cell: defCell,

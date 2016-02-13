@@ -15,4 +15,7 @@ export class Point extends Record({
             y: Number(y)
         });
     }
+    static create(x: number, y: number){
+        return new Point(x, y);
+    }
 }

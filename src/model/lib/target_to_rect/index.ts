@@ -75,19 +75,17 @@ export function cellRangeToRect(sheet: Sheet, cellRange: CellRange, scroll: Cell
 }
 
 // 対象セルの位置を取得する
-export function targetToRect(model: Sheet, target: CellPoint, scroll: CellPoint) {
+export function targetToRect(sheet: Sheet, target: CellPoint, scroll: CellPoint) {
     const offsetColumnNo = (scroll && scroll.columnNo) || 1;
-    //const offsetX = offsetColumnNo - 1;
     const offsetRowNo = (scroll && scroll.rowNo) || 1;
-    //const offsetY = offsetRowNo - 1;
-    const top = targetToTop(model, target, offsetRowNo);
-    const left = targetToLeft(model, target, offsetColumnNo);
-    const columnItem = model.columnHeader.items.get(target.columnNo);
+    const top = targetToTop(sheet, target, offsetRowNo);
+    const left = targetToLeft(sheet, target, offsetColumnNo);
+    const columnItem = sheet.columnHeader.items.get(target.columnNo);
     if (!columnItem) {
         return new Rect(0, 0, 0, 0);
     }
     const width = columnItem.width;
-    const rowItem = model.rowHeader.items.get(target.rowNo);
+    const rowItem = sheet.rowHeader.items.get(target.rowNo);
     if (!rowItem) {
         return new Rect(0, 0, 0, 0);
     }

@@ -104,10 +104,6 @@ export class Sheet extends Record({
         return new Sheet();
     }
 
-    static createClass() {
-        return new Sheet();
-    }
-
     // JSONから本クラスを生成
     static fromJS(json) {
         const sheet = new Sheet();
@@ -577,6 +573,65 @@ export class Sheet extends Record({
         const rowNo = this.pointToRowNo(pointY);
         return new CellPoint(columnNo, rowNo);
     }
+
+    /**
+     * 固定枠（上側）の高さを取得
+     */
+    getFreezePaneTopHeight(){
+        const freezePane = this.freezePane;
+        if ((!freezePane) || (!freezePane.firstPoint)){
+            return 0;
+        }
+        const max = this.rowHeader.items.get(freezePane.firstPoint.rowNo).top;
+        if ((!freezePane.topLeft) || (freezePane.topLeft.rowNo === 0)){
+            return max - this.columnHeader.height;
+        }
+        const min = this.rowHeader.items.get(freezePane.topLeft.rowNo).top;
+        return max - min;
+    }
+
+    /**
+     * 固定枠（下側）の高さを取得
+     */
+    getFreezePaneBottomHeight(){
+        const freezePane = this.freezePane;
+        if ((!freezePane) || (!freezePane.lastPoint) || (!freezePane.bottomRight)){
+            return 0;
+        }
+        const min = this.rowHeader.items.get(freezePane.lastPoint.rowNo).bottom;
+        const max = this.rowHeader.items.get(freezePane.bottomRight.rowNo).bottom;
+        return max - min;
+    }
+
+    /**
+     * 固定枠（左側）の幅を取得
+     */
+    getFreezePaneLeftWidth(){
+        const freezePane = this.freezePane;
+        if ((!freezePane) || (!freezePane.firstPoint)){
+            return 0;
+        }
+        const max = this.columnHeader.items.get(freezePane.firstPoint.columnNo).left;
+        if ((!freezePane.topLeft) || (freezePane.topLeft.columnNo === 0)){
+            return max - this.rowHeader.width;
+        }
+        const min = this.columnHeader.items.get(freezePane.topLeft.columnNo).left;
+        return max - min;
+    }
+
+    /**
+     * 固定枠（右側）の幅を取得
+     */
+    getFreezePaneRightWidth(){
+        const freezePane = this.freezePane;
+        if ((!freezePane) || (!freezePane.lastPoint) || (!freezePane.bottomRight)){
+            return 0;
+        }
+        const min = this.columnHeader.items.get(freezePane.lastPoint.columnNo).right;
+        const max = this.columnHeader.items.get(freezePane.bottomRight.columnNo).right;
+        return max - min;
+    }
+
 }
 
 export {

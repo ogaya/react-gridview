@@ -8,7 +8,7 @@ const defCell = emptyCell
     .setVerticalAlign(VERTICAL_ALIGN.MIDDLE)
     .setTextAlign(TEXT_ALIGN.RIGHT);
 
-const DEFAULT_HEIGHT = 21;
+export const DEFAULT_HEIGHT = 21;
 
 export class RowHeaderItem extends Record({
     cell: defCell,

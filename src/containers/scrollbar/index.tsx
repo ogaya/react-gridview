@@ -62,6 +62,7 @@ export class GridViewBar extends React.Component<GridViewBarProps, GridViewBarSt
         }
         return {
             left: "0px",
+            zIndex: 5,
             bottom: "0px",
             position: "absolute",
             background: sheet.rowHeader.background,
@@ -83,6 +84,7 @@ export class GridViewBar extends React.Component<GridViewBarProps, GridViewBarSt
         return {
             right: "0px",
             top: "0px",
+            zIndex: 5,
             position: "absolute",
             borderLeft: "1px solid #999",
             borderBottom: "1px solid #999",
@@ -107,6 +109,7 @@ export class GridViewBar extends React.Component<GridViewBarProps, GridViewBarSt
             top: sheet.columnHeader.height * scale + "px",
             height: "calc(100% - " + (sheet.columnHeader.height * scale + 20) + "px)"
         };
+        
 
         return (
             <div>

@@ -1,29 +1,45 @@
 import {targetToRect, cellRangeToRect} from "../../model/lib/target_to_rect";
 import {OBJECT_TYPE} from "../../model/sheet/object-type";
+import {Sheet} from "../../model/sheet";
+import {Operation} from "../../model/operation";
 
+import {Rect} from "../../model/common";
 
-export function createInputStyle(sheet, opeModel) {
+function protrude(rect:Rect, other:Rect){
+    if (!other){
+        return true;
+    }
+    if (rect.left < 0){
+        return true;
+    }
+    if (rect.top < 0){
+        return true;
+    }
+    if (rect.right > other.width){
+        return true;
+    }
+    if (rect.bottom > other.height){
+        return true;
+    }
+    return false;
+}
+
+export function createInputStyle(sheet:Sheet, opeModel:Operation) {
 
     let style: any = {
         position: "absolute",
         resize: "none",
         overflow: "hidden",
-        fontFamily: "arial"
+        zIndex: 1,
+        fontFamily: "arial",
+        width: 0,
+        bottom: 0,
+        left: 0,
+        height: 0,
+        fontSize: 0
     };
     const input = opeModel.input;
 
-    // 入力中で無い場合
-    if (!input.isInputing) {
-        // style.left = -1000;
-        // style.top = -1000;
-        style.width = 0;
-        style.bottom = "1px";
-        style.left = "1px";
-        style.height = 0;
-        style.fontSize = 0;
-        //style.visibility = "hidden";
-        return style;
-    }
 
     const selectItem = opeModel.selectItem;
     if (!selectItem) {
@@ -47,6 +63,17 @@ export function createInputStyle(sheet, opeModel) {
     else {
         rect = targetToRect(sheet, cellPoint, opeModel.scroll);
     }
+    
+    if (protrude(rect, opeModel.canvasRect)){
+        return style;
+    }
+    
+    if (!input.isInputing){
+        style.top = rect.top * sheet.scale - 1;
+        style.left = rect.left * sheet.scale - 1;
+        return style;
+    }
+    style.zIndex = 3; 
 
     style.top = rect.top * sheet.scale - 1;
     style.left = rect.left * sheet.scale - 1;

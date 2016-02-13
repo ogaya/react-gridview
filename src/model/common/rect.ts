@@ -25,7 +25,7 @@ export class Rect extends Record({
     static forPoints(
         x1: number,
         y1: number,
-        x2: number, 
+        x2: number,
         y2: number) {
         const left = Math.min(x1, x2);
         const right = Math.max(x1, x2);
@@ -37,7 +37,7 @@ export class Rect extends Record({
         return new Rect(left, top, width, height);
     }
 
-    static forRects(rect1:Rect, rect2:Rect) {
+    static forRects(rect1: Rect, rect2: Rect) {
         const left = Math.min(rect1.left, rect2.left);
         const right = Math.max(rect1.right, rect2.right);
         const top = Math.min(rect1.top, rect2.top);
@@ -62,21 +62,30 @@ export class Rect extends Record({
     setLeft(left: number) {
         return <Rect>this.set("left", left);
     }
-
+    editLeft(mutator: (left: number) => number) {
+        return <Rect>this.set("left", mutator(this.left));
+    }
     setTop(top: number) {
         return <Rect>this.set("top", top);
     }
-
+    editTop(mutator: (top: number) => number) {
+        return <Rect>this.set("top", mutator(this.top));
+    }
     setWidth(width: number) {
         return <Rect>this.set("width", width);
     }
-
+    editWidth(mutator: (width: number) => number) {
+        return <Rect>this.set("width", mutator(this.width));
+    }
     setHeight(height: number) {
         return <Rect>this.set("height", height);
     }
+    editHeight(mutator: (height: number) => number) {
+        return <Rect>this.set("height", mutator(this.height));
+    }
 
     // 四角形同士が交差しているか判定
-    isIntersected(rect:Rect) {
+    isIntersected(rect: Rect) {
         if (!rect) {
             return false;
         }
