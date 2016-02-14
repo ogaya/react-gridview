@@ -11,10 +11,6 @@ export default function drawColumnHeader(
         return;
     }
 
-    if (!opeModel.canvasRect){
-        return;
-    }
-
     const context = canvas.context;
     //塗りスタイルに青色を指定する
     context.fillStyle = columnHeader.background;
@@ -32,20 +28,18 @@ export default function drawColumnHeader(
     const columnNo = opeModel.scroll.columnNo;
     let sumWidth = rowHeader.width;
     canvas.drawLine(sumWidth, 0, sumWidth, columnHeader.height);
-    columnHeader.items.skip(columnNo - 1)
-        .takeWhile((item) => {
-            const rect = new Rect(sumWidth, 0, item.width, columnHeader.height);
+    
+    let i = columnNo;
+    while(sumWidth < canvas.width){
+        const item = columnHeader.items.get(i);
+        const rect = new Rect(sumWidth, 0, item.width, columnHeader.height);
 
-            if (sumWidth > canvas.width) {
-                return false;
-            }
+        sumWidth = sumWidth + item.width;
+        canvas.drawLine(sumWidth, 0, sumWidth, columnHeader.height);
 
-            sumWidth = sumWidth + item.width;
-            canvas.drawLine(sumWidth, 0, sumWidth, columnHeader.height);
-
-            canvas.context.fillStyle = columnHeader.color;
-            context.font = "11px arial";
-            canvas.drawText(item.cell.value, rect, item.cell.textAlign, item.cell.verticalAlign);
-            return true;
-        });
+        canvas.context.fillStyle = columnHeader.color;
+        context.font = "11px arial";
+        canvas.drawText(item.cell.value, rect, item.cell.textAlign, item.cell.verticalAlign);
+        i = i + 1;
+    }
 }
