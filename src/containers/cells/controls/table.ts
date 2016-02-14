@@ -177,12 +177,15 @@ function drawCell(canvas: Canvas, sheet: Sheet, topLeft: ITopLeft, cellPoint: Ce
 function drawColumn(canvas: Canvas, sheet: Sheet,
     rowNo: number, rowHeaderItem: RowHeaderItem, topLeft: ITopLeft, limitRight:number) {
 
-    sheet.columnHeader.items.skip(topLeft.cellPoint.columnNo - 1)
-        .takeWhile((item, columnNo) => {
-            const cellPoint = new CellPoint(columnNo, rowNo);
-            drawCell(canvas, sheet, topLeft, cellPoint);
-            return (item.right < limitRight);
-        });
+    let i = topLeft.cellPoint.columnNo;
+    let right = 0;
+    while(right < limitRight){
+        const item = sheet.columnHeader.items.get(i);
+        const cellPoint = new CellPoint(i, rowNo);
+        drawCell(canvas, sheet, topLeft, cellPoint);
+        right = item.right;
+        i = i + 1;
+    }
 }
 
 /**
@@ -219,11 +222,13 @@ export default function drawTable(canvas: Canvas, sheet: Sheet, opeModel: Operat
         (canvas.height / sheet.scale);
     const limitRight = sheet.columnHeader.items.get(opeModel.scroll.columnNo).left + 
         (canvas.width / sheet.scale);
-    sheet.rowHeader.items
-        .skip(opeModel.scroll.rowNo - 1)
-        .takeWhile((item, rowNo) => {
-            drawColumn(canvas, sheet, rowNo, item, topLeft, limitRight);
-            return (item.bottom < limitBottom);
-        });
-
+    
+    let i = opeModel.scroll.rowNo;
+    let bottom = 0;
+    while(bottom < limitBottom){
+        const item = sheet.rowHeader.items.get(i);
+        drawColumn(canvas, sheet, i, item, topLeft, limitRight);
+        bottom = item.bottom;
+        i = i + 1;
+    }
 }

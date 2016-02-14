@@ -39,7 +39,7 @@ export class RowHeader extends Record({
     color: any;
     isVisible: boolean;
     editItems: Map<number, RowHeaderItem>;
-    _items: Map<number, RowHeaderItem>;
+    _items: OrderedMap<number, RowHeaderItem>;
 
     static create() {
         return new RowHeader();
@@ -159,7 +159,7 @@ export class RowHeader extends Record({
             return this._items;
         }
         let sumHeight = HEADER_SIZE.HEIGHT;
-        this._items = <Map<number, RowHeaderItem>>OrderedMap().withMutations(map => {
+        this._items = <OrderedMap<number, RowHeaderItem>>OrderedMap().withMutations(map => {
             for (let i = 0; i < this.rowCount; i++) {
                 const rowNo = i + 1;
                 const item = this._rowNoToItem(rowNo);

@@ -160,7 +160,7 @@ export default class Cells extends React.Component<CellsProps, CellsState> {
         if (this._sheetRendered()) {
             return;
         }
-
+        
         const context:CanvasRenderingContext2D = headerElement.getContext("2d");
         const scale = sheet.scale * this._dpr;
 
@@ -192,6 +192,10 @@ export default class Cells extends React.Component<CellsProps, CellsState> {
             (this.state.prevOpe === this.props.opeModel)){
             return;
         }
+        if (!opeModel.canvasRect){
+            return;
+        }
+
         this._tableRender(tableElement);
         this._operationRender(opeElement);
         this._headerRender(headerElement);
