@@ -14,12 +14,18 @@ export default function drawRowHeader(
     if (!rowHeader.isVisible) {
         return;
     }
+    
+    if (!opeModel.canvasRect){
+        return;
+    }
 
     const context = canvas.context;
     context.fillStyle = rowHeader.background;
 
     //左から20上から20の位置に幅50高さ50の塗りつぶしの四角形を描く
-    context.fillRect(0, columnHeader.height, rowHeader.width, rowHeader.height);
+    context.fillRect(
+        0, columnHeader.height, 
+        rowHeader.width, opeModel.canvasRect.height);
 
     context.strokeStyle = "#999";
     let sumHeight = columnHeader.height;
@@ -27,8 +33,10 @@ export default function drawRowHeader(
     const rowNo = opeModel.scroll.rowNo;
 
     canvas.drawLine(0, sumHeight, rowHeader.width, sumHeight);
-    canvas.drawLine(rowHeader.width, columnHeader.height, rowHeader.width, rowHeader.height);
-
+    canvas.drawLine(
+        rowHeader.width, columnHeader.height, 
+        rowHeader.width, opeModel.canvasRect.height);
+    
     rowHeader.items.skip(rowNo - 1)
         .takeWhile((item) => {
             const rect = new Rect(0, sumHeight, rowHeader.width, item.height);
@@ -43,5 +51,5 @@ export default function drawRowHeader(
             context.font = "11px arial";
             canvas.drawText(item.cell.value, rect.setWidth(rect.width - 5), item.cell.textAlign, item.cell.verticalAlign);
             return true;
-        });
+        });    
 }
