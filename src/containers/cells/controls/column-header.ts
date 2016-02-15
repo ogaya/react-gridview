@@ -32,6 +32,9 @@ export default function drawColumnHeader(
     let i = columnNo;
     while(sumWidth < canvas.width){
         const item = columnHeader.items.get(i);
+        if (!item){
+            break;
+        }
         const rect = new Rect(sumWidth, 0, item.width, columnHeader.height);
 
         sumWidth = sumWidth + item.width;

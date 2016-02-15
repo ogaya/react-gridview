@@ -181,6 +181,9 @@ function drawColumn(canvas: Canvas, sheet: Sheet,
     let right = 0;
     while(right < limitRight){
         const item = sheet.columnHeader.items.get(i);
+        if (!item){
+            break;
+        }
         const cellPoint = new CellPoint(i, rowNo);
         drawCell(canvas, sheet, topLeft, cellPoint);
         right = item.right;
@@ -227,6 +230,9 @@ export default function drawTable(canvas: Canvas, sheet: Sheet, opeModel: Operat
     let bottom = 0;
     while(bottom < limitBottom){
         const item = sheet.rowHeader.items.get(i);
+        if (!item){
+            break;
+        }
         drawColumn(canvas, sheet, i, item, topLeft, limitRight);
         bottom = item.bottom;
         i = i + 1;
