@@ -1,7 +1,10 @@
-# react-gridview
-React-Gridview provides a spreadsheet interface to your web application. 
 
 [![Build Status](https://travis-ci.org/ogaya/react-gridview.svg)](https://travis-ci.org/ogaya/react-gridview)
+[![Coverage Status](https://coveralls.io/repos/github/ogaya/react-gridview/badge.svg?branch=developer)](https://coveralls.io/github/ogaya/react-gridview?branch=developer)
+[![npm version](https://badge.fury.io/js/react-gridview.svg)](https://badge.fury.io/js/react-gridview)
+
+# React-Gridview
+React-Gridview provides a spreadsheet interface to your web application. 
 
 [Demo][]  
 [Examples][]  
