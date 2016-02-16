@@ -1,4 +1,3 @@
-
 [![Build Status](https://travis-ci.org/ogaya/react-gridview.svg)](https://travis-ci.org/ogaya/react-gridview)
 [![Coverage Status](https://coveralls.io/repos/github/ogaya/react-gridview/badge.svg?branch=master)](https://coveralls.io/github/ogaya/react-gridview?branch=master)
 [![npm version](https://badge.fury.io/js/react-gridview.svg)](https://badge.fury.io/js/react-gridview)
