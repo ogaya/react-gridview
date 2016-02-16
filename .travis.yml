@@ -1,7 +1,6 @@
 language: node_js
 
 node_js:
-  - "0.10"
   - "0.12"
   - "4"
   - "5"
@@ -10,6 +9,7 @@ install:
   - npm install -g gulp
   - npm install -g typescript
   - npm install -g remap-istanbul
+  - npm install -g coveralls
   - npm install
 
-script: gulp build
+script: gulp put-coveralls

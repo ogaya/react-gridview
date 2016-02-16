@@ -76,5 +76,10 @@ gulp.task("test", ["coverage-html"], function (cb) {
     });
 });
 
-// "cat coverage/lcov.info | coveralls"
- 
+gulp.task("put-coveralls", ["test"], function (cb) {
+    exec("cd coverage && cat lcov-remapped.info | coveralls", function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+        cb(err);
+    });
+});
