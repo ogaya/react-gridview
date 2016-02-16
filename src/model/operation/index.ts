@@ -5,7 +5,7 @@ import {OBJECT_TYPE} from "../sheet/object-type";
 import {CellRange} from "../common";
 import {SelectInfo} from "../lib/select";
 
-function objectCursor(objectType) {
+function objectCursor(objectType: OBJECT_TYPE) {
     switch (objectType) {
         case OBJECT_TYPE.CELL:
             return "pointer";

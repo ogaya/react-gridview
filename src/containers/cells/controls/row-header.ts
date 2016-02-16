@@ -36,6 +36,9 @@ export default function drawRowHeader(
     let i = rowNo;
     while (sumHeight < canvas.height) {
         const item = rowHeader.items.get(i);
+        if (!item){
+            break;
+        }
         const rect = new Rect(0, sumHeight, rowHeader.width, item.height);
         sumHeight = sumHeight + item.height;
         canvas.drawLine(0, sumHeight, rowHeader.width, sumHeight);
