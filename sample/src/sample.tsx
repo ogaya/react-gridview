@@ -30,7 +30,7 @@ export default class Main extends React.Component<{}, State> {
         //extension = extension.addNode("sample", ExSample);
         this.state = {
             viewModel: viewModel,
-            operation: Operation.createClass(),
+            operation: Operation.create(),
             extension: null
         };
 
@@ -75,7 +75,7 @@ export default class Main extends React.Component<{}, State> {
                     onChangeOperation={this._onChangeOperation.bind(this)}
                 />
                 <div className="viewer-area">
-                    <GridView
+                    <GridView className="gview"
                         sheet={this.state.viewModel}
                         operation={operation}
                         ref="viewer"
