@@ -336,7 +336,7 @@ export class GridView extends React.Component<IGridViewProps, IGridViewState> im
             position: "relative",
             zIndex: 2,
             background: "#FFF",
-            cursor: operation.HoverCursor
+            cursor: operation.hoverCursor
         };
         let className = "react-sheet";
         if (this.props.className) {

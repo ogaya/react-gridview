@@ -7,6 +7,10 @@ export class InputModel extends Record({
 }) {
     isInputing: boolean;
     text: string;
+    
+    static create(){
+        return new InputModel();
+    }
 
     setIsInputing(isInputing: boolean) {
 
@@ -16,14 +20,6 @@ export class InputModel extends Record({
 
         return (<InputModel>this.set("isInputing", isInputing)).setText("");
     }
-
-    // setRect(rect) {
-    //     return this.set("rect", rect);
-    // }
-
-    // setTarget(target) {
-    //     return this.set("target", target);
-    // }
 
     setText(text: string) {
         return <InputModel>this.set("text", text);

@@ -17,6 +17,8 @@ import {
     FreezePane
 } from "./model/common";
 
+import {SelectInfo} from "./model/lib/select";
+
 import {GridView} from "./react-gridview";
 
 const Rgv = {
