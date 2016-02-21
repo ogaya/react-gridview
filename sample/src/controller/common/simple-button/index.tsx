@@ -12,6 +12,7 @@ export interface Props {
     icon?: string;
     onClick?: () => void;
     onChange?: (e) => void;
+    onMouseDown?: ()=>void;
     pressed?: boolean;
 }
 
@@ -37,7 +38,8 @@ export default class SimpleButton extends React.Component<Props, {}> {
             style = this.props.style;
         }
         return (
-            <div unselectable={true} className={className} style={style} onClick={this.props.onClick}>
+            <div unselectable={true} className={className} style={style}
+                onMouseDown={this.props.onMouseDown} onClick={this.props.onClick}>
                 <img  unselectable={true} className="sample-button-img" src={this.props.icon} />
             </div>
         );
@@ -57,7 +59,8 @@ export default class SimpleButton extends React.Component<Props, {}> {
             style = this.props.style;
         }
         return (
-            <div unselectable={true} className={className} style={style} onClick={this.props.onClick}>
+            <div unselectable={true} className={className} style={style}
+                onMouseDown={this.props.onMouseDown} onClick={this.props.onClick}>
                 <img  unselectable={true} className="sample-button-img" src={this.props.icon} />
                 <input type="file" onChange={this.props.onChange}/>
             </div>

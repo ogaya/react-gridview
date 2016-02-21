@@ -58,11 +58,16 @@ export default class TextArea extends React.Component<Props, {}> {
         if (!ope.selectItem) {
             return ope;
         }
+
+
         // 選択セルを下へ移す
         const target = ope.selectItem.cellPoint.setRowNo(ope.selectItem.cellPoint.rowNo + 1);
-
         const selectItem = new SelectInfo(ope.selectItem.objectType, target, null, null);
-        return ope.setSelectItem(selectItem).resetRange();
+        const input = ope.input.setIsInputing(false);
+        return ope
+            .setSelectItem(selectItem)
+            .resetRange()
+            .setInput(input);
     }
     _onKeyDown(e) {
         const opeModel = this.props.operation;
@@ -75,10 +80,8 @@ export default class TextArea extends React.Component<Props, {}> {
 
         // 円ターキーを押したとき、入力状態を解除する
         if (e.keyCode === 13) {
-            const newOpe = opeModel
-                .setInput(input.setIsInputing(false));
             this.props.onChangeOperation(
-                opeModel, this._downSelect(newOpe));
+                opeModel, this._downSelect(opeModel));
             this.props.setInputFocus();
             return;
         }

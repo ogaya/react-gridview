@@ -83,7 +83,7 @@ export class LinePanel extends React.Component<Props, {}> {
                     left: (itemNo * 25 + 5) + "px"
                 };
                 nodes.push(<SimpleButton key={line.lineType} className="line-node" style={style}
-                    icon={line.icon} onClick={this._onClickLine.bind(this, line.lineType) }/>);
+                    icon={line.icon} onMouseDown={this._onClickLine.bind(this, line.lineType) }/>);
             }
         }
 

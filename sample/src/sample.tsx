@@ -36,10 +36,10 @@ export default class Main extends React.Component<{}, State> {
 
     }
 
-    setInputFocus() {
+    setInputFocus = () => {
         const viewer: any = this.refs["viewer"];
-        viewer.setInputFocus();
-    }
+        //viewer.setInputFocus();
+    };
 
     _onChangeSheet(prevView: Sheet, nextView: Sheet) {
         this.setState((prevState, props) => {
