@@ -11,12 +11,14 @@ export class CellPoint extends Record({
 }) {
     columnNo: number;
     rowNo: number;
+    
+    private _id:string = null;
 
     // コンストラクタ
     constructor(columnNo:number, rowNo:number) {
         super({
-            columnNo: Number(columnNo),
-            rowNo: Number(rowNo)
+            columnNo: Number(columnNo)|0,
+            rowNo: Number(rowNo)|0
         });
     }
     
@@ -45,17 +47,20 @@ export class CellPoint extends Record({
 
     // ID化
     toId() {
+        if (this._id){
+            return this._id;
+        }
         if ((!this.columnNo) || (!this.rowNo)) {
             return "";
         }
-
-        return CellPoint.getColumnId(this.columnNo) + this.rowNo;
+        this._id =CellPoint.getColumnId(this.columnNo) + this.rowNo
+        return this._id;
     }
 
     static fromId(id:string) {
         let columnNo = 0;
         let rowNo = 0;
-        for (let i = 0; i < id.length; i++) {
+        for (let i = 0; i < id.length; i=(i+1)|0) {
             const s = id.charAt(i);
 
             if (s.match(/^[A-Z]/)) {

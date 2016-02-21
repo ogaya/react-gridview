@@ -160,8 +160,8 @@ export class RowHeader extends Record({
         }
         let sumHeight = HEADER_SIZE.HEIGHT;
         this._items = <OrderedMap<number, RowHeaderItem>>OrderedMap().withMutations(map => {
-            for (let i = 0; i < this.rowCount; i++) {
-                const rowNo = i + 1;
+            for (let i = 0; i < this.rowCount; i=(i+1)|0) {
+                const rowNo = (i + 1)|0;
                 const item = this._rowNoToItem(rowNo);
                 map.set(rowNo, item.setTop(sumHeight));
                 sumHeight = sumHeight + item.height;

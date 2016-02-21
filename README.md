@@ -6,7 +6,7 @@
 React-Gridview provides a spreadsheet interface to your web application. 
 
 [Demo][]  
-[Examples][]  
+[Examples][]  ([src][])  
 
 ## Install
 
@@ -67,4 +67,5 @@ export class BasicExample extends React.Component<{}, {}>{
 
 [Demo]: http://ogaya.github.io/react-gridview/
 [Examples]: http://ogaya.github.io/react-gridview-examples/dist/index.html#basic-example
+[src]: https://github.com/ogaya/react-gridview-examples
 [docs]: http://ogaya.github.io/react-gridview/docs/#/

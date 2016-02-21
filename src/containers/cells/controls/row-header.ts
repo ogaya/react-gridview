@@ -9,42 +9,41 @@ import {Operation} from "../../../model/operation";
 //Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;;
 
 export default function drawRowHeader(
-    canvas:Canvas, columnHeader:ColumnHeader, rowHeader:RowHeader, opeModel:Operation) {
+    canvas: Canvas, columnHeader: ColumnHeader, rowHeader: RowHeader, opeModel: Operation) {
 
     if (!rowHeader.isVisible) {
         return;
     }
 
-    const context = canvas.context;
-    context.fillStyle = rowHeader.background;
+    canvas.fillStyle = rowHeader.background;
 
     //左から20上から20の位置に幅50高さ50の塗りつぶしの四角形を描く
-    context.fillRect(
-        0, columnHeader.height, 
+    canvas.cacheFillRect(
+        0, columnHeader.height,
         rowHeader.width, opeModel.canvasRect.height);
 
-    context.strokeStyle = "#999";
+    canvas.strokeStyle = "#999";
     let sumHeight = columnHeader.height;
 
     const rowNo = opeModel.scroll.rowNo;
 
-    canvas.drawLine(0, sumHeight, rowHeader.width, sumHeight);
-    canvas.drawLine(
-        rowHeader.width, columnHeader.height, 
+    canvas.cacheLine(0, sumHeight, rowHeader.width, sumHeight);
+    canvas.cacheLine(
+        rowHeader.width, columnHeader.height,
         rowHeader.width, opeModel.canvasRect.height);
-    
+
     let i = rowNo;
-    while (sumHeight < canvas.height) {
+    canvas.fillStyle = rowHeader.color;
+    canvas.font = "11px arial";
+    while ((sumHeight | 0) < (canvas.height | 0)) {
         const item = rowHeader.items.get(i);
-        if (!item){
+        if (!item) {
             break;
         }
         const rect = new Rect(0, sumHeight, rowHeader.width, item.height);
-        sumHeight = sumHeight + item.height;
-        canvas.drawLine(0, sumHeight, rowHeader.width, sumHeight);
-        canvas.context.fillStyle = rowHeader.color;
-        context.font = "11px arial";
-        canvas.drawText(item.cell.value, rect.setWidth(rect.width - 5), item.cell.textAlign, item.cell.verticalAlign);
+        sumHeight = (sumHeight + item.height) | 0;
+        canvas.cacheLine(0, sumHeight, rowHeader.width, sumHeight);
+        canvas.cacheText(item.cell.value, rect.setWidth(rect.width - 5), item.cell.textAlign, item.cell.verticalAlign);
         i = i + 1;
     }
 }

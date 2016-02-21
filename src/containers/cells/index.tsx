@@ -170,8 +170,10 @@ export default class Cells extends React.Component<CellsProps, CellsState> {
 
         const canvas = new Canvas(context, headerElement.width, headerElement.height);
         drawCenterHeader(canvas, sheet.columnHeader, sheet.rowHeader);
+        canvas.beginCache();
         drawColumnHeader(canvas, sheet.columnHeader, sheet.rowHeader, opeModel);
         drawRowHeader(canvas, sheet.columnHeader, sheet.rowHeader, opeModel);
+        canvas.strockCache();
 
         context.restore();
     }

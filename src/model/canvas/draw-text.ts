@@ -18,6 +18,27 @@ function adjustVerticalAlign(
     }
 }
 
+export function getVerticalProp(rect: Rect,
+    verticalAlign: VERTICAL_ALIGN, indent: number){
+    switch (verticalAlign) {
+        case VERTICAL_ALIGN.TOP:
+            return {
+                y :rect.top + indent,
+                textBaseline: "top"
+            };
+        case VERTICAL_ALIGN.BOTTOM:
+            return {
+                y :rect.bottom - indent,
+                textBaseline: "bottom"
+            };
+        default:
+            return {
+                y :rect.middle,
+                textBaseline: "middle"
+            };
+    }
+}
+
 // 横位置を調整する
 function adjustTextlAlign(
     context: CanvasRenderingContext2D, rect: Rect,
@@ -33,6 +54,27 @@ function adjustTextlAlign(
         default:
             context.textAlign = "left";
             return rect.left + 1 + indent;
+    }
+}
+
+export function getAlignProp(
+    rect: Rect, textAligin: TEXT_ALIGN, indent: number) {
+    switch (textAligin) {
+        case TEXT_ALIGN.CENTER:
+            return {
+                x :rect.center,
+                textAlign: "center"
+            };
+        case TEXT_ALIGN.RIGHT:
+            return {
+                x :rect.right - indent,
+                textAlign: "right"
+            };
+        default:
+            return {
+                x :rect.left + 1 + indent,
+                textAlign: "left"
+            };
     }
 }
 
