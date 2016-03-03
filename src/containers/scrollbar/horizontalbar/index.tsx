@@ -208,9 +208,6 @@ export class Horizontalbar extends React.Component<HorizontalbarProps, Horizonta
 
         if (areaRect.right < e.clientX) {
             const value = this.props.value + this.props.largeChange;
-            console.log(value);
-            console.log(this.props.value);
-            console.log(this.props.largeChange);
             this.props.onChangeValue(Math.min(value, this._getScrollMaxValue()));
         }
 

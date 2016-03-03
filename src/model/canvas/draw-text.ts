@@ -86,6 +86,5 @@ export function drawFillText(context: CanvasRenderingContext2D,
     const x = adjustTextlAlign(context, rect, textAlign, indent);
     const y = adjustVerticalAlign(context, rect, verticalAlign, indent);
 
-    //console.log(x + ":" + y);
     context.fillText(value, x, y);
 }

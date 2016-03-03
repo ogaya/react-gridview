@@ -3,9 +3,7 @@ import {Rect, CellPoint, CellRange} from "../../common";
 import {Sheet} from "../../sheet";
 
 function targetToTop(model: Sheet, target: CellPoint, offsetRowNo: number) {
-    if (!target) {
-        return null;
-    }
+
     if (!target.rowNo) {
         return null;
     }
@@ -18,9 +16,7 @@ function targetToTop(model: Sheet, target: CellPoint, offsetRowNo: number) {
 
 
 function targetToBottom(model: Sheet, target: CellPoint, offsetRowNo: number) {
-    if (!target) {
-        return null;
-    }
+
     if (!target.rowNo) {
         return null;
     }
@@ -34,9 +30,7 @@ function targetToBottom(model: Sheet, target: CellPoint, offsetRowNo: number) {
 
 // ターゲットの左座標を求める
 function targetToLeft(model: Sheet, target: CellPoint, offsetColumnNo: number) {
-    if (!target) {
-        return null;
-    }
+
     if (!target.columnNo) {
         return null;
     }
@@ -47,9 +41,7 @@ function targetToLeft(model: Sheet, target: CellPoint, offsetColumnNo: number) {
 }
 
 function targetToRight(model: Sheet, target: CellPoint, offsetColumnNo: number) {
-    if (!target) {
-        return null;
-    }
+
     if (!target.columnNo) {
         return null;
     }
@@ -63,6 +55,10 @@ function targetToRight(model: Sheet, target: CellPoint, offsetColumnNo: number) 
 
 
 export function cellRangeToRect(sheet: Sheet, cellRange: CellRange, scroll: CellPoint) {
+    
+    if (!cellRange){
+        return new Rect(0, 0, 0, 0);
+    }
     const offsetColumnNo = (scroll && scroll.columnNo) || 1;
     const offsetRowNo = (scroll && scroll.rowNo) || 1;
 
@@ -76,19 +72,25 @@ export function cellRangeToRect(sheet: Sheet, cellRange: CellRange, scroll: Cell
 
 // 対象セルの位置を取得する
 export function targetToRect(sheet: Sheet, target: CellPoint, scroll: CellPoint) {
-    const offsetColumnNo = (scroll && scroll.columnNo) || 1;
-    const offsetRowNo = (scroll && scroll.rowNo) || 1;
-    const top = targetToTop(sheet, target, offsetRowNo);
-    const left = targetToLeft(sheet, target, offsetColumnNo);
+    
+    if (!target){
+        return new Rect(0, 0, 0, 0);
+    }
+    
     const columnItem = sheet.columnHeader.items.get(target.columnNo);
     if (!columnItem) {
         return new Rect(0, 0, 0, 0);
     }
-    const width = columnItem.width;
     const rowItem = sheet.rowHeader.items.get(target.rowNo);
     if (!rowItem) {
         return new Rect(0, 0, 0, 0);
     }
+    const offsetColumnNo = (scroll && scroll.columnNo) || 1;
+    const offsetRowNo = (scroll && scroll.rowNo) || 1;
+    const top = targetToTop(sheet, target, offsetRowNo);
+    const left = targetToLeft(sheet, target, offsetColumnNo);
+
+    const width = columnItem.width;
     const height = rowItem.height;
 
     return new Rect(left, top, width, height);

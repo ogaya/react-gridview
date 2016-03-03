@@ -119,9 +119,15 @@ export default class Inputer extends React.Component<InputerProps, InputerState>
     }
 
     changeText = (e) => {
+        
+        const inputing = 
+            ((!e.target.value) && (!this.props.opeModel.input.text)) ?
+            this.props.opeModel.input.isInputing : 
+            true;
+
         const input = this.props.opeModel.input
             .setText(e.target.value)
-            .setIsInputing(true);
+            .setIsInputing(inputing);
         const ope = this.props.opeModel
             .setInput(input)
             .setCopyingRange(null);
