@@ -34,7 +34,8 @@ const Rgv = {
     LINE_STYLE,
     BORDER_POSITION: BORDER_POSITION,
     OBJECT_TYPE: OBJECT_TYPE,
-    FreezePane: FreezePane
+    FreezePane: FreezePane,
+    SelectInfo: SelectInfo
 };
 
 export {
@@ -52,5 +53,6 @@ OBJECT_TYPE,
 LINE_STYLE,
 CellRange,
 CellPoint,
-FreezePane
+FreezePane,
+SelectInfo
 };

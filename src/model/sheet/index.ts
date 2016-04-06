@@ -314,7 +314,7 @@ export class Sheet extends Record({
         if (a instanceof CellRange) {
             let model = <Sheet>this;
             const cellRange = <CellRange>a;
-            cellRange.toPoints().forEach((cellPoint) => {
+            cellRange.cellPoints().forEach((cellPoint) => {
                 model = model.setBorder(cellPoint, b, c);
             })
             return model;

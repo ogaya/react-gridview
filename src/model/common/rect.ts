@@ -20,6 +20,10 @@ export class Rect extends Record({
             height: height
         });
     }
+    
+    static create(left: number, top: number, width: number, height: number){
+        return new Rect(left, top, width, height);
+    }
 
     // 四隅の座標から矩形モデルを作成する
     static forPoints(

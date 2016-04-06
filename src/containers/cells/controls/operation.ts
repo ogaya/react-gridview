@@ -49,7 +49,7 @@ function drawRange(canvas:Canvas, sheet:Sheet, opeModel:Operation) {
         }
 
         const cellPoint = opeModel.selectItem && opeModel.selectItem.cellPoint;
-        //console.log(target);
+
         if (!cellPoint) {
             return;
         }
@@ -99,7 +99,7 @@ function drawCopy(canvas:Canvas, sheet:Sheet, opeModel:Operation) {
 function drawSelectCell(canvas:Canvas, sheet:Sheet, opeModel:Operation) {
     // セル選択の描画
     const cellPoint = opeModel.selectItem && opeModel.selectItem.cellPoint;
-    //console.log(target);
+
     if (!cellPoint) {
         return;
     }
