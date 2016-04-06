@@ -12,6 +12,9 @@ const emptyCell = defCell.setBackground("#DDD");
 
 const HEADER_HEIGHT = HEADER_SIZE.HEIGHT;
 
+const DEFAULT_COLUMN_COUNT = 702;
+
+
 // JSONからテーブル情報を生成
 function JsonToCell(json) {
     let table = <Map<number, ColumnHeaderItem>>Map();
@@ -31,7 +34,7 @@ function JsonToCell(json) {
 
 export class ColumnHeader extends Record({
     _height: HEADER_HEIGHT,
-    columnCount: 702,
+    columnCount: DEFAULT_COLUMN_COUNT,
     background: "#eaeaff",
     color: "#333",
     isVisible: true,
@@ -177,5 +180,6 @@ export class ColumnHeader extends Record({
 
 export {
 HEADER_HEIGHT,
+DEFAULT_COLUMN_COUNT,
 ColumnHeader as default
 };

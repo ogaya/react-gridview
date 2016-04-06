@@ -5,7 +5,9 @@ import {CellPoint} from "./cell-point";
 import {Sheet} from "../sheet";
 import {Operation} from "../operation";
 
-// セル選択モデル
+/**
+ * セル選択モデル
+ */
 class CellRange extends Record({
     cellPoint1: null,
     cellPoint2: null
@@ -46,20 +48,6 @@ class CellRange extends Record({
         }
 
         return new CellRange(cellPoint1, cellPoint2);
-    }
-    
-    toPoints(){
-        const left = this.minColumnNo;
-        const right = this.maxColumnNo;
-        const top = this.minRowNo;
-        const bottom = this.maxRowNo;
-        let points = List<CellPoint>();
-        Range(left, right + 1).forEach((columnNo) => {
-            Range(top, bottom + 1).forEach((rowNo) => {
-                points = points.push(CellPoint.create(columnNo, rowNo));
-            });
-        });
-        return points;
     }
 
     get minColumnNo(): number {
@@ -114,6 +102,7 @@ class CellRange extends Record({
         return points;
 
     }
+
 
     equals(cellRange: CellRange): boolean {
         if (!cellRange) {
@@ -206,7 +195,7 @@ function opeModelToRangeItem(opeModel: Operation) {
 }
 
 // 範囲内に結合セルがある場合、選択範囲を広げる
-function fitRange(sheet: Sheet, rangeItem: CellRange) {
+function fitRange(sheet: Sheet, rangeItem: CellRange): CellRange {
     const left = rangeItem.minColumnNo;
     const top = rangeItem.minRowNo;
     const right = rangeItem.maxColumnNo;
@@ -288,7 +277,7 @@ function fitRange(sheet: Sheet, rangeItem: CellRange) {
  * @param  {[type]} opeModel  [description]
  * @return {[type]}           [description]
  */
-function modelToRangeItem(sheet: Sheet, opeModel: Operation) {
+function modelToRangeItem(sheet: Sheet, opeModel: Operation): CellRange {
 
     let opeRange = pickRangeFromColumnHeader(sheet, opeModel);
     if (opeRange) {

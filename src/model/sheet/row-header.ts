@@ -6,6 +6,8 @@ import {HEADER_SIZE} from "../common";
 const defCell = new RowHeaderItem();
 const emptyCell = defCell.setBackground("#DDD");
 
+const DEFAULT_ROW_COUNT = 1000;
+
 // JSONからテーブル情報を生成
 function JsonToCell(json) {
     let table = <Map<number, RowHeaderItem>>Map();
@@ -26,7 +28,7 @@ function JsonToCell(json) {
 const HEADER_WIDTH = 50;
 export class RowHeader extends Record({
     _width: HEADER_WIDTH,
-    rowCount: 1000,
+    rowCount: DEFAULT_ROW_COUNT,
     background: "#eaeaff",
     color: "#333",
     isVisible: true,
@@ -173,5 +175,6 @@ export class RowHeader extends Record({
 
 export {
 HEADER_WIDTH,
+DEFAULT_ROW_COUNT,
 RowHeader as default
 };

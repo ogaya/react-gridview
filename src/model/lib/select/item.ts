@@ -24,4 +24,8 @@ export class SelectInfo extends Record({
             point: point
         });
     }
+    
+    public static create(objectType: OBJECT_TYPE, cellPoint: CellPoint, rect: Rect, point: Point) {
+        return new SelectInfo(objectType, cellPoint, rect, point);
+    }
 }
