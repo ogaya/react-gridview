@@ -24,8 +24,8 @@
   "homepage": "https://github.com/ogaya/react-gridview",
   "peerDependencies": {
     "immutable": "^3.7.6",
-    "react": "^0.14.0",
-    "react-dom": "^0.14.0"
+    "react": "^0.14.0 || ^15.0.0",
+    "react-dom": "^0.14.0 || ^15.0.0"
   },
   "devDependencies": {
     "coveralls": "^2.11.6",
