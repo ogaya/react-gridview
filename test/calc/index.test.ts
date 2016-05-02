@@ -5,7 +5,7 @@ import {calc} from "../../src/calc";
 
 import GridViewModel from "../../src/model/sheet";
 import {CellPoint} from "../../src/model/common";
-
+import {Solver} from "../../src/calc/solver";
 
 describe("calc", function() {
     it("void", function() {

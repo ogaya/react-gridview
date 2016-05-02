@@ -1,6 +1,6 @@
 {
   "name": "react-gridview",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "React.js gridview",
   "repository": {
     "type": "git",
@@ -38,6 +38,8 @@
     "object-assign": "^4.0.1",
     "power-assert": "^1.2.0",
     "rimraf": "^2.2.8",
+    "react": "^15.0.0",
+    "react-dom": "^15.0.0",
     "typescript": "^1.8.7"
   }
 }

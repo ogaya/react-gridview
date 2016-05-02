@@ -1,4 +1,4 @@
-import {Record, Map, Range, List}from "immutable";
+import {Record, Map, Range, List, Set}from "immutable";
 import ColumnHeader from "./column-header";
 import RowHeader from "./row-header";
 import {CellPoint} from "../common";
@@ -42,6 +42,31 @@ function refsApply(table: Map<string, Cell>,
 
     return table;
 
+}
+function childReSolve(
+    sheet: Sheet,
+    cellPoint: CellPoint | string,
+    doneIds?:Set<string>) {
+    //let sheet = this.setTable(table);
+    if (doneIds === null){
+        doneIds = <Set<string>>Set();
+    }
+    const cell = sheet.getCell(cellPoint);
+    //if (cell.text !== prevCell.text) {
+    cell.childIds.forEach(id => {
+        if(doneIds.contains(id)){
+            return;
+        }
+        const oldChildCell = sheet.table.get(id);
+        const newChildCell = oldChildCell.solveCalc(sheet);
+        if (oldChildCell.text !== newChildCell.text){
+            sheet = sheet.setTable(sheet.table.set(id, newChildCell));
+            doneIds = doneIds.add(id);
+            sheet = childReSolve(sheet, id, doneIds);
+        }
+    });
+
+    return sheet;
 }
 
 // JSONからテーブル情報を生成
@@ -107,7 +132,7 @@ export class Sheet extends Record({
     // JSONから本クラスを生成
     static fromJS(json) {
         const sheet = new Sheet();
-        const zoom = Number(json.zoom) || 100; 
+        const zoom = Number(json.zoom) || 100;
         // テーブル情報を変換
         return sheet
             .setTable(JsonToTable(json.cells))
@@ -157,7 +182,7 @@ export class Sheet extends Record({
     toMinJS() {
         let json: any = {};
         const addJson = (j, v, name) => {
-            if (!v){
+            if (!v) {
                 return j;
             }
             if (Object.keys(v).length) {
@@ -273,13 +298,13 @@ export class Sheet extends Record({
             key: cellPoint.toId(),
             value: nextCell
         };
-        
+
         // 参照セルの値を更新
         table = refsApply(table, prevKV, nextKV);
 
         let sheet = this.setTable(table);
         if (cell.text !== prevCell.text) {
-            cell.childIds.forEach(id=> {
+            cell.childIds.forEach(id => {
                 const childCell = sheet.table.get(id);
                 sheet = sheet.setTable(sheet.table.set(id, childCell.solveCalc(sheet)));
             });
@@ -407,10 +432,10 @@ export class Sheet extends Record({
 
         return model;
     }
-    setFreezePane(freezePane:FreezePane){
+    setFreezePane(freezePane: FreezePane) {
         return <Sheet>this.set("freezePane", freezePane);
     }
-    editFreezePane(mutator: (freezePane:FreezePane) => FreezePane){
+    editFreezePane(mutator: (freezePane: FreezePane) => FreezePane) {
         return <Sheet>this.set("freezePane", mutator(this.freezePane));
     }
     mergeRange(rangeItem: CellRange) {
@@ -577,13 +602,13 @@ export class Sheet extends Record({
     /**
      * 固定枠（上側）の高さを取得
      */
-    getFreezePaneTopHeight(){
+    getFreezePaneTopHeight() {
         const freezePane = this.freezePane;
-        if ((!freezePane) || (!freezePane.firstPoint)){
+        if ((!freezePane) || (!freezePane.firstPoint)) {
             return 0;
         }
         const max = this.rowHeader.items.get(freezePane.firstPoint.rowNo).top;
-        if ((!freezePane.topLeft) || (freezePane.topLeft.rowNo === 0)){
+        if ((!freezePane.topLeft) || (freezePane.topLeft.rowNo === 0)) {
             return max - this.columnHeader.height;
         }
         const min = this.rowHeader.items.get(freezePane.topLeft.rowNo).top;
@@ -593,9 +618,9 @@ export class Sheet extends Record({
     /**
      * 固定枠（下側）の高さを取得
      */
-    getFreezePaneBottomHeight(){
+    getFreezePaneBottomHeight() {
         const freezePane = this.freezePane;
-        if ((!freezePane) || (!freezePane.lastPoint) || (!freezePane.bottomRight)){
+        if ((!freezePane) || (!freezePane.lastPoint) || (!freezePane.bottomRight)) {
             return 0;
         }
         const min = this.rowHeader.items.get(freezePane.lastPoint.rowNo).bottom;
@@ -606,13 +631,13 @@ export class Sheet extends Record({
     /**
      * 固定枠（左側）の幅を取得
      */
-    getFreezePaneLeftWidth(){
+    getFreezePaneLeftWidth() {
         const freezePane = this.freezePane;
-        if ((!freezePane) || (!freezePane.firstPoint)){
+        if ((!freezePane) || (!freezePane.firstPoint)) {
             return 0;
         }
         const max = this.columnHeader.items.get(freezePane.firstPoint.columnNo).left;
-        if ((!freezePane.topLeft) || (freezePane.topLeft.columnNo === 0)){
+        if ((!freezePane.topLeft) || (freezePane.topLeft.columnNo === 0)) {
             return max - this.rowHeader.width;
         }
         const min = this.columnHeader.items.get(freezePane.topLeft.columnNo).left;
@@ -622,9 +647,9 @@ export class Sheet extends Record({
     /**
      * 固定枠（右側）の幅を取得
      */
-    getFreezePaneRightWidth(){
+    getFreezePaneRightWidth() {
         const freezePane = this.freezePane;
-        if ((!freezePane) || (!freezePane.lastPoint) || (!freezePane.bottomRight)){
+        if ((!freezePane) || (!freezePane.lastPoint) || (!freezePane.bottomRight)) {
             return 0;
         }
         const min = this.columnHeader.items.get(freezePane.lastPoint.columnNo).right;
